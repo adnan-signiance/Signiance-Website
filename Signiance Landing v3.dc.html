@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet" />
+<style>
+  html, body { margin: 0; padding: 0; background: #FFFFFF; overflow-x: hidden; max-width: 100%; }
+  * { box-sizing: border-box; }
+  a { color: #131417; text-decoration: none; }
+  a:hover { color: #193DAA; }
+  ::selection { background: #131417; color: #FFFFFF; }
+  @keyframes sigpulse { 0% { transform: scale(1); opacity: .55; } 70% { transform: scale(2.6); opacity: 0; } 100% { transform: scale(2.6); opacity: 0; } }
+  @keyframes drift { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(1.5%,-2.5%,0) scale(1.08); } }
+  .nav-drop { opacity: 0; visibility: hidden; transform-origin: top; transform: scaleY(0.7); transition: opacity .22s ease, transform .26s cubic-bezier(.22,.9,.24,1), visibility 0s; }
+  .nav-drop-wrap:hover .nav-drop { opacity: 1; visibility: visible; transform: scaleY(1); }
+  .nav-chevron { transition: transform .22s ease; }
+  .nav-drop-wrap:hover .nav-chevron { transform: rotate(180deg); }
+  .nav-drop-wrap:hover .nav-chevron path { stroke: #193DAA; }
+  .nav-drop-item { transition: background .15s ease; border-bottom: 1px solid #E2E0DA; }
+  .nav-drop-item:last-child { border-bottom: none; }
+  .nav-drop-item:hover { background: #EEF2FB; }
+</style>
+</helmet>
+
+<div style="font-family: Geist, ui-sans-serif, Helvetica, Arial, sans-serif; background: #FFFFFF; color: #131417; -webkit-font-smoothing: antialiased; padding: 0 14px;">
+
+  <header data-nav-wrap="1" style="position: sticky; top: 0; z-index: 40; padding: 0; transition: padding .28s ease;">
+    <div data-nav="1" style="max-width: 1280px; margin: 0 auto; padding: 0 28px; height: 62px; display: flex; align-items: center; justify-content: space-between; gap: 20px; border: 1px solid transparent; border-radius: 3px; background: transparent; transition: background .28s ease, border-color .28s ease, box-shadow .28s ease, backdrop-filter .28s ease;">
+      <div style="display: flex; align-items: center; gap: 30px;">
+        <div style="display: flex; align-items: center; gap: 9px;">
+          <div style="width: 19px; height: 19px; border-radius: 5px; background: #131417; display: grid; place-items: center;">
+            <div style="width: 7px; height: 7px; border-radius: 1px; background: #193DAA;"></div>
+          </div>
+          <span style="font-family: 'Bricolage Grotesque', Geist, sans-serif; font-weight: 600; font-size: 16px; letter-spacing: -0.02em;">{{ brand }}</span>
+        </div>
+        <nav style="display: flex; align-items: center; gap: 26px; font-size: 13px; color: #55585C; align-items: center;">
+          <span class="nav-drop-wrap" style="position: relative; display: inline-flex; align-items: center; gap: 5px;">
+            <a href="#services" style="color: inherit; display: block; height: 19px; overflow: hidden;">
+              <span style="display: block; transition: transform .42s cubic-bezier(.22,.9,.24,1);" style-hover="transform:translateY(-19px)">
+                <span style="display: block; height: 19px; line-height: 19px;">Services</span>
+                <span style="display: block; height: 19px; line-height: 19px; color: #193DAA;">Services</span>
+              </span>
+            </a>
+            <svg class="nav-chevron" width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="#8B8E86" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <div class="nav-drop" style="position: absolute; top: 32px; left: -14px; min-width: 250px; background: #FFFFFF; border: 1px solid #E2E0DA; border-radius: 6px; padding: 4px; z-index: 50;">
+              <sc-for list="{{ services }}" as="sv" hint-placeholder-count="5">
+                <a href="#services" class="nav-drop-item" style="display: block; padding: 10px 12px; font-size: 13px; color: #22252A; text-decoration: none;">{{ sv.title }}</a>
+              </sc-for>
+            </div>
+          </span>
+          <span class="nav-drop-wrap" style="position: relative; display: inline-flex; align-items: center; gap: 5px;">
+            <a href="#engage" style="color: inherit; display: block; height: 19px; overflow: hidden;">
+              <span style="display: block; transition: transform .42s cubic-bezier(.22,.9,.24,1);" style-hover="transform:translateY(-19px)">
+                <span style="display: block; height: 19px; line-height: 19px;">Engagements</span>
+                <span style="display: block; height: 19px; line-height: 19px; color: #193DAA;">Engagements</span>
+              </span>
+            </a>
+            <svg class="nav-chevron" width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true"><path d="M2 3.5 5 6.5 8 3.5" stroke="#8B8E86" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+            <div class="nav-drop" style="position: absolute; top: 32px; left: -14px; min-width: 220px; background: #FFFFFF; border: 1px solid #E2E0DA; border-radius: 6px; padding: 4px; z-index: 50;">
+              <sc-for list="{{ models }}" as="m" hint-placeholder-count="3">
+                <a href="#engage" class="nav-drop-item" style="display: block; padding: 10px 12px; font-size: 13px; color: #22252A; text-decoration: none;">{{ m.name }}</a>
+              </sc-for>
+            </div>
+          </span>
+          <a href="#proof" style="color: inherit; display: block; height: 19px; overflow: hidden;">
+            <span style="display: block; transition: transform .42s cubic-bezier(.22,.9,.24,1);" style-hover="transform:translateY(-19px)">
+              <span style="display: block; height: 19px; line-height: 19px;">Proof</span>
+              <span style="display: block; height: 19px; line-height: 19px; color: #193DAA;">Proof</span>
+            </span>
+          </a>
+          <a href="#work" style="color: inherit; display: block; height: 19px; overflow: hidden; white-space: nowrap;">
+            <span style="display: block; transition: transform .42s cubic-bezier(.22,.9,.24,1);" style-hover="transform:translateY(-19px)">
+              <span style="display: block; height: 19px; line-height: 19px;">How we work</span>
+              <span style="display: block; height: 19px; line-height: 19px; color: #193DAA;">How we work</span>
+            </span>
+          </a>
+        </nav>
+      </div>
+      <a href="#contact" style="display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; color: #FFFFFF; background: #193DAA; padding: 8px 15px; border-radius: 4px; white-space: nowrap;" style-hover="background:#152F85;color:#FFFFFF;">
+        Book a scoping call
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="#EEF2FB" stroke-width="1.4" stroke-linecap="round"></path></svg>
+      </a>
+    </div>
+  </header>
+
+  <div style="max-width: 1280px; margin: 0 auto; border-left: 1px solid #E2E0DA; border-right: 1px solid #E2E0DA;">
+
+    <section data-hero="1" style="position: relative; padding: 78px 28px 58px; border-bottom: 1px solid #E2E0DA; overflow: hidden; min-height: calc(100vh - 187px); display: flex; flex-direction: column; justify-content: center;">
+      
+      <div style="position: absolute; inset: 0; pointer-events: none; z-index: 0; display: grid; place-items: center; overflow: hidden;">
+        <img src="media/hero-portal.png" alt="" style="display: block; width: 100%; height: auto; max-height: 100%; aspect-ratio: 2752 / 1536; object-fit: contain; object-position: center; align-self: center; justify-self: center; -webkit-mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 14%, #000 86%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 15%, #000 85%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%); mask-image: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 14%, #000 86%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 15%, #000 85%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%); -webkit-mask-composite: source-in; mask-composite: intersect; mask-repeat: no-repeat; -webkit-mask-repeat: no-repeat;" />
+        <div style="position: absolute; inset: 0; background: linear-gradient(90deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.9) 24%, rgba(255,255,255,0.62) 42%, rgba(255,255,255,0.18) 58%, rgba(255,255,255,0) 72%);"></div>
+        <div style="position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 50%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 82%, #FFFFFF 100%);"></div>
+      </div>
+      <div style="position: relative; z-index: 2; max-width: 600px; margin: 0; text-align: left;">
+        <div style="display: inline-flex; align-items: center; gap: 11px; padding: 6px 7px 6px 12px; border: 1px solid rgba(19,20,23,0.1); border-radius: 999px; background: rgba(255,255,255,0.62); backdrop-filter: blur(10px); box-shadow: 0 1px 2px rgba(19,20,23,0.04), inset 0 1px 0 rgba(255,255,255,0.9);">
+          <span style="position: relative; display: grid; place-items: center; width: 6px; height: 6px;">
+            <span style="position: absolute; width: 6px; height: 6px; border-radius: 50%; background: #193DAA; animation: sigpulse 2.6s ease-out infinite;"></span>
+            <span style="position: relative; width: 6px; height: 6px; border-radius: 50%; background: #193DAA;"></span>
+          </span>
+          <span style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: #6A6D71; white-space: nowrap;">Cloud &amp; AI Engineering</span>
+          <span style="width: 1px; height: 12px; background: rgba(19,20,23,0.12);"></span>
+          <span style="display: inline-flex; align-items: center; gap: 7px; font-size: 12px; line-height: 1; color: #22252A; white-space: nowrap; padding-right: 9px;">
+            Priced on Outcomes
+          </span>
+        </div>
+        <h1 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 58px; line-height: 1.03; letter-spacing: -0.035em; margin: 22px 0 0; text-wrap: balance;"><span style="color: #A29E96; text-decoration: line-through; text-decoration-color: #B5B1A7; text-decoration-thickness: 2px;">Skip the 12-month AI roadmap.</span> Ship the first working agent <span style="color: #193DAA;">in weeks</span>.</h1>
+        <p style="max-width: 500px; margin: 18px 0 0; font-size: 17px; line-height: 1.6; color: #22252A; font-weight: 400; text-wrap: pretty;">{{ subhead }}</p>
+        <div style="display: flex; gap: 10px; justify-content: flex-start; margin-top: 26px; flex-wrap: wrap;">
+          <a href="#contact" style="display: inline-flex; align-items: center; font-size: 14px; font-weight: 500; color: #FFFFFF; background: #193DAA; padding: 11px 20px; border-radius: 5px; white-space: nowrap;" style-hover="background:#152F85;color:#FFFFFF;">Book a Discovery Call</a>
+          <a href="#engage" style="font-size: 14px; font-weight: 500; color: #131417; background: #FFFFFF; border: 1px solid #B5B1A7; padding: 11px 20px; border-radius: 999px; white-space: nowrap;" style-hover="border-color:#131417;">See how we engage</a>
+        </div>
+        <div style="display: flex; flex-direction: column; align-items: flex-start; gap: 10px; margin-top: 30px; font-size: 12.5px; font-weight: 500; color: #131417;">
+          <span style="display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="#193DAA" stroke-width="1.2"></rect><path d="M4.5 7.2 6.3 9l3.2-4" stroke="#193DAA" stroke-width="1.2" stroke-linecap="round"></path></svg>
+            Fixed-fee scoping, credited to the build
+          </span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.5" stroke="#193DAA" stroke-width="1.2"></circle><circle cx="7" cy="7" r="1.8" fill="#193DAA"></circle></svg>
+            Senior-only pods, no bench time
+          </span>
+          <span style="display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;">
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M7 1.8 12 4v4c0 2.2-2.2 3.6-5 4.2C4.2 11.6 2 10.2 2 8V4l5-2.2Z" stroke="#193DAA" stroke-width="1.2" stroke-linejoin="round"></path></svg>
+            You own the code and runbook
+          </span>
+        </div>
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <section data-clients="1" style="position: relative; border-bottom: 1px solid #E2E0DA; padding: 26px 28px 28px;">
+      <p style="margin: 0 0 22px;"><span style="display: inline-flex; align-items: center; font-family: Geist, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: 0.01em; text-transform: uppercase; color: #FFFFFF; background: linear-gradient(90deg, #193DAA 0%, #193DAA 45%, #FFFFFF 82%, #FFFFFF 100%); border-radius: 3px; padding: 5px 10px; white-space: nowrap;">Our teams have delivered inside</span></p>
+      <div style="display: flex; align-items: center; gap: 52px; flex-wrap: wrap;">
+        <img src="media/client-abbi.png" alt="Abbi.ai" style="height: 26px; filter: grayscale(1); opacity: 0.72; transition: filter .25s ease, opacity .25s ease;" style-hover="filter:none;opacity:1;" />
+        <img src="media/client-dfw.png" alt="DFW Logics" style="height: 30px; filter: grayscale(1); opacity: 0.72; transition: filter .25s ease, opacity .25s ease;" style-hover="filter:none;opacity:1;" />
+        <img src="media/client-english3.png" alt="English3" style="height: 28px; filter: grayscale(1); opacity: 0.72; transition: filter .25s ease, opacity .25s ease;" style-hover="filter:none;opacity:1;" />
+        <img src="media/client-seagage.png" alt="Seagage" style="height: 26px; filter: grayscale(1); opacity: 0.72; transition: filter .25s ease, opacity .25s ease;" style-hover="filter:none;opacity:1;" />
+        <img src="media/client-themagic5.png" alt="TheMagic5" style="height: 22px; filter: grayscale(1); opacity: 0.72; transition: filter .25s ease, opacity .25s ease;" style-hover="filter:none;opacity:1;" />
+        <img src="media/client-v5.png" alt="V5" style="height: 30px; filter: grayscale(1) invert(1); opacity: 0.72; transition: filter .25s ease, opacity .25s ease;" style-hover="filter:invert(1);opacity:1;" />
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <section id="services" style="position: relative; border-bottom: 1px solid #E2E0DA; padding: 58px 28px 60px;">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+        <span style="display: inline-flex; align-items: center; font-family: 'Bricolage Grotesque', sans-serif; font-size: 20px; font-weight: 600; letter-spacing: -0.03em; color: #FFFFFF; background: #193DAA; border-radius: 10px; padding: 10px 22px; white-space: nowrap;">Services</span>
+        <p style="max-width: 330px; margin: 0; font-size: 15px; line-height: 1.6; color: #43464A;">Five practices, one senior team. Scoped in a week, delivered against outcomes you define.</p>
+      </div>
+      <div style="position: relative; margin: 34px -28px 0; padding: 0 28px;">
+        <sc-for list="{{ services }}" as="sv" hint-placeholder-count="5">
+          <a href="#contact" style="position: relative; display: grid; grid-template-columns: 44px minmax(220px,340px) 1fr 24px; align-items: center; column-gap: 24px; padding: 34px 28px; margin: 0 -28px; border-top: 1px solid #E2E0DA; text-decoration: none; color: #131417; transition: padding-top .3s cubic-bezier(.22,.9,.24,1), padding-bottom .3s cubic-bezier(.22,.9,.24,1), color .25s ease, background .25s ease;" style-hover="paddingTop:50px;paddingBottom:50px;color:#193DAA;background:#F9F8F5">
+            <span style="position: absolute; left: -7.5px; top: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+            <span style="position: absolute; right: -7.5px; top: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+            <span style="font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; color: #A29E96;">{{ sv.no }}</span>
+            <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 24px; letter-spacing: -0.025em; margin: 0; color: inherit; text-wrap: balance;">{{ sv.title }}</h3>
+            <p style="margin: 0; font-size: 15px; line-height: 1.55; color: #55585C; text-wrap: pretty;">{{ sv.body }}</p>
+            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" style="justify-self: end; transition: transform .25s ease;" style-hover="transform:translateX(4px)"><path d="M3 9h11M10 4.5 14.5 9 10 13.5" stroke="#193DAA" stroke-width="1.4" stroke-linecap="round"></path></svg>
+          </a>
+        </sc-for>
+        <div style="position: relative; border-top: 1px solid #E2E0DA;">
+          <span style="position: absolute; left: -7.5px; top: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+          <span style="position: absolute; right: -7.5px; top: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+        </div>
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <section id="work" style="position: relative; border-bottom: 1px solid #E2E0DA; padding: 58px 28px 60px; display: grid; grid-template-columns: 0.92fr 1.08fr; gap: 56px;">
+      <div>
+        <div style="margin-bottom: 18px;">
+            <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.17em; text-transform: uppercase; color: #64676B; white-space: nowrap;">How we work</span>
+          </div>
+        <h2 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 38px; line-height: 1.05; letter-spacing: -0.038em; margin: 0; text-wrap: balance;">Senior people on your problem, from week one</h2>
+        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: #43464A;">No pyramid staffing. The people in the scoping call are the people who build — and their job is to make themselves unnecessary.</p>
+        <div style="display: flex; gap: 26px; margin-top: 26px; flex-wrap: wrap;">
+          <sc-for list="{{ credentials }}" as="cr" hint-placeholder-count="3">
+            <div>
+              <div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.03em;">{{ cr.value }}</div>
+              <div style="font-size: 12px; color: #64676B; margin-top: 4px; white-space: nowrap;">{{ cr.label }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 26px; background: linear-gradient(#C7CEE6, #C7CEE6) no-repeat 13.5px 14px / 1px calc(100% - 40px);">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+          <div style="flex: 0 0 auto; display: grid; grid-template-columns: 28px 82px 1fr; gap: 14px;">
+            <span style="width: 28px; height: 28px; border-radius: 50%; border: 1px solid #A9B8E4; background: #FFFFFF; display: grid; place-items: center; font-family: ui-monospace, monospace; font-size: 11px; color: #193DAA; z-index: 1;">{{ st.n }}</span>
+            <span style="font-family: ui-monospace, monospace; font-size: 11px; color: #6A6D71; white-space: nowrap; padding-top: 8px;">{{ st.week }}</span>
+            <div>
+              <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; margin: 0 0 6px;">{{ st.title }}</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #43464A; text-wrap: pretty;">{{ st.body }}</p>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <section id="proof" style="position: relative; border-bottom: 1px solid #E2E0DA; padding: 58px 28px 60px;">
+      <div style="max-width: 620px; margin-bottom: 38px;">
+        <div style="margin-bottom: 18px;">
+            <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.17em; text-transform: uppercase; color: #64676B; white-space: nowrap;">Proof</span>
+          </div>
+        <h2 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.04; letter-spacing: -0.038em; margin: 0; text-wrap: balance;">Outcomes, not case-study theatre</h2>
+        </div>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px;">
+        <sc-for list="{{ metrics }}" as="m" hint-placeholder-count="4">
+          <div style="padding-top: 16px; border-top: 1px solid #C7CEE6;">
+            <div style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 46px; letter-spacing: -0.045em; line-height: 1;">{{ m.value }}</div>
+            <div style="margin-top: 10px; font-size: 13px; line-height: 1.5; color: #43464A; max-width: 22ch;">{{ m.label }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.025em; margin: 44px 0 0;">Case studies</h3>
+      <div style="position: relative; margin: 20px -28px 0;">
+        <span style="position: absolute; left: -7.5px; top: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+        <span style="position: absolute; right: -7.5px; top: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+        <span style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+        <span style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></span>
+        <div style="display: grid; grid-template-columns: repeat(12, 1fr); border-top: 1px solid #D6D3CB; border-left: 1px solid #D6D3CB;">
+          <div style="grid-column: span 7; position: relative; border-right: 1px solid #D6D3CB; border-bottom: 1px solid #D6D3CB; background: #FFFFFF;">
+            <span style="position: absolute; top: 0; right: 0; width: 3px; height: 3px; border-radius: 50%; background: #A29E96; box-shadow: 0 0 0 6px #FFFFFF; transform: translate(50%,-50%); z-index: 2;"></span>
+            <span style="position: absolute; bottom: 0; left: 0; width: 3px; height: 3px; border-radius: 50%; background: #A29E96; box-shadow: 0 0 0 6px #FFFFFF; transform: translate(-50%,50%); z-index: 2;"></span>
+            <span style="position: absolute; bottom: 0; right: 0; width: 3px; height: 3px; border-radius: 50%; background: #A29E96; box-shadow: 0 0 0 6px #FFFFFF; transform: translate(50%,50%); z-index: 2;"></span>
+            <div style="padding: 18px; display: flex; flex-direction: column; gap: 6px; height: 100%; box-sizing: border-box;">
+              <img src="media/light-01.png" alt="" style="display: block; width: 100%; height: 200px; object-fit: cover;" />
+              <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6D71; margin-top: 6px;">01 — HEALTHCARE</div>
+              <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.025em; margin: 4px 0 0;">Making pathology reports easier to understand</h3>
+              <p style="margin: 0; font-size: 14px; line-height: 1.6; color: #43464A; max-width: 42ch;">AI-powered analysis that turns complex pathology reports into clearer, structured insights.</p>
+              <div style="display: flex; align-items: baseline; gap: 7px; margin-top: 6px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 21px; color: #193DAA;">80%</span><span style="font-size: 12px; color: #55585C;">faster report review</span></div>
+              <a href="#contact" style="display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 14px; font-size: 12px; font-weight: 500; color: #131417; white-space: nowrap;">View case study<svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></a>
+            </div>
+          </div>
+          <div style="grid-column: span 5; position: relative; border-right: 1px solid #D6D3CB; border-bottom: 1px solid #D6D3CB; background: #0D184A;">
+            <span style="position: absolute; bottom: 0; right: 0; width: 3px; height: 3px; border-radius: 50%; background: #A9B8E4; box-shadow: 0 0 0 6px #0D184A; transform: translate(50%,50%); z-index: 2;"></span>
+            <div style="padding: 18px; display: flex; flex-direction: column; gap: 6px; height: 100%; box-sizing: border-box;">
+              <img src="media/light-02.png" alt="" style="display: block; width: 100%; height: 140px; object-fit: cover; opacity: 0.9;" />
+              <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #A9B8E4; margin-top: 6px;">02 — SALES · AI</div>
+              <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; margin: 4px 0 0; color: #FFFFFF;">Turning sales calls into actionable coaching</h3>
+              <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #C9C6C0;">An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve.</p>
+              <div style="display: flex; align-items: baseline; gap: 7px; margin-top: 4px;"><span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 700; font-size: 19px; color: #A9B8E4;">10K+</span><span style="font-size: 12px; color: #C9C6C0;">calls analyzed</span></div>
+              <a href="#contact" style="display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 14px; font-size: 12px; font-weight: 500; color: #FFFFFF; white-space: nowrap;">View case study<svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></a>
+            </div>
+          </div>
+          <div style="grid-column: span 5; position: relative; border-right: 1px solid #D6D3CB; border-bottom: 1px solid #D6D3CB; background: #FFFFFF;">
+            <span style="position: absolute; top: 0; right: 0; width: 3px; height: 3px; border-radius: 50%; background: #A29E96; box-shadow: 0 0 0 6px #FFFFFF; transform: translate(50%,-50%); z-index: 2;"></span>
+            <span style="position: absolute; bottom: 0; right: 0; width: 3px; height: 3px; border-radius: 50%; background: #A29E96; box-shadow: 0 0 0 6px #FFFFFF; transform: translate(50%,50%); z-index: 2;"></span>
+            <div style="padding: 18px; display: flex; flex-direction: column; gap: 6px; height: 100%; box-sizing: border-box;">
+              <img src="media/eng-01.png" alt="" style="display: block; width: 100%; height: 140px; object-fit: cover;" />
+              <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6D71; margin-top: 6px;">03 — FOOD · AI</div>
+              <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.02em; margin: 4px 0 0;">A conversational AI agent built to scale</h3>
+              <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #43464A;">Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in.</p>
+              <a href="#contact" style="display: inline-flex; align-items: center; gap: 7px; margin-top: auto; padding-top: 14px; font-size: 12px; font-weight: 500; color: #131417; white-space: nowrap;">View case study<svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></a>
+            </div>
+          </div>
+          <div style="grid-column: span 7; position: relative; border-right: 1px solid #D6D3CB; border-bottom: 1px solid #D6D3CB; background: #FFFFFF; display: grid; grid-template-columns: 1fr 1.2fr; align-items: stretch;">
+            <div style="padding: 18px 0 18px 18px; box-sizing: border-box;">
+              <img src="media/light-03.png" alt="" style="display: block; width: 100%; height: 100%; min-height: 160px; object-fit: cover;" />
+            </div>
+            <div style="padding: 22px 24px; display: flex; flex-direction: column; gap: 6px; justify-content: center;">
+              <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6D71;">04 — ENGINEERING · CLOUD</div>
+              <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 19px; letter-spacing: -0.025em; margin: 4px 0 0;">Scaling engineering simulations with cloud HPC</h3>
+              <p style="margin: 0; font-size: 13px; line-height: 1.6; color: #43464A;">A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.</p>
+              <a href="#contact" style="display: inline-flex; align-items: center; gap: 7px; margin-top: 10px; font-size: 12px; font-weight: 500; color: #131417; white-space: nowrap;">View case study<svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 22px; letter-spacing: -0.025em; margin: 48px 0 0;">Testimonials</h3>
+      <div style="position: relative; margin-top: 30px; padding: 10px 0 48px;">
+        <div style="display: grid; grid-template-columns: 200px 1fr; gap: 54px; align-items: center; opacity: {{ testimonialFade }}; transition: opacity .35s ease;">
+          <div style="position: relative; height: 210px;">
+            <div style="position: relative; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.4; transform: translateX(-6px);">
+                <span style="width: 34px; height: 34px; border-radius: 50%; background: #D6D3CB; display: grid; place-items: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 12px; color: #55585C;">{{ avTop.initials }}</span>
+                <div style="text-align: center;">
+                  <div style="font-family: Geist, sans-serif; font-size: 12px; font-weight: 500; color: #22252A; white-space: nowrap;">{{ avTop.name }}</div>
+                  <div style="font-family: Geist, sans-serif; font-size: 11px; color: #6A6D71; margin-top: 2px; white-space: nowrap;">{{ avTop.role }}</div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; transform: translateX(12px);">
+                <span style="width: 52px; height: 52px; border-radius: 50%; background: #193DAA; display: grid; place-items: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 16px; color: #FFFFFF;">{{ avMid.initials }}</span>
+                <div style="text-align: center;">
+                  <div style="font-family: Geist, sans-serif; font-size: 14px; font-weight: 600; color: #131417; white-space: nowrap;">{{ avMid.name }}</div>
+                  <div style="font-family: Geist, sans-serif; font-size: 12px; color: #6A6D71; margin-top: 2px; white-space: nowrap;">{{ avMid.role }}</div>
+                </div>
+              </div>
+              <div style="display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0.4; transform: translateX(-6px);">
+                <span style="width: 34px; height: 34px; border-radius: 50%; background: #D6D3CB; display: grid; place-items: center; font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 12px; color: #55585C;">{{ avBottom.initials }}</span>
+                <div style="text-align: center;">
+                  <div style="font-family: Geist, sans-serif; font-size: 12px; font-weight: 500; color: #22252A; white-space: nowrap;">{{ avBottom.name }}</div>
+                  <div style="font-family: Geist, sans-serif; font-size: 11px; color: #6A6D71; margin-top: 2px; white-space: nowrap;">{{ avBottom.role }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <img src="{{ avMid.logo }}" alt="{{ avMid.logoAlt }}" style="display: block; height: 22px; margin-bottom: 20px;" />
+            <p style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 500; font-size: 27px; line-height: 1.45; letter-spacing: -0.015em; margin: 0; color: #22252A; max-width: 48ch; text-wrap: pretty;">{{ avMid.quoteBefore }} <span style="background: #EEF2FB; color: #131417; padding: 1px 6px; border-radius: 3px;">{{ avMid.quoteHighlight }}</span>{{ avMid.quoteAfter }}</p>
+          </div>
+        </div>
+        <div style="display: flex; gap: 6px; margin-top: 30px;">
+          <sc-for list="{{ dots }}" as="d" hint-placeholder-count="3">
+            <span style="width: {{ d.width }}; height: 4px; border-radius: 2px; background: {{ d.color }}; transition: all .35s ease;"></span>
+          </sc-for>
+        </div>
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <section id="engage" style="position: relative; border-bottom: 1px solid #E2E0DA; padding: 58px 28px 60px;">
+      <div style="max-width: 620px;">
+        <div style="margin-bottom: 18px;">
+            <span style="font-size: 11px; font-weight: 500; letter-spacing: 0.17em; text-transform: uppercase; color: #64676B; white-space: nowrap;">Engagements</span>
+          </div>
+        <h2 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 42px; line-height: 1.04; letter-spacing: -0.038em; margin: 0; text-wrap: balance;">Three ways to work with us</h2>
+        <p style="margin: 14px 0 0; font-size: 15px; line-height: 1.6; color: #43464A;">Start small, scale only if the first outcome lands. No annual lock-in, no bench time on your invoice.</p>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 34px;">
+        <sc-for list="{{ models }}" as="m" hint-placeholder-count="3">
+          <div style="padding: 26px; border: 1px solid #D6D3CB; border-radius: 16px; display: flex; flex-direction: column; gap: 14px; background: {{ m.bg }}; transition: transform .3s cubic-bezier(.22,.9,.24,1), border-color .3s ease, box-shadow .3s ease;" style-hover="border-color:#131417;box-shadow:0 14px 40px rgba(19,20,23,0.07);transform:translateY(-2px)">
+            <div style="flex: 0 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 10px;">
+              <h3 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 20px; letter-spacing: -0.02em; margin: 0;">{{ m.name }}</h3>
+              <span style="font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: {{ m.badgeFg }}; background: {{ m.badgeBg }}; border-radius: 999px; padding: 4px 9px; white-space: nowrap;">{{ m.badge }}</span>
+            </div>
+            <div style="flex: 0 0 auto; display: flex; align-items: center; gap: 8px; font-size: 12px; color: #55585C;">
+              <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true"><circle cx="7" cy="7" r="5.4" stroke="#193DAA" stroke-width="1.2"></circle><path d="M7 4.2V7l2 1.4" stroke="#193DAA" stroke-width="1.2" stroke-linecap="round"></path></svg>
+              <span style="white-space: nowrap;">{{ m.duration }}</span>
+            </div>
+            <p style="flex: 0 0 auto; margin: 0; font-size: 14px; line-height: 1.6; color: #43464A;">{{ m.body }}</p>
+            <div style="flex: 0 0 auto; display: flex; flex-direction: column; gap: 9px; padding-top: 14px; border-top: 1px solid #E2E0DA;">
+              <sc-for list="{{ m.includes }}" as="i" hint-placeholder-count="4">
+                <div style="flex: 0 0 auto; display: flex; gap: 9px; align-items: flex-start; font-size: 13px; line-height: 1.5; color: #22252A;">
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style="flex: 0 0 auto; margin-top: 4px;"><path d="M2 6.4 4.4 8.8 10 3.2" stroke="#193DAA" stroke-width="1.4" stroke-linecap="round"></path></svg>
+                  <span>{{ i }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <a href="#contact" style="flex: 0 0 auto; margin-top: auto; padding-top: 16px; display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 500; white-space: nowrap; color: #131417;" style-hover="color:#193DAA;">
+              {{ m.cta }}
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"></path></svg>
+            </a>
+          </div>
+        </sc-for>
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <section id="contact" style="position: relative; padding: 74px 28px; text-align: center; overflow: hidden; border-bottom: 1px solid #E2E0DA;">
+      <div style="position: absolute; left: 50%; bottom: -240px; width: 800px; height: 420px; margin-left: -400px; filter: blur(90px); opacity: 0.34; border-radius: 50%; background: radial-gradient(48% 58% at 34% 50%, #4F6EC6 0%, transparent 68%), radial-gradient(48% 58% at 70% 50%, #152F85 0%, transparent 68%); pointer-events: none;"></div>
+      <div style="position: relative;">
+        <div style="display: inline-flex; align-items: center; gap: 10px; margin-bottom: 18px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: #6A6D71;"><span style="width: 20px; height: 1px; background: #C8C5BC;"></span>Scoping call<span style="width: 20px; height: 1px; background: #C8C5BC;"></span></div>
+        <h2 style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 40px; line-height: 1.06; letter-spacing: -0.035em; margin: 0; text-wrap: balance;">Tell us the workflow that keeps breaking</h2>
+        <p style="max-width: 470px; margin: 16px auto 0; font-size: 16px; line-height: 1.6; color: #43464A;">30 minutes with the people who'd do the work. You leave with a scoped plan — whether or not you hire us.</p>
+        <div style="display: flex; gap: 8px; justify-content: center; margin-top: 26px; flex-wrap: wrap;">
+          <input placeholder="you@company.com" style="font-family: Geist, sans-serif; font-size: 14px; padding: 11px 16px; width: 250px; border: 1px solid #B5B1A7; border-radius: 999px; outline: none; background: #FFFFFF; color: #131417; transition: border-color .2s ease, box-shadow .2s ease;" style-focus="border-color:#131417;box-shadow:0 0 0 3px rgba(19,20,23,0.07);" />
+          <button style="font-family: Geist, sans-serif; font-size: 14px; font-weight: 500; color: #FFFFFF; background: #193DAA; border: none; padding: 11px 22px; border-radius: 5px; cursor: pointer; white-space: nowrap;" style-hover="background:#152F85;">Book a scoping call</button>
+        </div>
+        <p style="margin: 14px 0 0; font-size: 12px; color: #64676B;">Or email hello@signiance.com — we reply within a business day.</p>
+      </div>
+      <div style="position: absolute; left: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+      <div style="position: absolute; right: -7.5px; bottom: -7.5px; width: 15px; height: 15px; background: #FFFFFF; display: grid; place-items: center; pointer-events: none; z-index: 3;"><span style="width: 3px; height: 3px; border-radius: 50%; background: #A29E96;"></span></div>
+    </section>
+
+    <footer style="padding: 36px 28px 20px;">
+      <div style="display: grid; grid-template-columns: 1.4fr repeat(3, 1fr); gap: 32px;">
+        <div>
+          <div style="display: flex; align-items: center; gap: 9px;">
+            <div style="width: 17px; height: 17px; border-radius: 5px; background: #131417;"></div>
+            <span style="font-family: 'Bricolage Grotesque', sans-serif; font-weight: 600; font-size: 15px; letter-spacing: -0.02em;">{{ brand }}</span>
+          </div>
+          <p style="margin: 12px 0 0; font-size: 13px; line-height: 1.6; color: #64676B; max-width: 260px;">An AI-native services company. Bengaluru · Austin · Amsterdam.</p>
+        </div>
+        <sc-for list="{{ footer }}" as="col" hint-placeholder-count="3">
+          <div style="display: flex; flex-direction: column; gap: 9px;">
+            <div style="font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #6A6D71;">{{ col.head }}</div>
+            <sc-for list="{{ col.items }}" as="it" hint-placeholder-count="3">
+              <a href="#contact" style="font-size: 13px; line-height: 1.5; color: #43464A; white-space: nowrap; transition: color .2s ease;" style-hover="color:#131417">{{ it }}</a>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display: flex; justify-content: space-between; gap: 16px; margin-top: 34px; padding-top: 16px; border-top: 1px solid #D2D8EC; font-size: 12px; line-height: 1.6; color: #6A6D71; flex-wrap: wrap;">
+        <span>© 2026 {{ brand }}</span>
+        <span>Privacy · Terms · Security</span>
+      </div>
+    </footer>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280},&quot;brand&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Signiance&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;The team you hire when the AI pilot has to become real work&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;subhead&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;We help growing businesses move from cloud infrastructure to production AI without the overhead of a full in house team.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#193DAA&quot;,&quot;options&quot;:[&quot;#193DAA&quot;,&quot;#1F4B45&quot;,&quot;#7A6A52&quot;,&quot;#131417&quot;],&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  state = { tIdx: 0, tFade: 1 };
+
+  componentDidMount() {
+    this.testimonialTimer = setInterval(() => {
+      this.setState({ tFade: 0 });
+      setTimeout(() => {
+        this.setState(s => ({ tIdx: (s.tIdx + 1) % 3, tFade: 1 }));
+      }, 320);
+    }, 4600);
+    this.fit = () => {
+      const hero = document.querySelector('[data-hero]'), clients = document.querySelector('[data-clients]'), header = document.querySelector('[data-nav-wrap]');
+      if (!hero || !clients || !header) return;
+      const h = window.innerHeight - header.getBoundingClientRect().height - clients.getBoundingClientRect().height;
+      hero.style.minHeight = Math.max(420, h) + "px";
+    };
+    this.onScroll = () => {
+      const nav = document.querySelector('[data-nav]'), header = document.querySelector('[data-nav-wrap]');
+      if (!nav || !header) return;
+      const on = window.scrollY > 16;
+      nav.style.background = on ? "rgba(255,255,255,0.88)" : "transparent";
+      nav.style.backdropFilter = on ? "blur(16px)" : "none";
+      nav.style.borderColor = on ? "#E2E0DA" : "transparent";
+      nav.style.boxShadow = on ? "0 10px 30px rgba(22,24,28,0.06)" : "none";
+      header.style.padding = on ? "10px 0" : "0";
+    };
+    const boot = () => { this.fit(); this.onScroll(); };
+    requestAnimationFrame(boot);
+    setTimeout(boot, 300);
+    setTimeout(boot, 1200);
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(boot);
+    window.addEventListener("resize", this.fit);
+    window.addEventListener("scroll", this.onScroll, { passive: true });
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.fit);
+    window.removeEventListener("scroll", this.onScroll);
+    clearInterval(this.testimonialTimer);
+  }
+
+  renderVals() {
+    const p = this.props;
+    const accent = p.accent ?? "#193DAA";
+    const testimonials = [
+      { initials: "MW", name: "Marcus Webb", role: "VP Engineering", logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Amazon_logo.svg", logoAlt: "Amazon", quoteBefore: "We had two failed AI pilots before this. Signiance scoped one workflow,", quoteHighlight: "shipped it in a month", quoteAfter: ", and left our engineers able to run it without them." },
+      { initials: "PS", name: "Priya Shah", role: "Head of Risk", logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Stripe_Logo%2C_revised_2016.svg", logoAlt: "Stripe", quoteBefore: "Every vendor promised compliance. Signiance was the only one who", quoteHighlight: "showed us the audit trail before we signed", quoteAfter: "." },
+      { initials: "TE", name: "Tom Ellery", role: "COO", logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Uber_logo_2018.svg", logoAlt: "Uber", quoteBefore: "We didn't need another dashboard. We needed", quoteHighlight: "fewer stockouts by Friday", quoteAfter: " — and that's what shipped." }
+    ];
+    const tIdx = this.state.tIdx;
+    const avTop = testimonials[(tIdx + 1) % 3];
+    const avMid = testimonials[tIdx];
+    const avBottom = testimonials[(tIdx + 2) % 3];
+    const dots = testimonials.map((_, i) => ({ width: i === tIdx ? "22px" : "8px", color: i === tIdx ? "#193DAA" : "#D6D3CB" }));
+    return {
+      testimonialFade: this.state.tFade,
+      avTop, avMid, avBottom, dots,
+      brand: p.brand ?? "Signiance",
+      headline: p.headline ?? "The team you hire when the AI pilot has to become real work",
+      subhead: p.subhead ?? "We help growing businesses move from cloud infrastructure to production AI without the overhead of a full in house team.",
+      kpis: [
+        { label: "Workflow hours saved", value: "1,840", delta: "+18%" },
+        { label: "Quality bar", value: "94.6%", delta: "+2.1" },
+        { label: "Cost / case", value: "$0.14", delta: "−38%" }
+      ],
+      workstreams: [
+        { name: "Discovery and baseline", pct: "100%", color: "#4E8F76" },
+        { name: "Workflow build", pct: "72%", color: accent },
+        { name: "Ops enablement", pct: "45%", color: accent },
+        { name: "Handover runbook", pct: "20%", color: "#CFCBC0" }
+      ],
+      shipped: [
+        { day: "MON", item: "Baseline measured on 4k historic cases", tag: "signed off", fg: "#2F6B57", bg: "#E7F1EC" },
+        { day: "TUE", item: "Triage workflow v2 in staging", tag: "shipped", fg: "#7A4E0C", bg: "#F7EDD8" },
+        { day: "WED", item: "Ops team training, session 1 of 3", tag: "done", fg: "#43464A", bg: "#ECEBE6" },
+        { day: "THU", item: "Guardrail review with risk", tag: "in review", fg: "#43464A", bg: "#ECEBE6" },
+        { day: "FRI", item: "Week 04 scope agreed with sponsor", tag: "agreed", fg: "#2F6B57", bg: "#E7F1EC" }
+      ],
+      services: [
+        { no: "01", title: "Cloud Architecture & DevOps", body: "Resilient, scalable architectures with CI/CD and IaC — ship faster with confidence." },
+        { no: "02", title: "Agentic AI Developments (Multi Agent Systems)", body: "Multi-agent systems that plan, coordinate, and execute real work end to end." },
+        { no: "03", title: "Generative AI and RAG / LLM Solutions", body: "Production LLM apps — retrieval pipelines, grounding, and evaluations." },
+        { no: "04", title: "AI POC and MVP Development", body: "From idea to a working prototype on real data, in weeks not quarters." },
+        { no: "05", title: "Copilots & Conversational AI", body: "Assistants embedded in your product, tuned to your workflows and tone." }
+      ],
+      models: [
+        { name: "Scoping sprint", badge: "Start here", badgeFg: "#55585C", badgeBg: "#ECEBE6", duration: "One week, fixed fee", body: "One workflow, measured. You get a baseline, a build plan and a clear decision — credited against the build if you continue.", includes: ["Workflow audit with your ops team", "Measured baseline on real data", "Build plan and effort estimate", "Go / no-go recommendation"], cta: "Book a scoping call", bg: "#FFFFFF" },
+        { name: "Delivery engagement", badge: "Most chosen", badgeFg: "#FFFFFF", badgeBg: "#152F85", duration: "4–9 weeks per outcome", body: "We build the scoped workflow into production with your team alongside us. Milestones you approve, not hours you audit.", includes: ["Senior pod of 3–4, no juniors", "Weekly demo on a shared board", "Evals and guardrails included", "Code and runbook handed to you"], cta: "Discuss an engagement", bg: "#EEF2FB" },
+        { name: "Retained partner", badge: "For portfolios", badgeFg: "#55585C", badgeBg: "#ECEBE6", duration: "Rolling, 30 days' notice", body: "A standing pod across several workflows, with quarterly outcome reviews and on-call cover for what we've shipped.", includes: ["Multi-workflow roadmap", "Quarterly outcome review", "On-call for production issues", "Advisory for your internal hires"], cta: "Talk about a retainer", bg: "#FFFFFF" }
+      ],
+      metrics: [
+        { value: "3 wks", label: "Median scope to first production use" },
+        { value: "30%", label: "Average running cost reduction" },
+        { value: "50", label: "Workflows delivered and handed over" },
+        { value: "20+", label: "Happy clients we've delivered for" }
+      ],
+      credentials: [
+        { value: "12 yrs", label: "Median team experience" },
+        { value: "0", label: "Junior hours billed" },
+        { value: "100%", label: "Code and IP yours" }
+      ],
+      steps: [
+        { n: "1", week: "WEEK 01", title: "Scope one workflow", body: "We sit with the people doing the work, measure the baseline, and write down what better looks like in numbers." },
+        { n: "2", week: "WEEK 02", title: "Build the thin slice", body: "A working version on your real data, behind a flag, with your reviewers in the loop from the first day." },
+        { n: "3", week: "WEEK 03", title: "Ship it for real", body: "Live traffic, guardrails and dashboards your team owns — plus the training sessions to run it without us." },
+        { n: "4", week: "AFTER", title: "Hand over and step back", body: "Runbook, code, evals and a support window. We stay available; we don't stay necessary." }
+      ],
+      footer: [
+        { head: "Services", items: ["Workflow delivery", "Embedded teams", "Assurance"] },
+        { head: "Company", items: ["About", "Careers", "Field notes"] },
+        { head: "Contact", items: ["Book a call", "Email us", "Press"] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
