@@ -1,6 +1,7 @@
 "use client";
 
 import CornerDots from "./CornerDots";
+import SectionEyebrow from "./SectionEyebrow";
 
 export default function Contact() {
   return (
@@ -8,7 +9,7 @@ export default function Contact() {
       id="contact"
       style={{
         position: "relative",
-        padding: "74px 28px",
+        padding: "clamp(52px, 7vw, 74px) var(--pad-x)",
         textAlign: "center",
         overflow: "hidden",
         borderBottom: "1px solid #E2E0DA",
@@ -31,28 +32,14 @@ export default function Contact() {
         }}
       />
       <div style={{ position: "relative" }}>
-        <div
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            gap: 10,
-            marginBottom: 18,
-            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: 10,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "#6A6D71",
-          }}
-        >
-          <span style={{ width: 20, height: 1, background: "#C8C5BC" }} />
-          Scoping call
-          <span style={{ width: 20, height: 1, background: "#C8C5BC" }} />
+        <div style={{ marginBottom: 18 }}>
+          <SectionEyebrow>Scoping call</SectionEyebrow>
         </div>
         <h2
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
             fontWeight: 600,
-            fontSize: 40,
+            fontSize: "var(--fs-h2-sm)",
             lineHeight: 1.06,
             letterSpacing: "-0.035em",
             margin: 0,

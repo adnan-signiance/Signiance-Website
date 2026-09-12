@@ -6,10 +6,10 @@ export default function Hero() {
     <section
       style={{
         position: "relative",
-        padding: "78px 28px 58px",
+        padding: "clamp(52px, 7vw, 78px) var(--pad-x) clamp(48px, 6vw, 58px)",
         borderBottom: "1px solid #E2E0DA",
         overflow: "hidden",
-        minHeight: "calc(100vh - 187px)",
+        minHeight: "clamp(460px, calc(100vh - 210px), 720px)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -50,6 +50,7 @@ export default function Hero() {
           }}
         />
         <div
+          className="hero-wash"
           style={{
             position: "absolute",
             inset: 0,
@@ -67,12 +68,17 @@ export default function Hero() {
         />
       </div>
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 600, margin: 0, textAlign: "left" }}>
+      <div
+        className="hero-content-in"
+        style={{ position: "relative", zIndex: 2, maxWidth: 620, margin: 0, textAlign: "left" }}
+      >
         <div
+          className="hero-badge"
           style={{
             display: "inline-flex",
             alignItems: "center",
             gap: 11,
+            maxWidth: "100%",
             padding: "6px 7px 6px 12px",
             border: "1px solid rgba(19,20,23,0.1)",
             borderRadius: 999,
@@ -124,6 +130,7 @@ export default function Hero() {
             Cloud &amp; AI Engineering
           </span>
           <span
+            className="hero-badge-aside"
             style={{
               width: 1,
               height: 12,
@@ -131,6 +138,7 @@ export default function Hero() {
             }}
           />
           <span
+            className="hero-badge-aside"
             style={{
               display: "inline-flex",
               alignItems: "center",
@@ -150,10 +158,10 @@ export default function Hero() {
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
             fontWeight: 600,
-            fontSize: 58,
-            lineHeight: 1.03,
+            fontSize: "var(--fs-h1)",
+            lineHeight: 1.08,
             letterSpacing: "-0.035em",
-            margin: "22px 0 0",
+            margin: "24px 0 0",
             textWrap: "balance",
           }}
         >
@@ -173,9 +181,9 @@ export default function Hero() {
 
         <p
           style={{
-            maxWidth: 500,
-            margin: "18px 0 0",
-            fontSize: 17,
+            maxWidth: 520,
+            margin: "20px 0 0",
+            fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
             color: "#22252A",
             fontWeight: 400,
@@ -188,9 +196,9 @@ export default function Hero() {
         <div
           style={{
             display: "flex",
-            gap: 10,
+            gap: 12,
             justifyContent: "flex-start",
-            marginTop: 26,
+            marginTop: 32,
             flexWrap: "wrap",
           }}
         >
@@ -207,28 +215,28 @@ export default function Hero() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: 10,
-            marginTop: 30,
+            gap: 12,
+            marginTop: 38,
             fontSize: 12.5,
             fontWeight: 500,
             color: "#131417",
           }}
         >
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, whiteSpace: "nowrap" }}>
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="#193DAA" strokeWidth="1.2" />
               <path d="M4.5 7.2 6.3 9l3.2-4" stroke="#193DAA" strokeWidth="1.2" strokeLinecap="round" />
             </svg>
             Fixed-fee scoping, credited to the build
           </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, whiteSpace: "nowrap" }}>
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <circle cx="7" cy="7" r="5.5" stroke="#193DAA" strokeWidth="1.2" />
               <circle cx="7" cy="7" r="1.8" fill="#193DAA" />
             </svg>
             Senior-only pods, no bench time
           </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 8, whiteSpace: "nowrap" }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
               <path
                 d="M7 1.8 12 4v4c0 2.2-2.2 3.6-5 4.2C4.2 11.6 2 10.2 2 8V4l5-2.2Z"
@@ -240,6 +248,37 @@ export default function Hero() {
             You own the code and runbook
           </span>
         </div>
+      </div>
+
+      <div
+        className="hero-scroll-cue"
+        style={{
+          position: "absolute",
+          left: "50%",
+          bottom: 22,
+          transform: "translateX(-50%)",
+          zIndex: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 6,
+          pointerEvents: "none",
+        }}
+      >
+        <span
+          style={{
+            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+            fontSize: 9,
+            letterSpacing: "0.18em",
+            textTransform: "uppercase",
+            color: "#8B8E86",
+          }}
+        >
+          Scroll
+        </span>
+        <svg width="13" height="8" viewBox="0 0 14 9" fill="none" aria-hidden="true">
+          <path d="M1.5 1.5 7 7l5.5-5.5" stroke="#8B8E86" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
       </div>
 
       <CornerDots />

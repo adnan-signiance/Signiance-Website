@@ -1,7 +1,9 @@
-const ArrowIcon = ({ color = "currentColor" }: { color?: string }) => (
-  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-    <path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke={color} strokeWidth="1.3" strokeLinecap="round" />
-  </svg>
+const ViewButton = () => (
+  <a href="#contact" className="btn-icon" aria-label="View case study">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+      <path d="M4.5 3 8 6l-3.5 3" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </a>
 );
 
 const cornerDotAbs = (pos: { top?: number; bottom?: number; left?: number; right?: number }, bg: string) => (
@@ -22,7 +24,7 @@ const cornerDotAbs = (pos: { top?: number; bottom?: number; left?: number; right
 
 export default function CaseStudies() {
   return (
-    <div style={{ position: "relative", margin: "20px -28px 0" }}>
+    <div style={{ position: "relative", margin: "20px var(--bleed) 0" }}>
       <span
         style={{
           position: "absolute",
@@ -88,18 +90,11 @@ export default function CaseStudies() {
         <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
       </span>
 
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(12, 1fr)",
-          borderTop: "1px solid #D6D3CB",
-          borderLeft: "1px solid #D6D3CB",
-        }}
-      >
+      <div className="grid-case">
         {/* 01 — Healthcare */}
         <div
+          className="case-cell-7"
           style={{
-            gridColumn: "span 7",
             position: "relative",
             borderRight: "1px solid #D6D3CB",
             borderBottom: "1px solid #D6D3CB",
@@ -109,7 +104,7 @@ export default function CaseStudies() {
           {cornerDotAbs({ top: 0, right: 0 }, "#FFFFFF")}
           {cornerDotAbs({ bottom: 0, left: 0 }, "#FFFFFF")}
           {cornerDotAbs({ bottom: 0, right: 0 }, "#FFFFFF")}
-          <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
+          <div style={{ padding: "18px 50px 50px 18px", display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/media/light-01.png" alt="" style={{ display: "block", width: "100%", height: 200, objectFit: "cover" }} />
             <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71", marginTop: 6 }}>
@@ -135,28 +130,25 @@ export default function CaseStudies() {
               </span>
               <span style={{ fontSize: 12, color: "#55585C" }}>faster report review</span>
             </div>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: "auto", paddingTop: 14, fontSize: 12, fontWeight: 500, color: "#131417", whiteSpace: "nowrap" }}>
-              View case study
-              <ArrowIcon />
-            </a>
           </div>
+          <ViewButton />
         </div>
 
-        {/* 02 — Sales AI (dark) */}
+        {/* 02 — Sales AI */}
         <div
+          className="case-cell-5"
           style={{
-            gridColumn: "span 5",
             position: "relative",
             borderRight: "1px solid #D6D3CB",
             borderBottom: "1px solid #D6D3CB",
-            background: "#0D184A",
+            background: "#FFFFFF",
           }}
         >
-          {cornerDotAbs({ bottom: 0, right: 0 }, "#0D184A")}
-          <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
+          {cornerDotAbs({ bottom: 0, right: 0 }, "#FFFFFF")}
+          <div style={{ padding: "18px 50px 50px 18px", display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/light-02.png" alt="" style={{ display: "block", width: "100%", height: 140, objectFit: "cover", opacity: 0.9 }} />
-            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#A9B8E4", marginTop: 6 }}>
+            <img src="/media/light-02.png" alt="" style={{ display: "block", width: "100%", height: 140, objectFit: "cover" }} />
+            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71", marginTop: 6 }}>
               02 — SALES · AI
             </div>
             <h3
@@ -166,32 +158,28 @@ export default function CaseStudies() {
                 fontSize: 19,
                 letterSpacing: "-0.02em",
                 margin: "4px 0 0",
-                color: "#FFFFFF",
               }}
             >
               Turning sales calls into actionable coaching
             </h3>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "#C9C6C0" }}>
+            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "#43464A" }}>
               An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to
               improve.
             </p>
             <div style={{ display: "flex", alignItems: "baseline", gap: 7, marginTop: 4 }}>
-              <span style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: 19, color: "#A9B8E4" }}>
+              <span style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: 19, color: "#193DAA" }}>
                 10K+
               </span>
-              <span style={{ fontSize: 12, color: "#C9C6C0" }}>calls analyzed</span>
+              <span style={{ fontSize: 12, color: "#55585C" }}>calls analyzed</span>
             </div>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: "auto", paddingTop: 14, fontSize: 12, fontWeight: 500, color: "#FFFFFF", whiteSpace: "nowrap" }}>
-              View case study
-              <ArrowIcon />
-            </a>
           </div>
+          <ViewButton />
         </div>
 
         {/* 03 — Food AI */}
         <div
+          className="case-cell-5"
           style={{
-            gridColumn: "span 5",
             position: "relative",
             borderRight: "1px solid #D6D3CB",
             borderBottom: "1px solid #D6D3CB",
@@ -200,7 +188,7 @@ export default function CaseStudies() {
         >
           {cornerDotAbs({ top: 0, right: 0 }, "#FFFFFF")}
           {cornerDotAbs({ bottom: 0, right: 0 }, "#FFFFFF")}
-          <div style={{ padding: 18, display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
+          <div style={{ padding: "18px 50px 50px 18px", display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/media/eng-01.png" alt="" style={{ display: "block", width: "100%", height: 140, objectFit: "cover" }} />
             <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71", marginTop: 6 }}>
@@ -221,17 +209,14 @@ export default function CaseStudies() {
               Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and
               observability built in.
             </p>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: "auto", paddingTop: 14, fontSize: 12, fontWeight: 500, color: "#131417", whiteSpace: "nowrap" }}>
-              View case study
-              <ArrowIcon />
-            </a>
           </div>
+          <ViewButton />
         </div>
 
         {/* 04 — Engineering / Cloud */}
         <div
+          className="case-cell-7 case-cell-split"
           style={{
-            gridColumn: "span 7",
             position: "relative",
             borderRight: "1px solid #D6D3CB",
             borderBottom: "1px solid #D6D3CB",
@@ -245,7 +230,7 @@ export default function CaseStudies() {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/media/light-03.png" alt="" style={{ display: "block", width: "100%", height: "100%", minHeight: 160, objectFit: "cover" }} />
           </div>
-          <div style={{ padding: "22px 24px", display: "flex", flexDirection: "column", gap: 6, justifyContent: "center" }}>
+          <div style={{ padding: "22px 50px 22px 24px", display: "flex", flexDirection: "column", gap: 6, justifyContent: "center" }}>
             <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71" }}>
               04 — ENGINEERING · CLOUD
             </div>
@@ -263,11 +248,8 @@ export default function CaseStudies() {
             <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "#43464A" }}>
               A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.
             </p>
-            <a href="#contact" style={{ display: "inline-flex", alignItems: "center", gap: 7, marginTop: 10, fontSize: 12, fontWeight: 500, color: "#131417", whiteSpace: "nowrap" }}>
-              View case study
-              <ArrowIcon />
-            </a>
           </div>
+          <ViewButton />
         </div>
       </div>
     </div>

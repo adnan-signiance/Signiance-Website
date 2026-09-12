@@ -9,36 +9,84 @@ export const subhead =
 export const accent = "#193DAA";
 
 export type Service = {
+  id: string;
   no: string;
+  short: string;
+  navLabel: string;
   title: string;
   body: string;
+  long: string;
+  bestFor: string;
+  deliverables: string[];
+  image: string;
+  bg: string;
 };
 
 export const services: Service[] = [
   {
+    id: "s1",
     no: "01",
+    short: "Cloud & DevOps",
+    navLabel: "Cloud & DevOps",
     title: "Cloud Architecture & DevOps",
     body: "Resilient, scalable architectures with CI/CD and IaC — ship faster with confidence.",
+    long: "Resilient, scalable cloud foundations with CI/CD and infrastructure as code, so every release ships with confidence instead of a war room.",
+    bestFor: "Teams whose deploys still depend on one person being online.",
+    deliverables: ["Architecture review", "CI/CD & IaC", "On-call runbook"],
+    image: "/media/eng-01.png",
+    bg: "#FFFFFF",
   },
   {
+    id: "s2",
     no: "02",
+    short: "Agentic AI",
+    navLabel: "Agentic AI Development",
     title: "Agentic AI Developments (Multi Agent Systems)",
     body: "Multi-agent systems that plan, coordinate, and execute real work end to end.",
+    long: "Multi-agent systems that plan, coordinate, and execute real work end to end, with the guardrails your risk team needs to sign off.",
+    bestFor: "Workflows with too many steps and exceptions for a single model call.",
+    deliverables: ["Agent orchestration", "Tool & memory integration", "Guardrails & evals"],
+    image: "/media/eng-02.png",
+    bg: "#EEF2FB",
   },
   {
+    id: "s3",
     no: "03",
+    short: "Gen AI & RAG",
+    navLabel: "Gen AI & RAG Solutions",
     title: "Generative AI and RAG / LLM Solutions",
     body: "Production LLM apps — retrieval pipelines, grounding, and evaluations.",
+    long: "Production-grade LLM applications — retrieval pipelines, grounding strategies, and the evaluations that keep answers trustworthy at scale.",
+    bestFor: "Teams whose answers need to cite something real, every time.",
+    deliverables: ["Retrieval pipeline", "Grounding & citations", "Evaluation dashboard"],
+    image: "/media/eng-03.png",
+    bg: "#FFFFFF",
   },
   {
+    id: "s4",
     no: "04",
+    short: "AI POC / MVP",
+    navLabel: "AI MVP Development",
     title: "AI POC and MVP Development",
     body: "From idea to a working prototype on real data, in weeks not quarters.",
+    long: "From idea to a working prototype on your real data, in weeks not quarters — built to convert into production, not thrown away.",
+    bestFor: "A budget owner who needs to see it work before they'll fund it.",
+    deliverables: ["Scoped POC on real data", "Feasibility read-out", "Path to production"],
+    image: "/media/case-fintech.png",
+    bg: "#EEF2FB",
   },
   {
+    id: "s5",
     no: "05",
+    short: "Copilots",
+    navLabel: "AI Copilots",
     title: "Copilots & Conversational AI",
     body: "Assistants embedded in your product, tuned to your workflows and tone.",
+    long: "Assistants embedded directly in your product, tuned to your workflows, tone, and the edge cases your users actually hit.",
+    bestFor: "Products where support tickets are really the same five questions.",
+    deliverables: ["Conversation design", "Product integration & auth", "Usage analytics"],
+    image: "/media/case-health.png",
+    bg: "#FFFFFF",
   },
 ];
 
@@ -58,8 +106,8 @@ export const models: EngagementModel[] = [
   {
     name: "Scoping sprint",
     badge: "Start here",
-    badgeFg: "#55585C",
-    badgeBg: "#ECEBE6",
+    badgeFg: "#FFFFFF",
+    badgeBg: "linear-gradient(90deg, #55585C 0%, #8A8D91 45%, #C7C9CB 78%, #FFFFFF 100%)",
     duration: "One week, fixed fee",
     body: "One workflow, measured. You get a baseline, a build plan and a clear decision — credited against the build if you continue.",
     includes: [
@@ -75,7 +123,7 @@ export const models: EngagementModel[] = [
     name: "Delivery engagement",
     badge: "Most chosen",
     badgeFg: "#FFFFFF",
-    badgeBg: "#152F85",
+    badgeBg: "linear-gradient(90deg, #152F85 0%, #193DAA 45%, #4F6FDB 78%, #FFFFFF 100%)",
     duration: "4–9 weeks per outcome",
     body: "We build the scoped workflow into production with your team alongside us. Milestones you approve, not hours you audit.",
     includes: [
@@ -90,8 +138,8 @@ export const models: EngagementModel[] = [
   {
     name: "Retained partner",
     badge: "For portfolios",
-    badgeFg: "#55585C",
-    badgeBg: "#ECEBE6",
+    badgeFg: "#FFFFFF",
+    badgeBg: "linear-gradient(90deg, #2C55C4 0%, #5C81DF 45%, #A9C0F2 78%, #FFFFFF 100%)",
     duration: "Rolling, 30 days' notice",
     body: "A standing pod across several workflows, with quarterly outcome reviews and on-call cover for what we've shipped.",
     includes: [
@@ -195,6 +243,17 @@ export const testimonials: Testimonial[] = [
     quoteHighlight: "fewer stockouts by Friday",
     quoteAfter: " — and that's what shipped.",
   },
+  {
+    initials: "JR",
+    name: "Jordan Reyes",
+    role: "Director of Data",
+    logo: "https://commons.wikimedia.org/wiki/Special:FilePath/Google_2015_logo.svg",
+    logoAlt: "Google",
+    quoteBefore:
+      "We'd been burned by consultants who disappeared after the demo. Signiance",
+    quoteHighlight: "stayed until the dashboard was actually used",
+    quoteAfter: ", not just shipped.",
+  },
 ];
 
 export const caseStudies = [
@@ -237,11 +296,104 @@ export const engineeringCaseStudy = {
   body: "A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.",
 };
 
+export type CaseStudyEntry = {
+  id: string;
+  no: string;
+  category: string;
+  tag: string;
+  title: string;
+  teaser: string;
+  challenge: string;
+  approach: string;
+  result: string;
+  statValue: string | null;
+  statLabel: string | null;
+  image: string;
+  dark: boolean;
+};
+
+export const caseStudyEntries: CaseStudyEntry[] = [
+  {
+    id: "c1",
+    no: "01",
+    category: "Healthcare",
+    tag: "01 — HEALTHCARE",
+    title: "Making pathology reports easier to understand",
+    teaser: "AI-powered analysis that turns complex pathology reports into clearer, structured insights.",
+    challenge:
+      "Pathology reports arrived as dense, inconsistent narrative text, so reviewing one for the next clinical decision often took longer than the diagnosis itself.",
+    approach:
+      "We built an AI layer that reads each report, extracts the clinically relevant findings, and restructures them into a consistent, scannable format the review team already recognized.",
+    result:
+      "Report review dropped from a first read to a confirmed summary 80% faster, with no change to the clinicians' existing tools.",
+    statValue: "80%",
+    statLabel: "faster report review",
+    image: "/media/light-01.png",
+    dark: false,
+  },
+  {
+    id: "c2",
+    no: "02",
+    category: "Sales",
+    tag: "02 — SALES · AI",
+    title: "Turning sales calls into actionable coaching",
+    teaser: "An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve.",
+    challenge:
+      "Managers could only sit in on a handful of calls a week, so most coaching happened days later, from memory, on the calls someone happened to catch.",
+    approach:
+      "We shipped an agent that listens to every call, scores it against the team's own playbook, and surfaces what went wrong with a timestamped clip — same day, not next review.",
+    result:
+      "10K+ calls analyzed and counting, with coaching notes ready before the rep's next call instead of during a weekly review.",
+    statValue: "10K+",
+    statLabel: "calls analyzed",
+    image: "/media/light-02.png",
+    dark: true,
+  },
+  {
+    id: "c3",
+    no: "03",
+    category: "Food",
+    tag: "03 — FOOD · AI",
+    title: "A conversational AI agent built to scale",
+    teaser: "Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in.",
+    challenge:
+      "Their support agent worked in a demo, but had none of the authentication, scaling or monitoring a security review — or a real launch — would require.",
+    approach:
+      "We rebuilt the agent on production infrastructure: proper auth, autoscaling under load, and full observability into every conversation it has.",
+    result:
+      "The agent now handles live customer conversations across web and mobile in production, with a security review already signed off.",
+    statValue: null,
+    statLabel: null,
+    image: "/media/eng-01.png",
+    dark: false,
+  },
+  {
+    id: "c4",
+    no: "04",
+    category: "Engineering",
+    tag: "04 — ENGINEERING · CLOUD",
+    title: "Scaling engineering simulations with cloud HPC",
+    teaser: "A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.",
+    challenge:
+      "Their simulation queue was bottlenecked on fixed on-prem hardware — CFD and DEM runs that should take hours were taking days waiting for a slot.",
+    approach:
+      "We designed a high-performance AWS environment purpose-built for CPU-intensive CFD and GPU-accelerated DEM workloads, elastic to the queue instead of a fixed rack.",
+    result:
+      "Engineers now queue simulations on demand instead of waiting for hardware, with capacity that scales to the workload rather than the other way around.",
+    statValue: null,
+    statLabel: null,
+    image: "/media/light-03.png",
+    dark: false,
+  },
+];
+
+export const caseStudyFilters = ["All", "Healthcare", "Sales", "Food", "Engineering"];
+
 export const clients = [
-  { src: "/media/client-abbi.png", alt: "Abbi.ai", height: 26, invert: false },
-  { src: "/media/client-dfw.png", alt: "DFW Logics", height: 30, invert: false },
-  { src: "/media/client-english3.png", alt: "English3", height: 28, invert: false },
-  { src: "/media/client-seagage.png", alt: "Seagage", height: 26, invert: false },
-  { src: "/media/client-themagic5.png", alt: "TheMagic5", height: 22, invert: false },
-  { src: "/media/client-v5.png", alt: "V5", height: 30, invert: true },
+  { src: "/media/client-abbi.png", alt: "Abbi.ai", height: 48, invert: false },
+  { src: "/media/client-dfw.png", alt: "DFW Logics", height: 56, invert: false },
+  { src: "/media/client-english3.png", alt: "English3", height: 52, invert: false },
+  { src: "/media/client-seagage.png", alt: "Seagage", height: 48, invert: false },
+  { src: "/media/client-themagic5.png", alt: "TheMagic5", height: 42, invert: false },
+  { src: "/media/client-v5.png", alt: "V5", height: 56, invert: true },
 ];

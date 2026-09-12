@@ -1,146 +1,123 @@
 import CornerDots from "./CornerDots";
+import SectionEyebrow from "./SectionEyebrow";
 import { services } from "@/lib/data";
 
 export default function Services() {
   return (
     <section
       id="services"
-      style={{ position: "relative", borderBottom: "1px solid #E2E0DA", padding: "58px 28px 60px" }}
+      style={{
+        position: "relative",
+        borderBottom: "1px solid #E2E0DA",
+        padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
+      }}
     >
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 32,
-          flexWrap: "wrap",
-        }}
-      >
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            fontFamily: "'Bricolage Grotesque', sans-serif",
-            fontSize: 20,
-            fontWeight: 600,
-            letterSpacing: "-0.03em",
-            color: "#FFFFFF",
-            background: "#193DAA",
-            borderRadius: 10,
-            padding: "10px 22px",
-            whiteSpace: "nowrap",
-          }}
-        >
-          Services
-        </span>
-        <p style={{ maxWidth: 330, margin: 0, fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
-          Five practices, one senior team. Scoped in a week, delivered against outcomes you define.
+      <div className="section-head">
+        <div className="section-head-main">
+          <div style={{ marginBottom: 18 }}>
+            <SectionEyebrow>Services</SectionEyebrow>
+          </div>
+          <h2
+            style={{
+              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontWeight: 600,
+              fontSize: "var(--fs-h2)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.038em",
+              margin: 0,
+              textWrap: "balance",
+            }}
+          >
+            What you can hire us for
+          </h2>
+        </div>
+        <p className="section-head-note">
+          Five practices, one senior team.
+          <br />
+          Scoped in a week, delivered against outcomes.
         </p>
       </div>
 
-      <div style={{ position: "relative", margin: "34px -28px 0", padding: "0 28px" }}>
-        {services.map((sv) => (
-          <a key={sv.no} href="#contact" className="service-row">
-            <span
-              style={{
-                position: "absolute",
-                left: -7.5,
-                top: -7.5,
-                width: 15,
-                height: 15,
-                background: "#FFFFFF",
-                display: "grid",
-                placeItems: "center",
-                pointerEvents: "none",
-              }}
-            >
-              <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-            </span>
-            <span
-              style={{
-                position: "absolute",
-                right: -7.5,
-                top: -7.5,
-                width: 15,
-                height: 15,
-                background: "#FFFFFF",
-                display: "grid",
-                placeItems: "center",
-                pointerEvents: "none",
-              }}
-            >
-              <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-            </span>
+      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
 
-            <span
-              style={{
-                fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                fontSize: 12,
-                color: "#A29E96",
-              }}
-            >
-              {sv.no}
-            </span>
-            <h3
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontWeight: 700,
-                fontSize: 24,
-                letterSpacing: "-0.025em",
-                margin: 0,
-                color: "inherit",
-                textWrap: "balance",
-              }}
-            >
-              {sv.title}
-            </h3>
-            <p style={{ margin: 0, fontSize: 15, lineHeight: 1.55, color: "#55585C", textWrap: "pretty" }}>
-              {sv.body}
-            </p>
-            <svg
-              className="service-arrow"
-              width="18"
-              height="18"
-              viewBox="0 0 18 18"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path d="M3 9h11M10 4.5 14.5 9 10 13.5" stroke="#193DAA" strokeWidth="1.4" strokeLinecap="round" />
-            </svg>
+      <div style={{ position: "relative", margin: "20px var(--bleed) 0", padding: "0 var(--pad-x)" }}>
+        {services.map((sv, i) => (
+          <a
+            key={sv.id}
+            href="#contact"
+            className="service-row"
+            style={i === 0 ? { borderTop: "none" } : undefined}
+          >
+            {i > 0 && (
+              <>
+                <span
+                  style={{
+                    position: "absolute",
+                    left: -7.5,
+                    top: -7.5,
+                    width: 15,
+                    height: 15,
+                    background: "#FFFFFF",
+                    display: "grid",
+                    placeItems: "center",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
+                </span>
+                <span
+                  style={{
+                    position: "absolute",
+                    right: -7.5,
+                    top: -7.5,
+                    width: 15,
+                    height: 15,
+                    background: "#FFFFFF",
+                    display: "grid",
+                    placeItems: "center",
+                    pointerEvents: "none",
+                  }}
+                >
+                  <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
+                </span>
+              </>
+            )}
+
+            <div className="service-row-surface">
+              <span className="service-num-large">{sv.no}</span>
+
+              <div className="service-row-main">
+                <h3
+                  style={{
+                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontWeight: 700,
+                    fontSize: 29,
+                    letterSpacing: "-0.025em",
+                    margin: 0,
+                    color: "inherit",
+                    textWrap: "balance",
+                  }}
+                >
+                  {sv.title}
+                </h3>
+                <p className="service-row-body" style={{ margin: 0, fontSize: 14, lineHeight: 1.5, color: "#55585C", maxWidth: "100%" }}>
+                  {sv.body}
+                </p>
+              </div>
+
+              <svg
+                className="service-arrow"
+                width="12"
+                height="14"
+                viewBox="0 0 12 14"
+                fill="none"
+                aria-hidden="true"
+              >
+                <path d="M4 3 8 7 4 11" stroke="#193DAA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </div>
           </a>
         ))}
-        <div style={{ position: "relative", borderTop: "1px solid #E2E0DA" }}>
-          <span
-            style={{
-              position: "absolute",
-              left: -7.5,
-              top: -7.5,
-              width: 15,
-              height: 15,
-              background: "#FFFFFF",
-              display: "grid",
-              placeItems: "center",
-              pointerEvents: "none",
-            }}
-          >
-            <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-          </span>
-          <span
-            style={{
-              position: "absolute",
-              right: -7.5,
-              top: -7.5,
-              width: 15,
-              height: 15,
-              background: "#FFFFFF",
-              display: "grid",
-              placeItems: "center",
-              pointerEvents: "none",
-            }}
-          >
-            <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-          </span>
-        </div>
       </div>
 
       <CornerDots />

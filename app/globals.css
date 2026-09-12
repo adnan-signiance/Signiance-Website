@@ -1,3 +1,21 @@
+/* Fluid layout scale. Spacing and display type interpolate continuously with
+   the viewport instead of stepping at breakpoints, so the layout holds at any
+   width rather than only at the sizes we happened to test. Breakpoints below
+   are reserved for structural changes only — column counts, stacking, and the
+   nav collapse — which genuinely can't be expressed as a fluid value. */
+:root {
+  --pad-x: clamp(18px, 4.2vw, 28px);
+  --section-pt: clamp(38px, 5.4vw, 58px);
+  --section-pb: clamp(40px, 5.6vw, 60px);
+  --bleed: calc(var(--pad-x) * -1);
+
+  --fs-h1: clamp(31px, 5.4vw, 56px);
+  --fs-h2: clamp(26px, 4vw, 42px);
+  --fs-h2-sm: clamp(25px, 3.6vw, 40px);
+  --fs-lead: clamp(15px, 1.5vw, 18px);
+  --fs-quote: clamp(19px, 2.2vw, 27px);
+}
+
 html,
 body {
   margin: 0;
@@ -11,6 +29,11 @@ body {
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+img,
+svg {
+  max-width: 100%;
 }
 
 a {
@@ -38,59 +61,128 @@ a {
   }
 }
 
-/* Nav dropdowns */
-.nav-drop-wrap {
+/* Nav pill — the hoverable hit-area around each top-level nav entry,
+   shared by dropdown triggers and plain links so both get the same
+   "slight theme coloured background" on hover. */
+.nav-pill {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 4px;
+  padding: 6px 7px;
+  border-radius: 7px;
+  background: transparent;
+  transition: background 0.4s ease;
 }
 
+.nav-pill:hover {
+  background: #eef2fb;
+}
+
+.nav-pill.is-open {
+  background: #eef2fb;
+}
+
+/* Single shared dropdown panel — its position/width are set inline by JS
+   per active menu, so switching directly from one nav item to another
+   slides the panel across instead of closing and reopening. */
 .nav-drop {
+  position: absolute;
+  background: #ffffff;
+  border: 1px solid #e2e0da;
+  border-radius: 4px;
+  padding: 0;
+  box-shadow: none;
+  overflow: hidden;
   opacity: 0;
   visibility: hidden;
   transform-origin: top;
   transform: scaleY(0.7);
   transition:
-    opacity 0.22s ease,
-    transform 0.26s cubic-bezier(0.22, 0.9, 0.24, 1),
-    visibility 0s;
+    left 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
+    width 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
+    opacity 0.45s ease,
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
+    visibility 0s linear 0.45s;
 }
 
-.nav-drop-wrap:hover .nav-drop {
+.nav-drop.is-open {
   opacity: 1;
   visibility: visible;
   transform: scaleY(1);
+  transition:
+    left 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
+    width 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
+    opacity 0.45s ease,
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
+    visibility 0s;
+}
+
+@keyframes navDropContentIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.nav-drop-content {
+  animation: navDropContentIn 0.4s ease;
 }
 
 .nav-chevron {
-  transition: transform 0.22s ease;
+  transition: transform 0.4s ease;
 }
 
-.nav-drop-wrap:hover .nav-chevron {
+.nav-chevron.is-open {
   transform: rotate(180deg);
 }
 
-.nav-drop-wrap:hover .nav-chevron path {
+.nav-chevron.is-open path {
   stroke: #193daa;
 }
 
 .nav-drop-item {
-  display: block;
-  padding: 10px 12px;
-  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 5px 14px;
+  font-size: 15px;
   color: #22252a;
   text-decoration: none;
-  transition: background 0.15s ease;
-  border-bottom: 1px solid #e2e0da;
-}
-
-.nav-drop-item:last-child {
-  border-bottom: none;
+  white-space: nowrap;
+  border-radius: 0;
+  transition: background 0.25s ease, color 0.25s ease;
 }
 
 .nav-drop-item:hover {
-  background: #eef2fb;
+  background: linear-gradient(90deg, #152f85 0%, #193daa 45%, #4f6fdb 78%, #ffffff 100%);
+  color: #ffffff;
+  text-shadow: 0 0 5px rgba(10, 24, 80, 0.55), 0 1px 2px rgba(10, 24, 80, 0.45);
+}
+
+.drop-item-arrow {
+  order: 2;
+  flex: 0 0 auto;
+  width: 0;
+  margin-left: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: width 0.25s ease, margin-left 0.25s ease, opacity 0.2s ease;
+}
+
+.nav-drop-item:hover .drop-item-arrow {
+  order: -1;
+  width: 10px;
+  margin-left: 0;
+  margin-right: 8px;
+  opacity: 1;
+}
+
+.nav-drop-item:hover .drop-item-arrow path {
+  stroke: #ffffff;
 }
 
 /* Nav link slide-up hover effect */
@@ -103,33 +195,101 @@ a {
 
 .nav-link-inner {
   display: block;
-  transition: transform 0.42s cubic-bezier(0.22, 0.9, 0.24, 1);
+  transition: transform 0.65s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 
-.nav-link:hover .nav-link-inner {
+.nav-pill:hover .nav-link-inner {
   transform: translateY(-19px);
 }
 
 /* Buttons */
 .btn-primary {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
   font-size: 13px;
   font-weight: 500;
   color: #ffffff;
   background: #193daa;
-  padding: 8px 15px;
-  border-radius: 4px;
+  padding: 8px 16px;
+  border-radius: 999px;
   white-space: nowrap;
-  transition: background 0.2s ease;
   border: none;
   cursor: pointer;
+  overflow: hidden;
 }
 
-.btn-primary:hover {
-  background: #152f85;
-  color: #ffffff;
+.btn-primary-label {
+  position: relative;
+}
+
+/* Arrow that sits before the text — hidden at rest, slides in from the left on hover */
+.btn-primary-arrow-in {
+  display: inline-flex;
+  align-items: center;
+  width: 0;
+  margin-right: 0;
+  opacity: 0;
+  overflow: hidden;
+  transform: translateX(-10px);
+  transition:
+    width 0.35s ease,
+    margin-right 0.35s ease,
+    opacity 0.3s ease,
+    transform 0.35s ease;
+}
+
+.btn-primary:hover .btn-primary-arrow-in {
+  width: 10px;
+  margin-right: 8px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Arrow that sits after the text — visible at rest, slides out to the right on hover */
+.btn-primary-arrow-out {
+  display: inline-flex;
+  align-items: center;
+  width: 10px;
+  margin-left: 8px;
+  opacity: 1;
+  overflow: hidden;
+  transform: translateX(0);
+  transition:
+    width 0.35s ease,
+    margin-left 0.35s ease,
+    opacity 0.3s ease,
+    transform 0.35s ease;
+}
+
+.btn-primary:hover .btn-primary-arrow-out {
+  width: 0;
+  margin-left: 0;
+  opacity: 0;
+  transform: translateX(10px);
+}
+
+/* Icon-only round CTA — pinned to a card's bottom-right corner */
+.btn-icon {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #193daa;
+  transition:
+    background-color 0.25s ease,
+    transform 0.25s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.btn-icon:hover {
+  background-color: #152f85;
+  transform: scale(1.08);
 }
 
 .btn-hero-primary {
@@ -139,8 +299,8 @@ a {
   font-weight: 500;
   color: #ffffff;
   background: #193daa;
-  padding: 11px 20px;
-  border-radius: 5px;
+  padding: 11px 22px;
+  border-radius: 999px;
   white-space: nowrap;
   transition: background 0.2s ease;
 }
@@ -156,7 +316,7 @@ a {
   color: #131417;
   background: #ffffff;
   border: 1px solid #b5b1a7;
-  padding: 11px 20px;
+  padding: 11px 22px;
   border-radius: 999px;
   white-space: nowrap;
   transition: border-color 0.2s ease;
@@ -190,78 +350,113 @@ a {
   opacity: 1;
 }
 
-/* Services list rows */
+/* Services list rows — the row is a normal block whose own height grows on
+   hover (anchored at the top, extending downward), so it pushes the rows
+   below it down through ordinary document flow rather than overlapping them. */
 .service-row {
   position: relative;
-  display: grid;
-  grid-template-columns: 44px minmax(220px, 340px) 1fr 24px;
-  align-items: center;
-  column-gap: 24px;
-  padding: 34px 28px;
-  margin: 0 -28px;
+  display: block;
+  height: 140px;
+  margin: 0 var(--bleed);
   border-top: 1px solid #e2e0da;
   text-decoration: none;
   color: #131417;
-  transition:
-    padding-top 0.3s cubic-bezier(0.22, 0.9, 0.24, 1),
-    padding-bottom 0.3s cubic-bezier(0.22, 0.9, 0.24, 1),
-    color 0.25s ease,
-    background 0.25s ease;
+  transition: height 0.9s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 
 .service-row:hover {
-  padding-top: 50px;
-  padding-bottom: 50px;
-  color: #193daa;
+  height: 280px;
+}
+
+.service-row-surface {
+  position: relative;
+  height: 100%;
+  padding: 0 var(--pad-x);
+  overflow: hidden;
+  transition: background 0.6s ease;
+}
+
+.service-row:hover .service-row-surface {
   background: #f9f8f5;
 }
 
+/* Number and heading share the same left edge (28px) and both animate along
+   the vertical axis only, so on hover they read as a simple top/bottom stack
+   instead of the rest state's side-by-side row. Both use a plain fixed-pixel
+   `top` for both states (no percentages, no translateY centering trick) so
+   the motion is a single clean interpolation, independent of the row's own
+   height animation running at the same time — mixing a %-based position
+   with an animating container height was the source of the janky motion. */
+.service-num-large {
+  position: absolute;
+  left: var(--pad-x);
+  top: 44px;
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 600;
+  font-size: clamp(38px, 4vw, 52px);
+  letter-spacing: -0.03em;
+  color: #c7cee6;
+  line-height: 1;
+  transition:
+    color 0.7s ease,
+    top 0.9s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.service-row:hover .service-num-large {
+  color: #193daa;
+  top: 28px;
+}
+
+.service-row-main {
+  position: absolute;
+  left: calc(var(--pad-x) + 84px);
+  right: 60px;
+  top: 39px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  gap: 6px;
+  transition:
+    left 0.9s cubic-bezier(0.22, 0.9, 0.24, 1),
+    top 0.9s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.service-row:hover .service-row-main {
+  left: var(--pad-x);
+  top: 208px;
+}
+
+.service-row-body {
+  opacity: 1;
+  max-height: 40px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  transition: opacity 0.5s ease, max-height 0.5s ease;
+}
+
+.service-row:hover .service-row-body {
+  opacity: 0;
+  max-height: 0;
+}
+
 .service-arrow {
-  justify-self: end;
-  transition: transform 0.25s ease;
+  position: absolute;
+  right: var(--pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s ease;
 }
 
 .service-row:hover .service-arrow {
-  transform: translateX(4px);
+  transform: translateY(-50%) translateX(4px);
 }
 
-/* Engagement cards */
-.engagement-card {
-  padding: 26px;
-  border: 1px solid #d6d3cb;
-  border-radius: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  transition:
-    transform 0.3s cubic-bezier(0.22, 0.9, 0.24, 1),
-    border-color 0.3s ease,
-    box-shadow 0.3s ease;
-}
-
-.engagement-card:hover {
-  border-color: #131417;
-  box-shadow: 0 14px 40px rgba(19, 20, 23, 0.07);
-  transform: translateY(-2px);
-}
-
-.engagement-cta {
-  flex: 0 0 auto;
-  margin-top: auto;
-  padding-top: 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 13px;
-  font-weight: 500;
-  white-space: nowrap;
-  color: #131417;
-  transition: color 0.2s ease;
-}
-
-.engagement-cta:hover {
-  color: #193daa;
-}
+/* Engagements — plain columns submerged into the section, divided by the
+   site's shared border-and-dot pattern instead of boxed cards. CTAs reuse
+   the shared .btn-primary pill; badges reuse the SectionEyebrow gradient
+   treatment (see inline styles in Engagements.tsx). */
 
 /* Footer links */
 .footer-link {
@@ -304,8 +499,8 @@ a {
   color: #ffffff;
   background: #193daa;
   border: none;
-  padding: 11px 22px;
-  border-radius: 5px;
+  padding: 11px 24px;
+  border-radius: 999px;
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.2s ease;
@@ -342,4 +537,642 @@ a {
 
 .corner-dot-right {
   right: -7.5px;
+}
+
+/* Services page — image zoom on row hover */
+.svc-img {
+  transition: transform 0.5s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.svc-row:hover .svc-img {
+  transform: scale(1.04);
+}
+
+/* Case studies page — card lift + image zoom on hover */
+.cs-card {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.cs-card:hover {
+  border-color: #b5b1a7;
+  box-shadow: 0 18px 44px rgba(19, 20, 23, 0.08);
+  transform: translateY(-2px);
+}
+
+.cs-img {
+  transition: transform 0.5s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.cs-card:hover .cs-img {
+  transform: scale(1.04);
+}
+
+/* How we work — a simple, aesthetic vertical timeline that reads as a
+   journey: a soft rail with small dots that deepen in color from step to
+   step (light to navy), plain content beside it with a hairline divider
+   between stops instead of boxed cards. Each row's marker column stretches
+   (flex default) to the row's own content height, so the rail segment
+   inside it always reaches the next dot with no gaps, regardless of how
+   long each step's copy runs. Rows reveal in (fade + rise) as they scroll
+   into view, staggered via the .reveal / .is-visible pair toggled by an
+   IntersectionObserver in HowWeWork.tsx. */
+.vtimeline {
+  margin-top: 12px;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.vtimeline-row {
+  position: relative;
+  display: flex;
+  gap: 26px;
+}
+
+.vtimeline-node-col {
+  position: relative;
+  flex: 0 0 16px;
+  padding-top: 7px;
+}
+
+.vtimeline-node-col::after {
+  content: "";
+  position: absolute;
+  top: 24px;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  transform: translateX(-50%);
+  background: #e2e0da;
+}
+
+.vtimeline-row:last-child .vtimeline-node-col::after {
+  display: none;
+}
+
+.vtimeline-marker {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--marker-color, #193daa);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--marker-color, #193daa) 14%, transparent);
+  transition: transform 0.3s cubic-bezier(0.22, 0.9, 0.24, 1), box-shadow 0.3s ease;
+}
+
+.vtimeline-row:hover .vtimeline-marker {
+  transform: scale(1.3);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--marker-color, #193daa) 18%, transparent);
+}
+
+.vtimeline-content {
+  flex: 1;
+  min-width: 0;
+  max-width: 620px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid #ede9e0;
+}
+
+.vtimeline-row:last-child .vtimeline-content {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.vtimeline-title {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 600;
+  font-size: 22px;
+  letter-spacing: -0.02em;
+  margin: 10px 0 0;
+  transition: color 0.25s ease;
+}
+
+.vtimeline-row:hover .vtimeline-title {
+  color: #193daa;
+}
+
+.vtimeline-body {
+  margin: 8px 0 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: #43464a;
+  max-width: 520px;
+}
+
+/* Hero — entrance animation + scroll cue */
+@keyframes heroContentIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-content-in {
+  animation: heroContentIn 0.7s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+}
+
+@keyframes scrollCueBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
+.hero-scroll-cue {
+  animation: scrollCueBounce 2.2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Responsive layout
+   Layout-critical properties live here rather than in inline styles, since
+   inline styles can't carry media queries. Anything that only needs to scale
+   (padding, display type) is handled by the fluid custom properties above and
+   stays inline; only structural changes need the breakpoints below.
+   ========================================================================== */
+
+/* Section header: eyebrow + heading on the left, two-line note on the right.
+   The note flips to left-aligned and full-width once it can't sit beside the
+   heading, otherwise it reads as a stray right-aligned fragment. */
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.section-head-main {
+  max-width: 520px;
+}
+
+.section-head-note {
+  max-width: 340px;
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: #43464a;
+  text-align: right;
+}
+
+@media (max-width: 860px) {
+  .section-head {
+    gap: 14px;
+  }
+
+  .section-head-note {
+    max-width: 100%;
+    text-align: left;
+  }
+}
+
+/* Grids ------------------------------------------------------------------ */
+.grid-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+@media (max-width: 900px) {
+  .grid-metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 26px 20px;
+  }
+}
+
+@media (max-width: 460px) {
+  .grid-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-engagements {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.engagement-col {
+  position: relative;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border-left: 1px solid #d6d3cb;
+}
+
+.engagement-col:first-child {
+  border-left: none;
+}
+
+/* Stacked, the divider has to move from the left edge to the top edge, and
+   the corner dots that mark the divider's ends move with it. */
+@media (max-width: 900px) {
+  .grid-engagements {
+    grid-template-columns: 1fr;
+  }
+
+  .engagement-col {
+    border-left: none;
+    border-top: 1px solid #d6d3cb;
+    padding: 26px 0;
+  }
+
+  .engagement-col:first-child {
+    border-top: none;
+    padding-top: 4px;
+  }
+
+  .engagement-col-dot {
+    top: -7.5px;
+    bottom: auto;
+  }
+
+  .engagement-col-dot-start {
+    left: -7.5px;
+  }
+
+  .engagement-col-dot-end {
+    left: auto;
+    right: -7.5px;
+  }
+}
+
+.grid-footer {
+  display: grid;
+  grid-template-columns: 1.4fr repeat(3, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 820px) {
+  .grid-footer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+}
+
+@media (max-width: 460px) {
+  .grid-footer {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.grid-cs-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 820px) {
+  .grid-cs-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-cs-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 820px) {
+  .grid-cs-metrics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 420px) {
+  .grid-cs-metrics {
+    grid-template-columns: 1fr;
+  }
+}
+
+.grid-svc-detail {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 44px;
+  align-items: center;
+}
+
+@media (max-width: 880px) {
+  .grid-svc-detail {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  /* Rows alternate image left/right on desktop; stacked, that alternation
+     just makes the scan rhythm inconsistent, so pin the image on top. */
+  .grid-svc-detail > * {
+    order: 0 !important;
+  }
+}
+
+/* Case studies feature grid: a 12-column bento on desktop, single file once
+   there isn't room for two meaningful columns. */
+.grid-case {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  border-top: 1px solid #d6d3cb;
+  border-left: 1px solid #d6d3cb;
+}
+
+.case-cell-7 {
+  grid-column: span 7;
+}
+
+.case-cell-5 {
+  grid-column: span 5;
+}
+
+@media (max-width: 900px) {
+  .grid-case {
+    grid-template-columns: 1fr;
+  }
+
+  .case-cell-7,
+  .case-cell-5 {
+    grid-column: span 1;
+  }
+
+  /* The split image/text cell stacks too. */
+  .case-cell-split {
+    grid-template-columns: 1fr !important;
+  }
+
+  .case-cell-split > div:first-child {
+    padding: 18px 18px 0 18px !important;
+  }
+}
+
+/* Testimonials: avatar reel beside the quote, stacked underneath it once the
+   quote column gets too narrow to read. */
+.grid-testimonial {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 54px;
+  align-items: center;
+}
+
+/* The avatars inside the reel are absolutely positioned and centred on the
+   reel's own midline, so the reel needs a width of its own — as a grid track
+   it gets one, but stacked it would collapse to zero and drag them off-edge. */
+.testimonial-reel {
+  width: 100%;
+}
+
+@media (max-width: 820px) {
+  .grid-testimonial {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  /* The reel's slot geometry is computed in JS against a 300px box, so rather
+     than changing its height (which would move the clipping edge and cut the
+     bottom avatar) it's scaled down and the leftover space is pulled back. */
+  .testimonial-reel {
+    width: 200px;
+    transform: scale(0.82);
+    transform-origin: top left;
+    margin-bottom: -54px;
+  }
+}
+
+/* Services rows ---------------------------------------------------------- */
+/* The desktop row is an absolutely-positioned hover stage: it doubles in
+   height and the number/heading re-stack. None of that applies without a
+   hover pointer, and the fixed offsets don't survive narrow widths, so below
+   this width the row reverts to plain static flow. */
+@media (max-width: 860px) {
+  .service-row,
+  .service-row:hover {
+    height: auto;
+  }
+
+  .service-row-surface {
+    padding: 20px var(--pad-x);
+  }
+
+  .service-row:hover .service-row-surface {
+    background: transparent;
+  }
+
+  .service-num-large,
+  .service-row:hover .service-num-large,
+  .service-row-main,
+  .service-row:hover .service-row-main {
+    position: static;
+    left: auto;
+    right: auto;
+    top: auto;
+  }
+
+  .service-num-large {
+    font-size: 30px;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .service-row-main {
+    padding-right: 26px;
+  }
+
+  .service-row-body,
+  .service-row:hover .service-row-body {
+    opacity: 1;
+    max-height: none;
+    white-space: normal;
+  }
+
+  .service-arrow {
+    top: 24px;
+    transform: none;
+  }
+
+  .service-row:hover .service-arrow {
+    transform: translateX(3px);
+  }
+}
+
+/* Header ----------------------------------------------------------------- */
+.nav-desktop {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-desktop-links {
+  display: flex;
+}
+
+.nav-toggle {
+  display: none;
+  width: 40px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e2e0da;
+  border-radius: 8px;
+  background: #ffffff;
+  cursor: pointer;
+  padding: 0;
+}
+
+.nav-toggle-bar {
+  display: block;
+  width: 16px;
+  height: 1.5px;
+  background: #131417;
+  border-radius: 2px;
+  transition: transform 0.28s ease, opacity 0.2s ease;
+}
+
+.nav-toggle-bar + .nav-toggle-bar {
+  margin-top: 4px;
+}
+
+.nav-toggle.is-open .nav-toggle-bar:nth-child(1) {
+  transform: translateY(5.5px) rotate(45deg);
+}
+
+.nav-toggle.is-open .nav-toggle-bar:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.is-open .nav-toggle-bar:nth-child(3) {
+  transform: translateY(-5.5px) rotate(-45deg);
+}
+
+.nav-mobile {
+  display: none;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px var(--pad-x) 18px;
+  border-top: 1px solid #e2e0da;
+  background: rgba(255, 255, 255, 0.97);
+  backdrop-filter: blur(16px);
+}
+
+.nav-mobile.is-open {
+  display: flex;
+}
+
+.nav-mobile-link {
+  padding: 13px 2px;
+  font-size: 16px;
+  color: #131417;
+  border-bottom: 1px solid #f0efea;
+}
+
+.nav-mobile-group {
+  padding: 14px 2px 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8b8e86;
+}
+
+.nav-mobile-sub {
+  padding: 10px 2px 10px 14px;
+  font-size: 14.5px;
+  color: #43464a;
+  border-bottom: 1px solid #f0efea;
+}
+
+.nav-mobile-cta {
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+@media (max-width: 1080px) {
+  .nav-desktop-links {
+    display: none;
+  }
+
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .header-cta-desktop {
+    display: none;
+  }
+}
+
+/* Hero ------------------------------------------------------------------- */
+/* The art sits behind the copy and is legible because a left-to-right white
+   wash sits on top of it. At narrow widths the copy spans the full column, so
+   the wash has to cover the whole frame instead of fading out at 72%. */
+@media (max-width: 820px) {
+  .hero-wash {
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.94) 0%,
+      rgba(255, 255, 255, 0.88) 45%,
+      rgba(255, 255, 255, 0.82) 100%
+    ) !important;
+  }
+
+  /* Beats the inline display on the element itself. */
+  .hero-scroll-cue {
+    display: none !important;
+  }
+}
+
+/* The badge's second half is a nice-to-have; below this the pill would
+   otherwise run past the viewport edge. */
+@media (max-width: 520px) {
+  .hero-badge-aside {
+    display: none !important;
+  }
+}
+
+/* Contact ---------------------------------------------------------------- */
+@media (max-width: 520px) {
+  .email-input {
+    width: 100%;
+  }
+
+  .book-call-btn {
+    width: 100%;
+  }
+}
+
+/* Respect a reduced-motion preference: keep the layout and the reveal end
+   state, drop the movement. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
 }

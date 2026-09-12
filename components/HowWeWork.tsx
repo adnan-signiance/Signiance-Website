@@ -1,128 +1,95 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import CornerDots from "./CornerDots";
-import { credentials, steps } from "@/lib/data";
+import SectionEyebrow from "./SectionEyebrow";
+import { steps } from "@/lib/data";
+
+const markerColors = ["#9DB8EE", "#5C81DF", "#2C55C4", "#132C7A"];
 
 export default function HowWeWork() {
+  const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const [visible, setVisible] = useState<boolean[]>(() => steps.map(() => false));
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          const idx = Number((entry.target as HTMLElement).dataset.index);
+          setVisible((prev) => {
+            if (prev[idx]) return prev;
+            const next = [...prev];
+            next[idx] = true;
+            return next;
+          });
+          observer.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.25, rootMargin: "0px 0px -60px 0px" }
+    );
+    rowRefs.current.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
       id="work"
       style={{
         position: "relative",
         borderBottom: "1px solid #E2E0DA",
-        padding: "58px 28px 60px",
-        display: "grid",
-        gridTemplateColumns: "0.92fr 1.08fr",
-        gap: 56,
+        padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
-      <div>
-        <div style={{ marginBottom: 18 }}>
-          <span
+      <div className="section-head">
+        <div className="section-head-main">
+          <div style={{ marginBottom: 18 }}>
+            <SectionEyebrow>How we work</SectionEyebrow>
+          </div>
+          <h2
             style={{
-              fontSize: 11,
-              fontWeight: 500,
-              letterSpacing: "0.17em",
-              textTransform: "uppercase",
-              color: "#64676B",
-              whiteSpace: "nowrap",
+              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontWeight: 600,
+              fontSize: "var(--fs-h2)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.038em",
+              margin: 0,
+              textWrap: "balance",
             }}
           >
-            How we work
-          </span>
+            Senior people on your problem, from week one
+          </h2>
         </div>
-        <h2
-          style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
-            fontWeight: 600,
-            fontSize: 38,
-            lineHeight: 1.05,
-            letterSpacing: "-0.038em",
-            margin: 0,
-            textWrap: "balance",
-          }}
-        >
-          Senior people on your problem, from week one
-        </h2>
-        <p style={{ margin: "14px 0 0", fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
-          No pyramid staffing. The people in the scoping call are the people who build — and their job is to
-          make themselves unnecessary.
+        <p className="section-head-note">
+          No pyramid staffing.
+          <br />
+          The people who scope it also build it.
         </p>
-        <div style={{ display: "flex", gap: 26, marginTop: 26, flexWrap: "wrap" }}>
-          {credentials.map((cr) => (
-            <div key={cr.label}>
-              <div
-                style={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontWeight: 600,
-                  fontSize: 22,
-                  letterSpacing: "-0.03em",
-                }}
-              >
-                {cr.value}
-              </div>
-              <div style={{ fontSize: 12, color: "#64676B", marginTop: 4, whiteSpace: "nowrap" }}>
-                {cr.label}
-              </div>
-            </div>
-          ))}
-        </div>
       </div>
 
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          gap: 26,
-          background: "linear-gradient(#C7CEE6, #C7CEE6) no-repeat 13.5px 14px / 1px calc(100% - 40px)",
-        }}
-      >
-        {steps.map((st) => (
+      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+
+      <div className="vtimeline" style={{ marginTop: 40 }}>
+        {steps.map((st, i) => (
           <div
             key={st.n}
-            style={{ flex: "0 0 auto", display: "grid", gridTemplateColumns: "28px 82px 1fr", gap: 14 }}
+            ref={(el) => {
+              rowRefs.current[i] = el;
+            }}
+            data-index={i}
+            className={`vtimeline-row reveal${visible[i] ? " is-visible" : ""}`}
+            style={{ transitionDelay: `${i * 90}ms` }}
           >
-            <span
-              style={{
-                width: 28,
-                height: 28,
-                borderRadius: "50%",
-                border: "1px solid #A9B8E4",
-                background: "#FFFFFF",
-                display: "grid",
-                placeItems: "center",
-                fontFamily: "ui-monospace, monospace",
-                fontSize: 11,
-                color: "#193DAA",
-                zIndex: 1,
-              }}
-            >
-              {st.n}
-            </span>
-            <span
-              style={{
-                fontFamily: "ui-monospace, monospace",
-                fontSize: 11,
-                color: "#6A6D71",
-                whiteSpace: "nowrap",
-                paddingTop: 8,
-              }}
-            >
-              {st.week}
-            </span>
-            <div>
-              <h3
-                style={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontWeight: 600,
-                  fontSize: 19,
-                  letterSpacing: "-0.02em",
-                  margin: "0 0 6px",
-                }}
-              >
-                {st.title}
-              </h3>
-              <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "#43464A", textWrap: "pretty" }}>
-                {st.body}
-              </p>
+            <div className="vtimeline-node-col">
+              <span
+                className="vtimeline-marker"
+                style={{ "--marker-color": markerColors[i % markerColors.length] } as React.CSSProperties}
+              />
+            </div>
+            <div className="vtimeline-content">
+              <SectionEyebrow>{st.week}</SectionEyebrow>
+              <h3 className="vtimeline-title">{st.title}</h3>
+              <p className="vtimeline-body">{st.body}</p>
             </div>
           </div>
         ))}

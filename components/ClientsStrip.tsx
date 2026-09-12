@@ -1,4 +1,5 @@
 import CornerDots from "./CornerDots";
+import SectionEyebrow from "./SectionEyebrow";
 import { clients } from "@/lib/data";
 
 export default function ClientsStrip() {
@@ -7,31 +8,21 @@ export default function ClientsStrip() {
       style={{
         position: "relative",
         borderBottom: "1px solid #E2E0DA",
-        padding: "26px 28px 28px",
+        padding: "26px var(--pad-x) 28px",
       }}
     >
       <p style={{ margin: "0 0 22px" }}>
-        <span
-          style={{
-            display: "inline-flex",
-            alignItems: "center",
-            fontFamily: "Geist, sans-serif",
-            fontSize: 11,
-            fontWeight: 500,
-            letterSpacing: "0.01em",
-            textTransform: "uppercase",
-            color: "#FFFFFF",
-            background:
-              "linear-gradient(90deg, #193DAA 0%, #193DAA 45%, #FFFFFF 82%, #FFFFFF 100%)",
-            borderRadius: 3,
-            padding: "5px 10px",
-            whiteSpace: "nowrap",
-          }}
-        >
-          Our teams have delivered inside
-        </span>
+        <SectionEyebrow>Our teams have delivered inside</SectionEyebrow>
       </p>
-      <div style={{ display: "flex", alignItems: "center", gap: 52, flexWrap: "wrap" }}>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: "clamp(26px, 4.5vw, 52px)",
+          rowGap: 26,
+          flexWrap: "wrap",
+        }}
+      >
         {clients.map((c) => (
           // eslint-disable-next-line @next/next/no-img-element
           <img

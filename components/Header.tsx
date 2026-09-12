@@ -1,10 +1,55 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { brand, services, models } from "@/lib/data";
+import CornerDots from "./CornerDots";
+
+type MenuName = "services" | "engagements";
+
+const ArrowIcon = () => (
+  <svg
+    className="drop-item-arrow"
+    width="10"
+    height="12"
+    viewBox="0 0 10 12"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path d="M3 2.5 7 6 3 9.5" stroke="#193DAA" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const Chevron = ({ open }: { open: boolean }) => (
+  <svg
+    className={`nav-chevron${open ? " is-open" : ""}`}
+    width="9"
+    height="9"
+    viewBox="0 0 10 10"
+    fill="none"
+    aria-hidden="true"
+  >
+    <path d="M2 3.5 5 6.5 8 3.5" stroke="#8B8E86" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const MENU_WIDTH: Record<MenuName, number> = { services: 236, engagements: 210 };
 
 export default function Header() {
+  const pathname = usePathname();
+  const isServicesPage = pathname.startsWith("/services");
+  const isCaseStudiesPage = pathname.startsWith("/case-studies");
+
   const [scrolled, setScrolled] = useState(false);
+  const [activeMenu, setActiveMenu] = useState<MenuName | null>(null);
+  const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  const navRef = useRef<HTMLElement>(null);
+  const servicesTriggerRef = useRef<HTMLSpanElement>(null);
+  const engagementsTriggerRef = useRef<HTMLSpanElement>(null);
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 16);
@@ -13,6 +58,48 @@ export default function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  useEffect(() => () => clearTimeout(closeTimer.current), []);
+
+  // Close the drawer on navigation, and whenever the viewport grows back past
+  // the breakpoint — otherwise it stays mounted but hidden, and reappears the
+  // next time the window narrows.
+  useEffect(() => setMobileOpen(false), [pathname]);
+
+  useEffect(() => {
+    const onResize = () => {
+      if (window.innerWidth > 1080) setMobileOpen(false);
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  const triggerRefs: Record<MenuName, React.RefObject<HTMLSpanElement | null>> = {
+    services: servicesTriggerRef,
+    engagements: engagementsTriggerRef,
+  };
+
+  const openMenu = (name: MenuName) => {
+    clearTimeout(closeTimer.current);
+    const navEl = navRef.current;
+    const triggerEl = triggerRefs[name].current;
+    if (navEl && triggerEl) {
+      const navRect = navEl.getBoundingClientRect();
+      const triggerRect = triggerEl.getBoundingClientRect();
+      setMenuPos({
+        left: triggerRect.left - navRect.left - 14,
+        top: triggerRect.bottom - navRect.top + 10,
+      });
+    }
+    setActiveMenu(name);
+  };
+
+  const scheduleClose = () => {
+    clearTimeout(closeTimer.current);
+    closeTimer.current = setTimeout(() => setActiveMenu(null), 260);
+  };
+
+  const keepOpen = () => clearTimeout(closeTimer.current);
+
   return (
     <header
       style={{
@@ -20,6 +107,7 @@ export default function Header() {
         top: 0,
         zIndex: 40,
         padding: scrolled ? "10px 0" : "0",
+        borderBottom: "1px solid #E2E0DA",
         transition: "padding .28s ease",
       }}
     >
@@ -27,7 +115,7 @@ export default function Header() {
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          padding: "0 28px",
+          padding: "0 var(--pad-x)",
           height: 62,
           display: "flex",
           alignItems: "center",
@@ -43,224 +131,191 @@ export default function Header() {
             "background .28s ease, border-color .28s ease, box-shadow .28s ease, backdrop-filter .28s ease",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 30 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 9 }}>
-            <div
-              style={{
-                width: 19,
-                height: 19,
-                borderRadius: 5,
-                background: "#131417",
-                display: "grid",
-                placeItems: "center",
-              }}
-            >
-              <div
-                style={{
-                  width: 7,
-                  height: 7,
-                  borderRadius: 1,
-                  background: "#193DAA",
-                }}
-              />
-            </div>
-            <span
-              style={{
-                fontFamily: "'Bricolage Grotesque', Geist, sans-serif",
-                fontWeight: 600,
-                fontSize: 16,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {brand}
-            </span>
-          </div>
+        <div className="nav-desktop">
+          <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/media/signiance-dark.jpg"
+              alt={brand}
+              style={{ display: "block", height: 26, width: "auto" }}
+            />
+          </Link>
 
           <nav
+            ref={navRef}
+            className="nav-desktop-links"
             style={{
-              display: "flex",
+              position: "relative",
               alignItems: "center",
-              gap: 26,
-              fontSize: 13,
+              gap: 16,
+              fontSize: 14.5,
               color: "#55585C",
             }}
           >
-            <span className="nav-drop-wrap">
-              <a href="#services" className="nav-link">
-                <span className="nav-link-inner">
-                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>
-                    Services
-                  </span>
-                  <span
-                    style={{
-                      display: "block",
-                      height: 19,
-                      lineHeight: "19px",
-                      color: "#193DAA",
-                    }}
-                  >
-                    Services
-                  </span>
-                </span>
-              </a>
-              <svg
-                className="nav-chevron"
-                width="9"
-                height="9"
-                viewBox="0 0 10 10"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2 3.5 5 6.5 8 3.5"
-                  stroke="#8B8E86"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <div
-                className="nav-drop"
-                style={{
-                  position: "absolute",
-                  top: 32,
-                  left: -14,
-                  minWidth: 250,
-                  background: "#FFFFFF",
-                  border: "1px solid #E2E0DA",
-                  borderRadius: 6,
-                  padding: 4,
-                  zIndex: 50,
-                }}
-              >
-                {services.map((sv) => (
-                  <a
-                    key={sv.no}
-                    href="#services"
-                    className="nav-drop-item"
-                  >
-                    {sv.title}
-                  </a>
-                ))}
-              </div>
-            </span>
-
-            <span className="nav-drop-wrap">
-              <a href="#engage" className="nav-link">
-                <span className="nav-link-inner">
-                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>
-                    Engagements
-                  </span>
-                  <span
-                    style={{
-                      display: "block",
-                      height: 19,
-                      lineHeight: "19px",
-                      color: "#193DAA",
-                    }}
-                  >
-                    Engagements
-                  </span>
-                </span>
-              </a>
-              <svg
-                className="nav-chevron"
-                width="9"
-                height="9"
-                viewBox="0 0 10 10"
-                fill="none"
-                aria-hidden="true"
-              >
-                <path
-                  d="M2 3.5 5 6.5 8 3.5"
-                  stroke="#8B8E86"
-                  strokeWidth="1.3"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-              <div
-                className="nav-drop"
-                style={{
-                  position: "absolute",
-                  top: 32,
-                  left: -14,
-                  minWidth: 220,
-                  background: "#FFFFFF",
-                  border: "1px solid #E2E0DA",
-                  borderRadius: 6,
-                  padding: 4,
-                  zIndex: 50,
-                }}
-              >
-                {models.map((m) => (
-                  <a key={m.name} href="#engage" className="nav-drop-item">
-                    {m.name}
-                  </a>
-                ))}
-              </div>
-            </span>
-
-            <a href="#proof" className="nav-link">
-              <span className="nav-link-inner">
-                <span style={{ display: "block", height: 19, lineHeight: "19px" }}>
-                  Proof
-                </span>
-                <span
-                  style={{
-                    display: "block",
-                    height: 19,
-                    lineHeight: "19px",
-                    color: "#193DAA",
-                  }}
-                >
-                  Proof
-                </span>
-              </span>
-            </a>
-
-            <a
-              href="#work"
-              className="nav-link"
-              style={{ whiteSpace: "nowrap" }}
+            <span
+              ref={servicesTriggerRef}
+              className={`nav-pill${activeMenu === "services" ? " is-open" : ""}`}
+              onMouseEnter={() => openMenu("services")}
+              onMouseLeave={scheduleClose}
             >
-              <span className="nav-link-inner">
-                <span style={{ display: "block", height: 19, lineHeight: "19px" }}>
-                  How we work
+              {isServicesPage ? (
+                <span style={{ color: "#193DAA", fontWeight: 500 }}>Services</span>
+              ) : (
+                <Link href="/services" className="nav-link">
+                  <span className="nav-link-inner">
+                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Services</span>
+                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
+                      Services
+                    </span>
+                  </span>
+                </Link>
+              )}
+              <Chevron open={activeMenu === "services"} />
+            </span>
+
+            <span
+              ref={engagementsTriggerRef}
+              className={`nav-pill${activeMenu === "engagements" ? " is-open" : ""}`}
+              onMouseEnter={() => openMenu("engagements")}
+              onMouseLeave={scheduleClose}
+            >
+              <Link href="/#engage" className="nav-link">
+                <span className="nav-link-inner">
+                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Engagements</span>
+                  <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
+                    Engagements
+                  </span>
                 </span>
-                <span
-                  style={{
-                    display: "block",
-                    height: 19,
-                    lineHeight: "19px",
-                    color: "#193DAA",
-                  }}
-                >
-                  How we work
+              </Link>
+              <Chevron open={activeMenu === "engagements"} />
+            </span>
+
+            <span className="nav-pill">
+              {isCaseStudiesPage ? (
+                <span style={{ color: "#193DAA", fontWeight: 500 }}>Proof</span>
+              ) : (
+                <Link href="/case-studies" className="nav-link">
+                  <span className="nav-link-inner">
+                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Proof</span>
+                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
+                      Proof
+                    </span>
+                  </span>
+                </Link>
+              )}
+            </span>
+
+            <span className="nav-pill">
+              <Link href="/#work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
+                <span className="nav-link-inner">
+                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How we work</span>
+                  <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
+                    How we work
+                  </span>
                 </span>
-              </span>
-            </a>
+              </Link>
+            </span>
+
+            <div
+              className={`nav-drop${activeMenu ? " is-open" : ""}`}
+              style={{
+                top: menuPos.top,
+                left: menuPos.left,
+                width: activeMenu ? MENU_WIDTH[activeMenu] : MENU_WIDTH.services,
+                zIndex: 50,
+              }}
+              onMouseEnter={keepOpen}
+              onMouseLeave={scheduleClose}
+            >
+              {activeMenu && (
+                <div key={activeMenu} className="nav-drop-content">
+                  {activeMenu === "services"
+                    ? services.map((sv) => (
+                        <Link key={sv.id} href={`/services#${sv.id}`} className="nav-drop-item">
+                          {sv.navLabel}
+                          <ArrowIcon />
+                        </Link>
+                      ))
+                    : models.map((m) => (
+                        <Link key={m.name} href="/#engage" className="nav-drop-item">
+                          {m.name}
+                          <ArrowIcon />
+                        </Link>
+                      ))}
+                </div>
+              )}
+            </div>
           </nav>
         </div>
 
-        <a href="#contact" className="btn-primary">
-          Book a scoping call
-          <svg
-            width="11"
-            height="11"
-            viewBox="0 0 12 12"
-            fill="none"
-            aria-hidden="true"
-          >
-            <path
-              d="M2 6h8M6.5 2.5 10 6l-3.5 3.5"
-              stroke="#EEF2FB"
-              strokeWidth="1.4"
-              strokeLinecap="round"
-            />
-          </svg>
-        </a>
+        <Link href="/#contact" className="btn-primary header-cta-desktop">
+          <span className="btn-primary-arrow-in">
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="btn-primary-label">Schedule Demo</span>
+          <span className="btn-primary-arrow-out">
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </Link>
+
+        <button
+          type="button"
+          className={`nav-toggle${mobileOpen ? " is-open" : ""}`}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav"
+          onClick={() => setMobileOpen((v) => !v)}
+        >
+          <span className="nav-toggle-bar" />
+          <span className="nav-toggle-bar" />
+          <span className="nav-toggle-bar" />
+        </button>
       </div>
+
+      <div id="mobile-nav" className={`nav-mobile${mobileOpen ? " is-open" : ""}`}>
+        <Link href="/services" className="nav-mobile-link">
+          Services
+        </Link>
+        {services.map((sv) => (
+          <Link key={sv.id} href={`/services#${sv.id}`} className="nav-mobile-sub">
+            {sv.navLabel}
+          </Link>
+        ))}
+
+        <div className="nav-mobile-group">Engagements</div>
+        {models.map((m) => (
+          <Link key={m.name} href="/#engage" className="nav-mobile-sub">
+            {m.name}
+          </Link>
+        ))}
+
+        <Link href="/case-studies" className="nav-mobile-link">
+          Proof
+        </Link>
+        <Link href="/#work" className="nav-mobile-link">
+          How we work
+        </Link>
+
+        <Link href="/#contact" className="btn-primary nav-mobile-cta">
+          <span className="btn-primary-arrow-in">
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+          <span className="btn-primary-label">Schedule Demo</span>
+          <span className="btn-primary-arrow-out">
+            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </span>
+        </Link>
+      </div>
+
+      <CornerDots />
     </header>
   );
 }
