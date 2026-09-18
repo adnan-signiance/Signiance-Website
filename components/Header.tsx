@@ -3,10 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { brand, services, models } from "@/lib/data";
+import { brand, services } from "@/lib/data";
 import CornerDots from "./CornerDots";
 
-type MenuName = "services" | "engagements";
+type MenuName = "services";
 
 const ArrowIcon = () => (
   <svg
@@ -34,21 +34,22 @@ const Chevron = ({ open }: { open: boolean }) => (
   </svg>
 );
 
-const MENU_WIDTH: Record<MenuName, number> = { services: 236, engagements: 210 };
+const MENU_WIDTH: Record<MenuName, number> = { services: 236 };
 
 export default function Header() {
   const pathname = usePathname();
   const isServicesPage = pathname.startsWith("/services");
   const isCaseStudiesPage = pathname.startsWith("/case-studies");
+  const isAboutPage = pathname.startsWith("/about");
 
   const [scrolled, setScrolled] = useState(false);
   const [activeMenu, setActiveMenu] = useState<MenuName | null>(null);
   const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
 
   const navRef = useRef<HTMLElement>(null);
   const servicesTriggerRef = useRef<HTMLSpanElement>(null);
-  const engagementsTriggerRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
@@ -63,11 +64,17 @@ export default function Header() {
   // Close the drawer on navigation, and whenever the viewport grows back past
   // the breakpoint — otherwise it stays mounted but hidden, and reappears the
   // next time the window narrows.
-  useEffect(() => setMobileOpen(false), [pathname]);
+  useEffect(() => {
+    setMobileOpen(false);
+    setMobileServicesOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     const onResize = () => {
-      if (window.innerWidth > 1080) setMobileOpen(false);
+      if (window.innerWidth > 1080) {
+        setMobileOpen(false);
+        setMobileServicesOpen(false);
+      }
     };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
@@ -75,7 +82,6 @@ export default function Header() {
 
   const triggerRefs: Record<MenuName, React.RefObject<HTMLSpanElement | null>> = {
     services: servicesTriggerRef,
-    engagements: engagementsTriggerRef,
   };
 
   const openMenu = (name: MenuName) => {
@@ -173,32 +179,15 @@ export default function Header() {
               <Chevron open={activeMenu === "services"} />
             </span>
 
-            <span
-              ref={engagementsTriggerRef}
-              className={`nav-pill${activeMenu === "engagements" ? " is-open" : ""}`}
-              onMouseEnter={() => openMenu("engagements")}
-              onMouseLeave={scheduleClose}
-            >
-              <Link href="/#engage" className="nav-link">
-                <span className="nav-link-inner">
-                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Engagements</span>
-                  <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                    Engagements
-                  </span>
-                </span>
-              </Link>
-              <Chevron open={activeMenu === "engagements"} />
-            </span>
-
             <span className="nav-pill">
               {isCaseStudiesPage ? (
-                <span style={{ color: "#193DAA", fontWeight: 500 }}>Proof</span>
+                <span style={{ color: "#193DAA", fontWeight: 500 }}>Case Studies</span>
               ) : (
                 <Link href="/case-studies" className="nav-link">
                   <span className="nav-link-inner">
-                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Proof</span>
+                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Case Studies</span>
                     <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                      Proof
+                      Case Studies
                     </span>
                   </span>
                 </Link>
@@ -208,12 +197,27 @@ export default function Header() {
             <span className="nav-pill">
               <Link href="/#work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
                 <span className="nav-link-inner">
-                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How we work</span>
+                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How We Work</span>
                   <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                    How we work
+                    How We Work
                   </span>
                 </span>
               </Link>
+            </span>
+
+            <span className="nav-pill">
+              {isAboutPage ? (
+                <span style={{ color: "#193DAA", fontWeight: 500 }}>About</span>
+              ) : (
+                <Link href="/about" className="nav-link">
+                  <span className="nav-link-inner">
+                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>About</span>
+                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
+                      About
+                    </span>
+                  </span>
+                </Link>
+              )}
             </span>
 
             <div
@@ -221,7 +225,7 @@ export default function Header() {
               style={{
                 top: menuPos.top,
                 left: menuPos.left,
-                width: activeMenu ? MENU_WIDTH[activeMenu] : MENU_WIDTH.services,
+                width: MENU_WIDTH.services,
                 zIndex: 50,
               }}
               onMouseEnter={keepOpen}
@@ -229,19 +233,12 @@ export default function Header() {
             >
               {activeMenu && (
                 <div key={activeMenu} className="nav-drop-content">
-                  {activeMenu === "services"
-                    ? services.map((sv) => (
-                        <Link key={sv.id} href={`/services#${sv.id}`} className="nav-drop-item">
-                          {sv.navLabel}
-                          <ArrowIcon />
-                        </Link>
-                      ))
-                    : models.map((m) => (
-                        <Link key={m.name} href="/#engage" className="nav-drop-item">
-                          {m.name}
-                          <ArrowIcon />
-                        </Link>
-                      ))}
+                  {services.map((sv) => (
+                    <Link key={sv.id} href={`/services#${sv.id}`} className="nav-drop-item">
+                      {sv.navLabel}
+                      <ArrowIcon />
+                    </Link>
+                  ))}
                 </div>
               )}
             </div>
@@ -254,7 +251,7 @@ export default function Header() {
               <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="btn-primary-label">Schedule Demo</span>
+          <span className="btn-primary-label">Get Your Scoped Plan</span>
           <span className="btn-primary-arrow-out">
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
               <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -277,27 +274,38 @@ export default function Header() {
       </div>
 
       <div id="mobile-nav" className={`nav-mobile${mobileOpen ? " is-open" : ""}`}>
-        <Link href="/services" className="nav-mobile-link">
-          Services
-        </Link>
-        {services.map((sv) => (
-          <Link key={sv.id} href={`/services#${sv.id}`} className="nav-mobile-sub">
-            {sv.navLabel}
+        <div className="nav-mobile-row">
+          <Link href="/services" className="nav-mobile-link nav-mobile-row-link">
+            Services
           </Link>
-        ))}
-
-        <div className="nav-mobile-group">Engagements</div>
-        {models.map((m) => (
-          <Link key={m.name} href="/#engage" className="nav-mobile-sub">
-            {m.name}
-          </Link>
-        ))}
+          <button
+            type="button"
+            className="nav-mobile-caret"
+            aria-label={mobileServicesOpen ? "Hide services" : "Show services"}
+            aria-expanded={mobileServicesOpen}
+            onClick={() => setMobileServicesOpen((v) => !v)}
+          >
+            <Chevron open={mobileServicesOpen} />
+          </button>
+        </div>
+        <div className={`nav-mobile-subs${mobileServicesOpen ? " is-open" : ""}`}>
+          <div className="nav-mobile-subs-inner">
+            {services.map((sv) => (
+              <Link key={sv.id} href={`/services#${sv.id}`} className="nav-mobile-sub">
+                {sv.navLabel}
+              </Link>
+            ))}
+          </div>
+        </div>
 
         <Link href="/case-studies" className="nav-mobile-link">
-          Proof
+          Case Studies
         </Link>
         <Link href="/#work" className="nav-mobile-link">
-          How we work
+          How We Work
+        </Link>
+        <Link href="/about" className="nav-mobile-link">
+          About
         </Link>
 
         <Link href="/#contact" className="btn-primary nav-mobile-cta">
@@ -306,7 +314,7 @@ export default function Header() {
               <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="btn-primary-label">Schedule Demo</span>
+          <span className="btn-primary-label">Get Your Scoped Plan</span>
           <span className="btn-primary-arrow-out">
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
               <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />

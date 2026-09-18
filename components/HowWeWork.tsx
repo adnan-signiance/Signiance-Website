@@ -57,7 +57,7 @@ export default function HowWeWork() {
               textWrap: "balance",
             }}
           >
-            Senior people on your problem, from week one
+            The Thin Slice Method
           </h2>
         </div>
         <p className="section-head-note">

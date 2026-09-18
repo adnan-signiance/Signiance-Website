@@ -28,7 +28,7 @@ export default function Services() {
               textWrap: "balance",
             }}
           >
-            What you can hire us for
+            Where Cloud becomes Agentic AI
           </h2>
         </div>
         <p className="section-head-note">
@@ -91,7 +91,7 @@ export default function Services() {
                   style={{
                     fontFamily: "'Bricolage Grotesque', sans-serif",
                     fontWeight: 700,
-                    fontSize: 29,
+                    fontSize: "clamp(22px, 6vw, 29px)",
                     letterSpacing: "-0.025em",
                     margin: 0,
                     color: "inherit",

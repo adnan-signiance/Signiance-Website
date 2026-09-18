@@ -4,9 +4,10 @@ import { subhead } from "@/lib/data";
 export default function Hero() {
   return (
     <section
+      className="hero-section"
       style={{
         position: "relative",
-        padding: "clamp(52px, 7vw, 78px) var(--pad-x) clamp(48px, 6vw, 58px)",
+        padding: "clamp(32px, 7vw, 78px) var(--pad-x) clamp(28px, 6vw, 58px)",
         borderBottom: "1px solid #E2E0DA",
         overflow: "hidden",
         minHeight: "clamp(460px, calc(100vh - 210px), 720px)",
@@ -161,7 +162,7 @@ export default function Hero() {
             fontSize: "var(--fs-h1)",
             lineHeight: 1.08,
             letterSpacing: "-0.035em",
-            margin: "24px 0 0",
+            margin: "clamp(16px, 4vw, 24px) 0 0",
             textWrap: "balance",
           }}
         >
@@ -182,7 +183,7 @@ export default function Hero() {
         <p
           style={{
             maxWidth: 520,
-            margin: "20px 0 0",
+            margin: "clamp(12px, 3vw, 20px) 0 0",
             fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
             color: "#22252A",
@@ -198,12 +199,12 @@ export default function Hero() {
             display: "flex",
             gap: 12,
             justifyContent: "flex-start",
-            marginTop: 32,
+            marginTop: "clamp(16px, 4vw, 32px)",
             flexWrap: "wrap",
           }}
         >
           <a href="#contact" className="btn-hero-primary">
-            Book a Discovery Call
+            Get Your Scoped Plan
           </a>
           <a href="#engage" className="btn-hero-outline">
             See how we engage
@@ -215,9 +216,9 @@ export default function Hero() {
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            gap: 12,
-            marginTop: 38,
-            fontSize: 12.5,
+            gap: "clamp(8px, 2vw, 12px)",
+            marginTop: "clamp(16px, 5vw, 38px)",
+            fontSize: "clamp(11.5px, 3vw, 12.5px)",
             fontWeight: 500,
             color: "#131417",
           }}

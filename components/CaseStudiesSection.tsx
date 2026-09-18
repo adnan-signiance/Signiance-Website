@@ -28,7 +28,7 @@ export default function CaseStudiesSection() {
               textWrap: "balance",
             }}
           >
-            Selected engagements
+            Built. Shipped. Proven.
           </h2>
         </div>
         <Link href="/case-studies" className="btn-primary">

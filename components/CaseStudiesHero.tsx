@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import { metrics } from "@/lib/data";
@@ -59,8 +60,8 @@ export default function CaseStudiesHero() {
         ))}
       </div>
 
-      <a
-        href="#featured"
+      <Link
+        href="/case-studies/making-pathology-reports-easier-to-understand"
         style={{
           position: "relative",
           display: "block",
@@ -139,7 +140,7 @@ export default function CaseStudiesHero() {
             </span>
           </div>
         </div>
-      </a>
+      </Link>
 
       <CornerDots />
     </section>

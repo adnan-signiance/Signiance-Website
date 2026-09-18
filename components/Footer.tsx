@@ -6,33 +6,31 @@ export default function Footer() {
     <footer style={{ padding: "36px var(--pad-x) 20px" }}>
       <div className="grid-footer">
         <div>
-          <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, color: "inherit" }}>
-            <div
-              style={{
-                width: 22,
-                height: 22,
-                borderRadius: 6,
-                background: "#131417",
-                display: "grid",
-                placeItems: "center",
-              }}
-            >
-              <div style={{ width: 8, height: 8, borderRadius: 2, background: "#193DAA" }} />
-            </div>
-            <span
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontWeight: 600,
-                fontSize: 17,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {brand}
-            </span>
+          <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/media/signiance-dark.jpg"
+              alt={brand}
+              style={{ display: "block", height: 24, width: "auto" }}
+            />
           </Link>
           <p style={{ margin: "12px 0 0", fontSize: 13, lineHeight: 1.6, color: "#64676B", maxWidth: 260 }}>
             An AI-native services company. Bengaluru · Austin · Amsterdam.
           </p>
+          <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/media/aws-advanced-tier-partner.png"
+              alt="AWS Partner — Advanced Tier Services"
+              style={{ display: "block", height: 46, width: "auto" }}
+            />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/media/aws-well-architected-partner.png"
+              alt="AWS Partner — Well-Architected Partner Program"
+              style={{ display: "block", height: 46, width: "auto" }}
+            />
+          </div>
         </div>
 
         {footerColumns.map((col) => (
@@ -41,8 +39,8 @@ export default function Footer() {
               {col.head}
             </div>
             {col.items.map((it) => (
-              <Link key={it} href="/#contact" className="footer-link">
-                {it}
+              <Link key={it.label} href={it.href} className="footer-link">
+                {it.label}
               </Link>
             ))}
           </div>

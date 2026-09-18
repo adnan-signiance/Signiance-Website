@@ -1,9 +1,11 @@
-const ViewButton = () => (
-  <a href="#contact" className="btn-icon" aria-label="View case study">
+import Link from "next/link";
+
+const ViewButton = ({ slug }: { slug: string }) => (
+  <Link href={`/case-studies/${slug}`} className="btn-icon" aria-label="View case study">
     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
       <path d="M4.5 3 8 6l-3.5 3" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
-  </a>
+  </Link>
 );
 
 const cornerDotAbs = (pos: { top?: number; bottom?: number; left?: number; right?: number }, bg: string) => (
@@ -131,7 +133,7 @@ export default function CaseStudies() {
               <span style={{ fontSize: 12, color: "#55585C" }}>faster report review</span>
             </div>
           </div>
-          <ViewButton />
+          <ViewButton slug="making-pathology-reports-easier-to-understand" />
         </div>
 
         {/* 02 — Sales AI */}
@@ -173,7 +175,7 @@ export default function CaseStudies() {
               <span style={{ fontSize: 12, color: "#55585C" }}>calls analyzed</span>
             </div>
           </div>
-          <ViewButton />
+          <ViewButton slug="turning-sales-calls-into-actionable-coaching" />
         </div>
 
         {/* 03 — Food AI */}
@@ -210,7 +212,7 @@ export default function CaseStudies() {
               observability built in.
             </p>
           </div>
-          <ViewButton />
+          <ViewButton slug="a-conversational-ai-agent-built-to-scale" />
         </div>
 
         {/* 04 — Engineering / Cloud */}
@@ -249,7 +251,7 @@ export default function CaseStudies() {
               A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.
             </p>
           </div>
-          <ViewButton />
+          <ViewButton slug="scaling-engineering-simulations-with-cloud-hpc" />
         </div>
       </div>
     </div>

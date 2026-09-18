@@ -1,4 +1,6 @@
+import Link from "next/link";
 import CornerDots from "./CornerDots";
+import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
 import { services } from "@/lib/data";
 
 export default function ServicesList() {
@@ -37,15 +39,30 @@ export default function ServicesList() {
                 />
               </div>
               <div style={{ order: contentOrder }}>
-                <span
-                  style={{
-                    fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                    fontSize: 12,
-                    color: "#A29E96",
-                  }}
-                >
-                  {sv.no} <span style={{ color: "#C8C5BC" }}>/ 05</span>
-                </span>
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                  <span
+                    style={{
+                      display: "grid",
+                      placeItems: "center",
+                      width: 40,
+                      height: 40,
+                      borderRadius: 11,
+                      background: serviceColor[sv.id],
+                      flex: "0 0 auto",
+                    }}
+                  >
+                    <PracticeIcon name={serviceIcon[sv.id]} color="#FFFFFF" size={19} />
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                      fontSize: 12,
+                      color: "#A29E96",
+                    }}
+                  >
+                    {sv.no} <span style={{ color: "#C8C5BC" }}>/ 05</span>
+                  </span>
+                </div>
                 <h2
                   style={{
                     fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -87,23 +104,26 @@ export default function ServicesList() {
                     </span>
                   ))}
                 </div>
-                <a
-                  href="/#contact"
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 7,
-                    marginTop: 22,
-                    fontSize: 13,
-                    fontWeight: 500,
-                    color: "#131417",
-                  }}
-                >
-                  Talk about this practice
-                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                    <path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                  </svg>
-                </a>
+                <div style={{ display: "flex", gap: 20, marginTop: 22, flexWrap: "wrap" }}>
+                  <Link
+                    href={`/services/${sv.slug}`}
+                    style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 13, fontWeight: 500, color: "#193DAA" }}
+                  >
+                    See full details
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                    </svg>
+                  </Link>
+                  <a
+                    href="/#contact"
+                    style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 13, fontWeight: 500, color: "#131417" }}
+                  >
+                    Talk about this practice
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                      <path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
             <CornerDots position="top" bg={sv.bg} />

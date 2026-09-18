@@ -33,33 +33,52 @@ function Avatar({
   initials,
   name,
   role,
+  photo,
   focused,
 }: {
   initials: string;
   name: string;
   role: string;
+  photo?: string;
   focused: boolean;
 }) {
   const size = focused ? 52 : 34;
   return (
     <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: 8 }}>
-      <span
-        style={{
-          width: size,
-          height: size,
-          borderRadius: "50%",
-          background: focused ? "#193DAA" : "#D6D3CB",
-          display: "grid",
-          placeItems: "center",
-          fontFamily: "'Bricolage Grotesque', sans-serif",
-          fontWeight: 600,
-          fontSize: focused ? 16 : 12,
-          color: focused ? "#FFFFFF" : "#55585C",
-          transition: `width ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), height ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), background-color ${ROLL_MS}ms ease, font-size ${ROLL_MS}ms ease, color ${ROLL_MS}ms ease`,
-        }}
-      >
-        {initials}
-      </span>
+      {photo ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={photo}
+          alt={name}
+          style={{
+            width: size,
+            height: size,
+            borderRadius: "50%",
+            objectFit: "cover",
+            display: "block",
+            boxShadow: focused ? "0 0 0 2px #FFFFFF, 0 0 0 4px #193DAA" : "none",
+            transition: `width ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), height ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), box-shadow ${ROLL_MS}ms ease`,
+          }}
+        />
+      ) : (
+        <span
+          style={{
+            width: size,
+            height: size,
+            borderRadius: "50%",
+            background: focused ? "#193DAA" : "#D6D3CB",
+            display: "grid",
+            placeItems: "center",
+            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontWeight: 600,
+            fontSize: focused ? 16 : 12,
+            color: focused ? "#FFFFFF" : "#55585C",
+            transition: `width ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), height ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), background-color ${ROLL_MS}ms ease, font-size ${ROLL_MS}ms ease, color ${ROLL_MS}ms ease`,
+          }}
+        >
+          {initials}
+        </span>
+      )}
       <div style={{ textAlign: "center" }}>
         <div
           style={{
@@ -95,25 +114,24 @@ export default function Testimonials() {
   const [settled, setSettled] = useState(true);
   const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
-  // The logos are external images (Wikimedia URLs) — swapping an <img>'s src
-  // doesn't clear the old pixels until the new file finishes downloading, so
-  // without this the previous logo would visibly linger for a beat on every
-  // rotation. Preloading all of them up front means every logo is already in
-  // the browser cache long before its testimonial ever comes up, so the swap
-  // is instant.
+  // Photos and logos are real image files — swapping an <img>'s src doesn't
+  // clear the old pixels until the new file finishes loading, so without
+  // this the previous photo/logo would visibly linger for a beat on every
+  // rotation. Preloading everything up front means it's all already in the
+  // browser cache before its testimonial ever comes up.
   useEffect(() => {
     testimonials.forEach((t) => {
-      const img = new window.Image();
-      img.src = t.logo;
+      if (t.photo) new window.Image().src = t.photo;
+      if (t.logo) new window.Image().src = t.logo;
     });
   }, []);
 
   // One single mechanism drives every visual change on a tick: content swaps
-  // instantly (avatars move to their new slots, the quote/logo swap to the
-  // new testimonial) while "settled" is momentarily false, snapping the
-  // entering-top avatar and the quote/logo to their pre-animation state with
-  // no transition; two rAFs later "settled" flips true and everything eases
-  // into place together, in lockstep, over the same window. There's no
+  // instantly (avatars move to their new slots, the quote/company swap to
+  // the new testimonial) while "settled" is momentarily false, snapping the
+  // entering-top avatar and the quote/company to their pre-animation state
+  // with no transition; two rAFs later "settled" flips true and everything
+  // eases into place together, in lockstep, over the same window. There's no
   // separate timer-based handoff for the quote, so it can't drift out of
   // sync with the avatars or flicker between two competing transitions.
   useEffect(() => {
@@ -136,7 +154,14 @@ export default function Testimonials() {
           {testimonials.map((t, i) => {
             const slot = slotFor(i, tIdx);
             const isEnteringTop = slot === -1 && !settled;
-            const y = CENTER_Y + slot * SLOT_STEP + (isEnteringTop ? RISE_OFFSET : 0);
+            // Slot 2 is "waiting, off past the bottom" — however many
+            // testimonials share it, they must all sit fully below the
+            // clipped viewport, or their tops would stack into a visible,
+            // unreadable overlap right at the clip line.
+            const y =
+              slot === 2
+                ? CENTER_Y + REEL_HEIGHT
+                : CENTER_Y + slot * SLOT_STEP + (isEnteringTop ? RISE_OFFSET : 0);
             return (
               <div
                 key={t.name}
@@ -148,24 +173,51 @@ export default function Testimonials() {
                   transition: isEnteringTop ? "none" : `top ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1)`,
                 }}
               >
-                <Avatar initials={t.initials} name={t.name} role={t.role} focused={slot === 0} />
+                <Avatar initials={t.initials} name={t.name} role={t.role} photo={t.photo} focused={slot === 0} />
               </div>
             );
           })}
         </div>
         <div>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={avMid.logo}
-            alt={avMid.logoAlt}
-            style={{
-              display: "block",
-              height: 22,
-              marginBottom: 20,
-              opacity: settled ? 1 : 0,
-              transition: settled ? `opacity ${QUOTE_ANIM_MS}ms ease` : "none",
-            }}
-          />
+          <div
+            className="testimonial-mobile-focus"
+            style={{ opacity: settled ? 1 : 0, transition: settled ? `opacity ${QUOTE_ANIM_MS}ms ease` : "none" }}
+          >
+            <Avatar initials={avMid.initials} name={avMid.name} role={avMid.role} photo={avMid.photo} focused />
+          </div>
+          <div style={{ height: 40, display: "flex", alignItems: "center", marginBottom: 22 }}>
+            {avMid.logo ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={avMid.logo}
+                alt={avMid.company}
+                style={{
+                  display: "block",
+                  height: 40,
+                  width: "auto",
+                  maxWidth: 220,
+                  objectFit: "contain",
+                  objectPosition: "left center",
+                  opacity: settled ? 1 : 0,
+                  transition: settled ? `opacity ${QUOTE_ANIM_MS}ms ease` : "none",
+                }}
+              />
+            ) : (
+              <div
+                style={{
+                  fontFamily: "'Bricolage Grotesque', sans-serif",
+                  fontSize: 15,
+                  fontWeight: 600,
+                  letterSpacing: "0.01em",
+                  color: "#22252A",
+                  opacity: settled ? 1 : 0,
+                  transition: settled ? `opacity ${QUOTE_ANIM_MS}ms ease` : "none",
+                }}
+              >
+                {avMid.company}
+              </div>
+            )}
+          </div>
           <p
             style={{
               fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -174,6 +226,7 @@ export default function Testimonials() {
               lineHeight: 1.45,
               letterSpacing: "-0.015em",
               margin: 0,
+              minHeight: "calc(var(--fs-quote) * 1.45 * 3)",
               color: "#22252A",
               maxWidth: "48ch",
               textWrap: "pretty",
@@ -182,7 +235,7 @@ export default function Testimonials() {
             }}
           >
             {avMid.quoteBefore}{" "}
-            <span style={{ background: "#EEF2FB", color: "#131417", padding: "1px 6px", borderRadius: 3 }}>
+            <span style={{ background: "#193DAA", color: "#FFFFFF", fontWeight: 600, padding: "2px 8px", borderRadius: 4 }}>
               {avMid.quoteHighlight}
             </span>
             {avMid.quoteAfter}

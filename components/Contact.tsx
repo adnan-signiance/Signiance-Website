@@ -9,7 +9,7 @@ export default function Contact() {
       id="contact"
       style={{
         position: "relative",
-        padding: "clamp(52px, 7vw, 74px) var(--pad-x)",
+        padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
         textAlign: "center",
         overflow: "hidden",
         borderBottom: "1px solid #E2E0DA",
@@ -39,7 +39,7 @@ export default function Contact() {
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
             fontWeight: 600,
-            fontSize: "var(--fs-h2-sm)",
+            fontSize: "var(--fs-h2)",
             lineHeight: 1.06,
             letterSpacing: "-0.035em",
             margin: 0,
@@ -58,7 +58,7 @@ export default function Contact() {
         >
           <input type="email" placeholder="you@company.com" className="email-input" required />
           <button type="submit" className="book-call-btn">
-            Book a scoping call
+            Get Your Scoped Plan
           </button>
         </form>
         <p style={{ margin: "14px 0 0", fontSize: 12, color: "#64676B" }}>

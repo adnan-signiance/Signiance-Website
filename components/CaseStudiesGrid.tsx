@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import CornerDots from "./CornerDots";
 import { caseStudyEntries, caseStudyFilters } from "@/lib/data";
 
 export default function CaseStudiesGrid() {
   const [filter, setFilter] = useState("All");
-  const [expandedId, setExpandedId] = useState<string | null>(null);
 
   const visibleCases = caseStudyEntries.filter((c) => filter === "All" || c.category === filter);
 
@@ -60,15 +60,19 @@ export default function CaseStudiesGrid() {
         </div>
       </div>
 
+      {visibleCases.length === 0 && (
+        <p style={{ margin: "0 0 24px", fontSize: 14, color: "#6A6D71" }}>
+          No case studies in this category yet — check back soon.
+        </p>
+      )}
+
       <div className="grid-cs-cards">
         {visibleCases.map((cs) => {
-          const open = expandedId === cs.id;
           const bg = cs.dark ? "#0D184A" : "#FFFFFF";
           const tagColor = cs.dark ? "#A9B8E4" : "#6A6D71";
           const titleColor = cs.dark ? "#FFFFFF" : "#131417";
           const bodyColor = cs.dark ? "#C9C6C0" : "#43464A";
           const statColor = cs.dark ? "#A9B8E4" : "#193DAA";
-          const dividerColor = cs.dark ? "rgba(255,255,255,0.14)" : "#E2E0DA";
 
           return (
             <div
@@ -99,31 +103,8 @@ export default function CaseStudiesGrid() {
                   </div>
                 )}
 
-                {open && (
-                  <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 6, paddingTop: 16, borderTop: `1px solid ${dividerColor}` }}>
-                    <div>
-                      <div style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: tagColor, marginBottom: 4 }}>
-                        Challenge
-                      </div>
-                      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: bodyColor }}>{cs.challenge}</p>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: tagColor, marginBottom: 4 }}>
-                        Approach
-                      </div>
-                      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: bodyColor }}>{cs.approach}</p>
-                    </div>
-                    <div>
-                      <div style={{ fontSize: 10.5, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: tagColor, marginBottom: 4 }}>
-                        Result
-                      </div>
-                      <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: bodyColor }}>{cs.result}</p>
-                    </div>
-                  </div>
-                )}
-
-                <button
-                  onClick={() => setExpandedId((id) => (id === cs.id ? null : cs.id))}
+                <Link
+                  href={`/case-studies/${cs.slug}`}
                   style={{
                     marginTop: "auto",
                     paddingTop: 10,
@@ -133,25 +114,14 @@ export default function CaseStudiesGrid() {
                     fontSize: 12.5,
                     fontWeight: 500,
                     color: titleColor,
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
                     fontFamily: "Geist, sans-serif",
-                    textAlign: "left",
                   }}
                 >
-                  {open ? "Hide details" : "Read case study"}
-                  <svg
-                    width="11"
-                    height="11"
-                    viewBox="0 0 12 12"
-                    fill="none"
-                    aria-hidden="true"
-                    style={{ transition: "transform .25s ease", transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
-                  >
-                    <path d="M2 4.5 6 8 10 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  Read case study
+                  <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+                    <path d="M3 2.5 7 6 3 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
-                </button>
+                </Link>
               </div>
             </div>
           );

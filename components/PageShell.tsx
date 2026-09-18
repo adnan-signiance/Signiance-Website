@@ -6,11 +6,10 @@ export default function PageShell({ children }: { children: ReactNode }) {
   return (
     <div style={{ padding: "0 14px" }}>
       <div
+        className="page-frame"
         style={{
           maxWidth: 1280,
           margin: "0 auto",
-          borderLeft: "1px solid #E2E0DA",
-          borderRight: "1px solid #E2E0DA",
         }}
       >
         <Header />
