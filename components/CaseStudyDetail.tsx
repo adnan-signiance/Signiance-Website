@@ -233,13 +233,18 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
             onSubmit={(e) => e.preventDefault()}
           >
             <input type="email" placeholder="you@company.com" className="email-input" required />
-            <button type="submit" className="book-call-btn">
+            <button type="submit" className="btn-hero-primary contact-submit-btn" style={{ border: "none", cursor: "pointer" }}>
               Access Now
             </button>
           </form>
           <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, fontSize: 12, color: "#6A6D71" }}>
             <input type="checkbox" required style={{ margin: 0 }} />
-            I confirm that I have read and agree to the Privacy Policy
+            <span>
+              I confirm that I have read and agree to the{" "}
+              <Link href="/privacy" style={{ color: "#193DAA", textDecoration: "underline" }}>
+                Privacy Policy
+              </Link>
+            </span>
           </label>
         </div>
       </section>

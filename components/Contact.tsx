@@ -57,7 +57,7 @@ export default function Contact() {
           onSubmit={(e) => e.preventDefault()}
         >
           <input type="email" placeholder="you@company.com" className="email-input" required />
-          <button type="submit" className="book-call-btn">
+          <button type="submit" className="btn-hero-primary contact-submit-btn" style={{ border: "none", cursor: "pointer" }}>
             Get Your Scoped Plan
           </button>
         </form>

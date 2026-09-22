@@ -54,7 +54,7 @@ export default function Footer() {
           gap: 16,
           marginTop: 34,
           paddingTop: 16,
-          borderTop: "1px solid #D2D8EC",
+          borderTop: "1px solid #E2E0DA",
           fontSize: 12,
           lineHeight: 1.6,
           color: "#6A6D71",
@@ -62,7 +62,19 @@ export default function Footer() {
         }}
       >
         <span>© 2026 {brand}</span>
-        <span>Privacy · Terms · Security</span>
+        <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
+          <Link href="/privacy" className="footer-link">
+            Privacy
+          </Link>
+          ·
+          <Link href="/terms" className="footer-link">
+            Terms
+          </Link>
+          ·
+          <Link href="/security" className="footer-link">
+            Security
+          </Link>
+        </span>
       </div>
     </footer>
   );

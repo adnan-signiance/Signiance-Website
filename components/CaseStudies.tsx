@@ -1,14 +1,9 @@
+import { Fragment } from "react";
 import Link from "next/link";
 
-const ViewButton = ({ slug }: { slug: string }) => (
-  <Link href={`/case-studies/${slug}`} className="btn-icon" aria-label="View case study">
-    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-      <path d="M4.5 3 8 6l-3.5 3" stroke="#FFFFFF" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  </Link>
-);
+type Dot = { top?: number; bottom?: number; left?: number; right?: number };
 
-const cornerDotAbs = (pos: { top?: number; bottom?: number; left?: number; right?: number }, bg: string) => (
+const cornerDotAbs = (pos: Dot, bg: string) => (
   <span
     style={{
       position: "absolute" as const,
@@ -24,235 +19,136 @@ const cornerDotAbs = (pos: { top?: number; bottom?: number; left?: number; right
   />
 );
 
+const ctaArrow = (
+  <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+    <path d="M3 2.5 7 6 3 9.5" stroke="#131417" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// Every card is a full-bleed photo with the tag, title, copy and CTA laid
+// over it — a bottom scrim keeps the white text legible regardless of how
+// light the underlying image is, rather than reserving a separate text
+// block below the image.
+function CaseCard({
+  span,
+  heightClass,
+  image,
+  tag,
+  title,
+  titleSize,
+  body,
+  stat,
+  slug,
+  dots,
+}: {
+  span: 5 | 7;
+  heightClass: "case-cell-h-lg" | "case-cell-h-md";
+  image: string;
+  tag: string;
+  title: string;
+  titleSize: number;
+  body: string;
+  stat?: { value: string; label: string };
+  slug: string;
+  dots: Dot[];
+}) {
+  return (
+    <div
+      className={`case-cell-${span} ${heightClass}`}
+      style={{ position: "relative", background: "#FFFFFF", borderRight: "1px solid #D6D3CB", borderBottom: "1px solid #D6D3CB" }}
+    >
+      {dots.map((d, i) => (
+        <Fragment key={i}>{cornerDotAbs(d, "#FFFFFF")}</Fragment>
+      ))}
+      {/* Inset from the cell's own border so the corner dots land on plain
+          background instead of the photo — otherwise their white punch-box
+          shows as a hard-edged square over the image. */}
+      <div className="case-cell-frame">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={image} alt="" className="case-cell-bg" />
+        <div className="case-cell-scrim" />
+        <Link href={`/case-studies/${slug}`} className="case-cell-overlay">
+          <div>
+            <div className="case-cell-tag">{tag}</div>
+            <h3 className="case-cell-title" style={{ fontSize: titleSize }}>
+              {title}
+            </h3>
+            <p className="case-cell-body">{body}</p>
+            {stat && (
+              <div className="case-cell-stat">
+                <span className="case-cell-stat-value">{stat.value}</span>
+                <span className="case-cell-stat-label">{stat.label}</span>
+              </div>
+            )}
+          </div>
+          <span className="case-cell-cta">
+            View case study
+            {ctaArrow}
+          </span>
+        </Link>
+      </div>
+    </div>
+  );
+}
+
 export default function CaseStudies() {
   return (
     <div style={{ position: "relative", margin: "20px var(--bleed) 0" }}>
-      <span
-        style={{
-          position: "absolute",
-          left: -7.5,
-          top: -7.5,
-          width: 15,
-          height: 15,
-          background: "#FFFFFF",
-          display: "grid",
-          placeItems: "center",
-          pointerEvents: "none",
-          zIndex: 3,
-        }}
-      >
-        <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-      </span>
-      <span
-        style={{
-          position: "absolute",
-          right: -7.5,
-          top: -7.5,
-          width: 15,
-          height: 15,
-          background: "#FFFFFF",
-          display: "grid",
-          placeItems: "center",
-          pointerEvents: "none",
-          zIndex: 3,
-        }}
-      >
-        <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-      </span>
-      <span
-        style={{
-          position: "absolute",
-          left: -7.5,
-          bottom: -7.5,
-          width: 15,
-          height: 15,
-          background: "#FFFFFF",
-          display: "grid",
-          placeItems: "center",
-          pointerEvents: "none",
-          zIndex: 3,
-        }}
-      >
-        <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-      </span>
-      <span
-        style={{
-          position: "absolute",
-          right: -7.5,
-          bottom: -7.5,
-          width: 15,
-          height: 15,
-          background: "#FFFFFF",
-          display: "grid",
-          placeItems: "center",
-          pointerEvents: "none",
-          zIndex: 3,
-        }}
-      >
-        <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
-      </span>
+      {cornerDotAbs({ left: -7.5, top: -7.5 }, "#FFFFFF")}
+      {cornerDotAbs({ right: -7.5, top: -7.5 }, "#FFFFFF")}
+      {cornerDotAbs({ left: -7.5, bottom: -7.5 }, "#FFFFFF")}
+      {cornerDotAbs({ right: -7.5, bottom: -7.5 }, "#FFFFFF")}
 
       <div className="grid-case">
-        {/* 01 — Healthcare */}
-        <div
-          className="case-cell-7"
-          style={{
-            position: "relative",
-            borderRight: "1px solid #D6D3CB",
-            borderBottom: "1px solid #D6D3CB",
-            background: "#FFFFFF",
-          }}
-        >
-          {cornerDotAbs({ top: 0, right: 0 }, "#FFFFFF")}
-          {cornerDotAbs({ bottom: 0, left: 0 }, "#FFFFFF")}
-          {cornerDotAbs({ bottom: 0, right: 0 }, "#FFFFFF")}
-          <div style={{ padding: "18px 50px 50px 18px", display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/light-01.png" alt="" style={{ display: "block", width: "100%", height: 200, objectFit: "cover" }} />
-            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71", marginTop: 6 }}>
-              01 — HEALTHCARE
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontWeight: 600,
-                fontSize: 22,
-                letterSpacing: "-0.025em",
-                margin: "4px 0 0",
-              }}
-            >
-              Making pathology reports easier to understand
-            </h3>
-            <p style={{ margin: 0, fontSize: 14, lineHeight: 1.6, color: "#43464A", maxWidth: "42ch" }}>
-              AI-powered analysis that turns complex pathology reports into clearer, structured insights.
-            </p>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 7, marginTop: 6 }}>
-              <span style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: 21, color: "#193DAA" }}>
-                80%
-              </span>
-              <span style={{ fontSize: 12, color: "#55585C" }}>faster report review</span>
-            </div>
-          </div>
-          <ViewButton slug="making-pathology-reports-easier-to-understand" />
-        </div>
+        <CaseCard
+          span={7}
+          heightClass="case-cell-h-lg"
+          image="/media/case-healthcare.jpg"
+          tag="01 — HEALTHCARE"
+          title="Making pathology reports easier to understand"
+          titleSize={24}
+          body="AI-powered analysis that turns complex pathology reports into clearer, structured insights."
+          stat={{ value: "80%", label: "faster report review" }}
+          slug="making-pathology-reports-easier-to-understand"
+          dots={[{ top: 0, right: 0 }, { bottom: 0, left: 0 }, { bottom: 0, right: 0 }]}
+        />
 
-        {/* 02 — Sales AI */}
-        <div
-          className="case-cell-5"
-          style={{
-            position: "relative",
-            borderRight: "1px solid #D6D3CB",
-            borderBottom: "1px solid #D6D3CB",
-            background: "#FFFFFF",
-          }}
-        >
-          {cornerDotAbs({ bottom: 0, right: 0 }, "#FFFFFF")}
-          <div style={{ padding: "18px 50px 50px 18px", display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/light-02.png" alt="" style={{ display: "block", width: "100%", height: 140, objectFit: "cover" }} />
-            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71", marginTop: 6 }}>
-              02 — SALES · AI
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontWeight: 600,
-                fontSize: 19,
-                letterSpacing: "-0.02em",
-                margin: "4px 0 0",
-              }}
-            >
-              Turning sales calls into actionable coaching
-            </h3>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "#43464A" }}>
-              An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to
-              improve.
-            </p>
-            <div style={{ display: "flex", alignItems: "baseline", gap: 7, marginTop: 4 }}>
-              <span style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: 19, color: "#193DAA" }}>
-                10K+
-              </span>
-              <span style={{ fontSize: 12, color: "#55585C" }}>calls analyzed</span>
-            </div>
-          </div>
-          <ViewButton slug="turning-sales-calls-into-actionable-coaching" />
-        </div>
+        <CaseCard
+          span={5}
+          heightClass="case-cell-h-lg"
+          image="/media/case-sales.jpg"
+          tag="02 — SALES · AI"
+          title="Turning sales calls into actionable coaching"
+          titleSize={20}
+          body="An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve."
+          stat={{ value: "10K+", label: "calls analyzed" }}
+          slug="turning-sales-calls-into-actionable-coaching"
+          dots={[{ bottom: 0, right: 0 }]}
+        />
 
-        {/* 03 — Food AI */}
-        <div
-          className="case-cell-5"
-          style={{
-            position: "relative",
-            borderRight: "1px solid #D6D3CB",
-            borderBottom: "1px solid #D6D3CB",
-            background: "#FFFFFF",
-          }}
-        >
-          {cornerDotAbs({ top: 0, right: 0 }, "#FFFFFF")}
-          {cornerDotAbs({ bottom: 0, right: 0 }, "#FFFFFF")}
-          <div style={{ padding: "18px 50px 50px 18px", display: "flex", flexDirection: "column", gap: 6, height: "100%", boxSizing: "border-box" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/eng-01.png" alt="" style={{ display: "block", width: "100%", height: 140, objectFit: "cover" }} />
-            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71", marginTop: 6 }}>
-              03 — FOOD · AI
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontWeight: 600,
-                fontSize: 19,
-                letterSpacing: "-0.02em",
-                margin: "4px 0 0",
-              }}
-            >
-              A conversational AI agent built to scale
-            </h3>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "#43464A" }}>
-              Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and
-              observability built in.
-            </p>
-          </div>
-          <ViewButton slug="a-conversational-ai-agent-built-to-scale" />
-        </div>
+        <CaseCard
+          span={5}
+          heightClass="case-cell-h-md"
+          image="/media/case-food.jpg"
+          tag="03 — FOOD · AI"
+          title="A conversational AI agent built to scale"
+          titleSize={20}
+          body="Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in."
+          slug="a-conversational-ai-agent-built-to-scale"
+          dots={[{ top: 0, right: 0 }, { bottom: 0, right: 0 }]}
+        />
 
-        {/* 04 — Engineering / Cloud */}
-        <div
-          className="case-cell-7 case-cell-split"
-          style={{
-            position: "relative",
-            borderRight: "1px solid #D6D3CB",
-            borderBottom: "1px solid #D6D3CB",
-            background: "#FFFFFF",
-            display: "grid",
-            gridTemplateColumns: "1fr 1.2fr",
-            alignItems: "stretch",
-          }}
-        >
-          <div style={{ padding: "18px 0 18px 18px", boxSizing: "border-box" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/media/light-03.png" alt="" style={{ display: "block", width: "100%", height: "100%", minHeight: 160, objectFit: "cover" }} />
-          </div>
-          <div style={{ padding: "22px 50px 22px 24px", display: "flex", flexDirection: "column", gap: 6, justifyContent: "center" }}>
-            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71" }}>
-              04 — ENGINEERING · CLOUD
-            </div>
-            <h3
-              style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
-                fontWeight: 600,
-                fontSize: 19,
-                letterSpacing: "-0.025em",
-                margin: "4px 0 0",
-              }}
-            >
-              Scaling engineering simulations with cloud HPC
-            </h3>
-            <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "#43464A" }}>
-              A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.
-            </p>
-          </div>
-          <ViewButton slug="scaling-engineering-simulations-with-cloud-hpc" />
-        </div>
+        <CaseCard
+          span={7}
+          heightClass="case-cell-h-md"
+          image="/media/case-engineering.jpg"
+          tag="04 — ENGINEERING · CLOUD"
+          title="Scaling engineering simulations with cloud HPC"
+          titleSize={20}
+          body="A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations."
+          slug="scaling-engineering-simulations-with-cloud-hpc"
+          dots={[]}
+        />
       </div>
     </div>
   );

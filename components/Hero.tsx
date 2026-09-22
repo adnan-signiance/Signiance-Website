@@ -10,7 +10,7 @@ export default function Hero() {
         padding: "clamp(32px, 7vw, 78px) var(--pad-x) clamp(28px, 6vw, 58px)",
         borderBottom: "1px solid #E2E0DA",
         overflow: "hidden",
-        minHeight: "clamp(460px, calc(100vh - 210px), 720px)",
+        minHeight: "clamp(460px, calc(100vh - 226px), 860px)",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -206,7 +206,7 @@ export default function Hero() {
           <a href="#contact" className="btn-hero-primary">
             Get Your Scoped Plan
           </a>
-          <a href="#engage" className="btn-hero-outline">
+          <a href="#work" className="btn-hero-outline">
             See how we engage
           </a>
         </div>

@@ -6,7 +6,7 @@ import HowWeWork from "@/components/HowWeWork";
 import MetricsSection from "@/components/MetricsSection";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
-import Engagements from "@/components/Engagements";
+// import Engagements from "@/components/Engagements";
 import Contact from "@/components/Contact";
 
 export default function Home() {
@@ -19,7 +19,7 @@ export default function Home() {
       <MetricsSection />
       <CaseStudiesSection />
       <TestimonialsSection />
-      <Engagements />
+      {/* <Engagements /> */}
       <Contact />
     </PageShell>
   );
