@@ -98,7 +98,7 @@ export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "g
       }}
     >
       <p style={{ margin: "0 0 22px" }}>
-        <SectionEyebrow>Our teams have delivered inside</SectionEyebrow>
+        <SectionEyebrow>Trusted By Teams At</SectionEyebrow>
       </p>
       <div
         className="clients-row"

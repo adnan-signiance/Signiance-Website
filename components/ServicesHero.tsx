@@ -1,4 +1,6 @@
 import CornerDots from "./CornerDots";
+import SectionEyebrow from "./SectionEyebrow";
+import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
 import { services } from "@/lib/data";
 
 export default function ServicesHero() {
@@ -10,31 +12,16 @@ export default function ServicesHero() {
         borderBottom: "1px solid #E2E0DA",
       }}
     >
-      <span
-        style={{
-          display: "inline-flex",
-          alignItems: "center",
-          fontFamily: "'Bricolage Grotesque', sans-serif",
-          fontSize: 20,
-          fontWeight: 600,
-          letterSpacing: "-0.03em",
-          color: "#FFFFFF",
-          background: "#193DAA",
-          borderRadius: 10,
-          padding: "10px 22px",
-        }}
-      >
-        Services
-      </span>
+      <SectionEyebrow>Services</SectionEyebrow>
       <h1
         style={{
           fontFamily: "'Bricolage Grotesque', sans-serif",
           fontWeight: 600,
-          fontSize: "clamp(30px, 4.6vw, 48px)",
+          fontSize: "clamp(29px, 4.4vw, 46px)",
           lineHeight: 1.05,
-          letterSpacing: "-0.035em",
-          margin: "22px 0 0",
-          maxWidth: "16ch",
+          letterSpacing: "-0.038em",
+          margin: "16px 0 0",
+          maxWidth: "20ch",
           textWrap: "balance",
         }}
       >
@@ -71,23 +58,44 @@ export default function ServicesHero() {
         </span>
       </div>
       <div style={{ display: "flex", gap: 8, marginTop: 30, flexWrap: "wrap" }}>
-        {services.map((sv) => (
-          <a
-            key={sv.id}
-            href={`#${sv.id}`}
-            style={{
-              fontSize: 12.5,
-              fontWeight: 500,
-              color: "#43464A",
-              background: "#EEF2FB",
-              borderRadius: 999,
-              padding: "7px 14px",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {sv.short}
-          </a>
-        ))}
+        {services.map((sv) => {
+          const accent = serviceColor[sv.id];
+          return (
+            <a
+              key={sv.id}
+              href={`#${sv.id}`}
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                gap: 7,
+                fontSize: 12.5,
+                fontWeight: 500,
+                color: "#43464A",
+                background: "#FFFFFF",
+                border: "1px solid #D6D3CB",
+                borderRadius: 999,
+                padding: "6px 14px 6px 8px",
+                whiteSpace: "nowrap",
+                transition: "border-color 0.2s ease",
+              }}
+            >
+              <span
+                style={{
+                  display: "grid",
+                  placeItems: "center",
+                  width: 20,
+                  height: 20,
+                  borderRadius: "50%",
+                  background: `${accent}17`,
+                  flex: "0 0 auto",
+                }}
+              >
+                <PracticeIcon name={serviceIcon[sv.id]} color={accent} size={11} />
+              </span>
+              {sv.short}
+            </a>
+          );
+        })}
       </div>
       <CornerDots />
     </section>

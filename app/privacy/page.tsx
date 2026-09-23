@@ -76,7 +76,7 @@ export default function PrivacyPage() {
           {
             heading: "8. International transfers",
             body: [
-              "We operate across Bengaluru, Austin, and Amsterdam. Information may be processed in any of these locations; where required, we rely on appropriate safeguards for cross-border transfer.",
+              "We operate across Bengaluru, Rajkot, and Melbourne. Information may be processed in any of these locations; where required, we rely on appropriate safeguards for cross-border transfer.",
             ],
           },
           {

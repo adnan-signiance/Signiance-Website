@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { setCurtainActive } from "@/lib/curtainSignal";
 
 const SWEEP_MS = 700;
 const MIN_HOLD_MS = 350;
@@ -21,6 +22,7 @@ function getPageLabel(pathname: string): string {
 function isTransitionable(anchor: HTMLAnchorElement, currentPath: string): string | null {
   const href = anchor.getAttribute("href");
   if (!href) return null;
+  if (anchor.getAttribute("data-transition") === "none") return null;
   if (anchor.target && anchor.target !== "_self") return null;
   if (anchor.hasAttribute("download")) return null;
   if (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//")) return null;
@@ -97,6 +99,14 @@ export default function PageTransition() {
     if (phase !== "exiting") return;
     const t = setTimeout(() => setPhase("idle"), SWEEP_MS);
     return () => clearTimeout(t);
+  }, [phase]);
+
+  // The page is actually hidden from the user for "entering" and "covered" —
+  // scroll-triggered reveals elsewhere gate on this instead of firing the
+  // moment they satisfy their own IntersectionObserver, which the curtain's
+  // opaque overlay doesn't affect at all.
+  useEffect(() => {
+    setCurtainActive(phase === "entering" || phase === "covered");
   }, [phase]);
 
   const transform = phase === "idle" ? "translateX(-100%)" : phase === "exiting" ? "translateX(100%)" : "translateX(0%)";

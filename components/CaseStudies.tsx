@@ -1,13 +1,17 @@
 import { Fragment } from "react";
 import Link from "next/link";
 
-type Dot = { top?: number; bottom?: number; left?: number; right?: number };
+type Dot = { top?: number; bottom?: number; left?: number; right?: number; responsive?: "desktop-only" | "mobile-only" };
 
 const cornerDotAbs = (pos: Dot, bg: string) => (
   <span
+    className={pos.responsive === "desktop-only" ? "case-dot-desktop-only" : pos.responsive === "mobile-only" ? "case-dot-mobile-only" : undefined}
     style={{
       position: "absolute" as const,
-      ...pos,
+      top: pos.top,
+      bottom: pos.bottom,
+      left: pos.left,
+      right: pos.right,
       width: 3,
       height: 3,
       borderRadius: "50%",
@@ -23,6 +27,14 @@ const ctaArrow = (
   <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
     <path d="M3 2.5 7 6 3 9.5" stroke="#131417" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
+);
+
+const ViewCta = () => (
+  <span className="case-cell-cta">
+    <span className="case-cell-cta-arrow-in">{ctaArrow}</span>
+    <span>View</span>
+    <span className="case-cell-cta-arrow-out">{ctaArrow}</span>
+  </span>
 );
 
 // Every card is a full-bleed photo with the tag, title, copy and CTA laid
@@ -67,24 +79,23 @@ function CaseCard({
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={image} alt="" className="case-cell-bg" />
         <div className="case-cell-scrim" />
-        <Link href={`/case-studies/${slug}`} className="case-cell-overlay">
-          <div>
-            <div className="case-cell-tag">{tag}</div>
-            <h3 className="case-cell-title" style={{ fontSize: titleSize }}>
-              {title}
-            </h3>
-            <p className="case-cell-body">{body}</p>
-            {stat && (
-              <div className="case-cell-stat">
-                <span className="case-cell-stat-value">{stat.value}</span>
-                <span className="case-cell-stat-label">{stat.label}</span>
-              </div>
-            )}
+        <Link href={`/case-studies/${slug}`} className="case-cell-overlay" data-transition="none">
+          <div className="case-cell-bottom-row">
+            <div>
+              <div className="case-cell-tag">{tag}</div>
+              <h3 className="case-cell-title" style={{ fontSize: titleSize }}>
+                {title}
+              </h3>
+              <p className="case-cell-body">{body}</p>
+              {stat && (
+                <div className="case-cell-stat">
+                  <span className="case-cell-stat-value">{stat.value}</span>
+                  <span className="case-cell-stat-label">{stat.label}</span>
+                </div>
+              )}
+            </div>
+            <ViewCta />
           </div>
-          <span className="case-cell-cta">
-            View case study
-            {ctaArrow}
-          </span>
         </Link>
       </div>
     </div>
@@ -94,10 +105,10 @@ function CaseCard({
 export default function CaseStudies() {
   return (
     <div style={{ position: "relative", margin: "20px var(--bleed) 0" }}>
-      {cornerDotAbs({ left: -7.5, top: -7.5 }, "#FFFFFF")}
-      {cornerDotAbs({ right: -7.5, top: -7.5 }, "#FFFFFF")}
-      {cornerDotAbs({ left: -7.5, bottom: -7.5 }, "#FFFFFF")}
-      {cornerDotAbs({ right: -7.5, bottom: -7.5 }, "#FFFFFF")}
+      {cornerDotAbs({ left: 0, top: 0 }, "#FFFFFF")}
+      {cornerDotAbs({ right: 0, top: 0 }, "#FFFFFF")}
+      {cornerDotAbs({ left: 0, bottom: 0 }, "#FFFFFF")}
+      {cornerDotAbs({ right: 0, bottom: 0 }, "#FFFFFF")}
 
       <div className="grid-case">
         <CaseCard
@@ -110,7 +121,7 @@ export default function CaseStudies() {
           body="AI-powered analysis that turns complex pathology reports into clearer, structured insights."
           stat={{ value: "80%", label: "faster report review" }}
           slug="making-pathology-reports-easier-to-understand"
-          dots={[{ top: 0, right: 0 }, { bottom: 0, left: 0 }, { bottom: 0, right: 0 }]}
+          dots={[{ top: 0, right: 0, responsive: "desktop-only" }, { bottom: 0, left: 0 }, { bottom: 0, right: 0 }]}
         />
 
         <CaseCard
@@ -123,7 +134,7 @@ export default function CaseStudies() {
           body="An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve."
           stat={{ value: "10K+", label: "calls analyzed" }}
           slug="turning-sales-calls-into-actionable-coaching"
-          dots={[{ bottom: 0, right: 0 }]}
+          dots={[{ bottom: 0, left: 0 }, { bottom: 0, right: 0 }]}
         />
 
         <CaseCard
@@ -135,7 +146,7 @@ export default function CaseStudies() {
           titleSize={20}
           body="Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in."
           slug="a-conversational-ai-agent-built-to-scale"
-          dots={[{ top: 0, right: 0 }, { bottom: 0, right: 0 }]}
+          dots={[{ top: 0, right: 0 }, { bottom: 0, left: 0, responsive: "mobile-only" }, { bottom: 0, right: 0 }]}
         />
 
         <CaseCard

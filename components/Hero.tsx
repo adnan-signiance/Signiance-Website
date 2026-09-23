@@ -9,7 +9,6 @@ export default function Hero() {
         position: "relative",
         padding: "clamp(32px, 7vw, 78px) var(--pad-x) clamp(28px, 6vw, 58px)",
         borderBottom: "1px solid #E2E0DA",
-        overflow: "hidden",
         minHeight: "clamp(460px, calc(100vh - 226px), 860px)",
         display: "flex",
         flexDirection: "column",
@@ -168,7 +167,7 @@ export default function Hero() {
         >
           <span
             style={{
-              color: "#A29E96",
+              color: "#6A6D71",
               textDecoration: "line-through",
               textDecorationColor: "#B5B1A7",
               textDecorationThickness: 2,
@@ -272,13 +271,13 @@ export default function Hero() {
             fontSize: 9,
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "#8B8E86",
+            color: "#6A6D71",
           }}
         >
           Scroll
         </span>
         <svg width="13" height="8" viewBox="0 0 14 9" fill="none" aria-hidden="true">
-          <path d="M1.5 1.5 7 7l5.5-5.5" stroke="#8B8E86" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+          <path d="M1.5 1.5 7 7l5.5-5.5" stroke="#6A6D71" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </div>
 

@@ -1,9 +1,13 @@
+"use client";
+
+import { useRef } from "react";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import ClientsStrip from "./ClientsStrip";
 import FeatureCard from "./FeatureCard";
 import PracticeIcon, { type IconName } from "./PracticeIcon";
+import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
 import { headline, metrics } from "@/lib/data";
 
 const blueScale = ["#152F85", "#193DAA", "#2C55C4", "#4F6FDB", "#5C81DF"];
@@ -56,6 +60,9 @@ const whyUs: { title: string; body: string; icon: IconName }[] = [
 ];
 
 export default function AboutContent() {
+  const valuesGridRef = useRef<HTMLDivElement | null>(null);
+  const valuesDots = useGridIntersectionDots(valuesGridRef, ".grid-values-cell", [values.length]);
+
   return (
     <>
       <section style={{ position: "relative", padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0", borderBottom: "1px solid #E2E0DA" }}>
@@ -80,7 +87,7 @@ export default function AboutContent() {
           at the idea stage or already running production infrastructure, we take the hard part off your
           shoulders and build alongside your team, not instead of it.
         </p>
-        <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: 14, color: "#6A6D71" }}>Bengaluru · Austin · Amsterdam</p>
+        <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: 14, color: "#6A6D71" }}>Bengaluru · Rajkot · Melbourne</p>
 
         <div className="grid-cs-metrics" style={{ marginTop: 36, borderTop: "1px solid #C7CEE6" }}>
           {metrics.map((m) => (
@@ -96,7 +103,7 @@ export default function AboutContent() {
               >
                 {m.value}
               </div>
-              <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86" }}>
+              <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>
                 {m.label}
               </div>
             </div>
@@ -108,49 +115,112 @@ export default function AboutContent() {
 
       <ClientsStrip variant="grid" />
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
-        <div className="grid-3col" style={{ gridTemplateColumns: "1fr 1fr" }}>
-          <div style={{ borderLeft: "3px solid #193DAA", paddingLeft: 22 }}>
-            <PracticeIcon name="target" color="#193DAA" size={26} />
-            <div style={{ marginTop: 14 }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+        <div className="grid-3col" style={{ gridTemplateColumns: "1fr 1fr", gap: 0 }}>
+          <div style={{ position: "relative", paddingRight: 40, overflow: "hidden" }}>
+            <span
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: -18,
+                right: 20,
+                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontWeight: 700,
+                fontSize: "clamp(80px, 9vw, 120px)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+                color: "#EEF2FB",
+                zIndex: 0,
+              }}
+            >
+              01
+            </span>
+            <div style={{ position: "relative" }}>
               <SectionEyebrow>Our mission</SectionEyebrow>
+              <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "44ch" }}>
+                Move businesses from cloud infrastructure to production AI, with solutions built for how they
+                actually work — and a team that stays accountable for the outcome, not just the handoff.
+              </p>
             </div>
-            <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A" }}>
-              Move businesses from cloud infrastructure to production AI, with solutions built for how they
-              actually work — and a team that stays accountable for the outcome, not just the handoff.
-            </p>
           </div>
-          <div style={{ borderLeft: "3px solid #4F6FDB", paddingLeft: 22 }}>
-            <PracticeIcon name="compass" color="#4F6FDB" size={26} />
-            <div style={{ marginTop: 14 }}>
+          <div style={{ position: "relative", borderLeft: "1px solid #E2E0DA", paddingLeft: 40, overflow: "hidden" }}>
+            <span
+              aria-hidden="true"
+              style={{
+                position: "absolute",
+                top: -18,
+                right: 20,
+                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontWeight: 700,
+                fontSize: "clamp(80px, 9vw, 120px)",
+                lineHeight: 1,
+                letterSpacing: "-0.04em",
+                color: "#EEF2FB",
+                zIndex: 0,
+              }}
+            >
+              02
+            </span>
+            <div style={{ position: "relative" }}>
               <SectionEyebrow>Our vision</SectionEyebrow>
+              <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "44ch" }}>
+                To be the consulting partner of choice for businesses turning cloud infrastructure into
+                production AI — worldwide, not just where we happen to have an office.
+              </p>
             </div>
-            <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A" }}>
-              To be the consulting partner of choice for businesses turning cloud infrastructure into
-              production AI — worldwide, not just where we happen to have an office.
-            </p>
           </div>
         </div>
+        <CornerDots />
       </section>
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
         <SectionEyebrow>Core values</SectionEyebrow>
-        <div className="grid-3col" style={{ marginTop: 24 }}>
-          {values.map((v, i) => (
-            <div key={v.title} style={{ border: "1px solid #D6D3CB", borderRadius: 12, padding: "20px 20px 22px", background: "#FFFFFF" }}>
-              <FeatureCard icon={v.icon} title={v.title} body={v.body} color={blueScale[i % blueScale.length]} />
-            </div>
-          ))}
+        <div style={{ position: "relative", marginTop: 28 }}>
+          <div className="grid-values" ref={valuesGridRef}>
+            <GridDotsOverlay dots={valuesDots} />
+            {values.map((v, i) => (
+              <div key={v.title} className="grid-values-cell">
+                <span
+                  style={{
+                    display: "grid",
+                    placeItems: "center",
+                    width: 38,
+                    height: 38,
+                    borderRadius: 10,
+                    background: `${blueScale[i % blueScale.length]}17`,
+                  }}
+                >
+                  <PracticeIcon name={v.icon} color={blueScale[i % blueScale.length]} size={18} />
+                </span>
+                <h4
+                  style={{
+                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontWeight: 600,
+                    fontSize: 15.5,
+                    letterSpacing: "-0.02em",
+                    margin: "14px 0 0",
+                    color: "#131417",
+                  }}
+                >
+                  {v.title}
+                </h4>
+                <p style={{ margin: "8px 0 0", fontSize: 13, lineHeight: 1.55, color: "#43464A" }}>{v.body}</p>
+              </div>
+            ))}
+          </div>
+          <CornerDots position="top" bg="#EEF2FB" />
+          <CornerDots bg="#EEF2FB" />
         </div>
       </section>
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
         <SectionEyebrow>Why work with us</SectionEyebrow>
         <div className="grid-3col" style={{ marginTop: 24, gridTemplateColumns: "repeat(2, 1fr)" }}>
           {whyUs.map((w, i) => (
             <FeatureCard key={w.title} icon={w.icon} title={w.title} body={w.body} color={blueScale[i % blueScale.length]} />
           ))}
         </div>
+        <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
@@ -172,7 +242,7 @@ export default function AboutContent() {
         <CornerDots />
       </section>
 
-      <section style={{ padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA", borderBottom: "1px solid #E2E0DA" }}>
         <h2
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -192,6 +262,7 @@ export default function AboutContent() {
         <Link href="/#contact" className="btn-hero-primary" style={{ marginTop: 22, display: "inline-flex" }}>
           Get Your Scoped Plan
         </Link>
+        <CornerDots />
       </section>
     </>
   );

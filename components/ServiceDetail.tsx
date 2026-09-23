@@ -2,6 +2,7 @@ import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import FeatureCard from "./FeatureCard";
+import RelatedCaseStudies from "./RelatedCaseStudies";
 import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
 import { services, caseStudyEntries, type Service } from "@/lib/data";
 
@@ -94,7 +95,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
         <CornerDots />
       </section>
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
         <SectionEyebrow>What it is</SectionEyebrow>
         <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "68ch" }}>
           {service.whatIsIt}
@@ -110,7 +111,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
         </div>
 
         <div style={{ marginTop: 40 }}>
-          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86", marginBottom: 12 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
             Tech stack
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -121,9 +122,10 @@ export default function ServiceDetail({ service }: { service: Service }) {
             ))}
           </div>
         </div>
+        <CornerDots />
       </section>
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
         <SectionEyebrow>Who it's for</SectionEyebrow>
         <div style={{ marginTop: 20, display: "flex", flexDirection: "column", gap: 16, maxWidth: "62ch" }}>
           {service.whoItsFor.map((w) => (
@@ -135,6 +137,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
             </div>
           ))}
         </div>
+        <CornerDots bg="#EEF2FB" />
       </section>
 
       {relatedCases.length > 0 && (
@@ -151,48 +154,8 @@ export default function ServiceDetail({ service }: { service: Service }) {
           >
             Case studies in {service.short}
           </h3>
-          <div className="grid-3col" style={{ marginTop: 24 }}>
-            {relatedCases.map((r) => (
-              <Link
-                key={r.id}
-                href={`/case-studies/${r.slug}`}
-                className="cs-card"
-                style={{ border: "1px solid #D6D3CB", borderRadius: 14, overflow: "hidden", display: "block", color: "inherit" }}
-              >
-                <div style={{ overflow: "hidden", height: 140 }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="cs-img" src={r.image} alt="" style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-                <div style={{ padding: "16px 18px 20px" }}>
-                  <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71" }}>{r.tag}</div>
-                  <h4
-                    style={{
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                      fontWeight: 600,
-                      fontSize: 16,
-                      letterSpacing: "-0.02em",
-                      margin: "6px 0 0",
-                    }}
-                  >
-                    {r.title}
-                  </h4>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      marginTop: 12,
-                      fontSize: 12.5,
-                      fontWeight: 500,
-                      color: "#193DAA",
-                    }}
-                  >
-                    Read case study
-                    <GoArrow />
-                  </span>
-                </div>
-              </Link>
-            ))}
+          <div style={{ marginTop: 24 }}>
+            <RelatedCaseStudies cases={relatedCases} />
           </div>
           <CornerDots />
         </section>
@@ -207,6 +170,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
               <Link
                 key={s.id}
                 href={`/services/${s.slug}`}
+                data-transition="none"
                 style={{ display: "block", borderTop: `2px solid ${otherAccent}`, paddingTop: 16, color: "inherit" }}
               >
                 <span
@@ -232,7 +196,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
                 >
                   {s.title}
                 </h4>
-                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 10, fontSize: 12.5, fontWeight: 500, color: otherAccent }}>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 10, fontSize: 12.5, fontWeight: 500, color: "#193DAA" }}>
                   See details
                   <GoArrow />
                 </span>
@@ -242,7 +206,8 @@ export default function ServiceDetail({ service }: { service: Service }) {
         </div>
       </section>
 
-      <section style={{ padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA", borderBottom: "1px solid #E2E0DA" }}>
+        <CornerDots position="top" />
         <h2
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -262,6 +227,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
         <Link href="/#contact" className="btn-hero-primary" style={{ marginTop: 22, display: "inline-flex" }}>
           Get Your Scoped Plan
         </Link>
+        <CornerDots />
       </section>
     </>
   );

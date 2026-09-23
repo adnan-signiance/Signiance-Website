@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { brand, services } from "@/lib/data";
 import CornerDots from "./CornerDots";
 
-type MenuName = "services";
+type MenuName = "services" | "resources";
 
 const ArrowIcon = () => (
   <svg
@@ -34,12 +34,14 @@ const Chevron = ({ open }: { open: boolean }) => (
   </svg>
 );
 
-const MENU_WIDTH: Record<MenuName, number> = { services: 236 };
+const MENU_WIDTH: Record<MenuName, number> = { services: 236, resources: 200 };
 
 export default function Header() {
   const pathname = usePathname();
   const isServicesPage = pathname.startsWith("/services");
   const isCaseStudiesPage = pathname.startsWith("/case-studies");
+  const isBlogPage = pathname.startsWith("/blog");
+  const isResourcesPage = isCaseStudiesPage || isBlogPage;
   const isAboutPage = pathname.startsWith("/about");
 
   const [scrolled, setScrolled] = useState(false);
@@ -47,9 +49,11 @@ export default function Header() {
   const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
 
   const navRef = useRef<HTMLElement>(null);
   const servicesTriggerRef = useRef<HTMLSpanElement>(null);
+  const resourcesTriggerRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
@@ -67,6 +71,7 @@ export default function Header() {
   useEffect(() => {
     setMobileOpen(false);
     setMobileServicesOpen(false);
+    setMobileResourcesOpen(false);
   }, [pathname]);
 
   useEffect(() => {
@@ -74,6 +79,7 @@ export default function Header() {
       if (window.innerWidth > 1080) {
         setMobileOpen(false);
         setMobileServicesOpen(false);
+        setMobileResourcesOpen(false);
       }
     };
     window.addEventListener("resize", onResize);
@@ -82,6 +88,7 @@ export default function Header() {
 
   const triggerRefs: Record<MenuName, React.RefObject<HTMLSpanElement | null>> = {
     services: servicesTriggerRef,
+    resources: resourcesTriggerRef,
   };
 
   const openMenu = (name: MenuName) => {
@@ -143,7 +150,7 @@ export default function Header() {
             <img
               src="/media/signiance-dark.jpg"
               alt={brand}
-              style={{ display: "block", height: 26, width: "auto" }}
+              style={{ display: "block", height: 32, width: "auto" }}
             />
           </Link>
 
@@ -179,19 +186,25 @@ export default function Header() {
               <Chevron open={activeMenu === "services"} />
             </span>
 
-            <span className="nav-pill">
-              {isCaseStudiesPage ? (
-                <span style={{ color: "#193DAA", fontWeight: 500 }}>Case Studies</span>
+            <span
+              ref={resourcesTriggerRef}
+              className={`nav-pill${activeMenu === "resources" ? " is-open" : ""}`}
+              onMouseEnter={() => openMenu("resources")}
+              onMouseLeave={scheduleClose}
+            >
+              {isResourcesPage ? (
+                <span style={{ color: "#193DAA", fontWeight: 500 }}>Resources</span>
               ) : (
-                <Link href="/case-studies" className="nav-link">
+                <span className="nav-link">
                   <span className="nav-link-inner">
-                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Case Studies</span>
+                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Resources</span>
                     <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                      Case Studies
+                      Resources
                     </span>
                   </span>
-                </Link>
+                </span>
               )}
+              <Chevron open={activeMenu === "resources"} />
             </span>
 
             <span className="nav-pill">
@@ -231,14 +244,26 @@ export default function Header() {
               onMouseEnter={keepOpen}
               onMouseLeave={scheduleClose}
             >
-              {activeMenu && (
-                <div key={activeMenu} className="nav-drop-content">
+              {activeMenu === "services" && (
+                <div key="services" className="nav-drop-content">
                   {services.map((sv) => (
                     <Link key={sv.id} href={`/services#${sv.id}`} className="nav-drop-item">
                       {sv.navLabel}
                       <ArrowIcon />
                     </Link>
                   ))}
+                </div>
+              )}
+              {activeMenu === "resources" && (
+                <div key="resources" className="nav-drop-content">
+                  <Link href="/case-studies" className="nav-drop-item">
+                    Case Studies
+                    <ArrowIcon />
+                  </Link>
+                  <Link href="/blog" className="nav-drop-item">
+                    Blogs
+                    <ArrowIcon />
+                  </Link>
                 </div>
               )}
             </div>
@@ -298,9 +323,29 @@ export default function Header() {
           </div>
         </div>
 
-        <Link href="/case-studies" className="nav-mobile-link">
-          Case Studies
-        </Link>
+        <div className="nav-mobile-row">
+          <span className="nav-mobile-link nav-mobile-row-link">Resources</span>
+          <button
+            type="button"
+            className="nav-mobile-caret"
+            aria-label={mobileResourcesOpen ? "Hide resources" : "Show resources"}
+            aria-expanded={mobileResourcesOpen}
+            onClick={() => setMobileResourcesOpen((v) => !v)}
+          >
+            <Chevron open={mobileResourcesOpen} />
+          </button>
+        </div>
+        <div className={`nav-mobile-subs${mobileResourcesOpen ? " is-open" : ""}`}>
+          <div className="nav-mobile-subs-inner">
+            <Link href="/case-studies" className="nav-mobile-sub">
+              Case Studies
+            </Link>
+            <Link href="/blog" className="nav-mobile-sub">
+              Blogs
+            </Link>
+          </div>
+        </div>
+
         <Link href="/#work" className="nav-mobile-link">
           How We Work
         </Link>

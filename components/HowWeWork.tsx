@@ -87,7 +87,19 @@ export default function HowWeWork() {
               />
             </div>
             <div className="vtimeline-content">
-              <SectionEyebrow>{st.week}</SectionEyebrow>
+              <span
+                style={{
+                  display: "inline-block",
+                  fontFamily: "Geist, sans-serif",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: markerColors[i % markerColors.length],
+                }}
+              >
+                {st.week}
+              </span>
               <h3 className="vtimeline-title">{st.title}</h3>
               <p className="vtimeline-body">{st.body}</p>
             </div>

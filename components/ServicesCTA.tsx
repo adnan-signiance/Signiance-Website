@@ -7,26 +7,27 @@ export default function ServicesCTA() {
         position: "relative",
         padding: "clamp(52px, 7vw, 74px) var(--pad-x)",
         textAlign: "center",
-        overflow: "hidden",
         borderBottom: "1px solid #E2E0DA",
       }}
     >
-      <div
-        style={{
-          position: "absolute",
-          left: "50%",
-          bottom: -240,
-          width: 800,
-          height: 420,
-          marginLeft: -400,
-          filter: "blur(90px)",
-          opacity: 0.34,
-          borderRadius: "50%",
-          background:
-            "radial-gradient(48% 58% at 34% 50%, #4F6EC6 0%, transparent 68%), radial-gradient(48% 58% at 70% 50%, #152F85 0%, transparent 68%)",
-          pointerEvents: "none",
-        }}
-      />
+      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: -240,
+            width: 800,
+            height: 420,
+            marginLeft: -400,
+            filter: "blur(90px)",
+            opacity: 0.34,
+            borderRadius: "50%",
+            background:
+              "radial-gradient(48% 58% at 34% 50%, #4F6EC6 0%, transparent 68%), radial-gradient(48% 58% at 70% 50%, #152F85 0%, transparent 68%)",
+          }}
+        />
+      </div>
+      <CornerDots position="top" />
       <div style={{ position: "relative" }}>
         <h2
           style={{

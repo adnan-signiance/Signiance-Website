@@ -279,6 +279,7 @@ export const footerColumns = [
       { label: "About", href: "/about" },
       { label: "Services", href: "/services" },
       { label: "Case Studies", href: "/case-studies" },
+      { label: "Blog", href: "/blog" },
     ],
   },
   {
@@ -482,7 +483,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Retrieval-augmented generation", "LLM evaluation harness", "Secure document pipeline"],
     statValue: "80%",
     statLabel: "faster report review",
-    image: "/media/light-01.png",
+    image: "/media/case-healthcare.jpg",
     dark: false,
   },
   {
@@ -520,7 +521,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Multi-agent orchestration", "Call transcription & diarization", "Playbook-based scoring model"],
     statValue: "10K+",
     statLabel: "calls analyzed",
-    image: "/media/light-02.png",
+    image: "/media/case-sales.jpg",
     dark: true,
   },
   {
@@ -558,7 +559,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Conversational agent framework", "Auth & session management", "Autoscaling infrastructure", "Conversation observability"],
     statValue: null,
     statLabel: null,
-    image: "/media/eng-01.png",
+    image: "/media/case-food.jpg",
     dark: false,
   },
   {
@@ -596,7 +597,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["AWS HPC infrastructure", "CPU-optimized compute (CFD)", "GPU-accelerated compute (DEM)", "Elastic job scheduling"],
     statValue: null,
     statLabel: null,
-    image: "/media/light-03.png",
+    image: "/media/case-engineering.jpg",
     dark: false,
   },
 ];

@@ -4,6 +4,7 @@ import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import FeatureCard from "./FeatureCard";
+import RelatedCaseStudies from "./RelatedCaseStudies";
 import PracticeIcon, { serviceIcon, serviceColor, type IconName } from "./PracticeIcon";
 import { caseStudyEntries, services, type CaseStudyEntry } from "@/lib/data";
 
@@ -12,12 +13,6 @@ const benefitIcons: IconName[] = ["target", "bolt", "star"];
 const BackArrow = () => (
   <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
     <path d="M6.5 1 2.5 5l4 4" stroke="#6A6D71" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-const GoArrow = () => (
-  <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-    <path d="M3 2.5 7 6 3 9.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -76,11 +71,11 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         <div className="grid-3col" style={{ marginTop: 36, borderTop: "1px solid #C7CEE6", gap: 0 }}>
           <div style={{ padding: "18px 22px 22px 0", borderRight: "1px solid #E2E0DA" }}>
             <div style={{ fontSize: 14, color: "#22252A" }}>{entry.client}</div>
-            <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86" }}>Client</div>
+            <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>Client</div>
           </div>
           <div style={{ padding: "18px 22px 22px 0", borderRight: "1px solid #E2E0DA" }}>
             <div style={{ fontSize: 14, color: "#22252A" }}>{entry.engagementLength}</div>
-            <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86" }}>
+            <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>
               Engagement
             </div>
           </div>
@@ -97,14 +92,14 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
               >
                 {entry.statValue}
               </div>
-              <div style={{ marginTop: 6, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86" }}>
+              <div style={{ marginTop: 6, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>
                 {entry.statLabel}
               </div>
             </div>
           ) : (
             <div style={{ padding: "18px 0 22px" }}>
               <div style={{ fontSize: 14, color: "#22252A" }}>{entry.category}</div>
-              <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86" }}>
+              <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>
                 Service
               </div>
             </div>
@@ -149,28 +144,29 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
             </ul>
           </div>
           <div className="cs-detail-facts" style={{ borderLeft: `3px solid ${accent}` }}>
-            <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86", marginBottom: 16 }}>
+            <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 16 }}>
               Quick facts
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <div>
-                <div style={{ fontSize: 11, color: "#8B8E86" }}>Client</div>
+                <div style={{ fontSize: 11, color: "#6A6D71" }}>Client</div>
                 <div style={{ fontSize: 14, color: "#131417", marginTop: 3 }}>{entry.client}</div>
               </div>
               <div>
-                <div style={{ fontSize: 11, color: "#8B8E86" }}>Engagement</div>
+                <div style={{ fontSize: 11, color: "#6A6D71" }}>Engagement</div>
                 <div style={{ fontSize: 14, color: "#131417", marginTop: 3 }}>{entry.engagementLength}</div>
               </div>
               <div>
-                <div style={{ fontSize: 11, color: "#8B8E86" }}>Service</div>
+                <div style={{ fontSize: 11, color: "#6A6D71" }}>Service</div>
                 <div style={{ fontSize: 14, color: "#131417", marginTop: 3 }}>{entry.category}</div>
               </div>
             </div>
           </div>
         </div>
+        <CornerDots />
       </section>
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
         <SectionEyebrow>What we built</SectionEyebrow>
         <p style={{ margin: "16px 0 28px", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "62ch" }}>
           {entry.approach}
@@ -182,7 +178,7 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         </div>
 
         <div style={{ marginTop: 36 }}>
-          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#8B8E86", marginBottom: 12 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
             Tech stack
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
@@ -193,9 +189,10 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
             ))}
           </div>
         </div>
+        <CornerDots />
       </section>
 
-      <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
         <SectionEyebrow>Results</SectionEyebrow>
         <p style={{ margin: "16px 0 28px", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "62ch" }}>
           {entry.result}
@@ -207,9 +204,10 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
             </div>
           ))}
         </div>
+        <CornerDots bg="#EEF2FB" />
       </section>
 
-      <section style={{ padding: "clamp(44px, 6vw, 60px) var(--pad-x)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(44px, 6vw, 60px) var(--pad-x)", borderBottom: "1px solid #E2E0DA" }}>
         <div style={{ maxWidth: 560 }}>
           <SectionEyebrow>Unlock the case study</SectionEyebrow>
           <h2
@@ -247,59 +245,20 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
             </span>
           </label>
         </div>
+        <CornerDots />
       </section>
 
       {related.length > 0 && (
         <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
           <SectionEyebrow>More case studies</SectionEyebrow>
-          <div className="grid-3col" style={{ marginTop: 24 }}>
-            {related.map((r) => (
-              <Link
-                key={r.id}
-                href={`/case-studies/${r.slug}`}
-                className="cs-card"
-                style={{ border: "1px solid #D6D3CB", borderRadius: 14, overflow: "hidden", display: "block", color: "inherit" }}
-              >
-                <div style={{ overflow: "hidden", height: 140 }}>
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img className="cs-img" src={r.image} alt="" style={{ display: "block", width: "100%", height: "100%", objectFit: "cover" }} />
-                </div>
-                <div style={{ padding: "16px 18px 20px" }}>
-                  <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71" }}>{r.tag}</div>
-                  <h4
-                    style={{
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
-                      fontWeight: 600,
-                      fontSize: 16,
-                      letterSpacing: "-0.02em",
-                      margin: "6px 0 0",
-                    }}
-                  >
-                    {r.title}
-                  </h4>
-                  <span
-                    style={{
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: 6,
-                      marginTop: 12,
-                      fontSize: 12.5,
-                      fontWeight: 500,
-                      color: "#193DAA",
-                    }}
-                  >
-                    Read case study
-                    <GoArrow />
-                  </span>
-                </div>
-              </Link>
-            ))}
+          <div style={{ marginTop: 24 }}>
+            <RelatedCaseStudies cases={related} />
           </div>
           <CornerDots />
         </section>
       )}
 
-      <section style={{ padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center" }}>
+      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderBottom: "1px solid #E2E0DA" }}>
         <h2
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -319,6 +278,7 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         <Link href="/#contact" className="btn-hero-primary" style={{ marginTop: 22, display: "inline-flex" }}>
           Get Your Scoped Plan
         </Link>
+        <CornerDots />
       </section>
     </>
   );

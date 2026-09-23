@@ -15,7 +15,10 @@ export default function Footer() {
             />
           </Link>
           <p style={{ margin: "12px 0 0", fontSize: 13, lineHeight: 1.6, color: "#64676B", maxWidth: 260 }}>
-            An AI-native services company. Bengaluru · Austin · Amsterdam.
+            An AI-native services company.
+          </p>
+          <p style={{ margin: "6px 0 0", fontSize: 13, lineHeight: 1.6, color: "#64676B", maxWidth: 260 }}>
+            Bengaluru · Rajkot · Melbourne
           </p>
           <div style={{ display: "flex", gap: 10, marginTop: 18 }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -31,6 +34,21 @@ export default function Footer() {
               style={{ display: "block", height: 46, width: "auto" }}
             />
           </div>
+          <a
+            href="https://linkedin.com/company/signiance"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Signiance on LinkedIn"
+            className="social-icon-link"
+            style={{ marginTop: 18 }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3.6a1.97 1.97 0 1 0 0 3.94 1.97 1.97 0 0 0 0-3.94ZM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.67V8.5h3.24v1.57h.05c.45-.86 1.56-1.76 3.2-1.76 3.42 0 4.05 2.25 4.05 5.18V20Z"
+                fill="currentColor"
+              />
+            </svg>
+          </a>
         </div>
 
         {footerColumns.map((col) => (
