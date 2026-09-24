@@ -32,7 +32,7 @@ export default function CaseStudiesHero() {
       </h1>
       <p style={{ maxWidth: 540, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
         Every engagement below shipped to production and was measured against a number the client cared
-        about — not a vanity metric.
+        about, not a vanity metric.
       </p>
 
       <MetricsGrid bordered style={{ marginTop: 40, marginBottom: 48 }} />

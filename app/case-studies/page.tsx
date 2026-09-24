@@ -5,7 +5,7 @@ import CaseStudiesGrid from "@/components/CaseStudiesGrid";
 import CaseStudiesTestimonials from "@/components/CaseStudiesTestimonials";
 
 export const metadata: Metadata = {
-  title: "Case Studies — Signiance",
+  title: "Case Studies · Signiance",
   description:
     "Outcomes, not case-study theatre. Every engagement shipped to production and was measured against a number the client cared about.",
 };

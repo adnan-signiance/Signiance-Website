@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import PageTransition from "@/components/PageTransition";
 
-const title = "Signiance — Ship the first working agent in weeks";
+const title = "Signiance · Ship the first working agent in weeks";
 const description =
   "We help growing businesses move from cloud infrastructure to production AI without the overhead of a full in house team.";
 

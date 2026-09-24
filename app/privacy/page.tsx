@@ -3,7 +3,7 @@ import PageShell from "@/components/PageShell";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Signiance",
+  title: "Privacy Policy · Signiance",
   description: "How Signiance collects, uses, and protects information across our website and client engagements.",
 };
 
@@ -22,8 +22,8 @@ export default function PrivacyPage() {
               "We collect information in three ways: what you give us directly, what your browser sends automatically, and what we gather in the course of a client engagement.",
               {
                 list: [
-                  "Contact details you submit through our forms — name, work email, company, and anything you write to us.",
-                  "Usage data collected automatically — pages visited, referring URL, browser and device type, and approximate location derived from IP address.",
+                  "Contact details you submit through our forms: name, work email, company, and anything you write to us.",
+                  "Usage data collected automatically: pages visited, referring URL, browser and device type, and approximate location derived from IP address.",
                   "Cookies and similar technologies used for analytics and to remember basic preferences.",
                   "Project-related information you share with us once an engagement begins, handled under the terms of that engagement's own agreement.",
                 ],
@@ -39,7 +39,7 @@ export default function PrivacyPage() {
           {
             heading: "3. Cookies and analytics",
             body: [
-              "We use a minimal set of cookies for site analytics — understanding which pages are useful and how visitors move through the site. You can block or clear cookies in your browser settings at any time; the site will continue to function without them.",
+              "We use a minimal set of cookies for site analytics: understanding which pages are useful and how visitors move through the site. You can block or clear cookies in your browser settings at any time; the site will continue to function without them.",
             ],
           },
           {
@@ -64,13 +64,13 @@ export default function PrivacyPage() {
           {
             heading: "6. Your rights",
             body: [
-              "Depending on where you're located, you may have the right to access, correct, export, or delete the personal information we hold about you, and to object to or restrict certain processing. To exercise any of these, email us at the address below — we reply within a business day.",
+              "Depending on where you're located, you may have the right to access, correct, export, or delete the personal information we hold about you, and to object to or restrict certain processing. To exercise any of these, email us at the address below. We reply within a business day.",
             ],
           },
           {
             heading: "7. Data security",
             body: [
-              "We apply industry-standard technical and organizational safeguards — encryption in transit, access controls, and least-privilege practices — to protect information against unauthorized access, loss, or misuse. See our Security page for more detail.",
+              "We apply industry-standard technical and organizational safeguards, including encryption in transit, access controls, and least-privilege practices, to protect information against unauthorized access, loss, or misuse. See our Security page for more detail.",
             ],
           },
           {

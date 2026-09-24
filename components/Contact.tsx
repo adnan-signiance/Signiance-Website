@@ -50,7 +50,7 @@ export default function Contact() {
           Tell us the workflow that keeps breaking
         </h2>
         <p style={{ maxWidth: 470, margin: "16px auto 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
-          30 minutes with the people who&apos;d do the work. You leave with a scoped plan — whether or not you
+          30 minutes with the people who&apos;d do the work. You leave with a scoped plan, whether or not you
           hire us.
         </p>
         <div
@@ -67,7 +67,7 @@ export default function Contact() {
           <CalBooking />
         </div>
         <p style={{ margin: "14px 0 0", fontSize: 12, color: "#64676B" }}>
-          Or email hello@signiance.com — we reply within a business day.
+          Or email hello@signiance.com. We reply within a business day.
         </p>
       </div>
       <CornerDots />

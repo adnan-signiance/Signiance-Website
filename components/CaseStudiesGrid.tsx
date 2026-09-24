@@ -63,7 +63,7 @@ export default function CaseStudiesGrid() {
 
       {visibleCases.length === 0 && (
         <p style={{ margin: "0 0 24px", fontSize: 14, color: "#6A6D71" }}>
-          No case studies in this category yet — check back soon.
+          No case studies in this category yet. Check back soon.
         </p>
       )}
 

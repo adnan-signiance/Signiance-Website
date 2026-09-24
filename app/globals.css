@@ -15,12 +15,18 @@
   --fs-quote: clamp(19px, 2.2vw, 27px);
 }
 
-html,
+/* overflow-x lives on html only, not body: adding it to both makes body a
+   second, nested scroll container, and a `position: sticky` header inside it
+   then sticks relative to that inner container instead of the viewport,
+   which visually just looks like sticky doing nothing at all. */
+html {
+  overflow-x: hidden;
+}
+
 body {
   margin: 0;
   padding: 0;
   background: #FFFFFF;
-  overflow-x: hidden;
   max-width: 100%;
 }
 
@@ -412,104 +418,127 @@ a {
 /* Services list rows — the row is a normal block whose own height grows on
    hover (anchored at the top, extending downward), so it pushes the rows
    below it down through ordinary document flow rather than overlapping them. */
-.service-row {
+/* Services grid — a 2-row, 3-column bento: the first practice spans both
+   rows as the featured tile, the other four fill the remaining four cells
+   via named grid-template-areas rather than a uniform track count, since
+   the featured tile's column isn't repeated in row 2. */
+.grid-services {
   position: relative;
-  display: block;
-  height: 112px;
-  margin: 0 var(--bleed);
-  border-top: 1px solid #E2E0DA;
+  display: grid;
+  grid-template-columns: 1.15fr 1fr 1fr;
+  grid-template-rows: repeat(2, minmax(220px, auto));
+  grid-template-areas:
+    "a b c"
+    "a d e";
+  border-top: 1px solid #D6D3CB;
+  border-left: 1px solid #D6D3CB;
+}
+
+.grid-services-cell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 28px 26px;
+  border-right: 1px solid #D6D3CB;
+  border-bottom: 1px solid #D6D3CB;
   text-decoration: none;
   color: #131417;
-  transition: height 0.4s cubic-bezier(0.22, 0.9, 0.24, 1);
-}
-
-.service-row:hover {
-  height: 224px;
-}
-
-.service-row-surface {
-  position: relative;
-  height: 100%;
-  padding: 0 var(--pad-x);
   overflow: hidden;
   transition: background 0.25s ease;
 }
 
-.service-row:hover .service-row-surface {
+.grid-services-cell:not(.grid-services-cell-featured):hover {
   background: #F9F8F5;
 }
 
-/* Number and heading share the same left edge (28px) and both animate along
-   the vertical axis only, so on hover they read as a simple top/bottom stack
-   instead of the rest state's side-by-side row. Both use a plain fixed-pixel
-   `top` for both states (no percentages, no translateY centering trick) so
-   the motion is a single clean interpolation, independent of the row's own
-   height animation running at the same time — mixing a %-based position
-   with an animating container height was the source of the janky motion. */
-.service-num-large {
-  position: absolute;
-  left: var(--pad-x);
-  top: 35px;
+.grid-services-cell-featured {
+  color: #FFFFFF;
+}
+
+.grid-services-num {
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 700;
+  font-size: clamp(32px, 3.2vw, 44px);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+
+.grid-services-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  margin-top: 16px;
+  flex: 0 0 auto;
+}
+
+.grid-services-title {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 600;
-  font-size: clamp(38px, 4vw, 52px);
-  letter-spacing: -0.03em;
+  font-size: clamp(18px, 1.8vw, 22px);
+  letter-spacing: -0.025em;
+  margin: 16px 0 0;
+  text-wrap: balance;
+}
+
+.grid-services-cell-featured .grid-services-title {
+  font-size: clamp(23px, 2.6vw, 29px);
+}
+
+.grid-services-body {
+  margin: 10px 0 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: #55585C;
+  flex: 1;
+}
+
+.grid-services-cell-featured .grid-services-body {
   color: #C7CEE6;
-  line-height: 1;
-  transition:
-    color 0.3s ease,
-    top 0.4s cubic-bezier(0.22, 0.9, 0.24, 1);
+  font-size: 14.5px;
+  max-width: 32ch;
 }
 
-.service-row:hover .service-num-large {
-  color: #193DAA;
-  top: 22px;
-}
-
-.service-row-main {
-  position: absolute;
-  left: calc(var(--pad-x) + 84px);
-  right: 60px;
-  top: 31px;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 6px;
-  transition:
-    left 0.4s cubic-bezier(0.22, 0.9, 0.24, 1),
-    top 0.4s cubic-bezier(0.22, 0.9, 0.24, 1);
-}
-
-.service-row:hover .service-row-main {
-  left: var(--pad-x);
-  top: 166px;
-}
-
-.service-row-body {
-  opacity: 1;
-  max-height: 40px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  transition: opacity 0.22s ease, max-height 0.22s ease;
-}
-
-.service-row:hover .service-row-body {
-  opacity: 0;
-  max-height: 0;
-}
-
-.service-arrow {
-  position: absolute;
-  right: var(--pad-x);
-  top: 50%;
-  transform: translateY(-50%);
+.grid-services-arrow {
+  margin-top: 16px;
   transition: transform 0.3s ease;
 }
 
-.service-row:hover .service-arrow {
-  transform: translateY(-50%) translateX(4px);
+.grid-services-cell:hover .grid-services-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 900px) {
+  .grid-services {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto;
+    grid-template-areas:
+      "a a"
+      "b c"
+      "d e";
+  }
+
+  .grid-services-cell {
+    min-height: 200px;
+  }
+}
+
+@media (max-width: 600px) {
+  .grid-services {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "a"
+      "b"
+      "c"
+      "d"
+      "e";
+  }
+
+  .grid-services-cell {
+    min-height: 0;
+  }
 }
 
 /* Engagements — plain columns submerged into the section, divided by the
@@ -728,8 +757,8 @@ a {
 .vtimeline-title {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 600;
-  font-size: 22px;
-  letter-spacing: -0.02em;
+  font-size: clamp(24px, 2.6vw, 30px);
+  letter-spacing: -0.025em;
   margin: 10px 0 0;
   transition: color 0.25s ease;
 }
@@ -739,11 +768,11 @@ a {
 }
 
 .vtimeline-body {
-  margin: 8px 0 0;
-  font-size: 14px;
+  margin: 10px 0 0;
+  font-size: 16px;
   line-height: 1.65;
   color: #43464A;
-  max-width: 520px;
+  max-width: 560px;
 }
 
 /* Hero — entrance animation + scroll cue */
@@ -968,23 +997,91 @@ a {
   }
 }
 
-.grid-footer {
+/* Footer — three clear sections: a brand/newsletter band, the link columns,
+   then a bottom bar with copyright, legal links and every social icon. */
+.footer-top {
   display: grid;
-  grid-template-columns: 1.4fr repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  padding-bottom: 34px;
+  border-bottom: 1px solid #E2E0DA;
+}
+
+.footer-newsletter {
+  max-width: 420px;
+  justify-self: end;
+}
+
+.footer-newsletter-input {
+  font-family: Geist, sans-serif;
+  font-size: 14px;
+  padding: 11px 16px;
+  flex: 1 1 200px;
+  min-width: 0;
+  border: 1px solid #B5B1A7;
+  border-radius: 999px;
+  outline: none;
+  background: #FFFFFF;
+  color: #131417;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.footer-newsletter-input:focus {
+  border-color: #131417;
+  box-shadow: 0 0 0 3px rgba(19, 20, 23, 0.07);
+}
+
+.footer-links-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 32px;
+  padding: 34px 0;
+  border-bottom: 1px solid #E2E0DA;
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 20px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #6A6D71;
+  flex-wrap: wrap;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 @media (max-width: 820px) {
-  .grid-footer {
+  .footer-top {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .footer-newsletter {
+    justify-self: start;
+    max-width: none;
+  }
+
+  .footer-links-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 28px;
   }
 }
 
 @media (max-width: 460px) {
-  .grid-footer {
+  .footer-links-grid {
     grid-template-columns: 1fr;
     gap: 24px;
+  }
+
+  .footer-bottom {
+    justify-content: flex-start;
   }
 }
 
@@ -1209,9 +1306,11 @@ a {
   background: #FFFFFF;
 }
 
-/* FAQ accordion */
+/* FAQ accordion — full section width, with breathing room on each row
+   instead of a narrow centered column, matching the "use full width" note
+   these rows were designed to. */
 .faq-list {
-  max-width: 720px;
+  width: 100%;
   border-top: 1px solid #D6D3CB;
 }
 
@@ -1223,16 +1322,16 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
   width: 100%;
-  padding: 20px 4px;
+  padding: 26px 8px;
   background: none;
   border: none;
   cursor: pointer;
   text-align: left;
   font-family: 'Bricolage Grotesque', sans-serif;
   font-weight: 600;
-  font-size: 16px;
+  font-size: clamp(18px, 1.9vw, 21px);
   letter-spacing: -0.015em;
   color: #131417;
 }
@@ -1241,8 +1340,8 @@ a {
   flex: 0 0 auto;
   display: grid;
   place-items: center;
-  width: 22px;
-  height: 22px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 1px solid #B5B1A7;
   color: #55585C;
@@ -1271,10 +1370,10 @@ a {
 }
 
 .faq-answer p {
-  margin: 0 0 20px;
-  padding: 0 4px;
-  max-width: 62ch;
-  font-size: 14.5px;
+  margin: 0 0 26px;
+  padding: 0 8px;
+  max-width: 82ch;
+  font-size: 16.5px;
   line-height: 1.65;
   color: #43464A;
 }
@@ -1554,85 +1653,23 @@ a {
   }
 }
 
-/* Services rows ---------------------------------------------------------- */
-/* The desktop row is an absolutely-positioned hover stage: it doubles in
-   height and the number/heading re-stack. None of that applies without a
-   hover pointer, and the fixed offsets don't survive narrow widths, so below
-   this width the row reverts to plain static flow. */
-@media (max-width: 860px) {
-  .service-row,
-  .service-row:hover {
-    height: auto;
-  }
-
-  .service-row-surface {
-    padding: 20px var(--pad-x);
-  }
-
-  .service-row:hover .service-row-surface {
-    background: transparent;
-  }
-
-  .service-num-large,
-  .service-row:hover .service-num-large,
-  .service-row-main,
-  .service-row:hover .service-row-main {
-    position: static;
-    left: auto;
-    right: auto;
-    top: auto;
-  }
-
-  .service-num-large {
-    font-size: 30px;
-    display: block;
-    margin-bottom: 6px;
-  }
-
-  .service-row-main {
-    padding-right: 26px;
-  }
-
-  .service-row-body,
-  .service-row:hover .service-row-body {
-    opacity: 1;
-    max-height: none;
-    white-space: normal;
-  }
-
-  .service-arrow {
-    top: 24px;
-    transform: none;
-  }
-
-  .service-row:hover .service-arrow {
-    transform: translateX(3px);
-  }
-}
-
-/* On a phone the description is dropped so the row is just a number and a
-   title — tightened up to match, since it no longer needs to reserve room
-   for a second line of body copy. */
-@media (max-width: 640px) {
-  .service-row-surface {
-    padding: 16px var(--pad-x);
-  }
-
-  .service-num-large {
-    font-size: 22px;
-    margin-bottom: 2px;
-  }
-
-  .service-row-body {
-    display: none;
-  }
-}
 
 /* Header ----------------------------------------------------------------- */
 .nav-desktop {
   display: flex;
   align-items: center;
   gap: 30px;
+}
+
+.nav-socials {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-socials .social-icon-link {
+  width: 30px;
+  height: 30px;
 }
 
 .nav-desktop-links {
@@ -1753,6 +1790,15 @@ a {
   align-self: flex-start;
 }
 
+/* A bit larger than the shared .btn-primary base, since the nav CTA is the
+   page's primary conversion point and should read as slightly more
+   prominent than the other pill buttons that share that class. */
+.header-cta-desktop,
+.nav-mobile-cta {
+  font-size: 14px;
+  padding: 11px 22px;
+}
+
 @media (max-width: 1080px) {
   .nav-desktop-links {
     display: none;
@@ -1764,6 +1810,10 @@ a {
   }
 
   .header-cta-desktop {
+    display: none;
+  }
+
+  .nav-socials {
     display: none;
   }
 }

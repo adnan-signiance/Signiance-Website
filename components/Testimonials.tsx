@@ -185,7 +185,7 @@ export default function Testimonials() {
           >
             <Avatar initials={avMid.initials} name={avMid.name} role={avMid.role} photo={avMid.photo} focused />
           </div>
-          <div style={{ height: 40, display: "flex", alignItems: "center", marginBottom: 22 }}>
+          <div style={{ height: 56, display: "flex", alignItems: "center", marginBottom: 22 }}>
             {avMid.logo ? (
               // eslint-disable-next-line @next/next/no-img-element
               <img
@@ -193,9 +193,9 @@ export default function Testimonials() {
                 alt={avMid.company}
                 style={{
                   display: "block",
-                  height: 40,
+                  height: 56,
                   width: "auto",
-                  maxWidth: 220,
+                  maxWidth: 260,
                   objectFit: "contain",
                   objectPosition: "left center",
                   opacity: settled ? 1 : 0,
@@ -206,7 +206,7 @@ export default function Testimonials() {
               <div
                 style={{
                   fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontSize: 15,
+                  fontSize: 17,
                   fontWeight: 600,
                   letterSpacing: "0.01em",
                   color: "#22252A",

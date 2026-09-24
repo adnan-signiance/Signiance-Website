@@ -150,7 +150,7 @@ export default function Header() {
             <img
               src="/media/signiance-dark.jpg"
               alt={brand}
-              style={{ display: "block", height: 32, width: "auto" }}
+              style={{ display: "block", height: 40, width: "auto" }}
             />
           </Link>
 
@@ -270,19 +270,52 @@ export default function Header() {
           </nav>
         </div>
 
-        <Link href="/#contact" className="btn-primary header-cta-desktop">
-          <span className="btn-primary-arrow-in">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          <span className="btn-primary-label">Get Your Scoped Plan</span>
-          <span className="btn-primary-arrow-out">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </Link>
+        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+          <div className="nav-socials">
+            <a
+              href="https://linkedin.com/company/signiance"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Signiance on LinkedIn"
+              className="social-icon-link"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3.6a1.97 1.97 0 1 0 0 3.94 1.97 1.97 0 0 0 0-3.94ZM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.67V8.5h3.24v1.57h.05c.45-.86 1.56-1.76 3.2-1.76 3.42 0 4.05 2.25 4.05 5.18V20Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+            <a
+              href="https://x.com/signiance"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Signiance on X"
+              className="social-icon-link"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </a>
+          </div>
+
+          <Link href="/#contact" className="btn-primary header-cta-desktop">
+            <span className="btn-primary-arrow-in">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+                <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+            <span className="btn-primary-label">Get Your Scoped Plan</span>
+            <span className="btn-primary-arrow-out">
+              <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+                <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            </span>
+          </Link>
+        </div>
 
         <button
           type="button"

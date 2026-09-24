@@ -115,7 +115,7 @@ export default function CaseStudies() {
           span={7}
           heightClass="case-cell-h-lg"
           image="/media/case-healthcare.jpg"
-          tag="01 — HEALTHCARE"
+          tag="01 · HEALTHCARE"
           title="Making pathology reports easier to understand"
           titleSize={24}
           body="AI-powered analysis that turns complex pathology reports into clearer, structured insights."
@@ -128,7 +128,7 @@ export default function CaseStudies() {
           span={5}
           heightClass="case-cell-h-lg"
           image="/media/case-sales.jpg"
-          tag="02 — SALES · AI"
+          tag="02 · SALES · AI"
           title="Turning sales calls into actionable coaching"
           titleSize={20}
           body="An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve."
@@ -141,7 +141,7 @@ export default function CaseStudies() {
           span={5}
           heightClass="case-cell-h-md"
           image="/media/case-food.jpg"
-          tag="03 — FOOD · AI"
+          tag="03 · FOOD · AI"
           title="A conversational AI agent built to scale"
           titleSize={20}
           body="Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in."
@@ -153,7 +153,7 @@ export default function CaseStudies() {
           span={7}
           heightClass="case-cell-h-md"
           image="/media/case-engineering.jpg"
-          tag="04 — ENGINEERING · CLOUD"
+          tag="04 · ENGINEERING · CLOUD"
           title="Scaling engineering simulations with cloud HPC"
           titleSize={20}
           body="A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations."

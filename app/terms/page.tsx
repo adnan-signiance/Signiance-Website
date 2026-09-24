@@ -3,7 +3,7 @@ import PageShell from "@/components/PageShell";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms of Service — Signiance",
+  title: "Terms of Service · Signiance",
   description: "The terms that govern use of the Signiance website and our client engagements.",
 };
 
@@ -25,19 +25,19 @@ export default function TermsPage() {
           {
             heading: "2. Use of the website",
             body: [
-              "You may browse the site and use its forms to contact us. You agree not to misuse the site — including attempting to disrupt it, scrape it at scale, or submit false or misleading information through our forms.",
+              "You may browse the site and use its forms to contact us. You agree not to misuse the site, including attempting to disrupt it, scrape it at scale, or submit false or misleading information through our forms.",
             ],
           },
           {
             heading: "3. Intellectual property",
             body: [
-              "All content on this site — text, design, graphics, and the Signiance name and logo — is owned by Signiance or its licensors and protected by applicable intellectual property law. You may not reproduce or redistribute it without permission.",
+              "All content on this site, including text, design, graphics, and the Signiance name and logo, is owned by Signiance or its licensors and protected by applicable intellectual property law. You may not reproduce or redistribute it without permission.",
             ],
           },
           {
             heading: "4. Services and engagements",
             body: [
-              "Descriptions of our services on this site are informational and don't constitute an offer. Any actual engagement — scope, fees, timeline, and ownership of work product — is governed exclusively by a separate signed agreement between Signiance and the client.",
+              "Descriptions of our services on this site are informational and don't constitute an offer. Any actual engagement, including scope, fees, timeline, and ownership of work product, is governed exclusively by a separate signed agreement between Signiance and the client.",
             ],
           },
           {

@@ -17,7 +17,7 @@ export async function generateMetadata({
   const service = services.find((s) => s.slug === slug);
   if (!service) return {};
   return {
-    title: `${service.title} — Signiance`,
+    title: `${service.title} · Signiance`,
     description: service.long,
   };
 }

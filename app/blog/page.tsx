@@ -4,8 +4,8 @@ import PageShell from "@/components/PageShell";
 import CornerDots from "@/components/CornerDots";
 
 export const metadata: Metadata = {
-  title: "Blog — Signiance",
-  description: "Field notes on shipping cloud infrastructure and production AI — coming soon.",
+  title: "Blog · Signiance",
+  description: "Field notes on shipping cloud infrastructure and production AI, coming soon.",
 };
 
 export default function BlogPage() {
@@ -49,7 +49,7 @@ export default function BlogPage() {
           Field notes, coming soon
         </h1>
         <p style={{ maxWidth: 480, margin: "16px auto 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
-          We&apos;re putting together writing on shipping cloud infrastructure and production AI — from the
+          We&apos;re putting together writing on shipping cloud infrastructure and production AI, from the
           engagements we run, not theory. Check back soon, or see the outcomes we&apos;ve already delivered.
         </p>
         <div style={{ display: "flex", gap: 14, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>

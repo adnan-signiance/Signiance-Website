@@ -25,7 +25,7 @@ const values: { title: string; body: string; icon: IconName }[] = [
   },
   {
     title: "Accountability",
-    body: "We own our work end to end — no handoffs into a void.",
+    body: "We own our work end to end: no handoffs into a void.",
     icon: "flag",
   },
   {
@@ -41,7 +41,7 @@ const values: { title: string; body: string; icon: IconName }[] = [
 ];
 
 const whyUs: { title: string; body: string; icon: IconName }[] = [
-  { title: "Deep expertise", body: "Senior engineers only — no bench, no juniors learning on your invoice.", icon: "star" },
+  { title: "Deep expertise", body: "Senior engineers only: no bench, no juniors learning on your invoice.", icon: "star" },
   {
     title: "Proven approach",
     body: "The Thin Slice Method: one real workflow, scoped and shipped before we talk about anything bigger.",
@@ -84,7 +84,7 @@ export default function AboutContent() {
         </h1>
         <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
           We're a team of senior cloud and AI engineers who believe most AI pilots fail for the same reason
-          most infrastructure projects used to — too much ceremony before anything real ships. Whether you're
+          most infrastructure projects used to: too much ceremony before anything real ships. Whether you're
           at the idea stage or already running production infrastructure, we take the hard part off your
           shoulders and build alongside your team, not instead of it.
         </p>
@@ -140,7 +140,7 @@ export default function AboutContent() {
               <SectionEyebrow>Our mission</SectionEyebrow>
               <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "44ch" }}>
                 Move businesses from cloud infrastructure to production AI, with solutions built for how they
-                actually work — and a team that stays accountable for the outcome, not just the handoff.
+                actually work, and a team that stays accountable for the outcome, not just the handoff.
               </p>
             </div>
           </div>
@@ -166,7 +166,7 @@ export default function AboutContent() {
               <SectionEyebrow>Our vision</SectionEyebrow>
               <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "44ch" }}>
                 To be the consulting partner of choice for businesses turning cloud infrastructure into
-                production AI — worldwide, not just where we happen to have an office.
+                production AI, worldwide, not just where we happen to have an office.
               </p>
             </div>
           </div>
@@ -255,13 +255,13 @@ export default function AboutContent() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/media/aws-advanced-tier-partner.png"
-            alt="AWS Partner — Advanced Tier Services"
+            alt="AWS Partner: Advanced Tier Services"
             style={{ display: "block", height: 92, width: "auto" }}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/media/aws-well-architected-partner.png"
-            alt="AWS Partner — Well-Architected Partner Program"
+            alt="AWS Partner: Well-Architected Partner Program"
             style={{ display: "block", height: 92, width: "auto" }}
           />
         </div>

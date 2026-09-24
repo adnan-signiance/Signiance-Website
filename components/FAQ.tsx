@@ -16,24 +16,35 @@ export default function FAQ() {
         borderBottom: "1px solid #E2E0DA",
       }}
     >
-      <div style={{ marginBottom: 18 }}>
-        <SectionEyebrow>FAQ</SectionEyebrow>
+      <div className="section-head">
+        <div className="section-head-main">
+          <div style={{ marginBottom: 18 }}>
+            <SectionEyebrow>FAQ</SectionEyebrow>
+          </div>
+          <h2
+            style={{
+              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontWeight: 600,
+              fontSize: "var(--fs-h2)",
+              lineHeight: 1.04,
+              letterSpacing: "-0.038em",
+              margin: 0,
+              textWrap: "balance",
+            }}
+          >
+            Questions we get on the first call
+          </h2>
+        </div>
+        <p className="section-head-note">
+          What most prospects ask
+          <br />
+          before they book a scoping call.
+        </p>
       </div>
-      <h2
-        style={{
-          fontFamily: "'Bricolage Grotesque', sans-serif",
-          fontWeight: 600,
-          fontSize: "var(--fs-h2)",
-          lineHeight: 1.04,
-          letterSpacing: "-0.038em",
-          margin: 0,
-          textWrap: "balance",
-        }}
-      >
-        Questions we get on the first call
-      </h2>
 
-      <div className="faq-list" style={{ marginTop: 32 }}>
+      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+
+      <div className="faq-list" style={{ marginTop: 18 }}>
         {faqs.map((f, i) => {
           const isOpen = open === i;
           return (

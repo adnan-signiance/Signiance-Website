@@ -3,7 +3,7 @@ import PageShell from "@/components/PageShell";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Security — Signiance",
+  title: "Security · Signiance",
   description: "How Signiance secures its own systems and the client environments we build and operate.",
 };
 

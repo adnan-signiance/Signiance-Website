@@ -168,7 +168,7 @@ export default function ServicesList() {
                       </span>
                       <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55 }}>
                         <span style={{ fontWeight: 600, color: "#22252A" }}>{c.title}</span>{" "}
-                        <span style={{ color: "#6A6D71" }}>— {c.body}</span>
+                        <span style={{ color: "#6A6D71" }}>: {c.body}</span>
                       </p>
                     </div>
                   ))}

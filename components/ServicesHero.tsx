@@ -29,7 +29,7 @@ export default function ServicesHero() {
       </h1>
       <p style={{ maxWidth: 560, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
         Scoped in a week, delivered against outcomes you define. Every engagement below is staffed by the
-        people who build — not a bench.
+        people who build, not a bench.
       </p>
       <div
         style={{
