@@ -207,47 +207,6 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         <CornerDots bg="#EEF2FB" />
       </section>
 
-      <section style={{ position: "relative", padding: "clamp(44px, 6vw, 60px) var(--pad-x)", borderBottom: "1px solid #E2E0DA" }}>
-        <div style={{ maxWidth: 560 }}>
-          <SectionEyebrow>Unlock the case study</SectionEyebrow>
-          <h2
-            style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
-              fontWeight: 600,
-              fontSize: "clamp(22px, 2.8vw, 28px)",
-              lineHeight: 1.15,
-              letterSpacing: "-0.03em",
-              margin: "16px 0 0",
-              textWrap: "balance",
-            }}
-          >
-            Get the full write-up sent to your inbox
-          </h2>
-          <p style={{ margin: "12px 0 0", fontSize: 14.5, lineHeight: 1.6, color: "#43464A" }}>
-            Send yourself a copy of this case study — challenge, approach, and results — to share with your team.
-          </p>
-          <form
-            style={{ display: "flex", gap: 8, marginTop: 20, flexWrap: "wrap" }}
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input type="email" placeholder="you@company.com" className="email-input" required />
-            <button type="submit" className="btn-hero-primary contact-submit-btn" style={{ border: "none", cursor: "pointer" }}>
-              Access Now
-            </button>
-          </form>
-          <label style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 12, fontSize: 12, color: "#6A6D71" }}>
-            <input type="checkbox" required style={{ margin: 0 }} />
-            <span>
-              I confirm that I have read and agree to the{" "}
-              <Link href="/privacy" style={{ color: "#193DAA", textDecoration: "underline" }}>
-                Privacy Policy
-              </Link>
-            </span>
-          </label>
-        </div>
-        <CornerDots />
-      </section>
-
       {related.length > 0 && (
         <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
           <SectionEyebrow>More case studies</SectionEyebrow>

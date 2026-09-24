@@ -600,6 +600,196 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     image: "/media/case-engineering.jpg",
     dark: false,
   },
+  {
+    id: "c5",
+    slug: "cutting-deploy-time-from-hours-to-minutes",
+    no: "05",
+    category: "Cloud & DevOps",
+    industry: "Retail",
+    tag: "05 — RETAIL · CLOUD",
+    title: "Cutting deploy time from hours to minutes",
+    teaser: "A legacy release process rebuilt around CI/CD and infrastructure as code, so shipping stopped depending on one engineer's calendar.",
+    client: "Retail · E-commerce platform",
+    engagementLength: "4 weeks, infra rebuild",
+    challenge:
+      "Every release meant one senior engineer manually running a checklist late at night, and a bad deploy could take hours to detect and roll back.",
+    challengePoints: [
+      "Deploys ran through a manual checklist only one engineer fully understood.",
+      "A bad release could take hours to detect and roll back.",
+      "Nobody wanted to ship on a Friday, so releases piled up.",
+    ],
+    approach:
+      "We replaced the manual checklist with a CI/CD pipeline and infrastructure as code, plus automated rollback triggered by the same health checks the team already trusted.",
+    solutionPoints: [
+      { title: "CI/CD pipeline", body: "Every merge to main runs the same automated build, test, and deploy sequence — no manual checklist." },
+      { title: "Infrastructure as code", body: "Environments are reproducible from a repo, not a runbook in someone's head." },
+      { title: "Automated rollback", body: "A failed health check reverts the release automatically, before an engineer has to notice." },
+    ],
+    result:
+      "Deploys dropped from a multi-hour, one-person process to a 12-minute pipeline anyone on the team can trigger.",
+    benefits: [
+      { title: "12-minute deploys", body: "Down from a multi-hour manual process." },
+      { title: "No more single point of failure", body: "Any engineer on the team can ship a release." },
+      { title: "Automatic rollback", body: "Bad releases revert themselves before they reach most users." },
+    ],
+    techStack: ["AWS", "Terraform / IaC", "CI/CD pipelines", "Automated health checks"],
+    statValue: "12 min",
+    statLabel: "median deploy time",
+    image: "/media/work-blue.png",
+    dark: false,
+  },
+  {
+    id: "c6",
+    slug: "an-agent-that-replans-routes-when-a-delivery-falls-through",
+    no: "06",
+    category: "Agentic AI",
+    industry: "Logistics",
+    tag: "06 — LOGISTICS · AI",
+    title: "An agent that replans routes when a delivery falls through",
+    teaser: "A multi-agent system that reassigns and replans delivery routes in real time, instead of a dispatcher doing it by hand.",
+    client: "Logistics · Last-mile delivery",
+    engagementLength: "7 weeks, one region",
+    challenge:
+      "When a driver called in or a delivery window slipped, a dispatcher had to manually re-sequence a dozen other routes by hand, under time pressure.",
+    challengePoints: [
+      "One disruption meant manually re-sequencing a dozen other routes.",
+      "Dispatchers made the call under time pressure, with incomplete visibility.",
+      "The same disruption pattern repeated daily, with no system learning from it.",
+    ],
+    approach:
+      "We built a multi-agent system that monitors live delivery status, detects a disruption, and re-plans affected routes automatically, with a dispatcher approving before anything changes.",
+    solutionPoints: [
+      { title: "Live disruption detection", body: "Agents watch delivery status in real time and flag a disruption the moment it happens." },
+      { title: "Automatic re-planning", body: "Affected routes are re-sequenced by the agent, not rebuilt by hand under pressure." },
+      { title: "Human approval checkpoint", body: "A dispatcher signs off before a changed route goes live." },
+    ],
+    result:
+      "Disruptions that used to cost 20+ minutes of manual re-planning now resolve in under two minutes, with a dispatcher only approving, not building, the fix.",
+    benefits: [
+      { title: "20+ min saved per disruption", body: "Re-planning that took a dispatcher 20+ minutes now takes under two." },
+      { title: "Fewer missed windows", body: "Faster replanning means fewer delivery windows blown by a single disruption." },
+      { title: "Dispatcher stays in control", body: "Every change is approved by a human before it ships." },
+    ],
+    techStack: ["Multi-agent orchestration", "Real-time routing engine", "Guardrail & eval tooling"],
+    statValue: "2 min",
+    statLabel: "to replan a disrupted route",
+    image: "/media/work-red.png",
+    dark: true,
+  },
+  {
+    id: "c7",
+    slug: "making-a-contract-library-searchable-in-plain-english",
+    no: "07",
+    category: "Gen AI & RAG",
+    industry: "Legal",
+    tag: "07 — LEGAL · GEN AI",
+    title: "Making a contract library searchable in plain English",
+    teaser: "A retrieval pipeline that lets associates ask a contract library a question and get a cited answer, instead of searching by keyword.",
+    client: "Legal · Corporate contracts",
+    engagementLength: "5 weeks, single practice group",
+    challenge:
+      "Associates searched thousands of contracts by keyword and still had to open a dozen documents to confirm one clause was standard.",
+    challengePoints: [
+      "Keyword search returned dozens of documents for one question.",
+      "Confirming a clause was standard meant opening and comparing several contracts by hand.",
+      "Nothing traced an answer back to the exact clause it came from.",
+    ],
+    approach:
+      "We indexed the firm's contract library into a retrieval pipeline that answers a plain-English question with the relevant clauses and a citation back to the source document.",
+    solutionPoints: [
+      { title: "Retrieval pipeline", body: "The full contract library indexed and retrievable by meaning, not just keyword." },
+      { title: "Grounded, cited answers", body: "Every answer points back to the exact clause and document it came from." },
+      { title: "Evaluation dashboard", body: "Ongoing measurement against a set of questions the practice group actually asks." },
+    ],
+    result:
+      "A question that took an associate 20-30 minutes of manual search now gets a cited answer in under a minute.",
+    benefits: [
+      { title: "Minutes, not half an hour", body: "Clause lookups that took 20-30 minutes now resolve in under a minute." },
+      { title: "Every answer cited", body: "Associates can verify the source clause instead of trusting a summary." },
+      { title: "Scales with the library", body: "Adding new contracts doesn't add new manual search time." },
+    ],
+    techStack: ["Retrieval-augmented generation", "Vector databases", "LLM evaluation harness"],
+    statValue: "<1 min",
+    statLabel: "to answer a clause lookup",
+    image: "/media/work-yellow.png",
+    dark: false,
+  },
+  {
+    id: "c8",
+    slug: "proving-an-underwriting-model-before-funding-the-build",
+    no: "08",
+    category: "AI POC / MVP",
+    industry: "Fintech",
+    tag: "08 — FINTECH · POC",
+    title: "Proving an underwriting model before funding the build",
+    teaser: "A scoped proof of concept on real loan data, answering whether an AI underwriting assist could work before the board funded a production build.",
+    client: "Fintech · Consumer lending",
+    engagementLength: "3 weeks, single workflow",
+    challenge:
+      "The team believed an AI-assisted underwriting model could speed up approvals, but couldn't get budget without proof it worked on their actual, messy loan data.",
+    challengePoints: [
+      "Leadership wouldn't fund a build without evidence it worked on real data.",
+      "Prior AI demos elsewhere in the business had been thrown away after the pilot.",
+      "The team had weeks, not quarters, to make the case.",
+    ],
+    approach:
+      "We built a scoped proof of concept directly against the lender's historical loan data, then gave a direct read-out on accuracy, edge cases, and what production would take.",
+    solutionPoints: [
+      { title: "Scoped POC on real data", body: "Built and tested against the lender's actual historical loan applications." },
+      { title: "Feasibility read-out", body: "A direct answer on where the model performed and where it didn't." },
+      { title: "Path to production", body: "Architected so a green light meant extending the POC, not rebuilding it." },
+    ],
+    result:
+      "The board approved production funding off a working proof of concept in three weeks, and the POC's architecture became the first production build.",
+    benefits: [
+      { title: "Funded off a working proof", body: "Board sign-off came from a real result, not a slide deck." },
+      { title: "No thrown-away work", body: "The POC's code became the start of the production system." },
+      { title: "Clear-eyed on limits", body: "The read-out was honest about where the model needed guardrails." },
+    ],
+    techStack: ["Rapid prototyping", "LLM APIs", "Production-readiness review"],
+    statValue: "3 wks",
+    statLabel: "from idea to board-approved POC",
+    image: "/media/case-fintech.png",
+    dark: false,
+  },
+  {
+    id: "c9",
+    slug: "a-copilot-that-drafts-the-answer-before-support-has-to",
+    no: "09",
+    category: "Copilots",
+    industry: "SaaS",
+    tag: "09 — SAAS · COPILOT",
+    title: "A copilot that drafts the answer before support has to",
+    teaser: "An in-product copilot that drafts a reply to the same five questions support was answering all day, tuned to the product's own tone.",
+    client: "SaaS · HR software",
+    engagementLength: "6 weeks, web app",
+    challenge:
+      "Support tickets were overwhelmingly the same five questions, but every reply was still typed out by hand in a tone that varied by agent.",
+    challengePoints: [
+      "The same five questions made up most of the support queue.",
+      "Every reply was still typed by hand, in a tone that varied by agent.",
+      "Users asked mid-workflow, not in a separate help tab.",
+    ],
+    approach:
+      "We embedded a copilot directly in the product that drafts a reply in the team's tone, pulling from the same answers support already gives, with an agent reviewing before it sends.",
+    solutionPoints: [
+      { title: "Conversation design", body: "Scripted around the actual five questions, not a generic FAQ bot." },
+      { title: "In-product integration", body: "Lives inside the app where the user already is, not a separate widget." },
+      { title: "Usage analytics", body: "Visibility into which drafts agents edit, so the copilot keeps improving." },
+    ],
+    result:
+      "First-response time on the top five ticket types dropped by more than half, with agents editing instead of writing from scratch.",
+    benefits: [
+      { title: "50%+ faster first response", body: "On the ticket types that made up most of the queue." },
+      { title: "Consistent tone", body: "Every drafted reply matches the same voice, regardless of which agent sends it." },
+      { title: "Agents review, not write", body: "Agents edit a drafted answer instead of typing one from scratch." },
+    ],
+    techStack: ["Conversational agent frameworks", "Product integrations", "Usage analytics"],
+    statValue: "50%+",
+    statLabel: "faster first response",
+    image: "/media/case-health.png",
+    dark: false,
+  },
 ];
 
 export const caseStudyFilters = ["All", "Cloud & DevOps", "Agentic AI", "Gen AI & RAG", "AI POC / MVP", "Copilots"];
@@ -620,4 +810,58 @@ export const aboutClients = [
   { src: "/media/logo-revdau.png", alt: "RevDau", height: 46, invert: false },
   { src: "/media/logo-1300.png", alt: "1300 Group", height: 48, invert: false },
   { src: "/media/logo-jac.svg", alt: "JAC", height: 44, invert: false },
+];
+
+export type TeamMember = {
+  name: string;
+  role: string;
+  photo?: string;
+};
+
+export const team: TeamMember[] = [
+  { name: "Brijesh", role: "Founder & CEO" },
+  { name: "Adnan", role: "AI Engineer" },
+  { name: "Arsalan", role: "AI Engineer" },
+  { name: "Shabareesh", role: "AI Engineer" },
+  { name: "Avnish", role: "AI Engineer" },
+  { name: "Prerna", role: "Sales" },
+  { name: "Shlok", role: "Digital Marketing Specialist" },
+];
+
+export type FAQ = {
+  question: string;
+  answer: string;
+};
+
+export const faqs: FAQ[] = [
+  {
+    question: "How is an engagement priced?",
+    answer:
+      "You start with a one-week, fixed-fee scoping sprint on a single workflow. If you continue, that fee is credited against the build — you're never paying twice to find out what we'd build.",
+  },
+  {
+    question: "Who owns the code and IP once we ship?",
+    answer:
+      "You do — 100% of the code, models, and runbooks we hand over are yours, with no ongoing license or lock-in to us.",
+  },
+  {
+    question: "What happens if the scoping sprint says it's not feasible?",
+    answer:
+      "You keep the read-out either way. If the numbers don't support building it, we'll tell you that directly instead of talking you into a build.",
+  },
+  {
+    question: "How do you handle our data and security?",
+    answer:
+      "We work inside your existing infrastructure and access controls wherever possible, sign whatever NDA or DPA your legal team requires, and never train shared models on your data.",
+  },
+  {
+    question: "Do you work with our existing cloud and tooling?",
+    answer:
+      "Usually, yes — most engagements build on the AWS, CI/CD, and data stack you already run rather than asking you to switch. We'll flag it upfront if something doesn't fit.",
+  },
+  {
+    question: "How fast can we actually start?",
+    answer:
+      "A scoping call is usually available within a few days, and the scoping sprint itself starts the week after that — most clients see a working thin slice inside a month of that first call.",
+  },
 ];

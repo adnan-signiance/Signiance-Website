@@ -8,7 +8,7 @@ import ClientsStrip from "./ClientsStrip";
 import FeatureCard from "./FeatureCard";
 import PracticeIcon, { type IconName } from "./PracticeIcon";
 import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
-import { headline, metrics } from "@/lib/data";
+import { headline, metrics, team } from "@/lib/data";
 
 const blueScale = ["#152F85", "#193DAA", "#2C55C4", "#4F6FDB", "#5C81DF"];
 
@@ -62,6 +62,7 @@ const whyUs: { title: string; body: string; icon: IconName }[] = [
 export default function AboutContent() {
   const valuesGridRef = useRef<HTMLDivElement | null>(null);
   const valuesDots = useGridIntersectionDots(valuesGridRef, ".grid-values-cell", [values.length]);
+  const founder = team.find((m) => m.name === "Brijesh")!;
 
   return (
     <>
@@ -168,6 +169,31 @@ export default function AboutContent() {
                 production AI — worldwide, not just where we happen to have an office.
               </p>
             </div>
+          </div>
+        </div>
+        <CornerDots />
+      </section>
+
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+        <SectionEyebrow>Founder</SectionEyebrow>
+        <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 24 }}>
+          <span className="team-avatar" style={{ width: 64, height: 64, fontSize: 22, background: blueScale[0] }}>
+            {founder.name.charAt(0)}
+          </span>
+          <div>
+            <h4
+              style={{
+                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontWeight: 600,
+                fontSize: 19,
+                letterSpacing: "-0.02em",
+                margin: 0,
+                color: "#131417",
+              }}
+            >
+              {founder.name}
+            </h4>
+            <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6A6D71" }}>{founder.role}</p>
           </div>
         </div>
         <CornerDots />

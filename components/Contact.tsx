@@ -2,6 +2,7 @@
 
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import CalBooking from "./CalBooking";
 
 export default function Contact() {
   return (
@@ -52,15 +53,19 @@ export default function Contact() {
           30 minutes with the people who&apos;d do the work. You leave with a scoped plan — whether or not you
           hire us.
         </p>
-        <form
-          style={{ display: "flex", gap: 8, justifyContent: "center", marginTop: 26, flexWrap: "wrap" }}
-          onSubmit={(e) => e.preventDefault()}
+        <div
+          style={{
+            maxWidth: 920,
+            margin: "32px auto 0",
+            textAlign: "left",
+            background: "#FFFFFF",
+            border: "1px solid #E2E0DA",
+            borderRadius: 16,
+            overflow: "hidden",
+          }}
         >
-          <input type="email" placeholder="you@company.com" className="email-input" required />
-          <button type="submit" className="btn-hero-primary contact-submit-btn" style={{ border: "none", cursor: "pointer" }}>
-            Get Your Scoped Plan
-          </button>
-        </form>
+          <CalBooking />
+        </div>
         <p style={{ margin: "14px 0 0", fontSize: 12, color: "#64676B" }}>
           Or email hello@signiance.com — we reply within a business day.
         </p>
