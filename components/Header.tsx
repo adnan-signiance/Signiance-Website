@@ -41,7 +41,8 @@ export default function Header() {
   const isServicesPage = pathname.startsWith("/services");
   const isCaseStudiesPage = pathname.startsWith("/case-studies");
   const isBlogPage = pathname.startsWith("/blog");
-  const isResourcesPage = isCaseStudiesPage || isBlogPage;
+  const isCareersPage = pathname.startsWith("/careers");
+  const isResourcesPage = isCaseStudiesPage || isBlogPage || isCareersPage;
   const isAboutPage = pathname.startsWith("/about");
 
   const [scrolled, setScrolled] = useState(false);
@@ -263,6 +264,10 @@ export default function Header() {
                     Blogs
                     <ArrowIcon />
                   </Link>
+                  <Link href="/careers" className="nav-drop-item">
+                    Careers
+                    <ArrowIcon />
+                  </Link>
                 </div>
               )}
             </div>
@@ -374,6 +379,9 @@ export default function Header() {
             </Link>
             <Link href="/blog" className="nav-mobile-sub">
               Blogs
+            </Link>
+            <Link href="/careers" className="nav-mobile-sub">
+              Careers
             </Link>
           </div>
         </div>

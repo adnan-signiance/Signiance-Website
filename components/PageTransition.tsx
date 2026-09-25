@@ -16,6 +16,8 @@ function getPageLabel(pathname: string): string {
   if (pathname.startsWith("/services")) return "Services";
   if (pathname.startsWith("/case-studies")) return "Case Studies";
   if (pathname.startsWith("/about")) return "About";
+  if (pathname.startsWith("/blog")) return "Blog";
+  if (pathname.startsWith("/careers")) return "Careers";
   return "";
 }
 
@@ -114,7 +116,11 @@ export default function PageTransition() {
   return (
     <div className={`page-curtain${phase !== "idle" ? " is-active" : ""}`} aria-hidden="true">
       <div className="curtain-panel" style={{ transform, transition: phase === "idle" ? "none" : undefined }}>
-        <div className="curtain-label">{label}</div>
+        <div className="curtain-label">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/media/signiance-dark.jpg" alt="" className="curtain-logo" />
+          <div>{label}</div>
+        </div>
       </div>
     </div>
   );
