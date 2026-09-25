@@ -1,14 +1,15 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import ClientsStrip from "./ClientsStrip";
 import FeatureCard from "./FeatureCard";
+import MetricsGrid from "./MetricsGrid";
+import CalBooking from "./CalBooking";
 import PracticeIcon, { type IconName } from "./PracticeIcon";
 import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
-import { headline, metrics, team } from "@/lib/data";
+import { headline, team } from "@/lib/data";
 
 const blueScale = ["#152F85", "#193DAA", "#2C55C4", "#4F6FDB", "#5C81DF"];
 
@@ -90,26 +91,7 @@ export default function AboutContent() {
         </p>
         <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: 14, color: "#6A6D71" }}>Bengaluru · Rajkot · Melbourne</p>
 
-        <div className="grid-cs-metrics" style={{ marginTop: 36, borderTop: "1px solid #C7CEE6" }}>
-          {metrics.map((m) => (
-            <div key={m.label} style={{ padding: "18px 22px 22px 0", borderRight: "1px solid #E2E0DA" }}>
-              <div
-                style={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontWeight: 600,
-                  fontSize: "clamp(24px, 2.6vw, 30px)",
-                  letterSpacing: "-0.03em",
-                  color: "#193DAA",
-                }}
-              >
-                {m.value}
-              </div>
-              <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>
-                {m.label}
-              </div>
-            </div>
-          ))}
-        </div>
+        <MetricsGrid bordered style={{ marginTop: 40 }} />
 
         <CornerDots />
       </section>
@@ -269,6 +251,7 @@ export default function AboutContent() {
       </section>
 
       <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA", borderBottom: "1px solid #E2E0DA" }}>
+        <CornerDots position="top" />
         <h2
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -285,9 +268,9 @@ export default function AboutContent() {
         <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
           30 minutes with the people who&apos;d do the work. You leave with a scoped plan either way.
         </p>
-        <Link href="/#contact" className="btn-hero-primary" style={{ marginTop: 22, display: "inline-flex" }}>
-          Get Your Scoped Plan
-        </Link>
+        <div className="cal-frame" style={{ marginTop: 24 }}>
+          <CalBooking />
+        </div>
         <CornerDots />
       </section>
     </>

@@ -45,7 +45,7 @@ function GridDots({ rows }: { rows: number }) {
   });
 
   return (
-    <div style={{ position: "absolute", inset: 0 }}>
+    <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
       {points.map((p, i) => (
         <span key={i} className="corner-dot" style={p.style} />
       ))}
@@ -57,19 +57,22 @@ function ClientsGrid() {
   const rows = Math.ceil(aboutClients.length / GRID_COLS);
   return (
     <section style={{ position: "relative" }}>
-      <h2
-        style={{
-          fontFamily: "'Bricolage Grotesque', sans-serif",
-          fontWeight: 600,
-          fontSize: "clamp(22px, 2.6vw, 28px)",
-          letterSpacing: "-0.03em",
-          textAlign: "center",
-          margin: 0,
-          padding: "clamp(36px, 5vw, 48px) var(--pad-x) 0",
-        }}
-      >
-        Our teams have delivered inside
-      </h2>
+      <div style={{ padding: "clamp(36px, 5vw, 48px) var(--pad-x) 0" }}>
+        <SectionEyebrow>Clients</SectionEyebrow>
+        <h2
+          style={{
+            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontWeight: 600,
+            fontSize: "var(--fs-h2)",
+            lineHeight: 1.04,
+            letterSpacing: "-0.038em",
+            margin: "16px 0 0",
+            textWrap: "balance",
+          }}
+        >
+          Our teams have delivered inside
+        </h2>
+      </div>
       <div style={{ position: "relative", marginTop: "clamp(28px, 4vw, 40px)" }}>
         <div className="grid-logos">
           {aboutClients.map((c) => (

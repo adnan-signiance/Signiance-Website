@@ -1,4 +1,5 @@
 import CornerDots from "./CornerDots";
+import CtaArrow from "./CtaArrow";
 import { subhead } from "@/lib/data";
 
 export default function Hero() {
@@ -203,10 +204,10 @@ export default function Hero() {
           }}
         >
           <a href="#contact" className="btn-hero-primary">
-            Get Your Scoped Plan
+            <CtaArrow>Get Your Scoped Plan</CtaArrow>
           </a>
           <a href="#work" className="btn-hero-outline">
-            See how we engage
+            <CtaArrow>See how we engage</CtaArrow>
           </a>
         </div>
 

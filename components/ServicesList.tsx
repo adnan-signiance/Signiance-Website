@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CornerDots from "./CornerDots";
-import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
+import CtaArrow from "./CtaArrow";
+import { serviceColor } from "./PracticeIcon";
 import { services } from "@/lib/data";
 
 export default function ServicesList() {
@@ -19,7 +20,7 @@ export default function ServicesList() {
               position: "relative",
               borderBottom: "1px solid #E2E0DA",
               padding: "var(--section-pt) var(--pad-x)",
-              background: sv.bg,
+              background: "#FFFFFF",
             }}
           >
             <div className="grid-svc-detail">
@@ -54,76 +55,42 @@ export default function ServicesList() {
                     height: "100%",
                     display: "flex",
                     flexDirection: "column",
-                    justifyContent: "space-between",
+                    justifyContent: "flex-end",
                     padding: "26px 28px",
                     boxSizing: "border-box",
                   }}
                 >
-                  <span
+                  <div
                     style={{
-                      display: "grid",
-                      placeItems: "center",
-                      width: 48,
-                      height: 48,
-                      borderRadius: 13,
-                      background: "rgba(255,255,255,0.14)",
-                      backdropFilter: "blur(2px)",
-                      flex: "0 0 auto",
+                      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
+                      fontSize: 12,
+                      color: "rgba(255,255,255,0.6)",
                     }}
                   >
-                    <PracticeIcon name={serviceIcon[sv.id]} color="#FFFFFF" size={22} />
-                  </span>
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                        fontSize: 12,
-                        color: "rgba(255,255,255,0.6)",
-                      }}
-                    >
-                      Practice {sv.no} / 05
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: "'Bricolage Grotesque', sans-serif",
-                        fontWeight: 600,
-                        fontSize: 19,
-                        letterSpacing: "-0.02em",
-                        color: "#FFFFFF",
-                        marginTop: 4,
-                      }}
-                    >
-                      {sv.short}
-                    </div>
+                    Practice {sv.no} / 05
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: "'Bricolage Grotesque', sans-serif",
+                      fontWeight: 600,
+                      fontSize: 19,
+                      letterSpacing: "-0.02em",
+                      color: "#FFFFFF",
+                      marginTop: 4,
+                    }}
+                  >
+                    {sv.short}
                   </div>
                 </div>
               </div>
               <div style={{ order: contentOrder }}>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 7,
-                    fontSize: 11,
-                    fontWeight: 600,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "#22252A",
-                    background: `${accent}14`,
-                    borderRadius: 999,
-                    padding: "6px 13px",
-                  }}
-                >
-                  <span style={{ width: 6, height: 6, borderRadius: "50%", background: accent, flex: "0 0 auto" }} />
-                  {sv.short}
-                </span>
                 <h2
                   style={{
                     fontFamily: "'Bricolage Grotesque', sans-serif",
                     fontWeight: 600,
-                    fontSize: 28,
-                    letterSpacing: "-0.028em",
-                    margin: "14px 0 0",
+                    fontSize: "clamp(27px, 3.2vw, 36px)",
+                    letterSpacing: "-0.03em",
+                    margin: 0,
                     textWrap: "balance",
                   }}
                 >
@@ -132,71 +99,80 @@ export default function ServicesList() {
                 <p style={{ margin: "14px 0 0", fontSize: 15, lineHeight: 1.65, color: "#43464A", textWrap: "pretty" }}>
                   {sv.long}
                 </p>
+
                 <div
                   style={{
-                    marginTop: 16,
-                    padding: "11px 16px",
-                    borderRadius: 10,
-                    borderLeft: `2px solid ${accent}`,
-                    background: `${accent}0D`,
-                    fontSize: 13,
-                    lineHeight: 1.55,
-                    color: "#43464A",
+                    marginTop: 18,
+                    padding: "14px 18px",
+                    borderRadius: 12,
+                    borderLeft: "3px solid #193DAA",
+                    background: "#EEF2FB",
+                    color: "#22252A",
                   }}
                 >
-                  <span style={{ fontWeight: 600, color: "#22252A" }}>Best for </span>
-                  {sv.bestFor}
+                  <div
+                    style={{
+                      fontSize: 10.5,
+                      fontWeight: 700,
+                      letterSpacing: "0.08em",
+                      textTransform: "uppercase",
+                      color: "#193DAA",
+                      marginBottom: 4,
+                    }}
+                  >
+                    Best for
+                  </div>
+                  <div style={{ fontSize: 13.5, lineHeight: 1.6 }}>{sv.bestFor}</div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: 13, marginTop: 20 }}>
-                  {sv.capabilities.map((c) => (
-                    <div key={c.title} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                      <span
+
+                {/* Titles only, not the full capability descriptions — those
+                    live on the detail page. Showing all three in full here
+                    made the row too dense to scan at a glance. */}
+                <div style={{ marginTop: 22 }}>
+                  <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
+                    Includes
+                  </div>
+                  <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "10px 16px" }}>
+                    {sv.capabilities.map((c) => (
+                      <div
+                        key={c.title}
                         style={{
-                          flex: "0 0 auto",
-                          marginTop: 3,
-                          display: "grid",
-                          placeItems: "center",
-                          width: 18,
-                          height: 18,
-                          borderRadius: 6,
-                          background: `${accent}17`,
+                          fontSize: 13.5,
+                          fontWeight: 500,
+                          color: "#22252A",
+                          paddingLeft: 12,
+                          borderLeft: `2px solid ${accent}`,
                         }}
                       >
-                        <svg width="9" height="9" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                          <path d="M1.6 5.3 3.8 7.4 8.4 2.6" stroke={accent} strokeWidth="1.3" strokeLinecap="round" />
-                        </svg>
-                      </span>
-                      <p style={{ margin: 0, fontSize: 13.5, lineHeight: 1.55 }}>
-                        <span style={{ fontWeight: 600, color: "#22252A" }}>{c.title}</span>{" "}
-                        <span style={{ color: "#6A6D71" }}>: {c.body}</span>
-                      </p>
-                    </div>
-                  ))}
+                        {c.title}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div style={{ display: "flex", gap: 20, marginTop: 22, flexWrap: "wrap" }}>
-                  <Link
-                    href={`/services/${sv.slug}`}
-                    data-transition="none"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 13, fontWeight: 500, color: "#193DAA" }}
-                  >
-                    See full details
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                      <path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                    </svg>
-                  </Link>
-                  <a
-                    href="/#contact"
-                    style={{ display: "inline-flex", alignItems: "center", gap: 7, fontSize: 13, fontWeight: 500, color: "#131417" }}
-                  >
-                    Talk about this practice
-                    <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-                      <path d="M2 6h8M6.5 2.5 10 6l-3.5 3.5" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" />
-                    </svg>
+
+                <div style={{ marginTop: 22 }}>
+                  <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
+                    Tech stack
+                  </div>
+                  <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 22 }}>
+                    {sv.techStack.map((t) => (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img key={t.name} src={t.logo} alt={t.name} title={t.name} className="tech-logo" />
+                    ))}
+                  </div>
+                </div>
+
+                <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 26, flexWrap: "wrap" }}>
+                  <a href="/#contact" className="btn-hero-primary">
+                    <CtaArrow>Talk about this practice</CtaArrow>
                   </a>
+                  <Link href={`/services/${sv.slug}`} data-transition="none" className="btn-hero-outline">
+                    <CtaArrow>See full details</CtaArrow>
+                  </Link>
                 </div>
               </div>
             </div>
-            <CornerDots position="top" bg={sv.bg} />
+            <CornerDots position="top" />
           </section>
         );
       })}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import CtaArrow from "./CtaArrow";
 import { brand, footerColumns } from "@/lib/data";
 
 const socials = [
@@ -97,7 +98,7 @@ export default function Footer() {
           >
             <input type="email" placeholder="you@company.com" className="footer-newsletter-input" required />
             <button type="submit" className="btn-hero-primary" style={{ border: "none", cursor: "pointer" }}>
-              Subscribe
+              <CtaArrow>Subscribe</CtaArrow>
             </button>
           </form>
         </div>

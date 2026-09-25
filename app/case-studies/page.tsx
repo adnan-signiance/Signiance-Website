@@ -3,6 +3,7 @@ import PageShell from "@/components/PageShell";
 import CaseStudiesHero from "@/components/CaseStudiesHero";
 import CaseStudiesGrid from "@/components/CaseStudiesGrid";
 import CaseStudiesTestimonials from "@/components/CaseStudiesTestimonials";
+import CaseStudiesCTA from "@/components/CaseStudiesCTA";
 
 export const metadata: Metadata = {
   title: "Case Studies · Signiance",
@@ -16,6 +17,7 @@ export default function CaseStudiesPage() {
       <CaseStudiesHero />
       <CaseStudiesGrid />
       <CaseStudiesTestimonials />
+      <CaseStudiesCTA />
     </PageShell>
   );
 }

@@ -9,6 +9,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 // import Engagements from "@/components/Engagements";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
+import FoundersNote from "@/components/FoundersNote";
 
 export default function Home() {
   return (
@@ -23,6 +24,7 @@ export default function Home() {
       {/* <Engagements /> */}
       <FAQ />
       <Contact />
+      <FoundersNote />
     </PageShell>
   );
 }

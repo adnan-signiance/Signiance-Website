@@ -8,6 +8,8 @@ export const subhead =
 
 export const accent = "#193DAA";
 
+export type TechStackItem = { name: string; logo: string };
+
 export type Service = {
   id: string;
   slug: string;
@@ -22,10 +24,42 @@ export type Service = {
   whatIsIt: string;
   capabilities: { title: string; body: string }[];
   whoItsFor: string[];
-  techStack: string[];
+  techStack: TechStackItem[];
+  techStackDetail: TechStackItem[];
   image: string;
   bg: string;
 };
+
+const AWS: TechStackItem = { name: "AWS", logo: "/media/tech-logos/amazonaws.svg" };
+const TERRAFORM: TechStackItem = { name: "Terraform", logo: "/media/tech-logos/terraform.svg" };
+const KUBERNETES: TechStackItem = { name: "Kubernetes", logo: "/media/tech-logos/kubernetes.svg" };
+const DOCKER: TechStackItem = { name: "Docker", logo: "/media/tech-logos/docker.svg" };
+const GITHUB: TechStackItem = { name: "GitHub", logo: "/media/tech-logos/github.svg" };
+const OPENAI: TechStackItem = { name: "OpenAI", logo: "/media/tech-logos/openai.svg" };
+const ANTHROPIC: TechStackItem = { name: "Anthropic", logo: "/media/tech-logos/anthropic.svg" };
+const LANGCHAIN: TechStackItem = { name: "LangChain", logo: "/media/tech-logos/langchain.svg" };
+const PYTHON: TechStackItem = { name: "Python", logo: "/media/tech-logos/python.svg" };
+
+// Detail-page-only tools: a fuller stack list shown with name + logo
+// (rather than the compact, logo-only set on the services listing page).
+const GITHUB_ACTIONS: TechStackItem = { name: "GitHub Actions", logo: "/media/tech-logos/githubactions.svg" };
+const GRAFANA: TechStackItem = { name: "Grafana", logo: "/media/tech-logos/grafana.svg" };
+const PROMETHEUS: TechStackItem = { name: "Prometheus", logo: "/media/tech-logos/prometheus.svg" };
+const ANSIBLE: TechStackItem = { name: "Ansible", logo: "/media/tech-logos/ansible.svg" };
+const HELM: TechStackItem = { name: "Helm", logo: "/media/tech-logos/helm.svg" };
+const HUGGINGFACE: TechStackItem = { name: "Hugging Face", logo: "/media/tech-logos/huggingface.svg" };
+const REDIS: TechStackItem = { name: "Redis", logo: "/media/tech-logos/redis.svg" };
+const FASTAPI: TechStackItem = { name: "FastAPI", logo: "/media/tech-logos/fastapi.svg" };
+const SLACK: TechStackItem = { name: "Slack", logo: "/media/tech-logos/slack.svg" };
+const QDRANT: TechStackItem = { name: "Qdrant", logo: "/media/tech-logos/qdrant.svg" };
+const POSTGRESQL: TechStackItem = { name: "PostgreSQL", logo: "/media/tech-logos/postgresql.svg" };
+const ELASTICSEARCH: TechStackItem = { name: "Elasticsearch", logo: "/media/tech-logos/elasticsearch.svg" };
+const JUPYTER: TechStackItem = { name: "Jupyter", logo: "/media/tech-logos/jupyter.svg" };
+const NEXTJS: TechStackItem = { name: "Next.js", logo: "/media/tech-logos/nextdotjs.svg" };
+const VERCEL: TechStackItem = { name: "Vercel", logo: "/media/tech-logos/vercel.svg" };
+const AUTH0: TechStackItem = { name: "Auth0", logo: "/media/tech-logos/auth0.svg" };
+const HUBSPOT: TechStackItem = { name: "HubSpot", logo: "/media/tech-logos/hubspot.svg" };
+const MIXPANEL: TechStackItem = { name: "Mixpanel", logo: "/media/tech-logos/mixpanel.svg" };
 
 export const services: Service[] = [
   {
@@ -51,7 +85,8 @@ export const services: Service[] = [
       "Engineering leads who inherited infrastructure nobody fully documented.",
       "Startups scaling past the point ad-hoc scripts can keep up.",
     ],
-    techStack: ["AWS", "Terraform / IaC", "CI/CD pipelines", "Kubernetes & containers", "Observability & monitoring"],
+    techStack: [AWS, TERRAFORM, KUBERNETES, DOCKER, GITHUB],
+    techStackDetail: [AWS, TERRAFORM, KUBERNETES, DOCKER, GITHUB, GITHUB_ACTIONS, GRAFANA, PROMETHEUS, ANSIBLE, HELM],
     image: "/media/eng-01.png",
     bg: "#FFFFFF",
   },
@@ -78,7 +113,8 @@ export const services: Service[] = [
       "Ops and revenue teams drowning in repetitive multi-step tasks.",
       "Teams who tried a single-prompt chatbot and hit its ceiling.",
     ],
-    techStack: ["Multi-agent orchestration", "LLM tool-calling", "Vector memory", "Guardrail & eval tooling"],
+    techStack: [OPENAI, ANTHROPIC, LANGCHAIN, PYTHON],
+    techStackDetail: [OPENAI, ANTHROPIC, LANGCHAIN, PYTHON, HUGGINGFACE, REDIS, FASTAPI, SLACK],
     image: "/media/eng-02.png",
     bg: "#EEF2FB",
   },
@@ -105,7 +141,8 @@ export const services: Service[] = [
       "Support and knowledge teams sitting on documents nobody can search well.",
       "Products that need to answer questions grounded in proprietary data.",
     ],
-    techStack: ["Retrieval-augmented generation", "Vector databases", "LLM evaluation harness", "Embedding pipelines"],
+    techStack: [OPENAI, PYTHON, GITHUB, ANTHROPIC],
+    techStackDetail: [OPENAI, ANTHROPIC, PYTHON, QDRANT, POSTGRESQL, ELASTICSEARCH, JUPYTER, HUGGINGFACE],
     image: "/media/eng-03.png",
     bg: "#FFFFFF",
   },
@@ -132,7 +169,8 @@ export const services: Service[] = [
       "Teams that have been burned by demos that never went anywhere.",
       "Founders validating an AI feature before it's on the roadmap.",
     ],
-    techStack: ["Rapid prototyping", "LLM APIs", "Cloud sandbox environments", "Production-readiness review"],
+    techStack: [OPENAI, ANTHROPIC, AWS, PYTHON],
+    techStackDetail: [OPENAI, ANTHROPIC, AWS, PYTHON, NEXTJS, VERCEL, FASTAPI, GITHUB],
     image: "/media/case-fintech.png",
     bg: "#EEF2FB",
   },
@@ -159,7 +197,8 @@ export const services: Service[] = [
       "Teams wanting an assistant embedded in-product, not a separate chatbot widget.",
       "Companies whose users ask for help mid-workflow, not in a separate tab.",
     ],
-    techStack: ["Conversational agent frameworks", "Auth & session management", "CRM / product integrations", "Usage analytics"],
+    techStack: [OPENAI, LANGCHAIN, PYTHON, GITHUB],
+    techStackDetail: [OPENAI, LANGCHAIN, PYTHON, AUTH0, HUBSPOT, MIXPANEL, SLACK, GITHUB],
     image: "/media/case-health.png",
     bg: "#FFFFFF",
   },

@@ -3,13 +3,15 @@
 import { useRef } from "react";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
-import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
 import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
 import { services } from "@/lib/data";
 
-// Named grid-template-areas below (not a uniform 3-column repeat), since the
-// first practice spans both rows in column 1.
+// Named grid-template-areas below (not a uniform 3-column repeat): the first
+// practice spans the first two columns of row 1, everything else is one cell.
 const AREAS = ["a", "b", "c", "d", "e"];
+// Last cell in each row needs its own border-right dropped so the
+// container's primary-blue edge (drawn via ::before) isn't hidden behind it.
+const EDGE_INDEXES = [1, 4];
 
 export default function Services() {
   const gridRef = useRef<HTMLDivElement | null>(null);
@@ -55,38 +57,20 @@ export default function Services() {
       <div className="grid-services" ref={gridRef} style={{ marginTop: 24 }}>
         <GridDotsOverlay dots={dots} />
         {services.map((sv, i) => {
-          const accent = serviceColor[sv.id];
-          const icon = serviceIcon[sv.id];
-          const featured = i === 0;
+          const wide = i === 0;
+          const edge = EDGE_INDEXES.includes(i);
           return (
             <a
               key={sv.id}
               href="#contact"
-              className={`grid-services-cell${featured ? " grid-services-cell-featured" : ""}`}
-              style={{
-                gridArea: AREAS[i],
-                ...(featured ? { background: `linear-gradient(160deg, ${accent} 0%, #193DAA 100%)` } : {}),
-              }}
+              className={`grid-services-cell${wide ? " grid-services-cell--wide" : ""}${edge ? " grid-services-cell--edge" : ""}`}
+              style={{ gridArea: AREAS[i] }}
             >
-              <span className="grid-services-num" style={{ color: featured ? "rgba(255,255,255,0.3)" : `${accent}30` }}>
-                {sv.no}
-              </span>
-              <span
-                className="grid-services-icon"
-                style={{ background: featured ? "rgba(255,255,255,0.16)" : `${accent}17` }}
-              >
-                <PracticeIcon name={icon} color={featured ? "#FFFFFF" : accent} size={featured ? 22 : 19} />
-              </span>
+              <span className="grid-services-num">{sv.no}</span>
               <h3 className="grid-services-title">{sv.title}</h3>
               <p className="grid-services-body">{sv.body}</p>
               <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true" className="grid-services-arrow">
-                <path
-                  d="M4 3 8 7 4 11"
-                  stroke={featured ? "#FFFFFF" : "#193DAA"}
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                <path d="M4 3 8 7 4 11" stroke="#193DAA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
           );

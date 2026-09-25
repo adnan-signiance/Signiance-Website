@@ -1,4 +1,5 @@
 import CornerDots from "./CornerDots";
+import CalBooking from "./CalBooking";
 
 export default function ServicesCTA() {
   return (
@@ -10,23 +11,6 @@ export default function ServicesCTA() {
         borderBottom: "1px solid #E2E0DA",
       }}
     >
-      <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
-        <div
-          style={{
-            position: "absolute",
-            left: "50%",
-            bottom: -240,
-            width: 800,
-            height: 420,
-            marginLeft: -400,
-            filter: "blur(90px)",
-            opacity: 0.34,
-            borderRadius: "50%",
-            background:
-              "radial-gradient(48% 58% at 34% 50%, #4F6EC6 0%, transparent 68%), radial-gradient(48% 58% at 70% 50%, #152F85 0%, transparent 68%)",
-          }}
-        />
-      </div>
       <CornerDots position="top" />
       <div style={{ position: "relative" }}>
         <h2
@@ -45,9 +29,9 @@ export default function ServicesCTA() {
         <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
           Tell us the workflow. We&apos;ll tell you which of the five gets you there fastest.
         </p>
-        <a href="/#contact" className="btn-hero-primary" style={{ marginTop: 22 }}>
-          Book a Discovery Call
-        </a>
+        <div className="cal-frame" style={{ marginTop: 24 }}>
+          <CalBooking />
+        </div>
       </div>
       <CornerDots />
     </section>

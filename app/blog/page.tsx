@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import CornerDots from "@/components/CornerDots";
+import CtaArrow from "@/components/CtaArrow";
 
 export const metadata: Metadata = {
   title: "Blog · Signiance",
@@ -54,7 +55,7 @@ export default function BlogPage() {
         </p>
         <div style={{ display: "flex", gap: 14, justifyContent: "center", marginTop: 30, flexWrap: "wrap" }}>
           <Link href="/case-studies" className="btn-hero-primary">
-            Browse Case Studies
+            <CtaArrow>Browse Case Studies</CtaArrow>
           </Link>
         </div>
         <CornerDots />

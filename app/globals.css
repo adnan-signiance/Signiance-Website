@@ -312,6 +312,7 @@ a {
 }
 
 .btn-hero-primary {
+  position: relative;
   display: inline-flex;
   align-items: center;
   font-size: 14px;
@@ -321,6 +322,7 @@ a {
   padding: 11px 22px;
   border-radius: 999px;
   white-space: nowrap;
+  overflow: hidden;
   transition: background 0.2s ease;
 }
 
@@ -330,6 +332,9 @@ a {
 }
 
 .btn-hero-outline {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
   font-size: 14px;
   font-weight: 500;
   color: #131417;
@@ -338,11 +343,37 @@ a {
   padding: 11px 22px;
   border-radius: 999px;
   white-space: nowrap;
+  overflow: hidden;
   transition: border-color 0.2s ease;
 }
 
 .btn-hero-outline:hover {
   border-color: #131417;
+}
+
+/* Both hero-style buttons share the exact same arrow-in/arrow-out hover
+   choreography as the nav CTA (.btn-primary), via the same classes on their
+   CtaArrow-rendered spans — just a touch smaller here. */
+.btn-hero-primary .btn-primary-arrow-out,
+.btn-hero-outline .btn-primary-arrow-out {
+  width: 8px;
+  margin-left: 6px;
+}
+
+.btn-hero-primary:hover .btn-primary-arrow-in,
+.btn-hero-outline:hover .btn-primary-arrow-in {
+  width: 8px;
+  margin-right: 6px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.btn-hero-primary:hover .btn-primary-arrow-out,
+.btn-hero-outline:hover .btn-primary-arrow-out {
+  width: 0;
+  margin-left: 0;
+  opacity: 0;
+  transform: translateX(8px);
 }
 
 /* Client logos */
@@ -418,20 +449,33 @@ a {
 /* Services list rows — the row is a normal block whose own height grows on
    hover (anchored at the top, extending downward), so it pushes the rows
    below it down through ordinary document flow rather than overlapping them. */
-/* Services grid — a 2-row, 3-column bento: the first practice spans both
-   rows as the featured tile, the other four fill the remaining four cells
-   via named grid-template-areas rather than a uniform track count, since
-   the featured tile's column isn't repeated in row 2. */
+/* Services grid — full-bleed, primary-edge treatment identical to the case
+   studies listing grid (.grid-cs-listing): a container ::before draws the
+   frame so the outer edges reach the page's own rails with no inset gap,
+   and only the last cell in each row drops its own border-right so that
+   frame's blue edge isn't hidden behind a coincident gray one. The first
+   practice spans 2 of the 3 columns in row 1; the other four each take one
+   cell. */
 .grid-services {
   position: relative;
   display: grid;
-  grid-template-columns: 1.15fr 1fr 1fr;
-  grid-template-rows: repeat(2, minmax(220px, auto));
+  grid-template-columns: repeat(3, 1fr);
   grid-template-areas:
-    "a b c"
-    "a d e";
+    "a a b"
+    "c d e";
+  margin: 0 var(--bleed);
+}
+
+.grid-services::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
   border-top: 1px solid #D6D3CB;
+  border-bottom: 1px solid #D6D3CB;
   border-left: 1px solid #D6D3CB;
+  border-right: 1px solid #D6D3CB;
+  pointer-events: none;
 }
 
 .grid-services-cell {
@@ -439,66 +483,53 @@ a {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 28px 26px;
+  justify-content: center;
+  min-height: 200px;
+  padding: 30px var(--pad-x);
   border-right: 1px solid #D6D3CB;
   border-bottom: 1px solid #D6D3CB;
   text-decoration: none;
   color: #131417;
-  overflow: hidden;
+  background: #FFFFFF;
   transition: background 0.25s ease;
 }
 
-.grid-services-cell:not(.grid-services-cell-featured):hover {
+.grid-services-cell:hover {
   background: #F9F8F5;
 }
 
-.grid-services-cell-featured {
-  color: #FFFFFF;
+.grid-services-cell--edge {
+  border-right: none;
 }
 
 .grid-services-num {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 700;
-  font-size: clamp(32px, 3.2vw, 44px);
+  font-size: clamp(26px, 2.4vw, 34px);
   letter-spacing: -0.03em;
   line-height: 1;
-}
-
-.grid-services-icon {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
-  margin-top: 16px;
-  flex: 0 0 auto;
+  color: #C7CEE6;
 }
 
 .grid-services-title {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 600;
-  font-size: clamp(18px, 1.8vw, 22px);
+  font-size: clamp(19px, 1.9vw, 23px);
   letter-spacing: -0.025em;
-  margin: 16px 0 0;
+  margin: 14px 0 0;
   text-wrap: balance;
 }
 
-.grid-services-cell-featured .grid-services-title {
+.grid-services-cell--wide .grid-services-title {
   font-size: clamp(23px, 2.6vw, 29px);
 }
 
 .grid-services-body {
   margin: 10px 0 0;
-  font-size: 13.5px;
+  font-size: 14px;
   line-height: 1.55;
   color: #55585C;
-  flex: 1;
-}
-
-.grid-services-cell-featured .grid-services-body {
-  color: #C7CEE6;
-  font-size: 14.5px;
-  max-width: 32ch;
+  max-width: 46ch;
 }
 
 .grid-services-arrow {
@@ -513,15 +544,22 @@ a {
 @media (max-width: 900px) {
   .grid-services {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto;
     grid-template-areas:
       "a a"
       "b c"
       "d e";
   }
 
+  /* At 2 columns the last-in-row cells are the 1st, 3rd and 5th in DOM
+     order (a, c, e) rather than the 2nd and 5th (b, e) used at 3 columns,
+     so the border-right removal is reset and reapplied by position here
+     instead of relying on the --edge class from the desktop layout. */
   .grid-services-cell {
-    min-height: 200px;
+    border-right: 1px solid #D6D3CB;
+  }
+
+  .grid-services-cell:nth-child(odd) {
+    border-right: none;
   }
 }
 
@@ -536,7 +574,9 @@ a {
       "e";
   }
 
-  .grid-services-cell {
+  .grid-services-cell,
+  .grid-services-cell--edge {
+    border-right: none;
     min-height: 0;
   }
 }
@@ -607,9 +647,9 @@ a {
   right: -7.5px;
 }
 
-/* Services page — branded gradient panel (replaces a photo) per practice.
-   A faint dot texture nods to the site's corner-dot motif, and the whole
-   panel eases forward slightly on row hover instead of zooming a photo. */
+/* Services page — branded gradient panel per practice. A faint dot texture
+   nods to the site's corner-dot motif, and the whole panel eases forward
+   slightly on row hover. */
 .svc-panel {
   position: relative;
   overflow: hidden;
@@ -640,13 +680,22 @@ a {
 
 /* Related case studies — the same embedded, shared-border treatment as
    the case-studies listing grid, sized down for a 3-up "more like this"
-   strip on a detail page. */
+   strip on a detail page. Full-bleed to the page's own rails, same as the
+   case-studies listing grid, instead of sitting inset in the padded column. */
 .grid-related-cases {
   position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid #D6D3CB;
-  border-left: 1px solid #D6D3CB;
+  margin: 0 var(--bleed);
+}
+
+.grid-related-cases::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid #D6D3CB;
+  pointer-events: none;
 }
 
 .related-case-cell {
@@ -668,6 +717,233 @@ a {
 
   .related-case-cell {
     height: 240px;
+  }
+}
+
+/* Other practices — same dot-bordered "spec sheet" grid used for the values
+   grid on the About page, showing every remaining practice rather than a
+   3-up sample. */
+.grid-other-practices {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 var(--bleed);
+}
+
+.grid-other-practices::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid #D6D3CB;
+  pointer-events: none;
+}
+
+.other-practice-cell {
+  position: relative;
+  padding: 30px 26px;
+  border-right: 1px solid #D6D3CB;
+  border-bottom: 1px solid #D6D3CB;
+  text-decoration: none;
+  color: inherit;
+  background: #FFFFFF;
+  transition: background 0.2s ease;
+}
+
+.other-practice-cell:hover {
+  background: #F9F8F5;
+}
+
+@media (max-width: 860px) {
+  .grid-other-practices {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .grid-other-practices {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Detail-page tech stack — the same dot-bordered "spec sheet" grid used
+   elsewhere on this page (other practices, related cases), each cell a big
+   logo with its name underneath, instead of a row of bordered chips. */
+.grid-tech-stack {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 var(--bleed);
+}
+
+.grid-tech-stack::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid #D6D3CB;
+  pointer-events: none;
+}
+
+.tech-stack-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 30px 18px;
+  border-right: 1px solid #D6D3CB;
+  border-bottom: 1px solid #D6D3CB;
+  background: #FFFFFF;
+}
+
+.tech-stack-logo {
+  display: block;
+  height: 42px;
+  width: auto;
+  max-width: 80%;
+  object-fit: contain;
+}
+
+.tech-stack-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: #43464A;
+  text-align: center;
+}
+
+@media (max-width: 700px) {
+  .grid-tech-stack {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Case study detail — hero media split into a narrow "logo" panel (reuses
+   the services page's branded gradient + dot texture) and a wide photo,
+   instead of one full-bleed image. */
+.grid-cs-media {
+  position: relative;
+  display: grid;
+  grid-template-columns: 20% 80%;
+  height: clamp(220px, 32vw, 420px);
+}
+
+.cs-media-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-media-image {
+  position: relative;
+  overflow: hidden;
+}
+
+.cs-media-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 700px) {
+  .grid-cs-media {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .cs-media-logo {
+    height: 110px;
+  }
+
+  .cs-media-image {
+    height: clamp(220px, 55vw, 340px);
+  }
+}
+
+/* Case study detail — shared "spec sheet" dot-bordered grid for the tech
+   stack row and the results/benefits row, replacing the old chip list and
+   rounded icon cards. */
+.grid-cs-spec {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 0 var(--bleed);
+}
+
+.grid-cs-spec::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid #D6D3CB;
+  pointer-events: none;
+}
+
+.cs-spec-cell {
+  display: flex;
+  align-items: center;
+  min-height: 74px;
+  padding: 22px;
+  border-right: 1px solid #D6D3CB;
+  border-bottom: 1px solid #D6D3CB;
+  background: #FFFFFF;
+  font-size: 14.5px;
+  font-weight: 500;
+  color: #22252A;
+}
+
+.cs-spec-cell-tall {
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  min-height: 128px;
+}
+
+@media (max-width: 700px) {
+  .grid-cs-spec {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 460px) {
+  .grid-cs-spec {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Who it's for — same full-bleed dot-bordered grid, white cells only (no
+   tinted section background), instead of the plain rounded left-border
+   cards this used to be. */
+.grid-who-for {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 var(--bleed);
+}
+
+.grid-who-for::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border: 1px solid #D6D3CB;
+  pointer-events: none;
+}
+
+.who-for-cell {
+  padding: 28px 26px;
+  border-right: 1px solid #D6D3CB;
+  border-bottom: 1px solid #D6D3CB;
+  background: #FFFFFF;
+  font-size: 15.5px;
+  line-height: 1.6;
+  color: #22252A;
+}
+
+@media (max-width: 780px) {
+  .grid-who-for {
+    grid-template-columns: 1fr;
   }
 }
 
@@ -1104,6 +1380,7 @@ a {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   border-top: 1px solid #D6D3CB;
   border-bottom: 1px solid #D6D3CB;
   border-left: 1px solid #193DAA;
@@ -1213,6 +1490,57 @@ a {
   font-weight: 600;
   font-size: 18px;
   color: #FFFFFF;
+  flex: 0 0 auto;
+}
+
+/* Founder's note — an editorial pull-quote aside rather than another
+   eyebrow/heading/body section, so it reads as a personal break before the
+   footer instead of one more templated block. */
+.founders-note {
+  position: relative;
+  max-width: 700px;
+}
+
+.founders-note-quote-mark {
+  display: block;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 700;
+  font-size: 72px;
+  line-height: 1;
+  color: #193DAA;
+  opacity: 0.22;
+  margin-bottom: -18px;
+}
+
+.founders-note-text {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 27px);
+  line-height: 1.5;
+  letter-spacing: -0.015em;
+  color: #131417;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.founders-note-sig {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.founders-note-name {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: #131417;
+}
+
+.founders-note-role {
+  font-size: 13px;
+  color: #6A6D71;
+  margin-top: 2px;
 }
 
 .grid-3col {
@@ -1251,6 +1579,16 @@ a {
   border-right: none;
 }
 
+.grid-logos-cell:hover .client-logo {
+  filter: none;
+  opacity: 1;
+}
+
+.grid-logos-cell:hover .client-logo-invert {
+  filter: invert(1);
+  opacity: 1;
+}
+
 .cs-filter-rail {
   display: flex;
   align-items: center;
@@ -1283,7 +1621,6 @@ a {
 .cs-filter-chip.is-active {
   background: #193DAA;
   color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(25, 61, 170, 0.28);
 }
 
 @media (max-width: 640px) {
@@ -1296,6 +1633,7 @@ a {
 .cs-chip {
   display: inline-flex;
   align-items: center;
+  gap: 7px;
   font-family: Geist, sans-serif;
   font-size: 12.5px;
   font-weight: 500;
@@ -1306,16 +1644,51 @@ a {
   background: #FFFFFF;
 }
 
+/* Real tool logos in a tech-stack row — bare marks, no chip/border/text, so
+   they read as a lightweight logo bar rather than another set of pills. */
+.tech-logo {
+  display: block;
+  height: 30px;
+  width: auto;
+  max-width: 96px;
+  object-fit: contain;
+  flex: 0 0 auto;
+}
+
+/* Capped width: letting this stretch to the section's full (~1200px) width
+   pushes Cal's own responsive embed into a much taller layout (it renders
+   extra vertical content past a certain breakpoint), which is worse than
+   the narrower, shorter widget this width keeps it at. Height is also
+   capped with its own scroll — Cal's embed can size its iframe well past
+   2000px depending on how much availability is open, and letting that
+   dictate the whole section's height makes the page swing wildly in length
+   depending on the calendar's own state, which a fixed, scrollable card
+   avoids. */
+.cal-frame {
+  position: relative;
+  max-width: 920px;
+  max-height: 640px;
+  margin-left: auto;
+  margin-right: auto;
+  overflow-y: auto;
+  border: 1px solid #E2E0DA;
+  border-radius: 16px;
+  background: #FFFFFF;
+}
+
 /* FAQ accordion — full section width, with breathing room on each row
    instead of a narrow centered column, matching the "use full width" note
    these rows were designed to. */
 .faq-list {
   width: 100%;
-  border-top: 1px solid #D6D3CB;
 }
 
 .faq-item {
   border-bottom: 1px solid #D6D3CB;
+}
+
+.faq-item:last-child {
+  border-bottom: none;
 }
 
 .faq-question {
@@ -1324,7 +1697,7 @@ a {
   justify-content: space-between;
   gap: 20px;
   width: 100%;
-  padding: 26px 8px;
+  padding: 26px 18px;
   background: none;
   border: none;
   cursor: pointer;
@@ -1371,7 +1744,7 @@ a {
 
 .faq-answer p {
   margin: 0 0 26px;
-  padding: 0 8px;
+  padding: 0 18px;
   max-width: 82ch;
   font-size: 16.5px;
   line-height: 1.65;

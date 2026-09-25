@@ -1,6 +1,7 @@
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
 import CornerDots from "@/components/CornerDots";
+import CtaArrow from "@/components/CtaArrow";
 
 export default function NotFound() {
   return (
@@ -51,10 +52,10 @@ export default function NotFound() {
           }}
         >
           <Link href="/" className="btn-hero-primary">
-            Back to homepage
+            <CtaArrow>Back to homepage</CtaArrow>
           </Link>
           <Link href="/case-studies" className="btn-hero-outline">
-            See our work
+            <CtaArrow>See our work</CtaArrow>
           </Link>
         </div>
         <CornerDots />

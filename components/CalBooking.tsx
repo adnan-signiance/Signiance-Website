@@ -72,6 +72,10 @@ export default function CalBooking({ style }: { style?: React.CSSProperties }) {
       theme: "light",
       hideEventTypeDetails: false,
       layout: "month_view",
+      // Documented part of Cal's public embed config — actually hiding the
+      // "Cal.com" watermark depends on the connected account's plan tier, so
+      // this is inert (not an error) on a plan that doesn't support it.
+      hideBranding: true,
       styles: { branding: { brandColor: BRAND_COLOR } },
       cssVarsPerTheme: {
         light: { "cal-brand": BRAND_COLOR, "cal-brand-emphasis": "#152F85", "cal-brand-text": "#FFFFFF" },
@@ -80,5 +84,9 @@ export default function CalBooking({ style }: { style?: React.CSSProperties }) {
     });
   }, [elementId, namespace]);
 
-  return <div id={elementId} style={{ width: "100%", minHeight: 620, ...style }} />;
+  // No fixed minHeight: Cal's embed script sets the iframe's own height via
+  // postMessage once it knows its real content height, so a taller
+  // placeholder here would just leave dead space below the iframe after it
+  // resizes down to its actual (shorter) content.
+  return <div id={elementId} style={{ width: "100%", ...style }} />;
 }

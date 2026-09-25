@@ -119,9 +119,8 @@ export default function Header() {
         position: "sticky",
         top: 0,
         zIndex: 40,
-        padding: scrolled ? "10px 0" : "0",
-        borderBottom: "1px solid #E2E0DA",
-        transition: "padding .28s ease",
+        borderBottom: scrolled ? "none" : "1px solid #E2E0DA",
+        transition: "border-color .28s ease",
       }}
     >
       <div
@@ -134,14 +133,10 @@ export default function Header() {
           alignItems: "center",
           justifyContent: "space-between",
           gap: 20,
-          border: "1px solid",
-          borderColor: scrolled ? "#E2E0DA" : "transparent",
-          borderRadius: 3,
           background: scrolled ? "rgba(255,255,255,0.88)" : "transparent",
           backdropFilter: scrolled ? "blur(16px)" : "none",
           boxShadow: scrolled ? "0 10px 30px rgba(22,24,28,0.06)" : "none",
-          transition:
-            "background .28s ease, border-color .28s ease, box-shadow .28s ease, backdrop-filter .28s ease",
+          transition: "background .28s ease, box-shadow .28s ease, backdrop-filter .28s ease",
         }}
       >
         <div className="nav-desktop">
@@ -150,7 +145,11 @@ export default function Header() {
             <img
               src="/media/signiance-dark.jpg"
               alt={brand}
-              style={{ display: "block", height: 40, width: "auto" }}
+              // The source file is a JPEG with a plain white background (no
+              // alpha channel) — multiply blend makes that white drop out
+              // against any backdrop, including the frosted blur behind it,
+              // instead of sitting on top as a visible white rectangle.
+              style={{ display: "block", height: 40, width: "auto", mixBlendMode: "multiply" }}
             />
           </Link>
 

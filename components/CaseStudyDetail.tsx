@@ -1,20 +1,14 @@
 "use client";
 
-import Link from "next/link";
+import { useRef } from "react";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import CalBooking from "./CalBooking";
 import FeatureCard from "./FeatureCard";
 import RelatedCaseStudies from "./RelatedCaseStudies";
-import PracticeIcon, { serviceIcon, serviceColor, type IconName } from "./PracticeIcon";
+import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
+import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
 import { caseStudyEntries, services, type CaseStudyEntry } from "@/lib/data";
-
-const benefitIcons: IconName[] = ["target", "bolt", "star"];
-
-const BackArrow = () => (
-  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-    <path d="M6.5 1 2.5 5l4 4" stroke="#6A6D71" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
 
 export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
   const related = caseStudyEntries.filter((c) => c.id !== entry.id).slice(0, 3);
@@ -22,36 +16,17 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
   const accent = matchedService ? serviceColor[matchedService.id] : "#193DAA";
   const icon = matchedService ? serviceIcon[matchedService.id] : "target";
 
+  const techGridRef = useRef<HTMLDivElement | null>(null);
+  const techDots = useGridIntersectionDots(techGridRef, ".cs-spec-cell", [entry.techStack.length]);
+  const resultsGridRef = useRef<HTMLDivElement | null>(null);
+  const resultsDots = useGridIntersectionDots(resultsGridRef, ".cs-spec-cell", [entry.benefits.length]);
+
   return (
     <>
       <section style={{ position: "relative", padding: "clamp(32px, 5vw, 48px) var(--pad-x) 0", borderBottom: "1px solid #E2E0DA" }}>
-        <Link
-          href="/case-studies"
-          style={{ display: "inline-flex", alignItems: "center", gap: 6, fontSize: 13, color: "#6A6D71", textDecoration: "none" }}
-        >
-          <BackArrow />
-          All case studies
-        </Link>
-
-        <div style={{ display: "flex", alignItems: "center", gap: 16, marginTop: 24 }}>
-          <span
-            style={{
-              display: "grid",
-              placeItems: "center",
-              width: 56,
-              height: 56,
-              borderRadius: 16,
-              background: accent,
-              flex: "0 0 auto",
-              boxShadow: `0 10px 24px ${accent}40`,
-            }}
-          >
-            <PracticeIcon name={icon} color="#FFFFFF" size={26} />
-          </span>
-          <SectionEyebrow>
-            {entry.category} · {entry.industry}
-          </SectionEyebrow>
-        </div>
+        <SectionEyebrow>
+          {entry.category} · {entry.industry}
+        </SectionEyebrow>
         <h1
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -59,7 +34,7 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
             fontSize: "clamp(29px, 4.4vw, 46px)",
             lineHeight: 1.05,
             letterSpacing: "-0.038em",
-            margin: "20px 0 0",
+            margin: "16px 0 0",
             maxWidth: "22ch",
             textWrap: "balance",
           }}
@@ -68,7 +43,7 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         </h1>
         <p style={{ maxWidth: 560, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>{entry.teaser}</p>
 
-        <div className="grid-3col" style={{ marginTop: 36, borderTop: "1px solid #C7CEE6", gap: 0 }}>
+        <div className="grid-3col" style={{ marginTop: 36, borderTop: "1px solid #D6D3CB", gap: 0 }}>
           <div style={{ padding: "18px 22px 22px 0", borderRight: "1px solid #E2E0DA" }}>
             <div style={{ fontSize: 14, color: "#22252A" }}>{entry.client}</div>
             <div style={{ marginTop: 8, fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71" }}>Client</div>
@@ -106,20 +81,23 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
           )}
         </div>
 
-        <div style={{ position: "relative", margin: "36px calc(var(--pad-x) * -1) 0", overflow: "hidden" }}>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={entry.image}
-            alt=""
-            style={{ display: "block", width: "100%", height: "clamp(220px, 32vw, 420px)", objectFit: "cover" }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: `linear-gradient(180deg, ${accent}00 55%, ${accent}55 100%)`,
-            }}
-          />
+        <div className="grid-cs-media" style={{ margin: "36px calc(var(--pad-x) * -1) 0" }}>
+          <div className="cs-media-logo svc-panel" style={{ background: `linear-gradient(135deg, ${accent} 0%, #0D184A 100%)` }}>
+            <span style={{ position: "relative", zIndex: 1 }}>
+              <PracticeIcon name={icon} color="#FFFFFF" size={40} />
+            </span>
+          </div>
+          <div className="cs-media-image">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={entry.image} alt="" />
+            <div
+              style={{
+                position: "absolute",
+                inset: 0,
+                background: `linear-gradient(180deg, ${accent}00 55%, ${accent}55 100%)`,
+              }}
+            />
+          </div>
         </div>
 
         <CornerDots />
@@ -177,34 +155,61 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
           ))}
         </div>
 
-        <div style={{ marginTop: 36 }}>
-          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
+        <div style={{ marginTop: 40 }}>
+          <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 16 }}>
             Tech stack
           </div>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
+          <div className="grid-cs-spec" ref={techGridRef}>
+            <GridDotsOverlay dots={techDots} />
             {entry.techStack.map((t) => (
-              <span key={t} className="cs-chip">
+              <div key={t} className="cs-spec-cell">
                 {t}
-              </span>
+              </div>
             ))}
           </div>
         </div>
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
         <SectionEyebrow>Results</SectionEyebrow>
-        <p style={{ margin: "16px 0 28px", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "62ch" }}>
-          {entry.result}
-        </p>
-        <div className="grid-3col" style={{ marginTop: 22 }}>
-          {entry.benefits.map((b, i) => (
-            <div key={b.title} style={{ border: "1px solid #D6D3CB", borderRadius: 12, padding: "22px 20px", background: "#FFFFFF" }}>
-              <FeatureCard icon={benefitIcons[i % benefitIcons.length]} title={b.title} body={b.body} color={accent} />
+        <div style={{ display: "flex", gap: 40, marginTop: 16, flexWrap: "wrap", alignItems: "flex-end" }}>
+          <p style={{ flex: "1 1 420px", margin: 0, fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "62ch" }}>
+            {entry.result}
+          </p>
+          {entry.statValue && (
+            <div style={{ flex: "0 0 auto", borderLeft: `3px solid ${accent}`, padding: "2px 0 2px 22px" }}>
+              <div
+                style={{
+                  fontFamily: "'Bricolage Grotesque', sans-serif",
+                  fontWeight: 700,
+                  fontSize: "clamp(38px, 4.2vw, 50px)",
+                  letterSpacing: "-0.04em",
+                  color: accent,
+                  lineHeight: 1,
+                }}
+              >
+                {entry.statValue}
+              </div>
+              <div style={{ marginTop: 8, fontSize: 12, letterSpacing: "0.08em", textTransform: "uppercase", color: "#6A6D71" }}>
+                {entry.statLabel}
+              </div>
+            </div>
+          )}
+        </div>
+
+        <div className="grid-cs-spec" style={{ marginTop: 32 }} ref={resultsGridRef}>
+          <GridDotsOverlay dots={resultsDots} />
+          {entry.benefits.map((b) => (
+            <div key={b.title} className="cs-spec-cell cs-spec-cell-tall">
+              <div style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 600, fontSize: 16.5, color: "#131417" }}>
+                {b.title}
+              </div>
+              <div style={{ marginTop: 8, fontSize: 14, lineHeight: 1.55, color: "#43464A" }}>{b.body}</div>
             </div>
           ))}
         </div>
-        <CornerDots bg="#EEF2FB" />
+        <CornerDots />
       </section>
 
       {related.length > 0 && (
@@ -217,7 +222,8 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         </section>
       )}
 
-      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA", borderBottom: "1px solid #E2E0DA" }}>
+        <CornerDots position="top" />
         <h2
           style={{
             fontFamily: "'Bricolage Grotesque', sans-serif",
@@ -234,9 +240,9 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
         <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
           30 minutes with the people who&apos;d do the work. You leave with a scoped plan either way.
         </p>
-        <Link href="/#contact" className="btn-hero-primary" style={{ marginTop: 22, display: "inline-flex" }}>
-          Get Your Scoped Plan
-        </Link>
+        <div className="cal-frame" style={{ marginTop: 24 }}>
+          <CalBooking />
+        </div>
         <CornerDots />
       </section>
     </>
