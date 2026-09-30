@@ -17,6 +17,9 @@ coverage
 test-results
 playwright-report
 
+# Local Lighthouse CI run output
+.lighthouseci
+
 # TypeScript incremental build cache
 *.tsbuildinfo
 
