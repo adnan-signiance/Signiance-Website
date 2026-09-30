@@ -1,0 +1,76 @@
+/* ---------------------------------------------------------------------------
+   Cross-browser fallbacks (Phase 6.12)
+   --------------------------------------------------------------------------- */
+
+/* --- Hero backdrop mask ---------------------------------------------------
+   The hero image is feathered on all four edges by compositing two gradient
+   masks. That needs BOTH a mask-image and a working mask-composite: with only
+   one of the two applied, a browser renders a single-axis mask, which leaves
+   hard vertical edges and looks broken rather than merely unstyled.
+
+   Previously these were inline styles with no guard. Applying them only inside
+   @supports means a browser that cannot composite masks shows the unmasked
+   image instead — which is fine, because it already sits behind an opaque white
+   wash and a radial vignette.
+   ------------------------------------------------------------------------- */
+
+@supports ((mask-composite: intersect) and (mask-image: linear-gradient(#000, #000))) or
+  ((-webkit-mask-composite: source-in) and (-webkit-mask-image: linear-gradient(#000, #000))) {
+  .hero-portal {
+    -webkit-mask-image:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 5%,
+        #000 14%,
+        #000 86%,
+        rgba(0, 0, 0, 0.6) 95%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 5%,
+        #000 15%,
+        #000 85%,
+        rgba(0, 0, 0, 0.6) 95%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    mask-image:
+      linear-gradient(
+        90deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 5%,
+        #000 14%,
+        #000 86%,
+        rgba(0, 0, 0, 0.6) 95%,
+        rgba(0, 0, 0, 0) 100%
+      ),
+      linear-gradient(
+        180deg,
+        rgba(0, 0, 0, 0) 0%,
+        rgba(0, 0, 0, 0.6) 5%,
+        #000 15%,
+        #000 85%,
+        rgba(0, 0, 0, 0.6) 95%,
+        rgba(0, 0, 0, 0) 100%
+      );
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+  }
+}
+
+/* --- backdrop-filter -----------------------------------------------------
+   Degrades on its own: every element using it also sets a semi-opaque
+   background colour, so without the blur it reads as frosted-but-flat rather
+   than transparent. No guard needed; documented so it is not "fixed" later.
+   ------------------------------------------------------------------------- */
+
+/* --- color-mix() ---------------------------------------------------------
+   Handled inline in globals.css instead of here: the timeline marker rules
+   declare a plain rgba ring immediately before the color-mix version, so an
+   unsupported browser keeps the fallback rather than losing the ring entirely.
+   Kept as a note so the pattern is not undone as "duplication".
+   ------------------------------------------------------------------------- */

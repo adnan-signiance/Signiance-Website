@@ -5,6 +5,11 @@ import Footer from "./Footer";
 export default function PageShell({ children }: { children: ReactNode }) {
   return (
     <div style={{ padding: "0 14px" }}>
+      {/* First focusable element on every page, so keyboard users can bypass
+          the header's dropdowns, four links and CTA. */}
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <div
         className="page-frame"
         style={{
@@ -13,7 +18,11 @@ export default function PageShell({ children }: { children: ReactNode }) {
         }}
       >
         <Header />
-        {children}
+        {/* tabIndex={-1} makes the landmark a valid target for the skip link
+            without adding it to the tab order. */}
+        <main id="main-content" tabIndex={-1}>
+          {children}
+        </main>
         <Footer />
       </div>
     </div>

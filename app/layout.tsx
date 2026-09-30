@@ -1,18 +1,60 @@
 import type { Metadata } from "next";
+import { Bricolage_Grotesque, Geist } from "next/font/google";
 import "./globals.css";
+import "./a11y.css";
+import "./metrics-band.css";
+import "./fallbacks.css";
+import "./consent.css";
+import "./contact-form.css";
 import PageTransition from "@/components/PageTransition";
+import CookieConsent from "@/components/CookieConsent";
+import Analytics from "@/components/Analytics";
+import { subhead } from "@/lib/data";
 
-const title = "Signiance · Ship the first working agent in weeks";
-const description =
-  "We help growing businesses move from cloud infrastructure to production AI without the overhead of a full in house team.";
+/**
+ * Fonts are self-hosted through next/font rather than fetched from
+ * fonts.googleapis.com. The previous <link> was a render-blocking request to a
+ * third-party origin on every page; this inlines the @font-face declarations,
+ * removes the extra DNS + TLS round trip, and preloads the files from our own
+ * domain. It also means no font request leaves the visitor's browser to Google.
+ *
+ * Each exposes a CSS variable, which is what components reference — the actual
+ * family name next/font generates is hashed and not stable.
+ */
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-display",
+  display: "swap",
+});
+
+const geist = Geist({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+// Title and description are kept in step with the hero: the H1 promises speed,
+// so the search snippet should too. The description is the same sentence the
+// page leads with, imported rather than duplicated.
+const title = "Signiance · Ship your first working agent in weeks";
+const description = subhead;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.signiance.com"),
   title: {
     default: title,
-    template: "%s",
+    // Was "%s", an identity template that appended nothing — it only looked
+    // correct because every page hardcoded "· Signiance" into its own title. Any
+    // new page that set a bare title silently lost the brand. Pages now set just
+    // their own name and this adds the suffix.
+    template: "%s · Signiance",
   },
   description,
+  // Homepage canonical. Nested pages declare their own; this stops the root
+  // being indexed under a query string or trailing-slash variant.
+  alternates: { canonical: "/" },
   openGraph: {
     title,
     description,
@@ -36,29 +78,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,500;12..96,600;12..96,700&family=Geist:wght@300;400;500;600&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html lang="en" className={`${bricolage.variable} ${geist.variable}`}>
       <body
         style={{
-          fontFamily: "Geist, ui-sans-serif, Helvetica, Arial, sans-serif",
-          background: "#FFFFFF",
-          color: "#131417",
+          fontFamily: "var(--font-sans)",
+          background: "var(--color-white)",
+          color: "var(--color-ink)",
           WebkitFontSmoothing: "antialiased",
         }}
       >
         <PageTransition />
         {children}
+        <CookieConsent />
+        <Analytics />
       </body>
     </html>
   );

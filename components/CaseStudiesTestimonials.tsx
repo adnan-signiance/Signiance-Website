@@ -8,7 +8,7 @@ export default function CaseStudiesTestimonials() {
       style={{
         position: "relative",
         padding: "clamp(38px, 5vw, 54px) var(--pad-x) var(--section-pb)",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
       }}
     >
       <div className="section-head">
@@ -18,11 +18,11 @@ export default function CaseStudiesTestimonials() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}

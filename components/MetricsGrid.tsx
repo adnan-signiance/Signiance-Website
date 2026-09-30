@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { metrics } from "@/lib/data";
 import { onCurtainClear } from "@/lib/curtainSignal";
-import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
+import { useHydrated } from "@/lib/useHydrated";
 
 const COUNT_MS = 1400;
 
@@ -21,25 +22,28 @@ function parseMetric(value: string) {
 }
 
 function Counter({ target, suffix, start }: { target: number; suffix: string; start: boolean }) {
-  const [display, setDisplay] = useState(0);
+  const [animated, setAnimated] = useState(0);
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const hydrated = useHydrated();
+
+  // Server render and the hydration pass show the real figure, so crawlers and
+  // visitors without JavaScript see "5 wks" rather than "0 wks". Only once the
+  // client has taken over does the value reset to zero ready to count up — which
+  // happens well before the section scrolls into view.
+  const display = !hydrated || prefersReducedMotion ? target : animated;
 
   useEffect(() => {
-    if (!start) return;
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduceMotion) {
-      setDisplay(target);
-      return;
-    }
+    if (!start || prefersReducedMotion) return;
     let raf: number;
     const startTime = performance.now();
     const tick = (now: number) => {
       const progress = Math.min((now - startTime) / COUNT_MS, 1);
-      setDisplay(Math.round(easeOutExpo(progress) * target));
+      setAnimated(Math.round(easeOutExpo(progress) * target));
       if (progress < 1) raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [start, target]);
+  }, [start, target, prefersReducedMotion]);
 
   return (
     <>
@@ -52,7 +56,6 @@ function Counter({ target, suffix, start }: { target: number; suffix: string; st
 export default function MetricsGrid({ style, bordered }: { style?: React.CSSProperties; bordered?: boolean }) {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
-  const dots = useGridIntersectionDots(gridRef, ".metric-cell", [bordered]);
 
   useEffect(() => {
     const el = gridRef.current;
@@ -78,24 +81,23 @@ export default function MetricsGrid({ style, bordered }: { style?: React.CSSProp
 
   return (
     <div ref={gridRef} className={bordered ? "grid-cs-metrics-bordered" : "grid-metrics"} style={style}>
-      {bordered && <GridDotsOverlay dots={dots} />}
       {metrics.map((m, i) => {
         const { target, suffix } = parseMetric(m.value);
         const revealContent = (
           <>
             <div
               style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 600,
                 fontSize: "clamp(34px, 3.8vw, 46px)",
-                letterSpacing: "-0.045em",
+                letterSpacing: "var(--tracking-tight)",
                 lineHeight: 1,
                 fontVariantNumeric: "tabular-nums",
               }}
             >
               {target === null ? m.value : <Counter target={target} suffix={suffix} start={visible} />}
             </div>
-            <div style={{ marginTop: 10, fontSize: 13, lineHeight: 1.5, color: "#43464A", maxWidth: "22ch" }}>
+            <div style={{ marginTop: 10, fontSize: "var(--fs-sm)", lineHeight: 1.5, color: "var(--color-text)", maxWidth: "22ch" }}>
               {m.label}
             </div>
           </>

@@ -1,3 +1,5 @@
+import Image from "next/image";
+import Link from "next/link";
 import CornerDots from "./CornerDots";
 import CtaArrow from "./CtaArrow";
 import { subhead } from "@/lib/data";
@@ -9,7 +11,7 @@ export default function Hero() {
       style={{
         position: "relative",
         padding: "clamp(32px, 7vw, 78px) var(--pad-x) clamp(28px, 6vw, 58px)",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
         minHeight: "clamp(460px, calc(100vh - 226px), 860px)",
         display: "flex",
         flexDirection: "column",
@@ -27,10 +29,18 @@ export default function Hero() {
           overflow: "hidden",
         }}
       >
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src="/media/hero-portal.png"
+        {/* The hero backdrop is the largest image on the site and sits above the
+            fold, so it is the LCP candidate: `priority` preloads it instead of
+            letting it load lazily. Intrinsic dimensions are declared so the box
+            is reserved before the file arrives (no layout shift). */}
+        <Image
+          src="/media/hero-portal.webp"
           alt=""
+          width={1920}
+          height={1072}
+          priority
+          sizes="100vw"
+          className="hero-portal"
           style={{
             display: "block",
             width: "100%",
@@ -41,13 +51,6 @@ export default function Hero() {
             objectPosition: "center",
             alignSelf: "center",
             justifySelf: "center",
-            WebkitMaskImage:
-              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 14%, #000 86%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 15%, #000 85%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%)",
-            maskImage:
-              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 14%, #000 86%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%), linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.6) 5%, #000 15%, #000 85%, rgba(0,0,0,0.6) 95%, rgba(0,0,0,0) 100%)",
-            WebkitMaskComposite: "source-in",
-            maskComposite: "intersect",
-            maskRepeat: "no-repeat",
           }}
         />
         <div
@@ -64,14 +67,24 @@ export default function Hero() {
             position: "absolute",
             inset: 0,
             background:
-              "radial-gradient(120% 80% at 50% 50%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 82%, #FFFFFF 100%)",
+              "radial-gradient(120% 80% at 50% 50%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 82%, var(--color-white) 100%)",
           }}
         />
       </div>
 
       <div
         className="hero-content-in"
-        style={{ position: "relative", zIndex: 2, maxWidth: 620, margin: 0, textAlign: "left" }}
+        style={{
+          position: "relative",
+          zIndex: 2,
+          // Widened from 620px. At the old width the headline broke into four
+          // cramped lines while occupying under half the 1280px frame. 760px
+          // still sits inside the white wash over the backdrop image (which
+          // fades out around 72%), so the text stays fully legible.
+          maxWidth: 760,
+          margin: 0,
+          textAlign: "left",
+        }}
       >
         <div
           className="hero-badge"
@@ -104,7 +117,7 @@ export default function Hero() {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "#193DAA",
+                background: "var(--color-accent)",
                 animation: "sigpulse 2.6s ease-out infinite",
               }}
             />
@@ -114,17 +127,17 @@ export default function Hero() {
                 width: 6,
                 height: 6,
                 borderRadius: "50%",
-                background: "#193DAA",
+                background: "var(--color-accent)",
               }}
             />
           </span>
           <span
             style={{
-              fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-              fontSize: 10,
-              letterSpacing: "0.15em",
+              fontFamily: "var(--font-mono)",
+              fontSize: "var(--fs-2xs)",
+              letterSpacing: "var(--tracking-wide)",
               textTransform: "uppercase",
-              color: "#6A6D71",
+              color: "var(--color-muted)",
               whiteSpace: "nowrap",
             }}
           >
@@ -144,9 +157,9 @@ export default function Hero() {
               display: "inline-flex",
               alignItems: "center",
               gap: 7,
-              fontSize: 12,
+              fontSize: "var(--fs-xs)",
               lineHeight: 1,
-              color: "#22252A",
+              color: "var(--color-ink-soft)",
               whiteSpace: "nowrap",
               paddingRight: 9,
             }}
@@ -157,27 +170,29 @@ export default function Hero() {
 
         <h1
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "var(--fs-h1)",
-            lineHeight: 1.08,
-            letterSpacing: "-0.035em",
-            margin: "clamp(16px, 4vw, 24px) 0 0",
+            // Tighter than the shared 1.08 because the hero runs at the largest
+            // size on the site, where generous leading reads as loose.
+            lineHeight: 1.04,
+            letterSpacing: "var(--tracking-tight)",
+            margin: "clamp(18px, 4vw, 28px) 0 0",
             textWrap: "balance",
           }}
         >
           <span
             style={{
-              color: "#6A6D71",
+              color: "var(--color-muted)",
               textDecoration: "line-through",
-              textDecorationColor: "#B5B1A7",
+              textDecorationColor: "var(--color-border-ui)",
               textDecorationThickness: 2,
             }}
           >
             Skip the 12-month AI roadmap.
           </span>{" "}
           Ship the first working agent{" "}
-          <span style={{ color: "#193DAA" }}>in weeks</span>.
+          <span style={{ color: "var(--color-accent)" }}>in weeks</span>.
         </h1>
 
         <p
@@ -186,7 +201,7 @@ export default function Hero() {
             margin: "clamp(12px, 3vw, 20px) 0 0",
             fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
-            color: "#22252A",
+            color: "var(--color-ink-soft)",
             fontWeight: 400,
             textWrap: "pretty",
           }}
@@ -203,45 +218,53 @@ export default function Hero() {
             flexWrap: "wrap",
           }}
         >
-          <a href="#contact" className="btn-hero-primary">
-            <CtaArrow>Get Your Scoped Plan</CtaArrow>
-          </a>
-          <a href="#work" className="btn-hero-outline">
-            <CtaArrow>See how we engage</CtaArrow>
-          </a>
+          {/* Absolute (`/#…`) rather than bare (`#…`): a bare fragment only
+              resolves on whichever page the component happens to render on, so
+              the link silently breaks the moment the section is reused. */}
+          <Link href="/#contact" className="btn-hero-primary">
+            <CtaArrow>Book a scoping call</CtaArrow>
+          </Link>
+          <Link href="/#work" className="btn-hero-outline">
+            <CtaArrow>See how we work</CtaArrow>
+          </Link>
         </div>
 
+        {/* One wrapping row rather than three stacked lines. These are the most
+            differentiated lines of copy in the hero, and stacking them at 11.5px
+            buried them under the CTAs while eating the vertical space that made
+            the section feel crowded. */}
         <div
           style={{
             display: "flex",
-            flexDirection: "column",
-            alignItems: "flex-start",
-            gap: "clamp(8px, 2vw, 12px)",
-            marginTop: "clamp(16px, 5vw, 38px)",
-            fontSize: "clamp(11.5px, 3vw, 12.5px)",
+            flexWrap: "wrap",
+            alignItems: "center",
+            columnGap: 20,
+            rowGap: 10,
+            marginTop: "clamp(18px, 3.5vw, 30px)",
+            fontSize: "var(--fs-xs)",
             fontWeight: 500,
-            color: "#131417",
+            color: "var(--color-ink)",
           }}
         >
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
-              <rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="#193DAA" strokeWidth="1.2" />
-              <path d="M4.5 7.2 6.3 9l3.2-4" stroke="#193DAA" strokeWidth="1.2" strokeLinecap="round" />
+              <rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="var(--color-accent)" strokeWidth="1.2" />
+              <path d="M4.5 7.2 6.3 9l3.2-4" stroke="var(--color-accent)" strokeWidth="1.2" strokeLinecap="round" />
             </svg>
             Fixed-fee scoping, credited to the build
           </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
-              <circle cx="7" cy="7" r="5.5" stroke="#193DAA" strokeWidth="1.2" />
-              <circle cx="7" cy="7" r="1.8" fill="#193DAA" />
+              <circle cx="7" cy="7" r="5.5" stroke="var(--color-accent)" strokeWidth="1.2" />
+              <circle cx="7" cy="7" r="1.8" fill="var(--color-accent)" />
             </svg>
             Senior-only pods, no bench time
           </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 8 }}>
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <path
                 d="M7 1.8 12 4v4c0 2.2-2.2 3.6-5 4.2C4.2 11.6 2 10.2 2 8V4l5-2.2Z"
-                stroke="#193DAA"
+                stroke="var(--color-accent)"
                 strokeWidth="1.2"
                 strokeLinejoin="round"
               />
@@ -251,36 +274,9 @@ export default function Hero() {
         </div>
       </div>
 
-      <div
-        className="hero-scroll-cue"
-        style={{
-          position: "absolute",
-          left: "50%",
-          bottom: 22,
-          transform: "translateX(-50%)",
-          zIndex: 2,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 6,
-          pointerEvents: "none",
-        }}
-      >
-        <span
-          style={{
-            fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-            fontSize: 9,
-            letterSpacing: "0.18em",
-            textTransform: "uppercase",
-            color: "#6A6D71",
-          }}
-        >
-          Scroll
-        </span>
-        <svg width="13" height="8" viewBox="0 0 14 9" fill="none" aria-hidden="true">
-          <path d="M1.5 1.5 7 7l5.5-5.5" stroke="#6A6D71" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </div>
+      {/* The "Scroll" cue was removed: it was a sixth element competing for
+          attention in the hero, rendered at 9px, hidden below 820px anyway, and
+          telling visitors something a scrollable page already communicates. */}
 
       <CornerDots />
     </section>

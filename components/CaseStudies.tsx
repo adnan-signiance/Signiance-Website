@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Fragment } from "react";
 import Link from "next/link";
 
@@ -15,7 +16,7 @@ const cornerDotAbs = (pos: Dot, bg: string) => (
       width: 3,
       height: 3,
       borderRadius: "50%",
-      background: "#A29E96",
+      background: "var(--color-dot)",
       boxShadow: `0 0 0 6px ${bg}`,
       transform: `translate(${pos.right !== undefined ? "50%" : "-50%"},${pos.bottom !== undefined ? "50%" : "-50%"})`,
       zIndex: 2,
@@ -25,7 +26,7 @@ const cornerDotAbs = (pos: Dot, bg: string) => (
 
 const ctaArrow = (
   <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-    <path d="M3 2.5 7 6 3 9.5" stroke="#131417" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-ink)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -67,17 +68,19 @@ function CaseCard({
   return (
     <div
       className={`case-cell-${span} ${heightClass}`}
-      style={{ position: "relative", background: "#FFFFFF", borderRight: "1px solid #D6D3CB", borderBottom: "1px solid #D6D3CB" }}
+      style={{ position: "relative", background: "var(--color-white)", borderRight: "1px solid var(--color-line-strong)", borderBottom: "1px solid var(--color-line-strong)" }}
     >
       {dots.map((d, i) => (
-        <Fragment key={i}>{cornerDotAbs(d, "#FFFFFF")}</Fragment>
+        <Fragment key={i}>{cornerDotAbs(d, "var(--color-white)")}</Fragment>
       ))}
       {/* Inset from the cell's own border so the corner dots land on plain
           background instead of the photo — otherwise their white punch-box
           shows as a hard-edged square over the image. */}
       <div className="case-cell-frame">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={image} alt="" className="case-cell-bg" />
+        {/* `fill` matches what .case-cell-bg already did (absolutely positioned,
+            100%/100%, object-fit: cover) so the CSS is unchanged — this adds
+            responsive srcset and lazy loading below the fold. */}
+        <Image src={image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 60vw" />
         <div className="case-cell-scrim" />
         <Link href={`/case-studies/${slug}`} className="case-cell-overlay" data-transition="none">
           <div className="case-cell-bottom-row">
@@ -105,10 +108,10 @@ function CaseCard({
 export default function CaseStudies() {
   return (
     <div style={{ position: "relative", margin: "20px var(--bleed) 0" }}>
-      {cornerDotAbs({ left: 0, top: 0 }, "#FFFFFF")}
-      {cornerDotAbs({ right: 0, top: 0 }, "#FFFFFF")}
-      {cornerDotAbs({ left: 0, bottom: 0 }, "#FFFFFF")}
-      {cornerDotAbs({ right: 0, bottom: 0 }, "#FFFFFF")}
+      {cornerDotAbs({ left: 0, top: 0 }, "var(--color-white)")}
+      {cornerDotAbs({ right: 0, top: 0 }, "var(--color-white)")}
+      {cornerDotAbs({ left: 0, bottom: 0 }, "var(--color-white)")}
+      {cornerDotAbs({ right: 0, bottom: 0 }, "var(--color-white)")}
 
       <div className="grid-case">
         <CaseCard
@@ -152,7 +155,7 @@ export default function CaseStudies() {
         <CaseCard
           span={7}
           heightClass="case-cell-h-md"
-          image="/media/case-engineering.jpg"
+          image="/media/case-engineering.webp"
           tag="04 · ENGINEERING · CLOUD"
           title="Scaling engineering simulations with cloud HPC"
           titleSize={20}

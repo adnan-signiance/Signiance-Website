@@ -5,7 +5,7 @@ import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import { steps } from "@/lib/data";
 
-const markerColors = ["#9DB8EE", "#5C81DF", "#2C55C4", "#132C7A"];
+const markerColors = ["var(--color-accent-pale)", "var(--color-accent-lighter)", "var(--color-accent-mid)", "var(--color-accent-deep)"];
 
 export default function HowWeWork() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
@@ -37,7 +37,7 @@ export default function HowWeWork() {
       id="work"
       style={{
         position: "relative",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
@@ -48,11 +48,11 @@ export default function HowWeWork() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}
@@ -67,7 +67,7 @@ export default function HowWeWork() {
         </p>
       </div>
 
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+      <div className="section-rule" />
 
       <div className="vtimeline" style={{ marginTop: 40 }}>
         {steps.map((st, i) => (
@@ -90,10 +90,10 @@ export default function HowWeWork() {
               <span
                 style={{
                   display: "inline-block",
-                  fontFamily: "Geist, sans-serif",
-                  fontSize: 13,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "var(--fs-sm)",
                   fontWeight: 700,
-                  letterSpacing: "0.1em",
+                  letterSpacing: "var(--tracking-wide)",
                   textTransform: "uppercase",
                   color: markerColors[i % markerColors.length],
                 }}

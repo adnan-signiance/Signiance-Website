@@ -3,8 +3,9 @@ import PageShell from "@/components/PageShell";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Terms of Service · Signiance",
+  title: "Terms of Service",
   description: "The terms that govern use of the Signiance website and our client engagements.",
+  alternates: { canonical: "/terms" },
 };
 
 export default function TermsPage() {

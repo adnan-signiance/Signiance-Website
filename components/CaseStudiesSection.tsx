@@ -8,7 +8,7 @@ export default function CaseStudiesSection() {
     <section
       style={{
         position: "relative",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
@@ -19,11 +19,11 @@ export default function CaseStudiesSection() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}
@@ -34,19 +34,19 @@ export default function CaseStudiesSection() {
         <Link href="/case-studies" className="btn-primary">
           <span className="btn-primary-arrow-in">
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="btn-primary-label">See all</span>
+          <span className="btn-primary-label">See all case studies</span>
           <span className="btn-primary-arrow-out">
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
         </Link>
       </div>
 
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+      <div className="section-rule" />
 
       <div style={{ marginTop: 24 }}>
         <CaseStudies />

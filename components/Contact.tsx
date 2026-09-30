@@ -1,17 +1,35 @@
 "use client";
 
+import { useState } from "react";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import CalBooking from "./CalBooking";
+import ContactForm from "./ContactForm";
+import { bookingPromise, contactEmail } from "@/lib/data";
+import { useConsent } from "@/lib/consent";
 
 export default function Contact() {
+  const consent = useConsent();
+  const embedShown = consent === "accepted";
+
+  /**
+   * With the calendar on screen the form is redundant clutter, so it is collapsed
+   * behind a disclosure rather than removed: someone who would rather write than
+   * pick a slot still has a first-party path, and the enquiry endpoint stays the
+   * backstop if Cal.com is ever unreachable.
+   *
+   * When the embed is not shown, the form is the primary path and is open.
+   */
+  const [writeInstead, setWriteInstead] = useState(false);
+  const formVisible = !embedShown || writeInstead;
+
   return (
     <section
       id="contact"
       style={{
         position: "relative",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
       }}
     >
       <div className="section-head">
@@ -21,11 +39,11 @@ export default function Contact() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}
@@ -34,19 +52,46 @@ export default function Contact() {
           </h2>
         </div>
         <p className="section-head-note">
-          30 minutes with the people who&apos;d do the work.
+          {bookingPromise}
           <br />
           You leave with a scoped plan either way.
         </p>
       </div>
 
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+      <div className="section-rule" />
 
       <div className="cal-frame" style={{ marginTop: 24 }}>
         <CalBooking />
       </div>
-      <p style={{ margin: "14px 0 0", fontSize: 12, color: "#64676B", textAlign: "center" }}>
-        Or email hello@signiance.com. We reply within a business day.
+
+      {embedShown ? (
+        <div className="contact-alt">
+          <span className="contact-alt-rule" aria-hidden="true" />
+          <button
+            type="button"
+            className="contact-alt-toggle"
+            aria-expanded={writeInstead}
+            aria-controls="contact-write-instead"
+            onClick={() => setWriteInstead((v) => !v)}
+          >
+            {writeInstead ? "Hide the form" : "Prefer to write instead?"}
+          </button>
+          <span className="contact-alt-rule" aria-hidden="true" />
+        </div>
+      ) : (
+        <div className="contact-alt">
+          <span className="contact-alt-rule" aria-hidden="true" />
+          <span className="contact-alt-label">or tell us in writing</span>
+          <span className="contact-alt-rule" aria-hidden="true" />
+        </div>
+      )}
+
+      <div id="contact-write-instead" hidden={!formVisible}>
+        <ContactForm intent="scoping-call" source="/#contact" />
+      </div>
+
+      <p style={{ margin: "18px 0 0", fontSize: "var(--fs-xs)", color: "var(--color-muted)", textAlign: "left" }}>
+        Prefer your own inbox? Email {contactEmail}. We reply within a business day.
       </p>
 
       <CornerDots />

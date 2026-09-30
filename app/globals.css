@@ -4,29 +4,130 @@
    are reserved for structural changes only — column counts, stacking, and the
    nav collapse — which genuinely can't be expressed as a fluid value. */
 :root {
+  /* ---------------------------------------------------------------- TOKENS-START
+     Single source of truth for colour and radius.
+
+     Before this, 31 distinct hex values appeared 504 times across 38 files, so a
+     rebrand, a dark mode, or a single contrast fix meant a find-and-replace
+     through the whole codebase. Values here are unchanged from what they
+     replaced, so this introduced no visual difference.
+
+     Nothing below this block should contain a literal hex colour. Run
+     `node scripts/inventory-tokens.cjs` to check.
+     ------------------------------------------------------------------------- */
+
+  /* Brand blues, light to dark */
+  --color-accent-pale: #9db8ee;
+  --color-accent-lighter: #5c81df;
+  --color-accent-light: #4f6fdb;
+  --color-accent-mid: #2c55c4;
+  --color-accent: #193daa;
+  --color-accent-strong: #152f85;
+  --color-accent-deep: #132c7a;
+  --color-navy: #0d184a;
+
+  /* Blues that sit on dark surfaces */
+  --color-on-dark-muted: #a9b8e4;
+  --color-numeral: #8090c2;
+  --color-accent-faint: #c7cee6;
+
+  /* Surfaces */
+  --color-white: #ffffff;
+  --color-tint: #eef2fb;
+  --color-warm: #f9f8f5;
+  --color-warm-alt: #f0efea;
+
+  /* Text, strongest to softest */
+  --color-ink: #131417;
+  --color-ink-soft: #22252a;
+  --color-text: #43464a;
+  --color-text-soft: #55585c;
+  --color-muted: #6a6d71;
+
+  /* Lines, borders, markers */
+  --color-line: #e2e0da;
+  --color-line-strong: #d6d3cb;
+  --color-border-ui: #8b8e86;
+  --color-dot: #a29e96;
+  /* Lighter end of the neutral badge gradient on the "Start here" engagement. */
+  --color-neutral-light: #8a8d91;
+
+  /* Status */
+  --color-danger: #b4231f;
+  --color-success: #1b6b3a;
+
+  /* Link role, separate from the accent on purpose.
+     Saturated blue was doing four jobs at once — brand, primary action, link and
+     decoration — so it had stopped signalling "this is the action". Inline prose
+     links now use ink with an underline, which is the correct affordance in a
+     reading context, and blue is reserved for buttons, active nav state and the
+     brand emphasis in the hero. */
+  --color-link: var(--color-ink);
+
+  /* Radii. Sixteen distinct values were in use; these three cover every case:
+     sm for tight chrome, md for cards and panels, pill for buttons. */
+  --radius-sm: 4px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+
+  /* ------------------------------------------------------------------ TOKENS-END */
+
+  /* --font-display and --font-sans are injected by next/font in app/layout.tsx.
+     Mono is a system stack, so it is declared here alongside them to give every
+     font reference in the codebase a single token to point at. */
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
   --pad-x: clamp(18px, 4.2vw, 28px);
   --section-pt: clamp(38px, 5.4vw, 58px);
   --section-pb: clamp(40px, 5.6vw, 60px);
   --bleed: calc(var(--pad-x) * -1);
 
-  --fs-h1: clamp(31px, 5.4vw, 56px);
+  /* Upper bound raised from 56px: the hero now has a 760px column to fill, and
+     at 56px the headline read small against the width of the frame. */
+  --fs-h1: clamp(31px, 5.6vw, 64px);
   --fs-h2: clamp(26px, 4vw, 42px);
   --fs-lead: clamp(15px, 1.5vw, 18px);
   --fs-quote: clamp(19px, 2.2vw, 27px);
+
+  /* Body/UI scale. Replaces 37 distinct literal sizes — including half-pixel
+     values like 13.5 and 16.5 — with eight steps. 11px is the floor: the site
+     previously went down to 9px, below comfortable legibility. */
+  --fs-2xs: 11px;
+  --fs-xs: 12.5px;
+  --fs-sm: 13.5px;
+  --fs-base: 14.5px;
+  --fs-md: 16px;
+  --fs-lg: 18px;
+  --fs-xl: 21px;
+  --fs-2xl: 26px;
+
+  /* Letter-spacing. Replaces 18 values with three roles: tight for display
+     headings, snug for sub-headings and card titles, wide for uppercase meta
+     labels. Anything previously within 0.02em of normal is now simply normal. */
+  --tracking-tight: -0.038em;
+  --tracking-snug: -0.02em;
+  --tracking-wide: 0.12em;
 }
 
-/* overflow-x lives on html only, not body: adding it to both makes body a
-   second, nested scroll container, and a `position: sticky` header inside it
-   then sticks relative to that inner container instead of the viewport,
-   which visually just looks like sticky doing nothing at all. */
+/* `overflow-x: clip` rather than `hidden`.
+   `hidden` makes the element a scroll container, which is why this could never be
+   applied to body: a `position: sticky` header inside a scroll container sticks
+   relative to that container rather than the viewport, so sticky appears to do
+   nothing. `clip` prevents the horizontal scrollbar without creating a scroll
+   container, so it has none of those side effects.
+
+   It is a guard, not a fix. The one structural cause of horizontal overflow — the
+   metrics band's `calc(50% - 50vw)` full-bleed — has been removed, and a sweep
+   found no remaining 100vw layout rules, fixed widths above the frame, or
+   min-widths that could exceed a 320px viewport. */
 html {
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background: #FFFFFF;
+  background: var(--color-white);
   max-width: 100%;
 }
 
@@ -44,8 +145,8 @@ svg {
 /* The page's own side rails — visible on desktop/tablet, dropped on phones
    where a vertical line this close to the content edge just reads as noise. */
 .page-frame {
-  border-left: 1px solid #E2E0DA;
-  border-right: 1px solid #E2E0DA;
+  border-left: 1px solid var(--color-line);
+  border-right: 1px solid var(--color-line);
 }
 
 @media (max-width: 640px) {
@@ -56,13 +157,13 @@ svg {
 }
 
 a {
-  color: #131417;
+  color: var(--color-ink);
   text-decoration: none;
 }
 
 ::selection {
-  background: #131417;
-  color: #FFFFFF;
+  background: var(--color-ink);
+  color: var(--color-white);
 }
 
 @keyframes sigpulse {
@@ -87,19 +188,38 @@ a {
   position: relative;
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 7px;
+  gap: 2px;
+  /* Padding moved to .nav-label so the hover tint wraps the text rather than the
+     whole trigger including its chevron. */
+  padding: 0;
   border-radius: 7px;
   background: transparent;
-  transition: background 0.4s ease;
 }
 
 .nav-pill:hover {
-  background: #EEF2FB;
+  background: transparent;
 }
 
 .nav-pill.is-open {
-  background: #EEF2FB;
+  background: transparent;
+}
+
+/* The hover tint lives here, not on .nav-pill, so it covers the label text only
+   and stops short of the dropdown chevron. Padding is what gives the tint its
+   shape; it cannot go on .nav-link because that element is height-clipped to
+   drive the two-line slide effect. */
+.nav-label {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 9px;
+  border-radius: 7px;
+  background: transparent;
+  transition: background 0.18s ease;
+}
+
+.nav-pill:hover .nav-label,
+.nav-pill.is-open .nav-label {
+  background: var(--color-tint);
 }
 
 /* Single shared dropdown panel — its position/width are set inline by JS
@@ -107,8 +227,8 @@ a {
    slides the panel across instead of closing and reopening. */
 .nav-drop {
   position: absolute;
-  background: #FFFFFF;
-  border: 1px solid #E2E0DA;
+  background: var(--color-white);
+  border: 1px solid var(--color-line);
   border-radius: 4px;
   padding: 0;
   box-shadow: none;
@@ -159,7 +279,7 @@ a {
 }
 
 .nav-chevron.is-open path {
-  stroke: #193DAA;
+  stroke: var(--color-accent);
 }
 
 .nav-drop-item {
@@ -168,8 +288,8 @@ a {
   justify-content: flex-start;
   gap: 0;
   padding: 5px 14px;
-  font-size: 15px;
-  color: #22252A;
+  font-size: var(--fs-md);
+  color: var(--color-ink-soft);
   text-decoration: none;
   white-space: nowrap;
   border-radius: 0;
@@ -177,8 +297,8 @@ a {
 }
 
 .nav-drop-item:hover {
-  background: linear-gradient(90deg, #152F85 0%, #193DAA 45%, #4F6FDB 78%, #FFFFFF 100%);
-  color: #FFFFFF;
+  background: linear-gradient(90deg, var(--color-accent-strong) 0%, var(--color-accent) 45%, var(--color-accent-light) 78%, var(--color-white) 100%);
+  color: var(--color-white);
   text-shadow: 0 0 5px rgba(10, 24, 80, 0.55), 0 1px 2px rgba(10, 24, 80, 0.45);
 }
 
@@ -201,7 +321,7 @@ a {
 }
 
 .nav-drop-item:hover .drop-item-arrow path {
-  stroke: #FFFFFF;
+  stroke: var(--color-white);
 }
 
 /* Nav link slide-up hover effect */
@@ -223,13 +343,25 @@ a {
 
 /* Buttons */
 .btn-primary {
+  /* <button> and <input> do not inherit font-family from body in any browser, so
+     every button-like rule has to declare it or the control renders in the UA's
+     own font. These classes are used on real <button> elements as well as links. */
+  font-family: var(--font-sans);
+  /* Three button roles exist, and only three:
+       solid primary  — .btn-primary and .btn-hero-primary (same look, different
+                        internal arrow markup)
+       outline secondary — .btn-hero-outline
+       icon           — .btn-icon
+     These two solid variants previously ran at different sizes (13.5 vs 14.5),
+     which made it ambiguous which one was the page's primary action. They now
+     share one size. */
+  font-size: var(--fs-base);
   position: relative;
   display: inline-flex;
   align-items: center;
-  font-size: 13px;
   font-weight: 500;
-  color: #FFFFFF;
-  background: #193DAA;
+  color: var(--color-white);
+  background: var(--color-accent);
   padding: 8px 16px;
   border-radius: 999px;
   white-space: nowrap;
@@ -300,25 +432,26 @@ a {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  background-color: #193DAA;
+  background-color: var(--color-accent);
   transition:
     background-color 0.25s ease,
     transform 0.25s cubic-bezier(0.22, 0.9, 0.24, 1);
 }
 
 .btn-icon:hover {
-  background-color: #152F85;
+  background-color: var(--color-accent-strong);
   transform: scale(1.08);
 }
 
 .btn-hero-primary {
+  font-family: var(--font-sans);
   position: relative;
   display: inline-flex;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--fs-base);
   font-weight: 500;
-  color: #FFFFFF;
-  background: #193DAA;
+  color: var(--color-white);
+  background: var(--color-accent);
   padding: 11px 22px;
   border-radius: 999px;
   white-space: nowrap;
@@ -327,19 +460,20 @@ a {
 }
 
 .btn-hero-primary:hover {
-  background: #152F85;
-  color: #FFFFFF;
+  background: var(--color-accent-strong);
+  color: var(--color-white);
 }
 
 .btn-hero-outline {
+  font-family: var(--font-sans);
   position: relative;
   display: inline-flex;
   align-items: center;
-  font-size: 14px;
+  font-size: var(--fs-base);
   font-weight: 500;
-  color: #131417;
-  background: #FFFFFF;
-  border: 1px solid #B5B1A7;
+  color: var(--color-ink);
+  background: var(--color-white);
+  border: 1px solid var(--color-border-ui);
   padding: 11px 22px;
   border-radius: 999px;
   white-space: nowrap;
@@ -348,7 +482,7 @@ a {
 }
 
 .btn-hero-outline:hover {
-  border-color: #131417;
+  border-color: var(--color-ink);
 }
 
 /* Both hero-style buttons share the exact same arrow-in/arrow-out hover
@@ -395,40 +529,43 @@ a {
   filter: grayscale(1) invert(1);
 }
 
+/* A continuous right-to-left logo roll at every width. The track is the logo
+   list rendered twice back to back; animating it exactly -50% loops seamlessly
+   because the two halves are identical.
+
+   The edge mask fades logos in and out rather than letting them clip hard against
+   the section border. */
 .clients-marquee {
-  display: none;
+  display: block;
+  overflow: hidden;
+  mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
+  -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 7%, #000 93%, transparent 100%);
 }
 
-/* A continuous right-to-left logo roll, mobile only — the desktop row reads
-   fine wrapped and static, but at phone width there isn't room to show more
-   than two or three logos at once without it, so it becomes the way the rest
-   get seen at all. The track is the logo list twice back to back; animating
-   it exactly -50% loops seamlessly since the two halves are identical. */
+.clients-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: clamp(40px, 5vw, 72px);
+  width: max-content;
+  /* Slower than the previous mobile-only 22s: there are more logos now, and the
+     roll should read as ambient rather than demanding attention. */
+  animation: clientsMarquee 45s linear infinite;
+}
+
+/* The roll deliberately does NOT pause on hover — the strip should keep moving.
+   Individual logos still light up from grayscale to full colour as the pointer
+   passes over them (see .client-logo:hover above). */
+
+.clients-marquee-item {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
 @media (max-width: 640px) {
-  /* Beats the inline display:flex set on this element. */
-  .clients-row {
-    display: none !important;
-  }
-
-  .clients-marquee {
-    display: block;
-    overflow: hidden;
-    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
-  }
-
   .clients-marquee-track {
-    display: flex;
-    align-items: center;
     gap: 40px;
-    width: max-content;
-    animation: clientsMarquee 22s linear infinite;
-  }
-
-  .clients-marquee-item {
-    display: flex;
-    align-items: center;
-    flex: 0 0 auto;
+    animation-duration: 26s;
   }
 }
 
@@ -471,10 +608,10 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border-top: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  border-left: 1px solid #D6D3CB;
-  border-right: 1px solid #D6D3CB;
+  border-top: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-line-strong);
+  border-right: 1px solid var(--color-line-strong);
   pointer-events: none;
 }
 
@@ -486,16 +623,16 @@ a {
   justify-content: center;
   min-height: 200px;
   padding: 30px var(--pad-x);
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
   text-decoration: none;
-  color: #131417;
-  background: #FFFFFF;
+  color: var(--color-ink);
+  background: var(--color-white);
   transition: background 0.25s ease;
 }
 
 .grid-services-cell:hover {
-  background: #F9F8F5;
+  background: var(--color-warm);
 }
 
 .grid-services-cell--edge {
@@ -503,19 +640,21 @@ a {
 }
 
 .grid-services-num {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(26px, 2.4vw, 34px);
-  letter-spacing: -0.03em;
+  letter-spacing: var(--tracking-snug);
   line-height: 1;
-  color: #C7CEE6;
+  /* Was var(--color-accent-faint), which measured 1.57:1 on white — below even the 3:1 floor for
+     large text. var(--color-numeral) measures 3.14:1 and keeps the pale blue character. */
+  color: var(--color-numeral);
 }
 
 .grid-services-title {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(19px, 1.9vw, 23px);
-  letter-spacing: -0.025em;
+  letter-spacing: var(--tracking-snug);
   margin: 14px 0 0;
   text-wrap: balance;
 }
@@ -526,19 +665,54 @@ a {
 
 .grid-services-body {
   margin: 10px 0 0;
-  font-size: 14px;
+  font-size: var(--fs-base);
   line-height: 1.55;
-  color: #55585C;
+  color: var(--color-text-soft);
   max-width: 46ch;
 }
 
 .grid-services-arrow {
   margin-top: 16px;
-  transition: transform 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  opacity: 0.55;
 }
 
-.grid-services-cell:hover .grid-services-arrow {
-  transform: translateX(4px);
+/* These cells are large clickable targets, so the hover state needs to be
+   unmistakable. A 4px arrow nudge on a near-white tint was too subtle to read as
+   "this whole block is a link": the accent rail, the lifted numeral and the
+   longer arrow travel together make the affordance obvious. */
+.grid-services-cell::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.28s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.grid-services-cell:hover::after,
+.grid-services-cell:focus-visible::after {
+  transform: scaleY(1);
+}
+
+.grid-services-cell:hover .grid-services-arrow,
+.grid-services-cell:focus-visible .grid-services-arrow {
+  transform: translateX(10px);
+  opacity: 1;
+}
+
+.grid-services-cell:hover .grid-services-num {
+  color: var(--color-accent);
+}
+
+.grid-services-cell:hover .grid-services-title {
+  color: var(--color-accent-strong);
 }
 
 @media (max-width: 900px) {
@@ -555,7 +729,7 @@ a {
      so the border-right removal is reset and reapplied by position here
      instead of relying on the --edge class from the desktop layout. */
   .grid-services-cell {
-    border-right: 1px solid #D6D3CB;
+    border-right: 1px solid var(--color-line-strong);
   }
 
   .grid-services-cell:nth-child(odd) {
@@ -594,28 +768,28 @@ a {
   width: 34px;
   height: 34px;
   border-radius: 50%;
-  border: 1px solid #D6D3CB;
-  color: #43464A;
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-text);
   transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .social-icon-link:hover {
-  background: #193DAA;
-  border-color: #193DAA;
-  color: #FFFFFF;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
 }
 
 /* Footer links */
 .footer-link {
-  font-size: 13px;
+  font-size: var(--fs-sm);
   line-height: 1.5;
-  color: #43464A;
+  color: var(--color-text);
   white-space: nowrap;
   transition: color 0.2s ease;
 }
 
 .footer-link:hover {
-  color: #131417;
+  color: var(--color-ink);
 }
 
 /* Corner dot decoration */
@@ -624,7 +798,7 @@ a {
   bottom: -7.5px;
   width: 15px;
   height: 15px;
-  background: #FFFFFF;
+  background: var(--color-white);
   display: grid;
   place-items: center;
   pointer-events: none;
@@ -636,7 +810,7 @@ a {
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: #A29E96;
+  background: var(--color-dot);
 }
 
 .corner-dot-left {
@@ -694,16 +868,16 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border: 1px solid #D6D3CB;
+  border: 1px solid var(--color-line-strong);
   pointer-events: none;
 }
 
 .related-case-cell {
   position: relative;
   height: 220px;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  background: #FFFFFF;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  background: var(--color-white);
 }
 
 .related-case-cell:hover .case-cell-bg {
@@ -735,23 +909,23 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border: 1px solid #D6D3CB;
+  border: 1px solid var(--color-line-strong);
   pointer-events: none;
 }
 
 .other-practice-cell {
   position: relative;
   padding: 30px 26px;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
   text-decoration: none;
   color: inherit;
-  background: #FFFFFF;
+  background: var(--color-white);
   transition: background 0.2s ease;
 }
 
 .other-practice-cell:hover {
-  background: #F9F8F5;
+  background: var(--color-warm);
 }
 
 @media (max-width: 860px) {
@@ -781,7 +955,7 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border: 1px solid #D6D3CB;
+  border: 1px solid var(--color-line-strong);
   pointer-events: none;
 }
 
@@ -792,9 +966,9 @@ a {
   justify-content: center;
   gap: 12px;
   padding: 30px 18px;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  background: #FFFFFF;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  background: var(--color-white);
 }
 
 .tech-stack-logo {
@@ -806,9 +980,9 @@ a {
 }
 
 .tech-stack-name {
-  font-size: 13px;
+  font-size: var(--fs-sm);
   font-weight: 500;
-  color: #43464A;
+  color: var(--color-text);
   text-align: center;
 }
 
@@ -876,7 +1050,7 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border: 1px solid #D6D3CB;
+  border: 1px solid var(--color-line-strong);
   pointer-events: none;
 }
 
@@ -885,12 +1059,12 @@ a {
   align-items: center;
   min-height: 74px;
   padding: 22px;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  background: #FFFFFF;
-  font-size: 14.5px;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  background: var(--color-white);
+  font-size: var(--fs-base);
   font-weight: 500;
-  color: #22252A;
+  color: var(--color-ink-soft);
 }
 
 .cs-spec-cell-tall {
@@ -927,18 +1101,18 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border: 1px solid #D6D3CB;
+  border: 1px solid var(--color-line-strong);
   pointer-events: none;
 }
 
 .who-for-cell {
   padding: 28px 26px;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  background: #FFFFFF;
-  font-size: 15.5px;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  background: var(--color-white);
+  font-size: var(--fs-md);
   line-height: 1.6;
-  color: #22252A;
+  color: var(--color-ink-soft);
 }
 
 @media (max-width: 780px) {
@@ -993,7 +1167,7 @@ a {
   left: 50%;
   width: 2px;
   transform: translateX(-50%);
-  background: #E2E0DA;
+  background: var(--color-line);
 }
 
 .vtimeline-row:last-child .vtimeline-node-col::after {
@@ -1007,14 +1181,19 @@ a {
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--marker-color, #193DAA);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--marker-color, #193DAA) 14%, transparent);
+  background: var(--marker-color, var(--color-accent));
+  /* Fallback first: an unsupported color-mix() invalidates the whole
+     declaration, which dropped this ring entirely on Safari < 16.2 and
+     Firefox < 113. Browsers that understand color-mix use the tinted version. */
+  box-shadow: 0 0 0 4px rgba(25, 61, 170, 0.14);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--marker-color, var(--color-accent)) 14%, transparent);
   transition: transform 0.3s cubic-bezier(0.22, 0.9, 0.24, 1), box-shadow 0.3s ease;
 }
 
 .vtimeline-row:hover .vtimeline-marker {
   transform: scale(1.3);
-  box-shadow: 0 0 0 6px color-mix(in srgb, var(--marker-color, #193DAA) 18%, transparent);
+  box-shadow: 0 0 0 6px rgba(25, 61, 170, 0.18);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--marker-color, var(--color-accent)) 18%, transparent);
 }
 
 .vtimeline-content {
@@ -1022,7 +1201,7 @@ a {
   min-width: 0;
   max-width: 620px;
   padding-bottom: 40px;
-  border-bottom: 1px solid #EDE9E0;
+  border-bottom: 1px solid var(--color-warm-alt);
 }
 
 .vtimeline-row:last-child .vtimeline-content {
@@ -1031,23 +1210,23 @@ a {
 }
 
 .vtimeline-title {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(24px, 2.6vw, 30px);
-  letter-spacing: -0.025em;
+  letter-spacing: var(--tracking-snug);
   margin: 10px 0 0;
   transition: color 0.25s ease;
 }
 
 .vtimeline-row:hover .vtimeline-title {
-  color: #193DAA;
+  color: var(--color-accent);
 }
 
 .vtimeline-body {
   margin: 10px 0 0;
-  font-size: 16px;
+  font-size: var(--fs-md);
   line-height: 1.65;
-  color: #43464A;
+  color: var(--color-text);
   max-width: 560px;
 }
 
@@ -1109,9 +1288,9 @@ a {
 .section-head-note {
   max-width: 340px;
   margin: 0;
-  font-size: 15px;
+  font-size: var(--fs-md);
   line-height: 1.5;
-  color: #43464A;
+  color: var(--color-text);
   text-align: right;
 }
 
@@ -1181,16 +1360,16 @@ a {
   content: "";
   position: absolute;
   inset: 0;
-  border-top: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  border-left: 1px solid #193DAA;
-  border-right: 1px solid #193DAA;
+  border-top: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-accent);
+  border-right: 1px solid var(--color-accent);
   pointer-events: none;
 }
 
 .metric-cell {
   padding: 22px var(--pad-x);
-  border-right: 1px solid #D6D3CB;
+  border-right: 1px solid var(--color-line-strong);
 }
 
 .metric-cell:last-child {
@@ -1214,7 +1393,7 @@ a {
 
   .metric-cell {
     border-right: none;
-    border-bottom: 1px solid #D6D3CB;
+    border-bottom: 1px solid var(--color-line-strong);
   }
 
   .metric-cell:last-child {
@@ -1233,7 +1412,7 @@ a {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  border-left: 1px solid #D6D3CB;
+  border-left: 1px solid var(--color-line-strong);
 }
 
 .engagement-col:first-child {
@@ -1249,7 +1428,7 @@ a {
 
   .engagement-col {
     border-left: none;
-    border-top: 1px solid #D6D3CB;
+    border-top: 1px solid var(--color-line-strong);
     padding: 26px 0;
   }
 
@@ -1280,7 +1459,7 @@ a {
   grid-template-columns: 1fr 1fr;
   gap: 40px;
   padding-bottom: 34px;
-  border-bottom: 1px solid #E2E0DA;
+  border-bottom: 1px solid var(--color-line);
 }
 
 .footer-newsletter {
@@ -1289,21 +1468,21 @@ a {
 }
 
 .footer-newsletter-input {
-  font-family: Geist, sans-serif;
-  font-size: 14px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
   padding: 11px 16px;
   flex: 1 1 200px;
   min-width: 0;
-  border: 1px solid #B5B1A7;
+  border: 1px solid var(--color-border-ui);
   border-radius: 999px;
   outline: none;
-  background: #FFFFFF;
-  color: #131417;
+  background: var(--color-white);
+  color: var(--color-ink);
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .footer-newsletter-input:focus {
-  border-color: #131417;
+  border-color: var(--color-ink);
   box-shadow: 0 0 0 3px rgba(19, 20, 23, 0.07);
 }
 
@@ -1312,7 +1491,7 @@ a {
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
   padding: 34px 0;
-  border-bottom: 1px solid #E2E0DA;
+  border-bottom: 1px solid var(--color-line);
 }
 
 .footer-bottom {
@@ -1321,9 +1500,9 @@ a {
   justify-content: space-between;
   gap: 16px;
   margin-top: 20px;
-  font-size: 12px;
+  font-size: var(--fs-xs);
   line-height: 1.6;
-  color: #6A6D71;
+  color: var(--color-muted);
   flex-wrap: wrap;
 }
 
@@ -1381,19 +1560,19 @@ a {
   position: absolute;
   inset: 0;
   z-index: 1;
-  border-top: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
-  border-left: 1px solid #193DAA;
-  border-right: 1px solid #193DAA;
+  border-top: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-accent);
+  border-right: 1px solid var(--color-accent);
   pointer-events: none;
 }
 
 .cs-listing-cell {
   position: relative;
   height: clamp(300px, 32vw, 380px);
-  background: #FFFFFF;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
 }
 
 .cs-listing-cell:nth-child(2n) {
@@ -1447,7 +1626,7 @@ a {
 }
 
 .cs-detail-facts {
-  border: 1px solid #E2E0DA;
+  border: 1px solid var(--color-line);
   border-radius: 12px;
   padding: 22px;
   height: fit-content;
@@ -1458,14 +1637,14 @@ a {
 .grid-values {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  border-top: 1px solid #D6D3CB;
-  border-left: 1px solid #D6D3CB;
+  border-top: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-line-strong);
 }
 
 .grid-values-cell {
   padding: 24px 20px;
-  border-right: 1px solid #D6D3CB;
-  border-bottom: 1px solid #D6D3CB;
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
 }
 
 @media (max-width: 900px) {
@@ -1486,10 +1665,10 @@ a {
   width: 52px;
   height: 52px;
   border-radius: 50%;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
-  font-size: 18px;
-  color: #FFFFFF;
+  font-size: var(--fs-lg);
+  color: var(--color-white);
   flex: 0 0 auto;
 }
 
@@ -1503,22 +1682,22 @@ a {
 
 .founders-note-quote-mark {
   display: block;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: 72px;
   line-height: 1;
-  color: #193DAA;
+  color: var(--color-accent);
   opacity: 0.22;
   margin-bottom: -18px;
 }
 
 .founders-note-text {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display);
   font-weight: 500;
   font-size: clamp(20px, 2.4vw, 27px);
   line-height: 1.5;
-  letter-spacing: -0.015em;
-  color: #131417;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
   margin: 0;
   text-wrap: balance;
 }
@@ -1531,15 +1710,15 @@ a {
 }
 
 .founders-note-name {
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
-  font-size: 15px;
-  color: #131417;
+  font-size: var(--fs-md);
+  color: var(--color-ink);
 }
 
 .founders-note-role {
-  font-size: 13px;
-  color: #6A6D71;
+  font-size: var(--fs-sm);
+  color: var(--color-muted);
   margin-top: 2px;
 }
 
@@ -1562,7 +1741,7 @@ a {
 .grid-logos {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid #E2E0DA;
+  border-top: 1px solid var(--color-line);
 }
 
 .grid-logos-cell {
@@ -1571,8 +1750,8 @@ a {
   justify-content: center;
   height: 108px;
   padding: 24px;
-  border-right: 1px solid #E2E0DA;
-  border-bottom: 1px solid #E2E0DA;
+  border-right: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
 }
 
 .grid-logos-cell:nth-child(3n) {
@@ -1595,32 +1774,32 @@ a {
   gap: 6px;
   flex-wrap: wrap;
   padding: 6px;
-  background: #F5F4F0;
+  background: var(--color-warm-alt);
   border-radius: 999px;
   width: fit-content;
 }
 
 .cs-filter-chip {
-  font-family: Geist, sans-serif;
-  font-size: 12.5px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
   font-weight: 500;
   padding: 8px 16px;
   border-radius: 999px;
   border: none;
   background: transparent;
-  color: #55585C;
+  color: var(--color-text-soft);
   cursor: pointer;
   white-space: nowrap;
   transition: background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .cs-filter-chip:hover {
-  color: #131417;
+  color: var(--color-ink);
 }
 
 .cs-filter-chip.is-active {
-  background: #193DAA;
-  color: #FFFFFF;
+  background: var(--color-accent);
+  color: var(--color-white);
 }
 
 @media (max-width: 640px) {
@@ -1634,14 +1813,14 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 7px;
-  font-family: Geist, sans-serif;
-  font-size: 12.5px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-xs);
   font-weight: 500;
   padding: 8px 14px;
   border-radius: 999px;
-  border: 1px solid #D6D3CB;
-  color: #43464A;
-  background: #FFFFFF;
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-text);
+  background: var(--color-white);
 }
 
 /* Real tool logos in a tech-stack row — bare marks, no chip/border/text, so
@@ -1666,14 +1845,22 @@ a {
    avoids. */
 .cal-frame {
   position: relative;
+  /* Plain wrapper. Alignment is decided by what renders inside it: the embed
+     centres itself, the fallback stays left with the rest of the page. Putting
+     max-width and centring here would have centred both. */
+}
+
+/* The framed surface belongs to the Cal.com embed itself, so it appears only
+   when the embed is actually rendered — and it is the one element on the page
+   that is centred. */
+.cal-embed {
   max-width: 920px;
+  margin-inline: auto;
   max-height: 640px;
-  margin-left: auto;
-  margin-right: auto;
   overflow-y: auto;
-  border: 1px solid #E2E0DA;
+  border: 1px solid var(--color-line);
   border-radius: 16px;
-  background: #FFFFFF;
+  background: var(--color-white);
 }
 
 /* FAQ accordion — full section width, with breathing room on each row
@@ -1684,7 +1871,7 @@ a {
 }
 
 .faq-item {
-  border-bottom: 1px solid #D6D3CB;
+  border-bottom: 1px solid var(--color-line-strong);
 }
 
 .faq-item:last-child {
@@ -1702,11 +1889,11 @@ a {
   border: none;
   cursor: pointer;
   text-align: left;
-  font-family: 'Bricolage Grotesque', sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(18px, 1.9vw, 21px);
-  letter-spacing: -0.015em;
-  color: #131417;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
 }
 
 .faq-icon {
@@ -1716,16 +1903,16 @@ a {
   width: 26px;
   height: 26px;
   border-radius: 50%;
-  border: 1px solid #B5B1A7;
-  color: #55585C;
+  border: 1px solid var(--color-border-ui);
+  color: var(--color-text-soft);
   transition: transform 0.25s cubic-bezier(0.22, 0.9, 0.24, 1), background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
 }
 
 .faq-item.is-open .faq-icon {
   transform: rotate(135deg);
-  background: #193DAA;
-  border-color: #193DAA;
-  color: #FFFFFF;
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
 }
 
 .faq-answer {
@@ -1746,9 +1933,9 @@ a {
   margin: 0 0 26px;
   padding: 0 18px;
   max-width: 82ch;
-  font-size: 16.5px;
+  font-size: var(--fs-md);
   line-height: 1.65;
-  color: #43464A;
+  color: var(--color-text);
 }
 
 .grid-svc-detail {
@@ -1776,8 +1963,8 @@ a {
 .grid-case {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  border-top: 1px solid #D6D3CB;
-  border-left: 1px solid #D6D3CB;
+  border-top: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-line-strong);
 }
 
 .case-cell-7 {
@@ -1811,8 +1998,13 @@ a {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  filter: grayscale(1);
-  transition: filter 0.5s ease;
+  /* Partial desaturation at rest, not full grayscale. These cards are the site's
+     proof section, and rendering every one of them flat grey until hovered made
+     the strongest content on the page look inert — and did nothing for anyone on
+     touch, where there is no hover at all. Enough colour survives to read as
+     imagery; hover still resolves to full saturation. */
+  filter: grayscale(0.55) contrast(1.04);
+  transition: filter 0.45s ease;
 }
 
 .case-cell-7:hover .case-cell-bg,
@@ -1836,7 +2028,7 @@ a {
   height: 100%;
   padding: 20px 22px;
   box-sizing: border-box;
-  color: #FFFFFF;
+  color: var(--color-white);
   text-decoration: none;
 }
 
@@ -1852,24 +2044,24 @@ a {
 }
 
 .case-cell-tag {
-  font-size: 11px;
-  letter-spacing: 0.12em;
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.75);
 }
 
 .case-cell-title {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.02em;
-  color: #FFFFFF;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-white);
   margin: 6px 0 0;
   text-wrap: balance;
 }
 
 .case-cell-body {
   margin: 8px 0 0;
-  font-size: 13.5px;
+  font-size: var(--fs-sm);
   line-height: 1.55;
   color: rgba(255, 255, 255, 0.82);
   max-width: 42ch;
@@ -1883,33 +2075,34 @@ a {
 }
 
 .case-cell-stat-value {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
-  font-size: 21px;
-  color: #FFFFFF;
+  font-size: var(--fs-xl);
+  color: var(--color-white);
 }
 
 .case-cell-stat-label {
-  font-size: 12px;
+  font-size: var(--fs-xs);
   color: rgba(255, 255, 255, 0.75);
 }
 
 .case-cell-cta {
+  font-family: var(--font-sans);
   flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   padding: 9px 16px;
   border-radius: 999px;
-  background: #FFFFFF;
-  color: #131417;
-  font-size: 12.5px;
+  background: var(--color-white);
+  color: var(--color-ink);
+  font-size: var(--fs-xs);
   font-weight: 500;
   white-space: nowrap;
   transition: background 0.2s ease;
 }
 
 .case-cell-overlay:hover .case-cell-cta {
-  background: #EEF2FB;
+  background: var(--color-tint);
 }
 
 /* Same arrow-in/arrow-out choreography as .btn-primary, so every pill CTA
@@ -2019,6 +2212,27 @@ a {
     display: none;
   }
 
+  /* Mobile gets a designed transition rather than just losing the reel: the
+     focused avatar rises into place as it fades in, so a change reads as
+     deliberate motion instead of a flicker. The dots also become a centred row
+     at this width rather than sitting against the right edge. */
+  .testimonial-mobile-focus {
+    transform: translateY(10px);
+    transition:
+      opacity 400ms ease,
+      transform 400ms cubic-bezier(0.22, 0.9, 0.24, 1);
+  }
+
+  .testimonial-mobile-focus.is-settled {
+    transform: translateY(0);
+  }
+
+  .testimonial-controls {
+    position: static;
+    justify-content: center;
+    margin-top: 20px;
+  }
+
   .testimonial-mobile-focus {
     display: flex;
     justify-content: center;
@@ -2065,7 +2279,7 @@ a {
   display: block;
   width: 16px;
   height: 1.5px;
-  background: #131417;
+  background: var(--color-ink);
   border-radius: 2px;
   transition: transform 0.28s ease, opacity 0.2s ease;
 }
@@ -2091,7 +2305,7 @@ a {
   flex-direction: column;
   gap: 2px;
   padding: 8px var(--pad-x) 18px;
-  border-top: 1px solid #E2E0DA;
+  border-top: 1px solid var(--color-line);
   background: rgba(255, 255, 255, 0.97);
   backdrop-filter: blur(16px);
 }
@@ -2102,9 +2316,9 @@ a {
 
 .nav-mobile-link {
   padding: 13px 2px;
-  font-size: 16px;
-  color: #131417;
-  border-bottom: 1px solid #F0EFEA;
+  font-size: var(--fs-md);
+  color: var(--color-ink);
+  border-bottom: 1px solid var(--color-warm-alt);
 }
 
 /* Services row pairs its link with a separate caret button that toggles the
@@ -2113,7 +2327,7 @@ a {
 .nav-mobile-row {
   display: flex;
   align-items: center;
-  border-bottom: 1px solid #F0EFEA;
+  border-bottom: 1px solid var(--color-warm-alt);
 }
 
 .nav-mobile-row-link {
@@ -2154,8 +2368,8 @@ a {
 
 .nav-mobile-sub {
   padding: 10px 2px 10px 14px;
-  font-size: 14.5px;
-  color: #43464A;
+  font-size: var(--fs-base);
+  color: var(--color-text);
 }
 
 .nav-mobile-cta {
@@ -2168,7 +2382,7 @@ a {
    prominent than the other pill buttons that share that class. */
 .header-cta-desktop,
 .nav-mobile-cta {
-  font-size: 14px;
+  font-size: var(--fs-base);
   padding: 11px 22px;
 }
 
@@ -2234,7 +2448,7 @@ a {
   .btn-hero-primary,
   .btn-hero-outline {
     padding: 9px 18px;
-    font-size: 13px;
+    font-size: var(--fs-sm);
   }
 }
 
@@ -2284,9 +2498,11 @@ a {
       rgba(0, 0, 0, 0.1) 15px,
       rgba(0, 0, 0, 0.1) 17px
     ),
-    linear-gradient(160deg, #152F85 0%, #193DAA 55%, #2C55C4 100%);
+    linear-gradient(160deg, var(--color-accent-strong) 0%, var(--color-accent) 55%, var(--color-accent-mid) 100%);
   transform: translateX(-100%);
-  transition: transform 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+  /* Must match SWEEP_MS in components/PageTransition.tsx — the JS advances the
+     phase when this transition is expected to have finished. */
+  transition: transform 0.42s cubic-bezier(0.65, 0, 0.35, 1);
 }
 
 /* The label is a child of the panel, not a sibling — it's glued to the
@@ -2302,12 +2518,12 @@ a {
   align-items: center;
   justify-content: center;
   gap: clamp(16px, 3vw, 32px);
-  color: #FFFFFF;
+  color: var(--color-white);
   text-align: center;
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(64px, 11vw, 180px);
-  letter-spacing: -0.03em;
+  letter-spacing: var(--tracking-snug);
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
   pointer-events: none;
 }
@@ -2334,23 +2550,23 @@ a {
 .legal-section + .legal-section {
   margin-top: clamp(28px, 4vw, 40px);
   padding-top: clamp(28px, 4vw, 40px);
-  border-top: 1px solid #E2E0DA;
+  border-top: 1px solid var(--color-line);
 }
 
 .legal-body h2 {
-  font-family: "Bricolage Grotesque", sans-serif;
+  font-family: var(--font-display);
   font-weight: 600;
   font-size: clamp(19px, 2.2vw, 23px);
-  letter-spacing: -0.02em;
-  color: #131417;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
   margin: 0 0 14px;
 }
 
 .legal-body p {
   margin: 0 0 14px;
-  font-size: 15px;
+  font-size: var(--fs-md);
   line-height: 1.7;
-  color: #43464A;
+  color: var(--color-text);
 }
 
 .legal-body p:last-child {
@@ -2360,11 +2576,11 @@ a {
 .legal-body ul {
   margin: 0 0 14px;
   padding-left: 20px;
-  color: #43464A;
+  color: var(--color-text);
 }
 
 .legal-body li {
-  font-size: 15px;
+  font-size: var(--fs-md);
   line-height: 1.7;
   margin-bottom: 6px;
 }

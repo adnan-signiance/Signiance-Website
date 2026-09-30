@@ -1,12 +1,38 @@
 export const brand = "Signiance";
 
+/** Single source of truth for the public contact address. */
+export const contactEmail = "hello@signiance.com";
+
+/**
+ * Booking configuration.
+ *
+ * `durationMinutes` is what the site's copy quotes, so it must match the length
+ * of the Cal.com event `calLink` points at — otherwise the page promises one
+ * thing and the booking form delivers another.
+ *
+ * The default is 15 to match the event currently configured. Pointing
+ * NEXT_PUBLIC_CAL_LINK at a 30-minute company event and setting
+ * NEXT_PUBLIC_CAL_MINUTES=30 updates the link and every piece of copy together.
+ */
+export const booking = {
+  calLink: process.env.NEXT_PUBLIC_CAL_LINK || "adnan2004/15min",
+  durationMinutes: Number(process.env.NEXT_PUBLIC_CAL_MINUTES ?? 15),
+} as const;
+
+/** "15 minutes with the people who'd do the work." — kept consistent sitewide. */
+export const bookingPromise = `${booking.durationMinutes} minutes with the people who'd do the work.`;
+
 export const headline =
   "The team you hire when the AI pilot has to become real work";
 
+// Reinforces the H1's promise (speed) instead of competing with it. The previous
+// version pitched staffing-cost relief — "without the overhead of a full in
+// house team" — which is a different value proposition, and left the page making
+// three claims at once. Also doubles as the site meta description.
 export const subhead =
-  "We help growing businesses move from cloud infrastructure to production AI without the overhead of a full in house team.";
+  "Pick the workflow that is costing you most. We scope it in a week, ship it to production in weeks, and hand you the code and the runbook.";
 
-export const accent = "#193DAA";
+export const accent = "var(--color-accent)";
 
 export type TechStackItem = { name: string; logo: string };
 
@@ -71,7 +97,7 @@ export const services: Service[] = [
     title: "Cloud Architecture & DevOps",
     body: "Resilient, scalable architectures with CI/CD and IaC, so you ship faster with confidence.",
     long: "Resilient, scalable cloud foundations with CI/CD and infrastructure as code, so every release ships with confidence instead of a war room.",
-    bestFor: "Teams whose deploys still depend on one person being online.",
+    bestFor: "Choose this if the platform is the bottleneck - deploys, reliability or running cost - before any AI work can pay off.",
     deliverables: ["Architecture review", "CI/CD & IaC", "On-call runbook"],
     whatIsIt:
       "Cloud Architecture & DevOps is the foundation everything else runs on: resilient infrastructure, automated pipelines, and the on-call discipline that keeps a release from turning into a war room.",
@@ -87,8 +113,8 @@ export const services: Service[] = [
     ],
     techStack: [AWS, TERRAFORM, KUBERNETES, DOCKER, GITHUB],
     techStackDetail: [AWS, TERRAFORM, KUBERNETES, DOCKER, GITHUB, GITHUB_ACTIONS, GRAFANA, PROMETHEUS, ANSIBLE, HELM],
-    image: "/media/eng-01.png",
-    bg: "#FFFFFF",
+    image: "/media/eng-01.webp",
+    bg: "var(--color-white)",
   },
   {
     id: "s2",
@@ -99,7 +125,7 @@ export const services: Service[] = [
     title: "Agentic AI Development",
     body: "Multi-agent systems that plan, coordinate, and execute real work end to end.",
     long: "Multi-agent systems that plan, coordinate, and execute real work end to end, with the guardrails your risk team needs to sign off.",
-    bestFor: "Workflows with too many steps and exceptions for a single model call.",
+    bestFor: "Choose this if the work is multi-step and has to take actions in your systems, not just answer questions about them.",
     deliverables: ["Agent orchestration", "Tool & memory integration", "Guardrails & evals"],
     whatIsIt:
       "Agentic AI systems don't just answer. They plan, take actions, call tools, and coordinate with each other to get a multi-step job done end to end, with a human able to step in at the right checkpoints.",
@@ -115,8 +141,8 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, ANTHROPIC, LANGCHAIN, PYTHON],
     techStackDetail: [OPENAI, ANTHROPIC, LANGCHAIN, PYTHON, HUGGINGFACE, REDIS, FASTAPI, SLACK],
-    image: "/media/eng-02.png",
-    bg: "#EEF2FB",
+    image: "/media/eng-02.webp",
+    bg: "var(--color-tint)",
   },
   {
     id: "s3",
@@ -127,7 +153,7 @@ export const services: Service[] = [
     title: "Gen AI & RAG Solutions",
     body: "Production LLM apps: retrieval pipelines, grounding, and evaluations.",
     long: "Production-grade LLM applications: retrieval pipelines, grounding strategies, and the evaluations that keep answers trustworthy at scale.",
-    bestFor: "Teams whose answers need to cite something real, every time.",
+    bestFor: "Choose this if the job is answering from your own documents and data, with a source someone can check.",
     deliverables: ["Retrieval pipeline", "Grounding & citations", "Evaluation dashboard"],
     whatIsIt:
       "Retrieval-augmented generation grounds an LLM's answers in your actual documents and data, instead of letting it guess, so what it tells a user is something you can trace back to a source.",
@@ -143,8 +169,8 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, PYTHON, GITHUB, ANTHROPIC],
     techStackDetail: [OPENAI, ANTHROPIC, PYTHON, QDRANT, POSTGRESQL, ELASTICSEARCH, JUPYTER, HUGGINGFACE],
-    image: "/media/eng-03.png",
-    bg: "#FFFFFF",
+    image: "/media/eng-03.webp",
+    bg: "var(--color-white)",
   },
   {
     id: "s4",
@@ -155,7 +181,7 @@ export const services: Service[] = [
     title: "AI POC & MVP Development",
     body: "From idea to a working prototype on real data, in weeks not quarters.",
     long: "From idea to a working prototype on your real data, in weeks not quarters, built to convert into production, not thrown away.",
-    bestFor: "A budget owner who needs to see it work before they'll fund it.",
+    bestFor: "Choose this if the open question is still whether it works at all, and someone needs proof before funding a build.",
     deliverables: ["Scoped POC on real data", "Feasibility read-out", "Path to production"],
     whatIsIt:
       "A proof of concept answers one question: does this actually work on our data, before anyone commits a production budget. We build it to convert into the real thing, not to be thrown away.",
@@ -171,8 +197,8 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, ANTHROPIC, AWS, PYTHON],
     techStackDetail: [OPENAI, ANTHROPIC, AWS, PYTHON, NEXTJS, VERCEL, FASTAPI, GITHUB],
-    image: "/media/case-fintech.png",
-    bg: "#EEF2FB",
+    image: "/media/case-fintech.webp",
+    bg: "var(--color-tint)",
   },
   {
     id: "s5",
@@ -183,7 +209,7 @@ export const services: Service[] = [
     title: "Copilots & Conversational AI",
     body: "Assistants embedded in your product, tuned to your workflows and tone.",
     long: "Assistants embedded directly in your product, tuned to your workflows, tone, and the edge cases your users actually hit.",
-    bestFor: "Products where support tickets are really the same five questions.",
+    bestFor: "Choose this if the assistant belongs inside your product, alongside the user's workflow rather than in a separate tab.",
     deliverables: ["Conversation design", "Product integration & auth", "Usage analytics"],
     whatIsIt:
       "A copilot lives inside your product, answering, drafting, or acting on a user's behalf, tuned to your workflows and tone instead of feeling like a bolted-on chatbot.",
@@ -199,8 +225,8 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, LANGCHAIN, PYTHON, GITHUB],
     techStackDetail: [OPENAI, LANGCHAIN, PYTHON, AUTH0, HUBSPOT, MIXPANEL, SLACK, GITHUB],
-    image: "/media/case-health.png",
-    bg: "#FFFFFF",
+    image: "/media/case-health.webp",
+    bg: "var(--color-white)",
   },
 ];
 
@@ -220,8 +246,8 @@ export const models: EngagementModel[] = [
   {
     name: "Scoping sprint",
     badge: "Start here",
-    badgeFg: "#FFFFFF",
-    badgeBg: "linear-gradient(90deg, #55585C 0%, #8A8D91 100%)",
+    badgeFg: "var(--color-white)",
+    badgeBg: "linear-gradient(90deg, var(--color-text-soft) 0%, var(--color-neutral-light) 100%)",
     duration: "One week, fixed fee",
     body: "One workflow, measured. You get a baseline, a build plan and a clear decision, credited against the build if you continue.",
     includes: [
@@ -231,13 +257,13 @@ export const models: EngagementModel[] = [
       "Go / no-go recommendation",
     ],
     cta: "Book a scoping call",
-    bg: "#FFFFFF",
+    bg: "var(--color-white)",
   },
   {
     name: "Delivery engagement",
     badge: "Most chosen",
-    badgeFg: "#FFFFFF",
-    badgeBg: "linear-gradient(90deg, #152F85 0%, #193DAA 50%, #2C55C4 100%)",
+    badgeFg: "var(--color-white)",
+    badgeBg: "linear-gradient(90deg, var(--color-accent-strong) 0%, var(--color-accent) 50%, var(--color-accent-mid) 100%)",
     duration: "4–9 weeks per outcome",
     body: "We build the scoped workflow into production with your team alongside us. Milestones you approve, not hours you audit.",
     includes: [
@@ -247,13 +273,13 @@ export const models: EngagementModel[] = [
       "Code and runbook handed to you",
     ],
     cta: "Discuss an engagement",
-    bg: "#EEF2FB",
+    bg: "var(--color-tint)",
   },
   {
     name: "Retained partner",
     badge: "For portfolios",
-    badgeFg: "#FFFFFF",
-    badgeBg: "linear-gradient(90deg, #2C55C4 0%, #5C81DF 100%)",
+    badgeFg: "var(--color-white)",
+    badgeBg: "linear-gradient(90deg, var(--color-accent-mid) 0%, var(--color-accent-lighter) 100%)",
     duration: "Rolling, 30 days' notice",
     body: "A standing pod across several workflows, with quarterly outcome reviews and on-call cover for what we've shipped.",
     includes: [
@@ -263,21 +289,23 @@ export const models: EngagementModel[] = [
       "Advisory for your internal hires",
     ],
     cta: "Talk about a retainer",
-    bg: "#FFFFFF",
+    bg: "var(--color-white)",
   },
 ];
 
 export const metrics = [
-  { value: "3 wks", label: "Median scope to first production use" },
+  // Derived from caseStudyEntries, not asserted independently: the nine
+  // engagementLength values are 3,4,4,5,5,6,6,7,8 weeks, so the median is 5.
+  //
+  // This previously read "3 wks", which was wrong twice over — the median was
+  // never 3, and the one three-week engagement (c8) was a POC that reached
+  // board approval rather than production. It also contradicted the delivery
+  // model's own "4-9 weeks per outcome". tests/data-integrity.test.ts now
+  // recomputes the median and fails if this number drifts from the case studies.
+  { value: "5 wks", label: "Median engagement, scope to production" },
   { value: "30%", label: "Average running cost reduction" },
   { value: "50", label: "Workflows delivered and handed over" },
   { value: "20+", label: "Happy clients we've delivered for" },
-];
-
-export const credentials = [
-  { value: "12 yrs", label: "Median team experience" },
-  { value: "0", label: "Junior hours billed" },
-  { value: "100%", label: "Code and IP yours" },
 ];
 
 export const steps = [
@@ -325,7 +353,7 @@ export const footerColumns = [
     head: "Contact",
     items: [
       { label: "Book a call", href: "/#contact" },
-      { label: "Email us", href: "mailto:hello@signiance.com" },
+      { label: "Email us", href: `mailto:${contactEmail}` },
     ],
   },
 ];
@@ -421,46 +449,6 @@ export const testimonials: Testimonial[] = [
     quoteAfter: ", ensuring a top-notch experience.",
   },
 ];
-
-export const caseStudies = [
-  {
-    span: 7,
-    dark: false,
-    image: "/media/light-01.png",
-    imageHeight: 200,
-    tag: "01 · HEALTHCARE",
-    title: "Making pathology reports easier to understand",
-    body: "AI-powered analysis that turns complex pathology reports into clearer, structured insights.",
-    stat: { value: "80%", label: "faster report review" },
-  },
-  {
-    span: 5,
-    dark: true,
-    image: "/media/light-02.png",
-    imageHeight: 140,
-    tag: "02 · SALES · AI",
-    title: "Turning sales calls into actionable coaching",
-    body: "An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve.",
-    stat: { value: "10K+", label: "calls analyzed" },
-  },
-  {
-    span: 5,
-    dark: false,
-    image: "/media/eng-01.png",
-    imageHeight: 140,
-    tag: "03 · FOOD · AI",
-    title: "A conversational AI agent built to scale",
-    body: "Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in.",
-    stat: null,
-  },
-];
-
-export const engineeringCaseStudy = {
-  image: "/media/light-03.png",
-  tag: "04 · ENGINEERING · CLOUD",
-  title: "Scaling engineering simulations with cloud HPC",
-  body: "A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.",
-};
 
 export type CaseStudyEntry = {
   id: string;
@@ -636,7 +624,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["AWS HPC infrastructure", "CPU-optimized compute (CFD)", "GPU-accelerated compute (DEM)", "Elastic job scheduling"],
     statValue: null,
     statLabel: null,
-    image: "/media/case-engineering.jpg",
+    image: "/media/case-engineering.webp",
     dark: false,
   },
   {
@@ -788,7 +776,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Rapid prototyping", "LLM APIs", "Production-readiness review"],
     statValue: "3 wks",
     statLabel: "from idea to board-approved POC",
-    image: "/media/case-fintech.png",
+    image: "/media/case-fintech.webp",
     dark: false,
   },
   {
@@ -826,7 +814,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Conversational agent frameworks", "Product integrations", "Usage analytics"],
     statValue: "50%+",
     statLabel: "faster first response",
-    image: "/media/case-health.png",
+    image: "/media/case-health.webp",
     dark: false,
   },
 ];
@@ -840,16 +828,14 @@ export const clients = [
   { src: "/media/client-seagage.png", alt: "Seagage", height: 48, invert: false },
   { src: "/media/client-themagic5.png", alt: "TheMagic5", height: 42, invert: false },
   { src: "/media/client-v5.png", alt: "V5", height: 56, invert: true },
-];
-
-// About page's logo grid uses every client logo we have (row above plus a
-// few more), kept to a multiple of 3 so the grid fills evenly.
-export const aboutClients = [
-  ...clients,
   { src: "/media/logo-revdau.png", alt: "RevDau", height: 46, invert: false },
   { src: "/media/logo-1300.png", alt: "1300 Group", height: 48, invert: false },
   { src: "/media/logo-jac.svg", alt: "JAC", height: 44, invert: false },
 ];
+
+// The About page shows the same set as a grid. Nine divides evenly into three
+// columns, so the grid fills without a ragged last row.
+export const aboutClients = clients;
 
 export type TeamMember = {
   name: string;
@@ -870,6 +856,8 @@ export const team: TeamMember[] = [
 export type FAQ = {
   question: string;
   answer: string;
+  /** Optional follow-through, for answers that have a page behind them. */
+  link?: { href: string; label: string };
 };
 
 export const faqs: FAQ[] = [
@@ -892,6 +880,19 @@ export const faqs: FAQ[] = [
     question: "How do you handle our data and security?",
     answer:
       "We work inside your existing infrastructure and access controls wherever possible, sign whatever NDA or DPA your legal team requires, and never train shared models on your data.",
+    // The Security page is a genuine sales asset and was previously orphaned —
+    // nothing on the site linked to it.
+    link: { href: "/security", label: "Read our security posture" },
+  },
+  {
+    question: "Why you rather than hiring in-house, or a larger firm?",
+    answer:
+      "An in-house AI team is the right answer eventually, and we help you hire it — but it is a 6 to 9 month build before anything ships. A larger firm will staff you a pyramid and bill the learning curve. We are a senior pod that ships one workflow in weeks and hands it over, which is the fastest way to find out whether the thing is worth building a team around.",
+  },
+  {
+    question: "Can AWS help fund the first project?",
+    answer:
+      "Often, yes. We are an AWS Advanced Tier Services Partner and a Well-Architected Partner, which gives us access to AWS funding programmes that can offset part of a proof of concept or migration for eligible workloads. We will tell you in the scoping call whether your project is likely to qualify.",
   },
   {
     question: "Do you work with our existing cloud and tooling?",

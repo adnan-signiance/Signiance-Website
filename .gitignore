@@ -5,4 +5,19 @@ next-env.d.ts
 npm-debug.log*
 .DS_Store
 *.local
+
+# Environment files. `.env.example` is intentionally tracked; real env files
+# must never be committed.
+.env
+.env.*
+!.env.example
+
+# Test and coverage output
+coverage
+test-results
+playwright-report
+
+# TypeScript incremental build cache
+*.tsbuildinfo
+
 .claude/scheduled_tasks.lock

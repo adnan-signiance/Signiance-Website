@@ -25,17 +25,17 @@ export default function LegalPage({
         style={{
           position: "relative",
           padding: "clamp(44px, 6vw, 64px) var(--pad-x) clamp(32px, 5vw, 48px)",
-          borderBottom: "1px solid #E2E0DA",
+          borderBottom: "1px solid var(--color-line)",
         }}
       >
         <SectionEyebrow>{eyebrow}</SectionEyebrow>
         <h1
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "clamp(29px, 4.4vw, 46px)",
             lineHeight: 1.05,
-            letterSpacing: "-0.038em",
+            letterSpacing: "var(--tracking-tight)",
             margin: "14px 0 0",
             maxWidth: "18ch",
             textWrap: "balance",
@@ -43,10 +43,10 @@ export default function LegalPage({
         >
           {title}
         </h1>
-        <p style={{ margin: "16px 0 0", fontSize: 12.5, letterSpacing: "0.02em", color: "#6A6D71" }}>
+        <p style={{ margin: "16px 0 0", fontSize: "var(--fs-xs)", letterSpacing: "normal", color: "var(--color-muted)" }}>
           Last updated {updated}
         </p>
-        <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
+        <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {intro}
         </p>
         <CornerDots />

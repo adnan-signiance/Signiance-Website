@@ -1,7 +1,10 @@
 "use client";
 
+import Image from "next/image";
+
 import Link from "next/link";
-import CtaArrow from "./CtaArrow";
+import CookieSettingsButton from "./CookieSettingsButton";
+import NewsletterForm from "./NewsletterForm";
 import { brand, footerColumns } from "@/lib/data";
 
 const socials = [
@@ -43,71 +46,66 @@ export default function Footer() {
       <div className="footer-top">
         <div>
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/media/signiance-dark.jpg"
               alt={brand}
+              width={538}
+              height={125}
               style={{ display: "block", height: 34, width: "auto" }}
             />
           </Link>
-          <p style={{ margin: "14px 0 0", fontSize: 13, lineHeight: 1.6, color: "#64676B", maxWidth: 280 }}>
+          <p style={{ margin: "14px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
             An AI-native services company.
           </p>
-          <p style={{ margin: "6px 0 0", fontSize: 13, lineHeight: 1.6, color: "#64676B", maxWidth: 280 }}>
+          <p style={{ margin: "6px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
             Bengaluru · Rajkot · Melbourne
           </p>
           <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/media/aws-advanced-tier-partner.png"
               alt="AWS Partner: Advanced Tier Services"
+              width={1000}
+              height={1000}
               style={{ display: "block", height: 46, width: "auto" }}
             />
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src="/media/aws-well-architected-partner.png"
               alt="AWS Partner: Well-Architected Partner Program"
+              width={1000}
+              height={1000}
               style={{ display: "block", height: 46, width: "auto" }}
             />
           </div>
         </div>
 
         <div className="footer-newsletter">
-          <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71" }}>
+          <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
             Newsletter
           </div>
-          <h4
+          {/* h2 within the contentinfo landmark, rather than h4 following a
+              page h2, which skipped a level. */}
+          <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: 18,
-              letterSpacing: "-0.02em",
+              fontSize: "var(--fs-lg)",
+              letterSpacing: "var(--tracking-snug)",
               margin: "10px 0 0",
             }}
           >
             Occasional notes on shipping cloud infra and production AI
-          </h4>
-          <p style={{ margin: "8px 0 0", fontSize: 13, lineHeight: 1.6, color: "#64676B" }}>
+          </h2>
+          <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)" }}>
             No spam, unsubscribe anytime.
           </p>
-          {/* Signup isn't wired to an email service yet — this is UI only
-              until a provider (Mailchimp, ConvertKit, etc.) is connected. */}
-          <form
-            style={{ display: "flex", gap: 8, marginTop: 16, flexWrap: "wrap" }}
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input type="email" placeholder="you@company.com" className="footer-newsletter-input" required />
-            <button type="submit" className="btn-hero-primary" style={{ border: "none", cursor: "pointer" }}>
-              <CtaArrow>Subscribe</CtaArrow>
-            </button>
-          </form>
+          <NewsletterForm />
         </div>
       </div>
 
       <div className="footer-links-grid">
         {footerColumns.map((col) => (
           <div key={col.head} style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            <div style={{ fontSize: 11, letterSpacing: "0.12em", textTransform: "uppercase", color: "#6A6D71" }}>
+            <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
               {col.head}
             </div>
             {col.items.map((it) => (
@@ -149,6 +147,8 @@ export default function Footer() {
           <Link href="/security" className="footer-link">
             Security
           </Link>
+          ·
+          <CookieSettingsButton />
         </span>
       </div>
     </footer>

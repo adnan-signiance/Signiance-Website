@@ -4,7 +4,7 @@ export default function FeatureCard({
   icon,
   title,
   body,
-  color = "#193DAA",
+  color = "var(--color-accent)",
 }: {
   icon: IconName;
   title: string;
@@ -27,19 +27,22 @@ export default function FeatureCard({
         <PracticeIcon name={icon} color={color} size={20} />
       </span>
       <div>
-        <h4
+        {/* h3, not h4: these cards sit directly under section h2s, so h4 skipped
+            a level (WCAG 1.3.1). Size is set explicitly, so the visual is
+            unchanged. */}
+        <h3
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: 16.5,
-            letterSpacing: "-0.02em",
+            fontSize: "var(--fs-md)",
+            letterSpacing: "var(--tracking-snug)",
             margin: 0,
-            color: "#131417",
+            color: "var(--color-ink)",
           }}
         >
           {title}
-        </h4>
-        <p style={{ margin: "8px 0 0", fontSize: 13.5, lineHeight: 1.6, color: "#43464A" }}>{body}</p>
+        </h3>
+        <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-text)" }}>{body}</p>
       </div>
     </div>
   );

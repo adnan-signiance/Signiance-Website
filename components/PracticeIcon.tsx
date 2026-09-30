@@ -97,7 +97,7 @@ const paths: Record<IconName, React.ReactNode> = {
 
 export default function PracticeIcon({
   name,
-  color = "#193DAA",
+  color = "var(--color-accent)",
   size = 20,
 }: {
   name: IconName;
@@ -119,6 +119,11 @@ export const serviceIcon: Record<string, IconName> = {
   s5: "chat",
 };
 
+// Literal hex, deliberately not tokens: these values are concatenated with a
+// two-digit alpha suffix at the call sites (`${accent}17`, `${accent}55`) to make
+// translucent tints and gradient scrims. `var(--x)17` is not valid CSS, so the
+// raw value has to survive to the point of use. Keep in step with the
+// --color-accent-* tokens in globals.css if those ever change.
 export const serviceColor: Record<string, string> = {
   s1: "#152F85",
   s2: "#193DAA",

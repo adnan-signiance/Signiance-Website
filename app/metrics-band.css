@@ -1,0 +1,76 @@
+/* ---------------------------------------------------------------------------
+   Dark proof band (Phase 6.3)
+
+   The homepage had zero tonal contrast — ten consecutive white sections
+   separated by 1px hairlines. This is the single break in that rhythm, and it
+   is placed on the proof numbers because they are the page's strongest content
+   and were previously its least distinctive section.
+   --------------------------------------------------------------------------- */
+
+.metrics-band {
+  position: relative;
+  /* Spans the full width inside the page frame: no horizontal margin and no
+     radius, so the band meets the frame's left and right borders exactly the way
+     every other section's background would. It stays inside the border rather
+     than bleeding past it to the viewport edge. */
+  padding: clamp(44px, 6vw, 72px) 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  background:
+    radial-gradient(120% 140% at 82% 0%, rgba(44, 85, 196, 0.42) 0%, rgba(13, 24, 74, 0) 62%),
+    linear-gradient(160deg, var(--color-navy) 0%, var(--color-accent-deep) 100%);
+  color: var(--color-white);
+  overflow: hidden;
+}
+
+/* Supplies the horizontal gutter that other sections get from their own
+   padding, so the content lines up with the rest of the page. */
+.metrics-band-inner {
+  padding: 0 var(--pad-x);
+}
+
+.metrics-band-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-tight);
+  margin: 0;
+  text-wrap: balance;
+  color: var(--color-white);
+}
+
+.metrics-band-note {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  /* #A9B8E4 on the navy measures well past AA and keeps the note subordinate to
+     the heading without dropping to an unreadable grey. */
+  color: var(--color-on-dark-muted);
+  text-align: right;
+  max-width: 400px;
+}
+
+.metrics-band-rule {
+  height: 1px;
+  margin-top: 16px;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* The counters and their labels inherit from the band rather than the light
+   defaults baked into MetricsGrid. */
+.metrics-band .grid-metrics > * > div:first-child,
+.metrics-band .grid-metrics > div > div:first-child {
+  color: var(--color-white);
+}
+
+.metrics-band .grid-metrics > * > div:last-child,
+.metrics-band .grid-metrics > div > div:last-child {
+  color: var(--color-on-dark-muted) !important;
+}
+
+@media (max-width: 780px) {
+  .metrics-band-note {
+    text-align: left;
+  }
+}

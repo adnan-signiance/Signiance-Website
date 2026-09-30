@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import { faqs } from "@/lib/data";
@@ -13,7 +14,7 @@ export default function FAQ() {
       style={{
         position: "relative",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
       }}
     >
       <div className="section-head">
@@ -23,11 +24,11 @@ export default function FAQ() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}
@@ -42,17 +43,21 @@ export default function FAQ() {
         </p>
       </div>
 
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+      <div className="section-rule" />
 
       <div className="faq-list" style={{ marginTop: 18 }}>
         {faqs.map((f, i) => {
           const isOpen = open === i;
+          const questionId = `faq-question-${i}`;
+          const answerId = `faq-answer-${i}`;
           return (
             <div key={f.question} className={`faq-item${isOpen ? " is-open" : ""}`}>
               <button
                 type="button"
+                id={questionId}
                 className="faq-question"
                 aria-expanded={isOpen}
+                aria-controls={answerId}
                 onClick={() => setOpen(isOpen ? null : i)}
               >
                 {f.question}
@@ -62,9 +67,18 @@ export default function FAQ() {
                   </svg>
                 </span>
               </button>
-              <div className="faq-answer">
+              {/* `inert` keeps the collapsed answer out of the accessibility
+                  tree and the tab order while still allowing the CSS
+                  grid-rows transition to animate it — `hidden` would remove it
+                  from layout and kill the animation. */}
+              <div className="faq-answer" id={answerId} role="region" aria-labelledby={questionId} inert={!isOpen}>
                 <div className="faq-answer-inner">
                   <p>{f.answer}</p>
+                  {f.link && (
+                    <p className="faq-answer-link">
+                      <Link href={f.link.href}>{f.link.label}</Link>
+                    </p>
+                  )}
                 </div>
               </div>
             </div>

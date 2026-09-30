@@ -12,17 +12,17 @@ export default function CaseStudiesHero() {
       style={{
         position: "relative",
         padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
       }}
     >
       <SectionEyebrow>Case Studies</SectionEyebrow>
       <h1
         style={{
-          fontFamily: "'Bricolage Grotesque', sans-serif",
+          fontFamily: "var(--font-display)",
           fontWeight: 600,
           fontSize: "clamp(29px, 4.4vw, 46px)",
           lineHeight: 1.05,
-          letterSpacing: "-0.038em",
+          letterSpacing: "var(--tracking-tight)",
           margin: "16px 0 0",
           maxWidth: "20ch",
           textWrap: "balance",
@@ -30,7 +30,7 @@ export default function CaseStudiesHero() {
       >
         The work behind the numbers
       </h1>
-      <p style={{ maxWidth: 540, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
+      <p style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
         Every engagement below shipped to production and was measured against a number the client cared
         about, not a vanity metric.
       </p>
@@ -45,7 +45,7 @@ export default function CaseStudiesHero() {
             position: "relative",
             display: "block",
             overflow: "hidden",
-            background: "#0D184A",
+            background: "var(--color-navy)",
           }}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -77,10 +77,10 @@ export default function CaseStudiesHero() {
               <SectionEyebrow>Featured</SectionEyebrow>
               <span
                 style={{
-                  fontSize: 11,
-                  letterSpacing: "0.14em",
+                  fontSize: "var(--fs-2xs)",
+                  letterSpacing: "var(--tracking-wide)",
                   textTransform: "uppercase",
-                  color: "#A9B8E4",
+                  color: "var(--color-on-dark-muted)",
                 }}
               >
                 {featured.industry}
@@ -88,28 +88,28 @@ export default function CaseStudiesHero() {
             </div>
             <h2
               style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 600,
                 fontSize: 32,
                 lineHeight: 1.12,
-                letterSpacing: "-0.03em",
+                letterSpacing: "var(--tracking-snug)",
                 margin: "14px 0 0",
-                color: "#FFFFFF",
+                color: "var(--color-white)",
                 textWrap: "balance",
               }}
             >
               {featured.title}
             </h2>
-            <p style={{ margin: "12px 0 0", fontSize: 14.5, lineHeight: 1.6, color: "#C7CEE6", maxWidth: "48ch" }}>
+            <p style={{ margin: "12px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-accent-faint)", maxWidth: "48ch" }}>
               {featured.teaser}
             </p>
             <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 24, flexWrap: "wrap" }}>
               {featured.statValue && (
                 <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                  <span style={{ fontFamily: "'Bricolage Grotesque', sans-serif", fontWeight: 700, fontSize: 26, color: "#FFFFFF" }}>
+                  <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-2xl)", color: "var(--color-white)" }}>
                     {featured.statValue}
                   </span>
-                  <span style={{ fontSize: 12.5, color: "#A9B8E4" }}>{featured.statLabel}</span>
+                  <span style={{ fontSize: "var(--fs-xs)", color: "var(--color-on-dark-muted)" }}>{featured.statLabel}</span>
                 </div>
               )}
               <span className="btn-hero-primary">

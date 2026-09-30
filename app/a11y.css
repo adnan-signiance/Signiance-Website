@@ -1,0 +1,251 @@
+/* ---------------------------------------------------------------------------
+   Accessibility primitives (Phase 3)
+   --------------------------------------------------------------------------- */
+
+/* --- Focus visibility (WCAG 2.4.7) ---------------------------------------
+   Before this, the only focus style in the entire stylesheet was on one input,
+   so keyboard traversal was effectively invisible.
+
+   `outline-offset` matters here: several CTAs are pills with their own
+   background, and offsetting the ring puts it on the page background just
+   outside the button, where it keeps contrast regardless of the button's own
+   fill. Outline (rather than box-shadow) is used because box-shadow is clipped
+   by the `overflow: hidden` that the arrow-slide animations rely on.
+   ------------------------------------------------------------------------- */
+
+:focus-visible {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
+
+/* Inputs already signal focus with a border+glow of their own; a second ring
+   outside them reads as doubled, so they opt out of the global treatment. */
+.contact-field input:focus-visible,
+.contact-field select:focus-visible,
+.contact-field textarea:focus-visible,
+.footer-newsletter-input:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 1px;
+}
+
+/* On dark surfaces a near-black ring disappears, so invert it. */
+.case-cell-dark :focus-visible,
+.cs-card-dark :focus-visible,
+.curtain-panel :focus-visible {
+  outline-color: var(--color-white);
+}
+
+/* Browsers that support :focus-visible should not also paint the legacy
+   :focus ring on mouse clicks. */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Divider under a section heading. Was an identical inline style repeated in
+   eight components; extracting it means the site's horizontal rule can be
+   adjusted in one place. */
+.section-rule {
+  height: 2px;
+  margin-top: 14px;
+  background: var(--color-line-strong);
+}
+
+/* --- Anchor scroll offset --------------------------------------------------
+   The header is `position: sticky` and 62px tall, so an anchor target scrolled
+   to the top of the viewport lands underneath it — the heading you jumped to is
+   the part that ends up hidden. Nothing declared a scroll offset, so every
+   in-page link (#contact, #work, #services, #s1-#s5, and the skip link) landed
+   short.
+
+   `scroll-margin-top` is applied to the targets rather than `scroll-padding-top`
+   on the scroll container, because `html` uses `overflow-x: clip` and is not
+   itself the scrolling element in every browser.
+   ------------------------------------------------------------------------- */
+
+[id] {
+  scroll-margin-top: 86px;
+}
+
+/* --- Nav disclosure buttons (Phase 3.1) ----------------------------------
+   The dropdown triggers were <span>s driven by hover alone. They are now real
+   buttons; these rules strip the native button chrome so the header looks
+   unchanged while becoming keyboard-operable.
+   ------------------------------------------------------------------------- */
+
+.nav-disclosure,
+.nav-disclosure-labelled {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Chevron-only trigger sits beside the Services link, so it needs a target
+   large enough to hit without covering the link itself. */
+.nav-disclosure {
+  min-width: 24px;
+  min-height: 24px;
+  justify-content: center;
+}
+
+.nav-disclosure-labelled.is-current .nav-link-inner {
+  color: var(--color-accent);
+  font-weight: 500;
+}
+
+/* --- Testimonial carousel controls (Phase 3.3) ---------------------------
+   The rotator previously auto-advanced every 7.5s with no way to stop it, and
+   its position indicators were non-interactive spans 4px tall.
+   ------------------------------------------------------------------------- */
+
+.testimonial-controls {
+  position: absolute;
+  right: 0;
+  bottom: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.testimonial-dots {
+  display: flex;
+  align-items: center;
+  /* Tight: the bars are only 8px wide, so a wide gap made the row read as
+     separate marks rather than one progress indicator. The hit area is provided
+     by the button's own padding, not by the gap. */
+  gap: 2px;
+}
+
+/* The visible bar stays slim to preserve the original look, while the button
+   itself is padded out to a 24px-tall hit area. */
+.testimonial-dot {
+  /* Narrower than before so the row is compact even with 7 testimonials, while
+     still clearing the 24px minimum height for a touch target. */
+  width: 16px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.testimonial-dot::after {
+  content: "";
+  display: block;
+  width: 8px;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--color-border-ui);
+  transition:
+    width 0.35s ease,
+    background-color 0.35s ease;
+}
+
+.testimonial-dot.is-active::after {
+  width: 18px;
+  background: var(--color-accent);
+}
+
+.testimonial-dot:hover::after {
+  background: var(--color-text-soft);
+}
+
+.testimonial-dot.is-active:hover::after {
+  background: var(--color-accent);
+}
+
+@media (max-width: 640px) {
+  .testimonial-controls {
+    position: static;
+    justify-content: center;
+    margin-top: 22px;
+  }
+}
+
+/* Follow-through link inside an FAQ answer. */
+.faq-answer-link {
+  margin: 12px 0 0 !important;
+}
+
+.faq-answer-link a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.faq-answer-link a:hover {
+  color: var(--color-accent);
+}
+
+/* --- Touch targets (WCAG 2.5.8) ------------------------------------------
+   Footer links were ~19px tall (13px text, 1.5 line-height, no padding),
+   under the 24x24 minimum. Vertical padding lifts the hit area without
+   changing the visual density, since the padding is transparent.
+   ------------------------------------------------------------------------- */
+
+.footer-link,
+.cookie-settings-button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding-block: 2px;
+}
+
+/* --- Skip link (WCAG 2.4.1) ----------------------------------------------
+   The header carries a logo, two dropdown menus, four links and a CTA before
+   page content begins; without this, every keyboard visit starts by tabbing
+   through all of it on every page.
+   ------------------------------------------------------------------------- */
+
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  z-index: 1000;
+  transform: translate(-50%, -120%);
+  padding: 11px 20px;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-white);
+  background: var(--color-ink);
+  border-radius: 0 0 6px 6px;
+  text-decoration: none;
+  transition: transform 0.18s ease;
+}
+
+.skip-link:focus-visible {
+  transform: translate(-50%, 0);
+  outline: 2px solid var(--color-white);
+  outline-offset: -4px;
+}
+
+/* The main landmark receives focus programmatically when the skip link is
+   used, so it must not paint a ring as though it were an interactive control. */
+#main-content:focus {
+  outline: none;
+}
+
+/* --- Reduced motion ------------------------------------------------------
+   The global rule in globals.css neutralises CSS animation and transition, but
+   JavaScript-driven motion has to opt in separately. Components read the
+   preference through lib/usePrefersReducedMotion.ts.
+   ------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}

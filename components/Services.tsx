@@ -1,9 +1,9 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
-import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
 import { services } from "@/lib/data";
 
 // Named grid-template-areas below (not a uniform 3-column repeat): the first
@@ -15,14 +15,13 @@ const EDGE_INDEXES = [1, 4];
 
 export default function Services() {
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const dots = useGridIntersectionDots(gridRef, ".grid-services-cell", [services.length]);
 
   return (
     <section
       id="services"
       style={{
         position: "relative",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
@@ -33,11 +32,11 @@ export default function Services() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}
@@ -52,17 +51,20 @@ export default function Services() {
         </p>
       </div>
 
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+      <div className="section-rule" />
 
       <div className="grid-services" ref={gridRef} style={{ marginTop: 24 }}>
-        <GridDotsOverlay dots={dots} />
         {services.map((sv, i) => {
           const wide = i === 0;
           const edge = EDGE_INDEXES.includes(i);
           return (
-            <a
+            <Link
               key={sv.id}
-              href="#contact"
+              // Each cell goes to its own practice page. These all pointed at
+              // #contact, so clicking any of the five dropped the visitor at the
+              // booking form instead of the thing they asked about — and left the
+              // five detail pages with no internal links from the homepage.
+              href={`/services/${sv.slug}`}
               className={`grid-services-cell${wide ? " grid-services-cell--wide" : ""}${edge ? " grid-services-cell--edge" : ""}`}
               style={{ gridArea: AREAS[i] }}
             >
@@ -70,9 +72,9 @@ export default function Services() {
               <h3 className="grid-services-title">{sv.title}</h3>
               <p className="grid-services-body">{sv.body}</p>
               <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true" className="grid-services-arrow">
-                <path d="M4 3 8 7 4 11" stroke="#193DAA" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M4 3 8 7 4 11" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </a>
+            </Link>
           );
         })}
       </div>

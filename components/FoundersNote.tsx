@@ -7,8 +7,8 @@ export default function FoundersNote() {
       style={{
         position: "relative",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
-        background: "#FFFFFF",
-        borderBottom: "1px solid #E2E0DA",
+        background: "var(--color-white)",
+        borderBottom: "1px solid var(--color-line)",
       }}
     >
       <div className="founders-note">
@@ -25,7 +25,7 @@ export default function FoundersNote() {
           people doing the work, not from a boardroom.
         </p>
         <div className="founders-note-sig">
-          <span className="team-avatar" style={{ background: "#152F85" }}>
+          <span className="team-avatar" style={{ background: "var(--color-accent-strong)" }}>
             B
           </span>
           <div>

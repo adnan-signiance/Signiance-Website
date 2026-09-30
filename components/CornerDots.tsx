@@ -1,6 +1,6 @@
 export default function CornerDots({
   position = "bottom",
-  bg = "#FFFFFF",
+  bg = "var(--color-white)",
 }: {
   position?: "top" | "bottom";
   bg?: string;

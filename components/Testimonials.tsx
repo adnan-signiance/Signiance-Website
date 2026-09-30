@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { testimonials } from "@/lib/data";
+import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
 const COUNT = testimonials.length;
 const SLOT_STEP = 100;
@@ -56,7 +57,7 @@ function Avatar({
             borderRadius: "50%",
             objectFit: "cover",
             display: "block",
-            boxShadow: focused ? "0 0 0 2px #FFFFFF, 0 0 0 4px #193DAA" : "none",
+            boxShadow: focused ? "0 0 0 2px var(--color-white), 0 0 0 4px var(--color-accent)" : "none",
             transition: `width ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), height ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), box-shadow ${ROLL_MS}ms ease`,
           }}
         />
@@ -66,13 +67,13 @@ function Avatar({
             width: size,
             height: size,
             borderRadius: "50%",
-            background: focused ? "#193DAA" : "#D6D3CB",
+            background: focused ? "var(--color-accent)" : "var(--color-line-strong)",
             display: "grid",
             placeItems: "center",
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: focused ? 16 : 12,
-            color: focused ? "#FFFFFF" : "#55585C",
+            color: focused ? "var(--color-white)" : "var(--color-text-soft)",
             transition: `width ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), height ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), background-color ${ROLL_MS}ms ease, font-size ${ROLL_MS}ms ease, color ${ROLL_MS}ms ease`,
           }}
         >
@@ -82,10 +83,10 @@ function Avatar({
       <div style={{ textAlign: "center" }}>
         <div
           style={{
-            fontFamily: "Geist, sans-serif",
+            fontFamily: "var(--font-sans)",
             fontSize: focused ? 14 : 12,
             fontWeight: focused ? 600 : 500,
-            color: focused ? "#131417" : "#22252A",
+            color: focused ? "var(--color-ink)" : "var(--color-ink-soft)",
             whiteSpace: "nowrap",
             transition: `font-size ${ROLL_MS}ms ease, color ${ROLL_MS}ms ease`,
           }}
@@ -94,9 +95,9 @@ function Avatar({
         </div>
         <div
           style={{
-            fontFamily: "Geist, sans-serif",
+            fontFamily: "var(--font-sans)",
             fontSize: focused ? 12 : 11,
-            color: "#6A6D71",
+            color: "var(--color-muted)",
             marginTop: 2,
             whiteSpace: "nowrap",
             transition: `font-size ${ROLL_MS}ms ease`,
@@ -112,7 +113,25 @@ function Avatar({
 export default function Testimonials() {
   const [tIdx, setTIdx] = useState(0);
   const [settled, setSettled] = useState(true);
+  /** Explicit choice via the pause button. Sticky until pressed again. */
+  const [userPaused, setUserPaused] = useState(false);
+  /** Transient: the pointer is over the widget, or focus is inside it. */
+  const [interacting, setInteracting] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  // These are kept separate deliberately. Folding hover into the same flag as
+  // the button meant focusing the button counted as a pause, so clicking it
+  // immediately toggled back to playing.
+  const autoplay = !userPaused && !interacting && !prefersReducedMotion;
+
+  const goTo = (index: number) => {
+    setTIdx(((index % COUNT) + COUNT) % COUNT);
+    setSettled(false);
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => setSettled(true));
+    });
+  };
 
   // Photos and logos are real image files — swapping an <img>'s src doesn't
   // clear the old pixels until the new file finishes loading, so without
@@ -135,6 +154,7 @@ export default function Testimonials() {
   // separate timer-based handoff for the quote, so it can't drift out of
   // sync with the avatars or flicker between two competing transitions.
   useEffect(() => {
+    if (!autoplay) return;
     timerRef.current = setInterval(() => {
       setTIdx((i) => (i + 1) % COUNT);
       setSettled(false);
@@ -143,12 +163,26 @@ export default function Testimonials() {
       });
     }, INTERVAL_MS);
     return () => clearInterval(timerRef.current);
-  }, []);
+  }, [autoplay]);
 
   const avMid = testimonials[tIdx];
 
   return (
-    <div style={{ position: "relative", marginTop: 30, padding: "10px 0 48px" }}>
+    <div
+      style={{ position: "relative", marginTop: 30, padding: "10px 0 48px" }}
+      // Rotation stops while a visitor is reading or interacting, so a quote is
+      // never pulled away mid-sentence.
+      onMouseEnter={() => setInteracting(true)}
+      onMouseLeave={() => setInteracting(false)}
+      onFocusCapture={() => setInteracting(true)}
+      onBlurCapture={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setInteracting(false);
+      }}
+    >
+      {/* Announces each change to screen readers without moving focus. */}
+      <div aria-live="polite" aria-atomic="true" className="sr-only">
+        {`Testimonial ${tIdx + 1} of ${COUNT}: ${avMid.name}, ${avMid.role} at ${avMid.company}`}
+      </div>
       <div className="grid-testimonial">
         <div className="testimonial-reel" style={{ position: "relative", height: REEL_HEIGHT, overflow: "hidden" }}>
           {testimonials.map((t, i) => {
@@ -180,7 +214,7 @@ export default function Testimonials() {
         </div>
         <div>
           <div
-            className="testimonial-mobile-focus"
+            className={`testimonial-mobile-focus${settled ? " is-settled" : ""}`}
             style={{ opacity: settled ? 1 : 0, transition: settled ? `opacity ${QUOTE_ANIM_MS}ms ease` : "none" }}
           >
             <Avatar initials={avMid.initials} name={avMid.name} role={avMid.role} photo={avMid.photo} focused />
@@ -205,11 +239,11 @@ export default function Testimonials() {
             ) : (
               <div
                 style={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
-                  fontSize: 17,
+                  fontFamily: "var(--font-display)",
+                  fontSize: "var(--fs-lg)",
                   fontWeight: 600,
-                  letterSpacing: "0.01em",
-                  color: "#22252A",
+                  letterSpacing: "normal",
+                  color: "var(--color-ink-soft)",
                   opacity: settled ? 1 : 0,
                   transition: settled ? `opacity ${QUOTE_ANIM_MS}ms ease` : "none",
                 }}
@@ -220,14 +254,14 @@ export default function Testimonials() {
           </div>
           <p
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 500,
               fontSize: "var(--fs-quote)",
               lineHeight: 1.45,
-              letterSpacing: "-0.015em",
+              letterSpacing: "var(--tracking-snug)",
               margin: 0,
               minHeight: "calc(var(--fs-quote) * 1.45 * 3)",
-              color: "#22252A",
+              color: "var(--color-ink-soft)",
               maxWidth: "48ch",
               textWrap: "pretty",
               opacity: settled ? 1 : 0,
@@ -235,26 +269,36 @@ export default function Testimonials() {
             }}
           >
             {avMid.quoteBefore}{" "}
-            <span style={{ background: "#193DAA", color: "#FFFFFF", fontWeight: 600, padding: "2px 8px", borderRadius: 4 }}>
+            <span style={{ background: "var(--color-accent)", color: "var(--color-white)", fontWeight: 600, padding: "2px 8px", borderRadius: 4 }}>
               {avMid.quoteHighlight}
             </span>
             {avMid.quoteAfter}
           </p>
         </div>
       </div>
-      <div style={{ position: "absolute", right: 0, bottom: 10, display: "flex", gap: 6 }}>
-        {testimonials.map((t, i) => (
-          <span
-            key={t.name}
-            style={{
-              width: i === tIdx ? 22 : 8,
-              height: 4,
-              borderRadius: 2,
-              background: i === tIdx ? "#193DAA" : "#D6D3CB",
-              transition: "all .35s ease",
-            }}
-          />
-        ))}
+      <div className="testimonial-controls">
+        {/* The pause / previous / next buttons were removed by design request.
+            The dots remain the control surface: selecting one both navigates and
+            stops the auto-advance, which keeps a mechanism to halt the movement
+            (WCAG 2.2.2) alongside pause-on-hover, pause-on-focus, and the
+            prefers-reduced-motion gate. */}
+        <div className="testimonial-dots">
+          {testimonials.map((t, i) => (
+            <button
+              key={t.name}
+              type="button"
+              className={`testimonial-dot${i === tIdx ? " is-active" : ""}`}
+              onClick={() => {
+                // Picking a testimonial deliberately also stops the rotation, so
+                // the visitor's choice is not overwritten a few seconds later.
+                setUserPaused(true);
+                goTo(i);
+              }}
+              aria-label={`Show testimonial from ${t.name}, ${t.company}`}
+              aria-current={i === tIdx}
+            />
+          ))}
+        </div>
       </div>
     </div>
   );

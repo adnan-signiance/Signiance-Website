@@ -3,8 +3,9 @@ import PageShell from "@/components/PageShell";
 import LegalPage from "@/components/LegalPage";
 
 export const metadata: Metadata = {
-  title: "Security · Signiance",
+  title: "Security",
   description: "How Signiance secures its own systems and the client environments we build and operate.",
+  alternates: { canonical: "/security" },
 };
 
 export default function SecurityPage() {
@@ -55,7 +56,14 @@ export default function SecurityPage() {
           {
             heading: "7. Sub-processors and partners",
             body: [
-              "We use a small set of vetted infrastructure and tooling providers (for example, AWS for hosting) to deliver our services. We review these providers' own security posture before relying on them.",
+              "We use a small set of vetted infrastructure and tooling providers to deliver our services, and review each provider's own security posture before relying on them. The providers involved in operating this website are:",
+              {
+                list: [
+                  "Amazon Web Services — hosting and infrastructure.",
+                  "Cal.com, Inc. — call scheduling. Loaded only after a visitor consents, and receives the booking details that visitor enters.",
+                ],
+              },
+              "Providers used inside a specific client engagement are disclosed in that engagement's own agreement. Our website privacy policy sets out what each provider above receives.",
             ],
           },
           {

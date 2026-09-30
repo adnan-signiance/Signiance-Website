@@ -1,5 +1,7 @@
 "use client";
 
+import Image from "next/image";
+
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -17,7 +19,7 @@ const ArrowIcon = () => (
     fill="none"
     aria-hidden="true"
   >
-    <path d="M3 2.5 7 6 3 9.5" stroke="#193DAA" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-accent)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
@@ -30,11 +32,14 @@ const Chevron = ({ open }: { open: boolean }) => (
     fill="none"
     aria-hidden="true"
   >
-    <path d="M2 3.5 5 6.5 8 3.5" stroke="#8B8E86" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M2 3.5 5 6.5 8 3.5" stroke="var(--color-border-ui)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const MENU_WIDTH: Record<MenuName, number> = { services: 236, resources: 200 };
+
+/** Shared id so each trigger's aria-controls points at the panel it opens. */
+const NAV_MENU_ID = "nav-dropdown-panel";
 
 export default function Header() {
   const pathname = usePathname();
@@ -53,6 +58,9 @@ export default function Header() {
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
 
   const navRef = useRef<HTMLElement>(null);
+  const dropRef = useRef<HTMLDivElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
+  const toggleRef = useRef<HTMLButtonElement>(null);
   const servicesTriggerRef = useRef<HTMLSpanElement>(null);
   const resourcesTriggerRef = useRef<HTMLSpanElement>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -66,15 +74,21 @@ export default function Header() {
 
   useEffect(() => () => clearTimeout(closeTimer.current), []);
 
-  // Close the drawer on navigation, and whenever the viewport grows back past
-  // the breakpoint — otherwise it stays mounted but hidden, and reappears the
-  // next time the window narrows.
-  useEffect(() => {
+  // Close the drawer on navigation. Done as a render-phase adjustment (React's
+  // documented "reset state when a prop changes" pattern) rather than in an
+  // effect: an effect here fired a second render pass on every navigation and
+  // tripped react-hooks/set-state-in-effect.
+  const [lastPathname, setLastPathname] = useState(pathname);
+  if (lastPathname !== pathname) {
+    setLastPathname(pathname);
     setMobileOpen(false);
     setMobileServicesOpen(false);
     setMobileResourcesOpen(false);
-  }, [pathname]);
+  }
 
+  // Closing when the viewport grows back past the breakpoint — otherwise the
+  // drawer stays mounted but hidden, and reappears the next time the window
+  // narrows.
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 1080) {
@@ -114,13 +128,98 @@ export default function Header() {
 
   const keepOpen = () => clearTimeout(closeTimer.current);
 
+  const toggleMenu = (name: MenuName) => {
+    if (activeMenu === name) setActiveMenu(null);
+    else openMenu(name);
+  };
+
+  /**
+   * Keyboard behaviour for the dropdown triggers, following the disclosure
+   * pattern: Escape closes, Arrow Down opens and moves into the menu.
+   */
+  const onTriggerKeyDown = (event: React.KeyboardEvent, name: MenuName) => {
+    if (event.key === "Escape") {
+      setActiveMenu(null);
+      return;
+    }
+    if (event.key === "ArrowDown" || event.key === "Down") {
+      event.preventDefault();
+      openMenu(name);
+      // Wait for the panel to become visible before moving focus — it is
+      // visibility:hidden while closed and so cannot receive focus yet.
+      requestAnimationFrame(() => {
+        dropRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
+      });
+    }
+  };
+
+  /** Escape anywhere in the menu returns focus to the trigger that opened it. */
+  const onMenuKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key !== "Escape") return;
+    const name = activeMenu;
+    setActiveMenu(null);
+    if (name) triggerRefs[name].current?.querySelector("button")?.focus();
+  };
+
+  /** Closes once focus leaves the nav entirely, so tabbing past it tidies up. */
+  const onNavBlur = (event: React.FocusEvent) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+      setActiveMenu(null);
+    }
+  };
+
+  /**
+   * Focus management for the mobile drawer (WCAG 2.1.2, 2.4.3).
+   *
+   * The drawer covers the page, so focus has to move into it on open, stay
+   * inside it while open, and return to the toggle on close — otherwise a
+   * keyboard user tabs invisibly through the page behind it.
+   */
+  useEffect(() => {
+    if (!mobileOpen) return;
+    const drawer = drawerRef.current;
+    if (!drawer) return;
+
+    const focusable = () =>
+      Array.from(drawer.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')).filter(
+        (el) => el.offsetParent !== null
+      );
+
+    focusable()[0]?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setMobileOpen(false);
+        toggleRef.current?.focus();
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const items = focusable();
+      if (items.length === 0) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [mobileOpen]);
+
   return (
     <header
       style={{
         position: "sticky",
         top: 0,
         zIndex: 40,
-        borderBottom: scrolled ? "none" : "1px solid #E2E0DA",
+        borderBottom: scrolled ? "none" : "1px solid var(--color-line)",
         transition: "border-color .28s ease",
       }}
     >
@@ -142,10 +241,15 @@ export default function Header() {
       >
         <div className="nav-desktop">
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            { }
+            <Image
               src="/media/signiance-dark.jpg"
               alt={brand}
+              // Intrinsic size of the source file; the style below controls the
+              // rendered size. Declaring both lets the browser reserve the box.
+              width={538}
+              height={125}
+              priority
               // The source file is a JPEG with a plain white background (no
               // alpha channel) — multiply blend makes that white drop out
               // against any backdrop, including the frosted blur behind it,
@@ -157,12 +261,13 @@ export default function Header() {
           <nav
             ref={navRef}
             className="nav-desktop-links"
+            onBlur={onNavBlur}
             style={{
               position: "relative",
               alignItems: "center",
               gap: 16,
-              fontSize: 14.5,
-              color: "#55585C",
+              fontSize: "var(--fs-base)",
+              color: "var(--color-text-soft)",
             }}
           >
             <span
@@ -171,19 +276,37 @@ export default function Header() {
               onMouseEnter={() => openMenu("services")}
               onMouseLeave={scheduleClose}
             >
-              {isServicesPage ? (
-                <span style={{ color: "#193DAA", fontWeight: 500 }}>Services</span>
-              ) : (
-                <Link href="/services" className="nav-link">
-                  <span className="nav-link-inner">
-                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Services</span>
-                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                      Services
+              {/* .nav-label is the hover-background surface. It wraps only the
+                  text, so the tint no longer extends under the chevron. */}
+              <span className="nav-label">
+                {isServicesPage ? (
+                  <span style={{ color: "var(--color-accent)", fontWeight: 500 }}>Services</span>
+                ) : (
+                  <Link href="/services" className="nav-link">
+                    <span className="nav-link-inner">
+                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Services</span>
+                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
+                        Services
+                      </span>
                     </span>
-                  </span>
-                </Link>
-              )}
-              <Chevron open={activeMenu === "services"} />
+                  </Link>
+                )}
+              </span>
+              {/* Separate disclosure control: the link navigates to /services,
+                  this opens the submenu. Previously the submenu was reachable
+                  by hover only, so it did not exist for keyboard users. */}
+              <button
+                type="button"
+                className="nav-disclosure"
+                aria-label="Services submenu"
+                aria-haspopup="true"
+                aria-expanded={activeMenu === "services"}
+                aria-controls={NAV_MENU_ID}
+                onClick={() => toggleMenu("services")}
+                onKeyDown={(e) => onTriggerKeyDown(e, "services")}
+              >
+                <Chevron open={activeMenu === "services"} />
+              </button>
             </span>
 
             <span
@@ -192,57 +315,83 @@ export default function Header() {
               onMouseEnter={() => openMenu("resources")}
               onMouseLeave={scheduleClose}
             >
-              {isResourcesPage ? (
-                <span style={{ color: "#193DAA", fontWeight: 500 }}>Resources</span>
-              ) : (
-                <span className="nav-link">
-                  <span className="nav-link-inner">
-                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Resources</span>
-                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                      Resources
+              {/* Resources has no page of its own, so the trigger carries the
+                  label. It was previously a plain <span>, which left Case
+                  Studies, Blog and Careers unreachable from the desktop header
+                  by keyboard entirely.
+
+                  The button must NOT carry .nav-link: that rule is
+                  `height: 19px; overflow: hidden`, which clipped the button's own
+                  chevron and squashed the trigger. .nav-link now sits on an inner
+                  wrapper around the sliding text only. */}
+              <button
+                type="button"
+                className={`nav-disclosure-labelled${isResourcesPage ? " is-current" : ""}`}
+                aria-haspopup="true"
+                aria-expanded={activeMenu === "resources"}
+                aria-controls={NAV_MENU_ID}
+                onClick={() => toggleMenu("resources")}
+                onKeyDown={(e) => onTriggerKeyDown(e, "resources")}
+              >
+                <span className="nav-label">
+                  <span className="nav-link">
+                    <span className="nav-link-inner">
+                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Resources</span>
+                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
+                        Resources
+                      </span>
                     </span>
                   </span>
                 </span>
-              )}
-              <Chevron open={activeMenu === "resources"} />
+                <Chevron open={activeMenu === "resources"} />
+              </button>
             </span>
 
             <span className="nav-pill">
-              <Link href="/#work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
-                <span className="nav-link-inner">
-                  <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How We Work</span>
-                  <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                    How We Work
-                  </span>
-                </span>
-              </Link>
-            </span>
-
-            <span className="nav-pill">
-              {isAboutPage ? (
-                <span style={{ color: "#193DAA", fontWeight: 500 }}>About</span>
-              ) : (
-                <Link href="/about" className="nav-link">
+              <span className="nav-label">
+                <Link href="/#work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
                   <span className="nav-link-inner">
-                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>About</span>
-                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "#193DAA" }}>
-                      About
+                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How We Work</span>
+                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
+                      How We Work
                     </span>
                   </span>
                 </Link>
-              )}
+              </span>
+            </span>
+
+            <span className="nav-pill">
+              <span className="nav-label">
+                {isAboutPage ? (
+                  <span style={{ color: "var(--color-accent)", fontWeight: 500 }}>About</span>
+                ) : (
+                  <Link href="/about" className="nav-link">
+                    <span className="nav-link-inner">
+                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>About</span>
+                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
+                        About
+                      </span>
+                    </span>
+                  </Link>
+                )}
+              </span>
             </span>
 
             <div
+              id={NAV_MENU_ID}
+              ref={dropRef}
               className={`nav-drop${activeMenu ? " is-open" : ""}`}
               style={{
                 top: menuPos.top,
                 left: menuPos.left,
-                width: MENU_WIDTH.services,
+                // Was hardcoded to MENU_WIDTH.services, so the Resources menu
+                // rendered at the Services width and looked misaligned.
+                width: activeMenu ? MENU_WIDTH[activeMenu] : MENU_WIDTH.services,
                 zIndex: 50,
               }}
               onMouseEnter={keepOpen}
               onMouseLeave={scheduleClose}
+              onKeyDown={onMenuKeyDown}
             >
               {activeMenu === "services" && (
                 <div key="services" className="nav-drop-content">
@@ -309,13 +458,13 @@ export default function Header() {
           <Link href="/#contact" className="btn-primary header-cta-desktop">
             <span className="btn-primary-arrow-in">
               <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
-            <span className="btn-primary-label">Get Your Scoped Plan</span>
+            <span className="btn-primary-label">Book a scoping call</span>
             <span className="btn-primary-arrow-out">
               <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </span>
           </Link>
@@ -323,6 +472,7 @@ export default function Header() {
 
         <button
           type="button"
+          ref={toggleRef}
           className={`nav-toggle${mobileOpen ? " is-open" : ""}`}
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           aria-expanded={mobileOpen}
@@ -335,7 +485,7 @@ export default function Header() {
         </button>
       </div>
 
-      <div id="mobile-nav" className={`nav-mobile${mobileOpen ? " is-open" : ""}`}>
+      <div ref={drawerRef} id="mobile-nav" className={`nav-mobile${mobileOpen ? " is-open" : ""}`}>
         <div className="nav-mobile-row">
           <Link href="/services" className="nav-mobile-link nav-mobile-row-link">
             Services
@@ -396,13 +546,13 @@ export default function Header() {
         <Link href="/#contact" className="btn-primary nav-mobile-cta">
           <span className="btn-primary-arrow-in">
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
-          <span className="btn-primary-label">Get Your Scoped Plan</span>
+          <span className="btn-primary-label">Book a scoping call</span>
           <span className="btn-primary-arrow-out">
             <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+              <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </span>
         </Link>

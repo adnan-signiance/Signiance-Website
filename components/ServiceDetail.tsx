@@ -8,7 +8,6 @@ import CtaArrow from "./CtaArrow";
 import CalBooking from "./CalBooking";
 import RelatedCaseStudies from "./RelatedCaseStudies";
 import { serviceColor } from "./PracticeIcon";
-import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
 import { services, caseStudyEntries, type Service } from "@/lib/data";
 
 const GoArrow = () => (
@@ -24,22 +23,19 @@ export default function ServiceDetail({ service }: { service: Service }) {
 
   const [openCap, setOpenCap] = useState(0);
   const otherGridRef = useRef<HTMLDivElement | null>(null);
-  const otherDots = useGridIntersectionDots(otherGridRef, ".other-practice-cell", [otherServices.length]);
   const techGridRef = useRef<HTMLDivElement | null>(null);
-  const techDots = useGridIntersectionDots(techGridRef, ".tech-stack-cell", [service.techStackDetail.length]);
   const whoGridRef = useRef<HTMLDivElement | null>(null);
-  const whoDots = useGridIntersectionDots(whoGridRef, ".who-for-cell", [service.whoItsFor.length]);
 
   return (
     <>
-      <section style={{ position: "relative", padding: "clamp(32px, 5vw, 48px) var(--pad-x) 0", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(32px, 5vw, 48px) var(--pad-x) 0", borderBottom: "1px solid var(--color-line)" }}>
         <h1
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "clamp(29px, 4.4vw, 46px)",
             lineHeight: 1.05,
-            letterSpacing: "-0.038em",
+            letterSpacing: "var(--tracking-tight)",
             margin: 0,
             maxWidth: "24ch",
             textWrap: "balance",
@@ -47,11 +43,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
         >
           {service.title}
         </h1>
-        <p style={{ maxWidth: 560, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>{service.long}</p>
+        <p style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>{service.long}</p>
 
         <div style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
           <Link href="/#contact" className="btn-hero-primary">
-            <CtaArrow>Get Your Scoped Plan</CtaArrow>
+            <CtaArrow>Book a scoping call</CtaArrow>
           </Link>
         </div>
 
@@ -61,7 +57,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
             margin: "36px calc(var(--pad-x) * -1) 0",
             borderRadius: 0,
             height: "clamp(220px, 26vw, 320px)",
-            background: `linear-gradient(135deg, ${accent} 0%, #0D184A 100%)`,
+            background: `linear-gradient(135deg, ${accent} 0%, var(--color-navy) 100%)`,
           }}
         >
           <span
@@ -70,11 +66,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
               position: "absolute",
               right: 4,
               bottom: -24,
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 700,
               fontSize: "clamp(120px, 15vw, 220px)",
               lineHeight: 1,
-              letterSpacing: "-0.05em",
+              letterSpacing: "var(--tracking-tight)",
               color: "rgba(255,255,255,0.1)",
             }}
           >
@@ -91,16 +87,16 @@ export default function ServiceDetail({ service }: { service: Service }) {
               boxSizing: "border-box",
             }}
           >
-            <div style={{ fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace", fontSize: 12, color: "rgba(255,255,255,0.6)" }}>
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "var(--fs-xs)", color: "rgba(255,255,255,0.6)" }}>
               Practice {service.no} / 05
             </div>
             <div
               style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 600,
-                fontSize: 19,
-                letterSpacing: "-0.02em",
-                color: "#FFFFFF",
+                fontSize: "var(--fs-xl)",
+                letterSpacing: "var(--tracking-snug)",
+                color: "var(--color-white)",
                 marginTop: 4,
               }}
             >
@@ -112,14 +108,14 @@ export default function ServiceDetail({ service }: { service: Service }) {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <SectionEyebrow>What it is</SectionEyebrow>
-        <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A" }}>{service.whatIsIt}</p>
+        <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)" }}>{service.whatIsIt}</p>
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
-        <SectionEyebrow>What's included</SectionEyebrow>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
+        <SectionEyebrow>What&apos;s included</SectionEyebrow>
         <div style={{ marginTop: 28, maxWidth: 640 }}>
           {service.capabilities.map((c, i) => {
             const isOpen = openCap === i;
@@ -136,18 +132,21 @@ export default function ServiceDetail({ service }: { service: Service }) {
                     border: "none",
                     padding: 0,
                     cursor: "pointer",
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontWeight: isOpen ? 600 : 500,
-                    fontSize: 21,
-                    letterSpacing: "-0.02em",
-                    color: isOpen ? "#131417" : "#B5B1A7",
+                    fontSize: "var(--fs-xl)",
+                    letterSpacing: "var(--tracking-snug)",
+                    // Was #B5B1A7 at 2.14:1 — a clear AA failure for 21px text,
+                    // which needs 4.5:1. --color-muted is 5.20:1 and still reads
+                    // as dimmed against the open item's near-black.
+                    color: isOpen ? "var(--color-ink)" : "var(--color-muted)",
                     transition: "color 0.2s ease",
                   }}
                 >
                   {c.title}
                 </button>
                 {isOpen && (
-                  <p style={{ margin: "10px 0 0", fontSize: 15.5, lineHeight: 1.6, color: "#43464A", maxWidth: "58ch" }}>{c.body}</p>
+                  <p style={{ margin: "10px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)", maxWidth: "58ch" }}>{c.body}</p>
                 )}
               </div>
             );
@@ -156,10 +155,9 @@ export default function ServiceDetail({ service }: { service: Service }) {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <SectionEyebrow>Tech stack</SectionEyebrow>
         <div className="grid-tech-stack" style={{ marginTop: 20 }} ref={techGridRef}>
-          <GridDotsOverlay dots={techDots} />
           {service.techStackDetail.map((t) => (
             <div key={t.name} className="tech-stack-cell">
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -171,10 +169,9 @@ export default function ServiceDetail({ service }: { service: Service }) {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
-        <SectionEyebrow>Who it's for</SectionEyebrow>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
+        <SectionEyebrow>Who it&apos;s for</SectionEyebrow>
         <div className="grid-who-for" style={{ marginTop: 20 }} ref={whoGridRef}>
-          <GridDotsOverlay dots={whoDots} />
           {service.whoItsFor.map((w) => (
             <div key={w} className="who-for-cell">
               {w}
@@ -185,14 +182,14 @@ export default function ServiceDetail({ service }: { service: Service }) {
       </section>
 
       {relatedCases.length > 0 && (
-        <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+        <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
           <SectionEyebrow>Proof</SectionEyebrow>
           <h3
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: 22,
-              letterSpacing: "-0.025em",
+              fontSize: "var(--fs-xl)",
+              letterSpacing: "var(--tracking-snug)",
               margin: "16px 0 0",
             }}
           >
@@ -208,21 +205,20 @@ export default function ServiceDetail({ service }: { service: Service }) {
       <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)" }}>
         <SectionEyebrow>Other practices</SectionEyebrow>
         <div className="grid-other-practices" style={{ marginTop: 20 }} ref={otherGridRef}>
-          <GridDotsOverlay dots={otherDots} />
           {otherServices.map((s) => (
             <Link key={s.id} href={`/services/${s.slug}`} data-transition="none" className="other-practice-cell">
               <h4
                 style={{
-                  fontFamily: "'Bricolage Grotesque', sans-serif",
+                  fontFamily: "var(--font-display)",
                   fontWeight: 600,
-                  fontSize: 18,
-                  letterSpacing: "-0.02em",
+                  fontSize: "var(--fs-lg)",
+                  letterSpacing: "var(--tracking-snug)",
                   margin: 0,
                 }}
               >
                 {s.title}
               </h4>
-              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, fontSize: 13, fontWeight: 500, color: "#193DAA" }}>
+              <span style={{ display: "inline-flex", alignItems: "center", gap: 6, marginTop: 12, fontSize: "var(--fs-sm)", fontWeight: 500, color: "var(--color-accent)" }}>
                 See details
                 <GoArrow />
               </span>
@@ -231,22 +227,22 @@ export default function ServiceDetail({ service }: { service: Service }) {
         </div>
       </section>
 
-      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)" }}>
         <CornerDots position="top" />
         <h2
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "clamp(24px, 3vw, 32px)",
             lineHeight: 1.1,
-            letterSpacing: "-0.035em",
+            letterSpacing: "var(--tracking-tight)",
             margin: 0,
             textWrap: "balance",
           }}
         >
           Not sure this is the right practice?
         </h2>
-        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
+        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           Tell us the workflow. We&apos;ll tell you which of the five gets you there fastest.
         </p>
         <div className="cal-frame" style={{ marginTop: 24 }}>

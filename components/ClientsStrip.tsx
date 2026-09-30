@@ -61,11 +61,11 @@ function ClientsGrid() {
         <SectionEyebrow>Clients</SectionEyebrow>
         <h2
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "var(--fs-h2)",
             lineHeight: 1.04,
-            letterSpacing: "-0.038em",
+            letterSpacing: "var(--tracking-tight)",
             margin: "16px 0 0",
             textWrap: "balance",
           }}
@@ -96,39 +96,35 @@ export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "g
     <section
       style={{
         position: "relative",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
         padding: "26px var(--pad-x) 28px",
       }}
     >
       <p style={{ margin: "0 0 22px" }}>
         <SectionEyebrow>Trusted By Teams At</SectionEyebrow>
       </p>
-      <div
-        className="clients-row"
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "clamp(26px, 4.5vw, 52px)",
-          rowGap: 26,
-          flexWrap: "wrap",
-        }}
-      >
-        {clients.map((c) => (
-          <div key={c.alt}>{logoImg(c)}</div>
-        ))}
-      </div>
-      {/* Mobile-only: the same logos as a continuous right-to-left marquee.
-          The track is the list twice back to back, so animating it exactly
-          -50% loops seamlessly with no visible reset. */}
+      {/* A continuous right-to-left marquee at every width, not just on mobile.
+          The track is the list rendered twice back to back, so translating it
+          exactly -50% returns to an identical frame and loops with no visible
+          reset.
+
+          The logos are decorative repetition here, so the visible track is
+          aria-hidden and the real list is exposed once to assistive technology
+          below. */}
       <div className="clients-marquee" aria-hidden="true">
         <div className="clients-marquee-track">
           {[...clients, ...clients].map((c, i) => (
-            <div key={i} className="clients-marquee-item">
+            <div key={`${c.alt}-${i}`} className="clients-marquee-item">
               {logoImg(c)}
             </div>
           ))}
         </div>
       </div>
+      <ul className="sr-only">
+        {clients.map((c) => (
+          <li key={c.alt}>{c.alt}</li>
+        ))}
+      </ul>
       <CornerDots />
     </section>
   );

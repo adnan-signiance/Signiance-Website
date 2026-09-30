@@ -1,49 +1,39 @@
-import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import MetricsGrid from "./MetricsGrid";
 
+/**
+ * The one dark section on the homepage.
+ *
+ * Every other section was white with a hairline border, which made ten sections
+ * read as one long undifferentiated scroll. The proof numbers are the strongest
+ * content on the page and were the most visually forgettable, so they get the
+ * tonal break.
+ *
+ * Full-bleed rather than inset: the page frame is capped at 1280px, and breaking
+ * out of it is what makes this read as a deliberate band instead of a dark card.
+ */
 export default function MetricsSection() {
   return (
-    <section
-      id="proof"
-      style={{
-        position: "relative",
-        borderBottom: "1px solid #E2E0DA",
-        padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
-        background: "#FFFFFF",
-      }}
-    >
-      <div className="section-head">
-        <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Proof</SectionEyebrow>
+    <section id="proof" className="metrics-band">
+      <div className="metrics-band-inner">
+        <div className="section-head">
+          <div className="section-head-main">
+            <div style={{ marginBottom: 18 }}>
+              <SectionEyebrow>Proof</SectionEyebrow>
+            </div>
+            <h2 className="metrics-band-title">Outcomes, not case-study theatre</h2>
           </div>
-          <h2
-            style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
-              fontWeight: 600,
-              fontSize: "var(--fs-h2)",
-              lineHeight: 1.04,
-              letterSpacing: "-0.038em",
-              margin: 0,
-              textWrap: "balance",
-            }}
-          >
-            Outcomes, not case-study theatre
-          </h2>
+          <p className="metrics-band-note">
+            Every engagement shipped to production
+            <br />
+            and measured against a number that mattered.
+          </p>
         </div>
-        <p className="section-head-note" style={{ maxWidth: 400 }}>
-          Every engagement shipped to production
-          <br />
-          and measured against a number that mattered.
-        </p>
+
+        <div className="metrics-band-rule" />
+
+        <MetricsGrid style={{ marginTop: 28 }} />
       </div>
-
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
-
-      <MetricsGrid style={{ marginTop: 24 }} />
-
-      <CornerDots />
     </section>
   );
 }

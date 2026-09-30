@@ -8,36 +8,41 @@ import FeatureCard from "./FeatureCard";
 import MetricsGrid from "./MetricsGrid";
 import CalBooking from "./CalBooking";
 import PracticeIcon, { type IconName } from "./PracticeIcon";
-import { useGridIntersectionDots, GridDotsOverlay } from "./useGridIntersectionDots";
-import { headline, team } from "@/lib/data";
+import { bookingPromise, headline, team } from "@/lib/data";
 
+// Literal hex for the same reason as serviceColor in PracticeIcon: FeatureCard
+// builds a translucent tint with `${color}17`, which needs a raw hex value.
 const blueScale = ["#152F85", "#193DAA", "#2C55C4", "#4F6FDB", "#5C81DF"];
 
+// These were previously abstractions — "Integrity", "Innovation", "Customer
+// obsession" — interchangeable with any consultancy and at odds with a site whose
+// own copy mocks that kind of language ("Outcomes, not case-study theatre").
+// Each one is now a commitment a client could hold us to.
 const values: { title: string; body: string; icon: IconName }[] = [
   {
-    title: "Trust & transparency",
-    body: "Clear visibility into every stage of a project, with clients, partners, and each other.",
+    title: "We scope before we sell",
+    body: "Week one is a fixed-fee audit that ends in a go or no-go. If the answer is no, we tell you and you keep the plan.",
     icon: "shield",
   },
   {
-    title: "Integrity",
-    body: "Uncompromising honesty in everything we ship.",
+    title: "You own all of it",
+    body: "Code, infrastructure, evals and runbook are yours from the first commit. Nothing proprietary you have to keep paying us for.",
     icon: "check-shield",
   },
   {
-    title: "Accountability",
-    body: "We own our work end to end: no handoffs into a void.",
+    title: "Whoever scopes it, builds it",
+    body: "No pyramid staffing and no handover to a delivery team you have never met. The people on the call do the work.",
     icon: "flag",
   },
   {
-    title: "Innovation",
-    body: "We chase the technical breakthroughs that actually move the needle for clients.",
-    icon: "bolt",
+    title: "We measure against your number",
+    body: "Every engagement starts by writing down what better looks like, using a figure your team already tracks.",
+    icon: "target",
   },
   {
-    title: "Customer obsession",
-    body: "Solutions built around what you need next, not what's easiest to sell.",
-    icon: "target",
+    title: "We plan our own exit",
+    body: "Success is your team running it without us. We stay available; we don't stay necessary.",
+    icon: "bolt",
   },
 ];
 
@@ -49,8 +54,11 @@ const whyUs: { title: string; body: string; icon: IconName }[] = [
     icon: "compass",
   },
   {
-    title: "Partner for life",
-    body: "Most engagements start as a scoping sprint and grow into a retained partnership, not a one-off project.",
+    // Was "Partner for life", which directly contradicted the method's own
+    // promise that "we don't stay necessary". Retainers are still the commercial
+    // point — the difference is that staying is the client's choice, not a lock-in.
+    title: "Retained by choice, not by lock-in",
+    body: "Most clients keep a standing pod once the first outcome lands. Rolling, thirty days' notice, cancel when it stops paying for itself.",
     icon: "link",
   },
   {
@@ -62,20 +70,19 @@ const whyUs: { title: string; body: string; icon: IconName }[] = [
 
 export default function AboutContent() {
   const valuesGridRef = useRef<HTMLDivElement | null>(null);
-  const valuesDots = useGridIntersectionDots(valuesGridRef, ".grid-values-cell", [values.length]);
   const founder = team.find((m) => m.name === "Brijesh")!;
 
   return (
     <>
-      <section style={{ position: "relative", padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0", borderBottom: "1px solid var(--color-line)" }}>
         <SectionEyebrow>About</SectionEyebrow>
         <h1
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "clamp(29px, 4.4vw, 46px)",
             lineHeight: 1.05,
-            letterSpacing: "-0.038em",
+            letterSpacing: "var(--tracking-tight)",
             margin: "16px 0 0",
             maxWidth: "20ch",
             textWrap: "balance",
@@ -83,13 +90,13 @@ export default function AboutContent() {
         >
           {headline}
         </h1>
-        <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: 16, lineHeight: 1.6, color: "#43464A" }}>
-          We're a team of senior cloud and AI engineers who believe most AI pilots fail for the same reason
-          most infrastructure projects used to: too much ceremony before anything real ships. Whether you're
+        <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+          We&apos;re a team of senior cloud and AI engineers who believe most AI pilots fail for the same reason
+          most infrastructure projects used to: too much ceremony before anything real ships. Whether you&apos;re
           at the idea stage or already running production infrastructure, we take the hard part off your
           shoulders and build alongside your team, not instead of it.
         </p>
-        <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: 14, color: "#6A6D71" }}>Bengaluru · Rajkot · Melbourne</p>
+        <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>Bengaluru · Rajkot · Melbourne</p>
 
         <MetricsGrid bordered style={{ marginTop: 40 }} />
 
@@ -98,7 +105,7 @@ export default function AboutContent() {
 
       <ClientsStrip variant="grid" />
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <div className="grid-3col" style={{ gridTemplateColumns: "1fr 1fr", gap: 0 }}>
           <div style={{ position: "relative", paddingRight: 40, overflow: "hidden" }}>
             <span
@@ -107,12 +114,12 @@ export default function AboutContent() {
                 position: "absolute",
                 top: -18,
                 right: 20,
-                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: "clamp(80px, 9vw, 120px)",
                 lineHeight: 1,
-                letterSpacing: "-0.04em",
-                color: "#EEF2FB",
+                letterSpacing: "var(--tracking-tight)",
+                color: "var(--color-tint)",
                 zIndex: 0,
               }}
             >
@@ -120,25 +127,25 @@ export default function AboutContent() {
             </span>
             <div style={{ position: "relative" }}>
               <SectionEyebrow>Our mission</SectionEyebrow>
-              <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "44ch" }}>
+              <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)", maxWidth: "44ch" }}>
                 Move businesses from cloud infrastructure to production AI, with solutions built for how they
                 actually work, and a team that stays accountable for the outcome, not just the handoff.
               </p>
             </div>
           </div>
-          <div style={{ position: "relative", borderLeft: "1px solid #E2E0DA", paddingLeft: 40, overflow: "hidden" }}>
+          <div style={{ position: "relative", borderLeft: "1px solid var(--color-line)", paddingLeft: 40, overflow: "hidden" }}>
             <span
               aria-hidden="true"
               style={{
                 position: "absolute",
                 top: -18,
                 right: 20,
-                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 700,
                 fontSize: "clamp(80px, 9vw, 120px)",
                 lineHeight: 1,
-                letterSpacing: "-0.04em",
-                color: "#EEF2FB",
+                letterSpacing: "var(--tracking-tight)",
+                color: "var(--color-tint)",
                 zIndex: 0,
               }}
             >
@@ -146,7 +153,7 @@ export default function AboutContent() {
             </span>
             <div style={{ position: "relative" }}>
               <SectionEyebrow>Our vision</SectionEyebrow>
-              <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "#22252A", maxWidth: "44ch" }}>
+              <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)", maxWidth: "44ch" }}>
                 To be the consulting partner of choice for businesses turning cloud infrastructure into
                 production AI, worldwide, not just where we happen to have an office.
               </p>
@@ -156,36 +163,35 @@ export default function AboutContent() {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <SectionEyebrow>Founder</SectionEyebrow>
         <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 24 }}>
-          <span className="team-avatar" style={{ width: 64, height: 64, fontSize: 22, background: blueScale[0] }}>
+          <span className="team-avatar" style={{ width: 64, height: 64, fontSize: "var(--fs-xl)", background: blueScale[0] }}>
             {founder.name.charAt(0)}
           </span>
           <div>
             <h4
               style={{
-                fontFamily: "'Bricolage Grotesque', sans-serif",
+                fontFamily: "var(--font-display)",
                 fontWeight: 600,
-                fontSize: 19,
-                letterSpacing: "-0.02em",
+                fontSize: "var(--fs-xl)",
+                letterSpacing: "var(--tracking-snug)",
                 margin: 0,
-                color: "#131417",
+                color: "var(--color-ink)",
               }}
             >
               {founder.name}
             </h4>
-            <p style={{ margin: "4px 0 0", fontSize: 14, color: "#6A6D71" }}>{founder.role}</p>
+            <p style={{ margin: "4px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>{founder.role}</p>
           </div>
         </div>
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA", background: "#EEF2FB" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)", background: "var(--color-tint)" }}>
         <SectionEyebrow>Core values</SectionEyebrow>
         <div style={{ position: "relative", marginTop: 28 }}>
           <div className="grid-values" ref={valuesGridRef}>
-            <GridDotsOverlay dots={valuesDots} />
             {values.map((v, i) => (
               <div key={v.title} className="grid-values-cell">
                 <span
@@ -202,26 +208,26 @@ export default function AboutContent() {
                 </span>
                 <h4
                   style={{
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontWeight: 600,
-                    fontSize: 15.5,
-                    letterSpacing: "-0.02em",
+                    fontSize: "var(--fs-md)",
+                    letterSpacing: "var(--tracking-snug)",
                     margin: "14px 0 0",
-                    color: "#131417",
+                    color: "var(--color-ink)",
                   }}
                 >
                   {v.title}
                 </h4>
-                <p style={{ margin: "8px 0 0", fontSize: 13, lineHeight: 1.55, color: "#43464A" }}>{v.body}</p>
+                <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.55, color: "var(--color-text)" }}>{v.body}</p>
               </div>
             ))}
           </div>
-          <CornerDots position="top" bg="#EEF2FB" />
-          <CornerDots bg="#EEF2FB" />
+          <CornerDots position="top" bg="var(--color-tint)" />
+          <CornerDots bg="var(--color-tint)" />
         </div>
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <SectionEyebrow>Why work with us</SectionEyebrow>
         <div className="grid-3col" style={{ marginTop: 24, gridTemplateColumns: "repeat(2, 1fr)" }}>
           {whyUs.map((w, i) => (
@@ -231,7 +237,7 @@ export default function AboutContent() {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <SectionEyebrow>Trusted &amp; certified</SectionEyebrow>
         <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 24, flexWrap: "wrap" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -250,23 +256,23 @@ export default function AboutContent() {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid #E2E0DA", borderBottom: "1px solid #E2E0DA" }}>
+      <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)" }}>
         <CornerDots position="top" />
         <h2
           style={{
-            fontFamily: "'Bricolage Grotesque', sans-serif",
+            fontFamily: "var(--font-display)",
             fontWeight: 600,
             fontSize: "clamp(24px, 3vw, 32px)",
             lineHeight: 1.1,
-            letterSpacing: "-0.035em",
+            letterSpacing: "var(--tracking-tight)",
             margin: 0,
             textWrap: "balance",
           }}
         >
-          Ready to see how we'd scope your workflow?
+          Ready to see how we&apos;d scope your workflow?
         </h2>
-        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: 15, lineHeight: 1.6, color: "#43464A" }}>
-          30 minutes with the people who&apos;d do the work. You leave with a scoped plan either way.
+        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+          {bookingPromise} You leave with a scoped plan either way.
         </p>
         <div className="cal-frame" style={{ marginTop: 24 }}>
           <CalBooking />

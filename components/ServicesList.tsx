@@ -18,9 +18,9 @@ export default function ServicesList() {
             className="svc-row"
             style={{
               position: "relative",
-              borderBottom: "1px solid #E2E0DA",
+              borderBottom: "1px solid var(--color-line)",
               padding: "var(--section-pt) var(--pad-x)",
-              background: "#FFFFFF",
+              background: "var(--color-white)",
             }}
           >
             <div className="grid-svc-detail">
@@ -30,7 +30,7 @@ export default function ServicesList() {
                   order: imgOrder,
                   borderRadius: 14,
                   height: "clamp(220px, 28vw, 340px)",
-                  background: `linear-gradient(135deg, ${accent} 0%, #0D184A 100%)`,
+                  background: `linear-gradient(135deg, ${accent} 0%, var(--color-navy) 100%)`,
                 }}
               >
                 <span
@@ -39,11 +39,11 @@ export default function ServicesList() {
                     position: "absolute",
                     right: 4,
                     bottom: -24,
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontWeight: 700,
                     fontSize: "clamp(120px, 15vw, 200px)",
                     lineHeight: 1,
-                    letterSpacing: "-0.05em",
+                    letterSpacing: "var(--tracking-tight)",
                     color: "rgba(255,255,255,0.1)",
                   }}
                 >
@@ -62,8 +62,8 @@ export default function ServicesList() {
                 >
                   <div
                     style={{
-                      fontFamily: "ui-monospace, SFMono-Regular, Menlo, monospace",
-                      fontSize: 12,
+                      fontFamily: "var(--font-mono)",
+                      fontSize: "var(--fs-xs)",
                       color: "rgba(255,255,255,0.6)",
                     }}
                   >
@@ -71,11 +71,11 @@ export default function ServicesList() {
                   </div>
                   <div
                     style={{
-                      fontFamily: "'Bricolage Grotesque', sans-serif",
+                      fontFamily: "var(--font-display)",
                       fontWeight: 600,
-                      fontSize: 19,
-                      letterSpacing: "-0.02em",
-                      color: "#FFFFFF",
+                      fontSize: "var(--fs-xl)",
+                      letterSpacing: "var(--tracking-snug)",
+                      color: "var(--color-white)",
                       marginTop: 4,
                     }}
                   >
@@ -86,17 +86,17 @@ export default function ServicesList() {
               <div style={{ order: contentOrder }}>
                 <h2
                   style={{
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontWeight: 600,
                     fontSize: "clamp(27px, 3.2vw, 36px)",
-                    letterSpacing: "-0.03em",
+                    letterSpacing: "var(--tracking-snug)",
                     margin: 0,
                     textWrap: "balance",
                   }}
                 >
                   {sv.title}
                 </h2>
-                <p style={{ margin: "14px 0 0", fontSize: 15, lineHeight: 1.65, color: "#43464A", textWrap: "pretty" }}>
+                <p style={{ margin: "14px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.65, color: "var(--color-text)", textWrap: "pretty" }}>
                   {sv.long}
                 </p>
 
@@ -105,31 +105,31 @@ export default function ServicesList() {
                     marginTop: 18,
                     padding: "14px 18px",
                     borderRadius: 12,
-                    borderLeft: "3px solid #193DAA",
-                    background: "#EEF2FB",
-                    color: "#22252A",
+                    borderLeft: "3px solid var(--color-accent)",
+                    background: "var(--color-tint)",
+                    color: "var(--color-ink-soft)",
                   }}
                 >
                   <div
                     style={{
-                      fontSize: 10.5,
+                      fontSize: "var(--fs-2xs)",
                       fontWeight: 700,
-                      letterSpacing: "0.08em",
+                      letterSpacing: "var(--tracking-wide)",
                       textTransform: "uppercase",
-                      color: "#193DAA",
+                      color: "var(--color-accent)",
                       marginBottom: 4,
                     }}
                   >
                     Best for
                   </div>
-                  <div style={{ fontSize: 13.5, lineHeight: 1.6 }}>{sv.bestFor}</div>
+                  <div style={{ fontSize: "var(--fs-sm)", lineHeight: 1.6 }}>{sv.bestFor}</div>
                 </div>
 
                 {/* Titles only, not the full capability descriptions — those
                     live on the detail page. Showing all three in full here
                     made the row too dense to scan at a glance. */}
                 <div style={{ marginTop: 22 }}>
-                  <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
+                  <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 12 }}>
                     Includes
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "10px 16px" }}>
@@ -137,9 +137,9 @@ export default function ServicesList() {
                       <div
                         key={c.title}
                         style={{
-                          fontSize: 13.5,
+                          fontSize: "var(--fs-sm)",
                           fontWeight: 500,
-                          color: "#22252A",
+                          color: "var(--color-ink-soft)",
                           paddingLeft: 12,
                           borderLeft: `2px solid ${accent}`,
                         }}
@@ -151,7 +151,7 @@ export default function ServicesList() {
                 </div>
 
                 <div style={{ marginTop: 22 }}>
-                  <div style={{ fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase", color: "#6A6D71", marginBottom: 12 }}>
+                  <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 12 }}>
                     Tech stack
                   </div>
                   <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 22 }}>
@@ -163,9 +163,9 @@ export default function ServicesList() {
                 </div>
 
                 <div style={{ display: "flex", alignItems: "center", gap: 14, marginTop: 26, flexWrap: "wrap" }}>
-                  <a href="/#contact" className="btn-hero-primary">
-                    <CtaArrow>Talk about this practice</CtaArrow>
-                  </a>
+                  <Link href="/#contact" className="btn-hero-primary">
+                    <CtaArrow>Book a scoping call</CtaArrow>
+                  </Link>
                   <Link href={`/services/${sv.slug}`} data-transition="none" className="btn-hero-outline">
                     <CtaArrow>See full details</CtaArrow>
                   </Link>

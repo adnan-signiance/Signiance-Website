@@ -8,7 +8,7 @@ export default function Engagements() {
       id="engage"
       style={{
         position: "relative",
-        borderBottom: "1px solid #E2E0DA",
+        borderBottom: "1px solid var(--color-line)",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
@@ -19,11 +19,11 @@ export default function Engagements() {
           </div>
           <h2
             style={{
-              fontFamily: "'Bricolage Grotesque', sans-serif",
+              fontFamily: "var(--font-display)",
               fontWeight: 600,
               fontSize: "var(--fs-h2)",
               lineHeight: 1.04,
-              letterSpacing: "-0.038em",
+              letterSpacing: "var(--tracking-tight)",
               margin: 0,
               textWrap: "balance",
             }}
@@ -38,7 +38,7 @@ export default function Engagements() {
         </p>
       </div>
 
-      <div style={{ height: 2, background: "#D6D3CB", marginTop: 14 }} />
+      <div className="section-rule" />
 
       <div style={{ position: "relative", margin: "24px var(--bleed) 0", padding: "0 var(--pad-x)" }}>
         <div className="grid-engagements">
@@ -54,13 +54,13 @@ export default function Engagements() {
                       top: -7.5,
                       width: 15,
                       height: 15,
-                      background: "#FFFFFF",
+                      background: "var(--color-white)",
                       display: "grid",
                       placeItems: "center",
                       pointerEvents: "none",
                     }}
                   >
-                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
+                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "var(--color-dot)" }} />
                   </span>
                   <span
                     className="engagement-col-dot engagement-col-dot-end"
@@ -70,23 +70,23 @@ export default function Engagements() {
                       bottom: -7.5,
                       width: 15,
                       height: 15,
-                      background: "#FFFFFF",
+                      background: "var(--color-white)",
                       display: "grid",
                       placeItems: "center",
                       pointerEvents: "none",
                     }}
                   >
-                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "#A29E96" }} />
+                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "var(--color-dot)" }} />
                   </span>
                 </>
               )}
               <div style={{ flex: "0 0 auto", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10 }}>
                 <h3
                   style={{
-                    fontFamily: "'Bricolage Grotesque', sans-serif",
+                    fontFamily: "var(--font-display)",
                     fontWeight: 600,
-                    fontSize: 20,
-                    letterSpacing: "-0.02em",
+                    fontSize: "var(--fs-xl)",
+                    letterSpacing: "var(--tracking-snug)",
                     margin: 0,
                   }}
                 >
@@ -96,10 +96,10 @@ export default function Engagements() {
                   style={{
                     display: "inline-flex",
                     alignItems: "center",
-                    fontFamily: "Geist, sans-serif",
-                    fontSize: 11,
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "var(--fs-2xs)",
                     fontWeight: 500,
-                    letterSpacing: "0.01em",
+                    letterSpacing: "normal",
                     textTransform: "uppercase",
                     color: m.badgeFg,
                     background: m.badgeBg,
@@ -112,14 +112,14 @@ export default function Engagements() {
                   {m.badge}
                 </span>
               </div>
-              <div style={{ flex: "0 0 auto", display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: "#55585C" }}>
+              <div style={{ flex: "0 0 auto", display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-xs)", color: "var(--color-text-soft)" }}>
                 <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <circle cx="7" cy="7" r="5.4" stroke="#193DAA" strokeWidth="1.2" />
-                  <path d="M7 4.2V7l2 1.4" stroke="#193DAA" strokeWidth="1.2" strokeLinecap="round" />
+                  <circle cx="7" cy="7" r="5.4" stroke="var(--color-accent)" strokeWidth="1.2" />
+                  <path d="M7 4.2V7l2 1.4" stroke="var(--color-accent)" strokeWidth="1.2" strokeLinecap="round" />
                 </svg>
                 <span style={{ whiteSpace: "nowrap" }}>{m.duration}</span>
               </div>
-              <p style={{ flex: "0 0 auto", margin: 0, fontSize: 14, lineHeight: 1.6, color: "#43464A" }}>{m.body}</p>
+              <p style={{ flex: "0 0 auto", margin: 0, fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>{m.body}</p>
               <div
                 style={{
                   flex: "0 0 auto",
@@ -127,13 +127,13 @@ export default function Engagements() {
                   flexDirection: "column",
                   gap: 9,
                   paddingTop: 14,
-                  borderTop: "1px solid #E2E0DA",
+                  borderTop: "1px solid var(--color-line)",
                 }}
               >
                 {m.includes.map((i) => (
-                  <div key={i} style={{ flex: "0 0 auto", display: "flex", gap: 9, alignItems: "flex-start", fontSize: 13, lineHeight: 1.5, color: "#22252A" }}>
+                  <div key={i} style={{ flex: "0 0 auto", display: "flex", gap: 9, alignItems: "flex-start", fontSize: "var(--fs-sm)", lineHeight: 1.5, color: "var(--color-ink-soft)" }}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style={{ flex: "0 0 auto", marginTop: 4 }}>
-                      <path d="M2 6.4 4.4 8.8 10 3.2" stroke="#193DAA" strokeWidth="1.4" strokeLinecap="round" />
+                      <path d="M2 6.4 4.4 8.8 10 3.2" stroke="var(--color-accent)" strokeWidth="1.4" strokeLinecap="round" />
                     </svg>
                     <span>{i}</span>
                   </div>
@@ -142,13 +142,13 @@ export default function Engagements() {
               <a href="#contact" className="btn-primary" style={{ marginTop: "auto", alignSelf: "flex-start" }}>
                 <span className="btn-primary-arrow-in">
                   <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                    <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
                 <span className="btn-primary-label">{m.cta}</span>
                 <span className="btn-primary-arrow-out">
                   <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                    <path d="M3 2.5 7 6 3 9.5" stroke="#EEF2FB" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
               </a>

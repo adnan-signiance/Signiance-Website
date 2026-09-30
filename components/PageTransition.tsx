@@ -4,8 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { setCurtainActive } from "@/lib/curtainSignal";
 
-const SWEEP_MS = 700;
-const MIN_HOLD_MS = 350;
+// The curtain covers the viewport for SWEEP_MS + MIN_HOLD_MS on every internal
+// navigation, during which the destination is invisible and clicks are
+// swallowed. That was 1050ms, long enough to read as latency rather than
+// polish; 580ms keeps the effect legible while roughly halving the delay.
+const SWEEP_MS = 420;
+const MIN_HOLD_MS = 160;
 
 // Only the top-level section name is shown on the curtain — a case study or
 // service detail page still reads as "Case Studies" / "Services", since a
