@@ -65,15 +65,13 @@ jobs:
       # Budgets are asserted against a real browser, which is the only place
       # LCP, CLS and colour contrast can actually be measured. tests/ covers
       # asset weight; this covers what the weight does to a page load.
+      # The URLs and the server command live in .lighthouserc.json, not here:
+      # this action only forwards a fixed set of inputs to LHCI, and
+      # startServerCommand is not one of them. Passing it here is silently
+      # dropped, the server never boots, and collect fails against a dead port.
       - name: Lighthouse
         uses: treosh/lighthouse-ci-action@v12
         with:
-          urls: |
-            http://localhost:3000/
-            http://localhost:3000/services
-            http://localhost:3000/case-studies
-          startServerCommand: npm start
-          startServerReadyPattern: 'Ready in'
           uploadArtifacts: true
           temporaryPublicStorage: true
           configPath: ./.lighthouserc.json

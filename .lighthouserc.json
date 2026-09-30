@@ -2,6 +2,13 @@
   "ci": {
     "collect": {
       "numberOfRuns": 2,
+      "startServerCommand": "npm start",
+      "startServerReadyPattern": "Ready in",
+      "url": [
+        "http://localhost:3000/",
+        "http://localhost:3000/services",
+        "http://localhost:3000/case-studies"
+      ],
       "settings": {
         "preset": "desktop"
       }
