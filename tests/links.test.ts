@@ -88,6 +88,7 @@ describe("route discovery", () => {
       "/about",
       "/services",
       "/case-studies",
+      "/how-we-work",
       "/blog",
       "/careers",
       "/privacy",

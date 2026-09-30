@@ -7,7 +7,12 @@ import { steps } from "@/lib/data";
 
 const markerColors = ["var(--color-accent-pale)", "var(--color-accent-lighter)", "var(--color-accent-mid)", "var(--color-accent-deep)"];
 
-export default function HowWeWork() {
+/**
+ * `variant="page"` drops the section head. On /how-we-work the page hero already
+ * carries the eyebrow and the method's name, so rendering them again here put
+ * two identical eyebrows and two headings within a screen of each other.
+ */
+export default function HowWeWork({ variant = "section" }: { variant?: "section" | "page" }) {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visible, setVisible] = useState<boolean[]>(() => steps.map(() => false));
 
@@ -41,35 +46,39 @@ export default function HowWeWork() {
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
-      <div className="section-head">
-        <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
-            <SectionEyebrow>How we work</SectionEyebrow>
+      {variant === "section" && (
+        <>
+          <div className="section-head">
+            <div className="section-head-main">
+              <div style={{ marginBottom: 18 }}>
+                <SectionEyebrow>How we work</SectionEyebrow>
+              </div>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 600,
+                  fontSize: "var(--fs-h2)",
+                  lineHeight: 1.04,
+                  letterSpacing: "var(--tracking-tight)",
+                  margin: 0,
+                  textWrap: "balance",
+                }}
+              >
+                The Thin Slice Method
+              </h2>
+            </div>
+            <p className="section-head-note">
+              No pyramid staffing.
+              <br />
+              The people who scope it also build it.
+            </p>
           </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              fontSize: "var(--fs-h2)",
-              lineHeight: 1.04,
-              letterSpacing: "var(--tracking-tight)",
-              margin: 0,
-              textWrap: "balance",
-            }}
-          >
-            The Thin Slice Method
-          </h2>
-        </div>
-        <p className="section-head-note">
-          No pyramid staffing.
-          <br />
-          The people who scope it also build it.
-        </p>
-      </div>
 
-      <div className="section-rule" />
+          <div className="section-rule" />
+        </>
+      )}
 
-      <div className="vtimeline" style={{ marginTop: 40 }}>
+      <div className="vtimeline" style={{ marginTop: variant === "page" ? 0 : 40 }}>
         {steps.map((st, i) => (
           <div
             key={st.n}

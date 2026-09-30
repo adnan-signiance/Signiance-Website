@@ -224,7 +224,7 @@ export default function Hero() {
           <Link href="/#contact" className="btn-hero-primary">
             <CtaArrow>Book a scoping call</CtaArrow>
           </Link>
-          <Link href="/#work" className="btn-hero-outline">
+          <Link href="/how-we-work" className="btn-hero-outline">
             <CtaArrow>See how we work</CtaArrow>
           </Link>
         </div>

@@ -48,6 +48,7 @@ export default function Header() {
   const isBlogPage = pathname.startsWith("/blog");
   const isCareersPage = pathname.startsWith("/careers");
   const isResourcesPage = isCaseStudiesPage || isBlogPage || isCareersPage;
+  const isHowWeWorkPage = pathname.startsWith("/how-we-work");
   const isAboutPage = pathname.startsWith("/about");
 
   const [scrolled, setScrolled] = useState(false);
@@ -349,14 +350,20 @@ export default function Header() {
 
             <span className="nav-pill">
               <span className="nav-label">
-                <Link href="/#work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
-                  <span className="nav-link-inner">
-                    <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How We Work</span>
-                    <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
-                      How We Work
-                    </span>
+                {isHowWeWorkPage ? (
+                  <span style={{ color: "var(--color-accent)", fontWeight: 500, whiteSpace: "nowrap" }}>
+                    How We Work
                   </span>
-                </Link>
+                ) : (
+                  <Link href="/how-we-work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
+                    <span className="nav-link-inner">
+                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How We Work</span>
+                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
+                        How We Work
+                      </span>
+                    </span>
+                  </Link>
+                )}
               </span>
             </span>
 
@@ -536,7 +543,7 @@ export default function Header() {
           </div>
         </div>
 
-        <Link href="/#work" className="nav-mobile-link">
+        <Link href="/how-we-work" className="nav-mobile-link">
           How We Work
         </Link>
         <Link href="/about" className="nav-mobile-link">

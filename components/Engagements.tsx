@@ -1,3 +1,4 @@
+import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import { models } from "@/lib/data";
@@ -139,7 +140,10 @@ export default function Engagements() {
                   </div>
                 ))}
               </div>
-              <a href="#contact" className="btn-primary" style={{ marginTop: "auto", alignSelf: "flex-start" }}>
+              {/* Root-relative, not a bare `#contact`: the booking section lives
+                  on the homepage, and this block now renders on /how-we-work
+                  where that anchor has no target. */}
+              <Link href="/#contact" className="btn-primary" style={{ marginTop: "auto", alignSelf: "flex-start" }}>
                 <span className="btn-primary-arrow-in">
                   <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
                     <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -151,7 +155,7 @@ export default function Engagements() {
                     <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </span>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

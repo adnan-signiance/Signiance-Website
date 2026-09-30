@@ -21,6 +21,7 @@ const routes = [
   { name: "about", file: "about.html" },
   { name: "services", file: "services.html" },
   { name: "case-studies", file: "case-studies.html" },
+  { name: "how-we-work", file: "how-we-work.html" },
   { name: "blog", file: "blog.html" },
   { name: "careers", file: "careers.html" },
   { name: "privacy", file: "privacy.html" },
