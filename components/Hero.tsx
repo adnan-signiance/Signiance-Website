@@ -124,7 +124,11 @@ export default function Hero() {
             // Tighter than the shared 1.08 because the hero runs at the largest
             // size on the site, where generous leading reads as loose.
             lineHeight: 1.04,
-            letterSpacing: "var(--tracking-tight)",
+            // Tracking is set on each line below, not here. An em letter-spacing
+            // resolves against the font-size of the element it is declared on and
+            // then inherits as an absolute length — declared here it would resolve
+            // against this h1's own (unset, 32px) size and hand both lines the
+            // same flat pixel value regardless of how large they actually render.
             margin: "clamp(18px, 4vw, 28px) 0 0",
             textWrap: "balance",
           }}
@@ -132,7 +136,13 @@ export default function Hero() {
           <span
             style={{
               display: "block",
-              fontSize: "clamp(19px, 3vw, 34px)",
+              // 0.9x the promise below it through the fluid range (4.5vw against
+              // 5vw), so the pair keeps a fixed relationship as the viewport
+              // changes. The floor is lower than that ratio would give: at 24px
+              // this line wrapped to two on a phone, which with the promise's
+              // own two lines made a four-line hero.
+              fontSize: "clamp(21px, 4.5vw, 52px)",
+              letterSpacing: "var(--tracking-display)",
               color: "var(--color-muted)",
               textDecoration: "line-through",
               textDecorationColor: "var(--color-border-ui)",
@@ -145,6 +155,7 @@ export default function Hero() {
             style={{
               display: "block",
               fontSize: "clamp(30px, 5vw, 58px)",
+              letterSpacing: "var(--tracking-display)",
               marginTop: "clamp(6px, 1.2vw, 12px)",
             }}
           >

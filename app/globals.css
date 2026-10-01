@@ -107,6 +107,11 @@
   --tracking-tight: -0.038em;
   --tracking-snug: -0.02em;
   --tracking-wide: 0.12em;
+  /* A fourth role, for display type only. Tracking that reads correctly on a
+     26-42px heading looks loose by the time the hero headline is near 60px,
+     because letter gaps scale with the type while the eye's tolerance for them
+     does not. Used by the hero headline; not a general-purpose heading value. */
+  --tracking-display: -0.055em;
 }
 
 /* `overflow-x: clip` rather than `hidden`.
