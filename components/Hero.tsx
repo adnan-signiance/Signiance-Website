@@ -168,13 +168,17 @@ export default function Hero() {
 
         <p
           style={{
-            maxWidth: 520,
+            // Widened from 520px, which sat as a narrow column under a headline
+            // roughly 780px across and wrapped to three lines. `balance` evens
+            // the lines out so it settles into two of similar length instead of
+            // a long line over a short orphan.
+            maxWidth: 700,
             margin: "clamp(12px, 3vw, 20px) auto 0",
             fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
             color: "var(--color-ink-soft)",
             fontWeight: 400,
-            textWrap: "pretty",
+            textWrap: "balance",
           }}
         >
           {subhead}
