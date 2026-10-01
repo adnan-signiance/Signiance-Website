@@ -136,11 +136,10 @@ export default function Hero() {
           <span
             style={{
               display: "block",
-              // 0.95x the promise below it through the fluid range (4.75vw
-              // against 5vw), so the pair keeps a fixed relationship as the
-              // viewport changes. The floor is lower than that ratio would give:
-              // at 24px this line wrapped to two on a phone, which with the
-              // promise's own two lines made a four-line hero.
+              // Roughly 0.83-0.91x the promise below it (4.75vw against 5.2vw,
+              // capped at 55px against 66px). The floor is low: at 24px this
+              // line wrapped to two on a phone, which with the promise's own two
+              // lines made a four-line hero.
               fontSize: "clamp(22px, 4.75vw, 55px)",
               letterSpacing: "var(--tracking-display)",
               color: "var(--color-muted)",
@@ -154,9 +153,12 @@ export default function Hero() {
           <span
             style={{
               display: "block",
-              fontSize: "clamp(30px, 5vw, 58px)",
+              // 5.5vw looked right on desktop but wrapped this line to two at
+              // 768px; 5.2vw is the steepest slope that still holds one line at
+              // tablet width, and the 66px cap is reached from about 1270px up.
+              fontSize: "clamp(32px, 5.2vw, 66px)",
               letterSpacing: "var(--tracking-display)",
-              marginTop: "clamp(6px, 1.2vw, 12px)",
+              marginTop: "clamp(2px, 0.5vw, 6px)",
             }}
           >
             Ship the first working agent{" "}
