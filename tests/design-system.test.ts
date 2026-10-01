@@ -29,7 +29,7 @@ const ALLOWED = new Map<string, string>([
     "serviceColor is concatenated with an alpha suffix at call sites",
   ],
   ["components/AboutContent.tsx", "blueScale is concatenated with an alpha suffix"],
-  ["app/fallbacks.css", "rgba fallbacks for color-mix, and mask gradient stops"],
+  ["app/fallbacks.css", "rgba fallbacks for color-mix"],
   [
     "components/CalBooking.tsx",
     "brand colours are injected into the Cal.com iframe, where this document's custom properties do not exist",
@@ -104,12 +104,9 @@ describe("homepage tonal contrast", () => {
 });
 
 describe("cross-browser fallbacks", () => {
-  it("guards the hero mask behind @supports", () => {
-    const fallbacks = sources.find((s) => s.path === "app/fallbacks.css")!;
-    expect(fallbacks.text).toContain("@supports");
-    expect(fallbacks.text).toContain("mask-composite");
-    expect(fallbacks.text).toContain(".hero-portal");
-  });
+  // The hero mask guard that used to be asserted here went with the hero
+  // backdrop image: the hero is now centred copy on plain white, so there is no
+  // masked element left to guard.
 
   it("declares an rgba fallback before every color-mix box-shadow", () => {
     const globals = sources.find((s) => s.path === "app/globals.css")!;

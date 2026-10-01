@@ -3,7 +3,6 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
 const PUBLIC_DIR = join(process.cwd(), "public");
-const MEDIA_DIR = join(PUBLIC_DIR, "media");
 const BUILD_HTML = join(process.cwd(), ".next", "server", "app", "index.html");
 
 function allFiles(dir: string): string[] {
@@ -35,12 +34,9 @@ describe("asset budgets", () => {
     expect(oversized, `oversized assets:\n${oversized.join("\n")}`).toEqual([]);
   });
 
-  it("keeps the hero backdrop under 150 KB", () => {
-    const hero = join(MEDIA_DIR, "hero-portal.webp");
-    expect(existsSync(hero), "hero-portal.webp should exist").toBe(true);
-    const kb = statSync(hero).size / 1024;
-    expect(kb, `hero is ${Math.round(kb)} KB`).toBeLessThan(150);
-  });
+  // The hero backdrop weight budget went with the backdrop itself: the hero is
+  // now centred copy on plain white and ships no image at all. The 400 KB
+  // per-asset cap above still covers everything in public/.
 
   it("ships no PNG over 200 KB, since photographic art should be WebP", () => {
     const heavyPng = files
@@ -66,8 +62,7 @@ describe.skipIf(!existsSync(BUILD_HTML))("delivery", () => {
     expect(html).toMatch(/\/_next\/image\?url=/);
   });
 
-  it("marks the hero as high priority so it is not lazy-loaded", () => {
-    expect(html).toMatch(/hero-portal/);
-    expect(html).toMatch(/fetchPriority="high"|rel="preload"/);
-  });
+  // There is no longer a priority hero image to assert on. The hero is text on
+  // plain white, which makes the h1 the LCP element — nothing to preload, and
+  // the font preload above is covered by its own test.
 });

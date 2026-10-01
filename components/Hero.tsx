@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import CtaArrow from "./CtaArrow";
@@ -19,71 +18,16 @@ export default function Hero() {
       }}
     >
       <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          pointerEvents: "none",
-          zIndex: 0,
-          display: "grid",
-          placeItems: "center",
-          overflow: "hidden",
-        }}
-      >
-        {/* The hero backdrop is the largest image on the site and sits above the
-            fold, so it is the LCP candidate: `priority` preloads it instead of
-            letting it load lazily. Intrinsic dimensions are declared so the box
-            is reserved before the file arrives (no layout shift). */}
-        <Image
-          src="/media/hero-portal.webp"
-          alt=""
-          width={1920}
-          height={1072}
-          priority
-          sizes="100vw"
-          className="hero-portal"
-          style={{
-            display: "block",
-            width: "100%",
-            height: "auto",
-            maxHeight: "100%",
-            aspectRatio: "2752 / 1536",
-            objectFit: "contain",
-            objectPosition: "center",
-            alignSelf: "center",
-            justifySelf: "center",
-          }}
-        />
-        <div
-          className="hero-wash"
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "linear-gradient(90deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.9) 24%, rgba(255,255,255,0.62) 42%, rgba(255,255,255,0.18) 58%, rgba(255,255,255,0) 72%)",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            background:
-              "radial-gradient(120% 80% at 50% 50%, rgba(255,255,255,0) 40%, rgba(255,255,255,0.55) 82%, var(--color-white) 100%)",
-          }}
-        />
-      </div>
-
-      <div
         className="hero-content-in"
         style={{
           position: "relative",
           zIndex: 2,
-          // Widened from 620px. At the old width the headline broke into four
-          // cramped lines while occupying under half the 1280px frame. 760px
-          // still sits inside the white wash over the backdrop image (which
-          // fades out around 72%), so the text stays fully legible.
+          // 760px was chosen to sit inside the white wash over the old backdrop
+          // image. With the backdrop gone it survives as a measure constraint:
+          // centred text much wider than this is hard to track line to line.
           maxWidth: 760,
-          margin: 0,
-          textAlign: "left",
+          margin: "0 auto",
+          textAlign: "center",
         }}
       >
         <div
@@ -198,7 +142,7 @@ export default function Hero() {
         <p
           style={{
             maxWidth: 520,
-            margin: "clamp(12px, 3vw, 20px) 0 0",
+            margin: "clamp(12px, 3vw, 20px) auto 0",
             fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
             color: "var(--color-ink-soft)",
@@ -213,7 +157,7 @@ export default function Hero() {
           style={{
             display: "flex",
             gap: 12,
-            justifyContent: "flex-start",
+            justifyContent: "center",
             marginTop: "clamp(16px, 4vw, 32px)",
             flexWrap: "wrap",
           }}
@@ -238,6 +182,7 @@ export default function Hero() {
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
+            justifyContent: "center",
             columnGap: 20,
             rowGap: 10,
             marginTop: "clamp(18px, 3.5vw, 30px)",
