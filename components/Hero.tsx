@@ -136,12 +136,12 @@ export default function Hero() {
           <span
             style={{
               display: "block",
-              // 0.9x the promise below it through the fluid range (4.5vw against
-              // 5vw), so the pair keeps a fixed relationship as the viewport
-              // changes. The floor is lower than that ratio would give: at 24px
-              // this line wrapped to two on a phone, which with the promise's
-              // own two lines made a four-line hero.
-              fontSize: "clamp(21px, 4.5vw, 52px)",
+              // 0.95x the promise below it through the fluid range (4.75vw
+              // against 5vw), so the pair keeps a fixed relationship as the
+              // viewport changes. The floor is lower than that ratio would give:
+              // at 24px this line wrapped to two on a phone, which with the
+              // promise's own two lines made a four-line hero.
+              fontSize: "clamp(22px, 4.75vw, 55px)",
               letterSpacing: "var(--tracking-display)",
               color: "var(--color-muted)",
               textDecoration: "line-through",
