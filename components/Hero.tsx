@@ -22,10 +22,11 @@ export default function Hero() {
         style={{
           position: "relative",
           zIndex: 2,
-          // 760px was chosen to sit inside the white wash over the old backdrop
-          // image. With the backdrop gone it survives as a measure constraint:
-          // centred text much wider than this is hard to track line to line.
-          maxWidth: 760,
+          // Wide enough that the headline's second line holds on one line at
+          // desktop widths, which is the whole point of the two-line split. The
+          // lead paragraph keeps its own 520px measure, so only the headline and
+          // the single-row proof points actually use this width.
+          maxWidth: 1120,
           margin: "0 auto",
           textAlign: "center",
         }}
@@ -112,11 +113,14 @@ export default function Hero() {
           </span>
         </div>
 
+        {/* Two deliberate lines, not one wrapping block. The struck-through
+            premise is set smaller and the promise larger, so the size jump
+            between them does the work: the thing being dismissed is visibly
+            diminished and the thing being offered dominates. */}
         <h1
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "var(--fs-h1)",
             // Tighter than the shared 1.08 because the hero runs at the largest
             // size on the site, where generous leading reads as loose.
             lineHeight: 1.04,
@@ -127,6 +131,8 @@ export default function Hero() {
         >
           <span
             style={{
+              display: "block",
+              fontSize: "clamp(19px, 3vw, 34px)",
               color: "var(--color-muted)",
               textDecoration: "line-through",
               textDecorationColor: "var(--color-border-ui)",
@@ -134,9 +140,17 @@ export default function Hero() {
             }}
           >
             Skip the 12-month AI roadmap.
-          </span>{" "}
-          Ship the first working agent{" "}
-          <span style={{ color: "var(--color-accent)" }}>in weeks</span>.
+          </span>
+          <span
+            style={{
+              display: "block",
+              fontSize: "clamp(30px, 5vw, 58px)",
+              marginTop: "clamp(6px, 1.2vw, 12px)",
+            }}
+          >
+            Ship the first working agent{" "}
+            <span style={{ color: "var(--color-accent)" }}>in weeks</span>.
+          </span>
         </h1>
 
         <p
