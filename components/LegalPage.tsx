@@ -1,5 +1,6 @@
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import HeroHeading from "./HeroHeading";
 
 export type LegalSection = {
   heading: string;
@@ -28,8 +29,8 @@ export default function LegalPage({
           borderBottom: "1px solid var(--color-line)",
         }}
       >
-        <SectionEyebrow>{eyebrow}</SectionEyebrow>
-        <h1
+        <SectionEyebrow rise={0}>{eyebrow}</SectionEyebrow>
+        <HeroHeading
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
@@ -42,11 +43,11 @@ export default function LegalPage({
           }}
         >
           {title}
-        </h1>
-        <p style={{ margin: "16px 0 0", fontSize: "var(--fs-xs)", letterSpacing: "normal", color: "var(--color-muted)" }}>
+        </HeroHeading>
+        <p className="hero-rise hero-d1" style={{ margin: "16px 0 0", fontSize: "var(--fs-xs)", letterSpacing: "normal", color: "var(--color-muted)" }}>
           Last updated {updated}
         </p>
-        <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <p className="hero-rise hero-d2" style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {intro}
         </p>
         <CornerDots />

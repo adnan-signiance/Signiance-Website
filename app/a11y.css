@@ -104,31 +104,47 @@
    its position indicators were non-interactive spans 4px tall.
    ------------------------------------------------------------------------- */
 
+/* Bottom-right of the widget; centred once the layout stacks (820px rule below). */
 .testimonial-controls {
   position: absolute;
   right: 0;
   bottom: 4px;
   display: flex;
   align-items: center;
+  gap: 10px;
+}
+
+.testimonial-arrow {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--color-border-ui);
+  background: none;
+  color: var(--color-text-soft);
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.testimonial-arrow:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
 }
 
 .testimonial-dots {
   display: flex;
   align-items: center;
-  /* Tight: the bars are only 8px wide, so a wide gap made the row read as
-     separate marks rather than one progress indicator. The hit area is provided
-     by the button's own padding, not by the gap. */
-  gap: 2px;
 }
 
-/* The visible bar stays slim to preserve the original look, while the button
-   itself is padded out to a 24px-tall hit area. */
+/* The button is the 24px-tall hit area (WCAG 2.5.8); the visible mark is the bar
+   inside it. Every dot has the same footprint, so the row only grows by the
+   width of the active bar and nothing overlaps its neighbours. */
 .testimonial-dot {
-  /* Narrower than before so the row is compact even with 7 testimonials, while
-     still clearing the 24px minimum height for a touch target. */
-  width: 16px;
   height: 24px;
-  padding: 0;
+  padding: 0 2px;
   background: none;
   border: none;
   cursor: pointer;
@@ -136,32 +152,52 @@
   place-items: center;
 }
 
-.testimonial-dot::after {
-  content: "";
+.testimonial-dot-bar {
+  position: relative;
   display: block;
   width: 8px;
-  height: 4px;
-  border-radius: 2px;
+  height: 6px;
+  border-radius: 3px;
+  overflow: hidden;
   background: var(--color-border-ui);
   transition:
-    width 0.35s ease,
+    width 0.35s cubic-bezier(0.22, 0.9, 0.24, 1),
     background-color 0.35s ease;
 }
 
-.testimonial-dot.is-active::after {
-  width: 18px;
-  background: var(--color-accent);
-}
-
-.testimonial-dot:hover::after {
+.testimonial-dot:hover .testimonial-dot-bar {
   background: var(--color-text-soft);
 }
 
-.testimonial-dot.is-active:hover::after {
+.testimonial-dot.is-active .testimonial-dot-bar,
+.testimonial-dot.is-active:hover .testimonial-dot-bar {
+  width: 32px;
   background: var(--color-accent);
 }
 
-@media (max-width: 640px) {
+/* While the countdown runs, the active bar is a pale track that the accent fill
+   crosses from left to right over exactly the rotation interval. */
+.testimonial-dot.is-active .testimonial-dot-bar.is-running,
+.testimonial-dot.is-active:hover .testimonial-dot-bar.is-running {
+  background: var(--color-accent-pale);
+}
+
+.testimonial-dot-fill {
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  animation: testimonialFill linear forwards;
+}
+
+@keyframes testimonialFill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@media (max-width: 820px) {
   .testimonial-controls {
     position: static;
     justify-content: center;

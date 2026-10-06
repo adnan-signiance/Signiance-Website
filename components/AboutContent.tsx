@@ -1,12 +1,14 @@
 "use client";
 
-import { useRef } from "react";
+import Image from "next/image";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import HeroHeading from "./HeroHeading";
 import ClientsStrip from "./ClientsStrip";
 import FeatureCard from "./FeatureCard";
 import MetricsGrid from "./MetricsGrid";
 import CalBooking from "./CalBooking";
+import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import PracticeIcon, { type IconName } from "./PracticeIcon";
 import { bookingPromise, headline, team } from "@/lib/data";
 
@@ -69,34 +71,40 @@ const whyUs: { title: string; body: string; icon: IconName }[] = [
 ];
 
 export default function AboutContent() {
-  const valuesGridRef = useRef<HTMLDivElement | null>(null);
   const founder = team.find((m) => m.name === "Brijesh")!;
 
   return (
     <>
       <section style={{ position: "relative", padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>About</SectionEyebrow>
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 600,
-            fontSize: "clamp(29px, 4.4vw, 46px)",
-            lineHeight: 1.05,
-            letterSpacing: "var(--tracking-tight)",
-            margin: "16px 0 0",
-            maxWidth: "20ch",
-            textWrap: "balance",
-          }}
-        >
-          {headline}
-        </h1>
-        <p style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
-          We&apos;re a team of senior cloud and AI engineers who believe most AI pilots fail for the same reason
-          most infrastructure projects used to: too much ceremony before anything real ships. Whether you&apos;re
-          at the idea stage or already running production infrastructure, we take the hard part off your
-          shoulders and build alongside your team, not instead of it.
-        </p>
-        <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>Bengaluru · Rajkot · Melbourne</p>
+        <div className="hero-split">
+          <div>
+            <SectionEyebrow rise={0}>About</SectionEyebrow>
+            <HeroHeading
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 600,
+                fontSize: "clamp(29px, 4.4vw, 46px)",
+                lineHeight: 1.05,
+                letterSpacing: "var(--tracking-tight)",
+                margin: "16px 0 0",
+                maxWidth: "20ch",
+                textWrap: "balance",
+              }}
+            >
+              {headline}
+            </HeroHeading>
+            <p className="hero-rise hero-d1" style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+              We&apos;re a team of senior cloud and AI engineers who believe most AI pilots fail for the same reason
+              most infrastructure projects used to: too much ceremony before anything real ships. Whether you&apos;re
+              at the idea stage or already running production infrastructure, we take the hard part off your
+              shoulders and build alongside your team, not instead of it.
+            </p>
+            <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>Bengaluru · Rajkot · Melbourne</p>
+          </div>
+          <div className="hero-art hero-rise hero-d2">
+            <Image src="/media/about-team.webp" alt="" fill priority sizes="320px" style={{ objectFit: "cover" }} />
+          </div>
+        </div>
 
         <MetricsGrid bordered style={{ marginTop: 40 }} />
 
@@ -125,13 +133,13 @@ export default function AboutContent() {
             >
               01
             </span>
-            <div style={{ position: "relative" }}>
+            <Reveal style={{ position: "relative" }}>
               <SectionEyebrow>Our mission</SectionEyebrow>
               <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)", maxWidth: "44ch" }}>
                 Move businesses from cloud infrastructure to production AI, with solutions built for how they
                 actually work, and a team that stays accountable for the outcome, not just the handoff.
               </p>
-            </div>
+            </Reveal>
           </div>
           <div style={{ position: "relative", borderLeft: "1px solid var(--color-line)", paddingLeft: 40, overflow: "hidden" }}>
             <span
@@ -151,21 +159,23 @@ export default function AboutContent() {
             >
               02
             </span>
-            <div style={{ position: "relative" }}>
+            <Reveal style={{ position: "relative" }} delay={0.12}>
               <SectionEyebrow>Our vision</SectionEyebrow>
               <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)", maxWidth: "44ch" }}>
                 To be the consulting partner of choice for businesses turning cloud infrastructure into
                 production AI, worldwide, not just where we happen to have an office.
               </p>
-            </div>
+            </Reveal>
           </div>
         </div>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>Founder</SectionEyebrow>
-        <div style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 24 }}>
+        <Reveal>
+          <SectionEyebrow>Founder</SectionEyebrow>
+        </Reveal>
+        <Reveal delay={0.1} style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 24 }}>
           <span className="team-avatar" style={{ width: 64, height: 64, fontSize: "var(--fs-xl)", background: blueScale[0] }}>
             {founder.name.charAt(0)}
           </span>
@@ -184,16 +194,18 @@ export default function AboutContent() {
             </h4>
             <p style={{ margin: "4px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>{founder.role}</p>
           </div>
-        </div>
+        </Reveal>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)", background: "var(--color-tint)" }}>
-        <SectionEyebrow>Core values</SectionEyebrow>
+        <Reveal>
+          <SectionEyebrow>Core values</SectionEyebrow>
+        </Reveal>
         <div style={{ position: "relative", marginTop: 28 }}>
-          <div className="grid-values" ref={valuesGridRef}>
+          <RevealGroup className="grid-values" stagger={0.08} spotlight>
             {values.map((v, i) => (
-              <div key={v.title} className="grid-values-cell">
+              <RevealItem key={v.title} className="grid-values-cell" spotlight>
                 <span
                   style={{
                     display: "grid",
@@ -219,46 +231,50 @@ export default function AboutContent() {
                   {v.title}
                 </h4>
                 <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.55, color: "var(--color-text)" }}>{v.body}</p>
-              </div>
+              </RevealItem>
             ))}
-          </div>
+          </RevealGroup>
           <CornerDots position="top" bg="var(--color-tint)" />
           <CornerDots bg="var(--color-tint)" />
         </div>
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>Why work with us</SectionEyebrow>
-        <div className="grid-3col" style={{ marginTop: 24, gridTemplateColumns: "repeat(2, 1fr)" }}>
+        <Reveal>
+          <SectionEyebrow>Why work with us</SectionEyebrow>
+        </Reveal>
+        <Reveal delay={0.1} className="grid-3col" style={{ marginTop: 24, gridTemplateColumns: "repeat(2, 1fr)" }}>
           {whyUs.map((w, i) => (
             <FeatureCard key={w.title} icon={w.icon} title={w.title} body={w.body} color={blueScale[i % blueScale.length]} />
           ))}
-        </div>
+        </Reveal>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>Trusted &amp; certified</SectionEyebrow>
-        <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 24, flexWrap: "wrap" }}>
+        <Reveal>
+          <SectionEyebrow>Trusted &amp; certified</SectionEyebrow>
+        </Reveal>
+        <Reveal delay={0.1} style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 24, flexWrap: "wrap" }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/media/aws-advanced-tier-partner.png"
+            src="/media/aws-advanced-tier-partner.webp"
             alt="AWS Partner: Advanced Tier Services"
             style={{ display: "block", height: 92, width: "auto" }}
           />
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/media/aws-well-architected-partner.png"
+            src="/media/aws-well-architected-partner.webp"
             alt="AWS Partner: Well-Architected Partner Program"
             style={{ display: "block", height: 92, width: "auto" }}
           />
-        </div>
+        </Reveal>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)" }}>
         <CornerDots position="top" />
-        <h2
+        <RevealHeading
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
@@ -270,13 +286,13 @@ export default function AboutContent() {
           }}
         >
           Ready to see how we&apos;d scope your workflow?
-        </h2>
-        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        </RevealHeading>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {bookingPromise} You leave with a scoped plan either way.
-        </p>
-        <div className="cal-frame" style={{ marginTop: 24 }}>
+        </Reveal>
+        <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>
           <CalBooking />
-        </div>
+        </Reveal>
         <CornerDots />
       </section>
     </>

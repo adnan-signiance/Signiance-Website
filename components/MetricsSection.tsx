@@ -1,5 +1,6 @@
 import SectionEyebrow from "./SectionEyebrow";
 import MetricsGrid from "./MetricsGrid";
+import { Reveal, RevealHeading } from "./Reveal";
 
 /**
  * The one dark section on the homepage.
@@ -18,16 +19,16 @@ export default function MetricsSection() {
       <div className="metrics-band-inner">
         <div className="section-head">
           <div className="section-head-main">
-            <div style={{ marginBottom: 18 }}>
+            <Reveal style={{ marginBottom: 18 }}>
               <SectionEyebrow>Proof</SectionEyebrow>
-            </div>
-            <h2 className="metrics-band-title">Outcomes, not case-study theatre</h2>
+            </Reveal>
+            <RevealHeading className="metrics-band-title">Outcomes, not case-study theatre</RevealHeading>
           </div>
-          <p className="metrics-band-note">
+          <Reveal as="p" className="metrics-band-note" delay={0.15}>
             Every engagement shipped to production
             <br />
             and measured against a number that mattered.
-          </p>
+          </Reveal>
         </div>
 
         <div className="metrics-band-rule" />

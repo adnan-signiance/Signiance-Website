@@ -100,7 +100,9 @@ export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "g
         padding: "26px var(--pad-x) 28px",
       }}
     >
-      <p style={{ margin: "0 0 22px" }}>
+      {/* This strip sits inside the first screen, so it joins the hero's page-load
+          sequence (CSS, no script) instead of waiting on a scroll reveal. */}
+      <p className="hero-rise hero-d3" style={{ margin: "0 0 22px" }}>
         <SectionEyebrow>Trusted By Teams At</SectionEyebrow>
       </p>
       {/* A continuous right-to-left marquee at every width, not just on mobile.
@@ -111,7 +113,7 @@ export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "g
           The logos are decorative repetition here, so the visible track is
           aria-hidden and the real list is exposed once to assistive technology
           below. */}
-      <div className="clients-marquee" aria-hidden="true">
+      <div className="clients-marquee hero-rise hero-d3" aria-hidden="true">
         <div className="clients-marquee-track">
           {[...clients, ...clients].map((c, i) => (
             <div key={`${c.alt}-${i}`} className="clients-marquee-item">

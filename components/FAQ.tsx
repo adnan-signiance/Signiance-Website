@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import { faqs } from "@/lib/data";
 
 export default function FAQ() {
@@ -19,10 +20,10 @@ export default function FAQ() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>FAQ</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -34,24 +35,24 @@ export default function FAQ() {
             }}
           >
             Questions we get on the first call
-          </h2>
+          </RevealHeading>
         </div>
-        <p className="section-head-note">
+        <Reveal as="p" className="section-head-note" delay={0.15}>
           What most prospects ask
           <br />
           before they book a scoping call.
-        </p>
+        </Reveal>
       </div>
 
       <div className="section-rule" />
 
-      <div className="faq-list" style={{ marginTop: 18 }}>
+      <RevealGroup className="faq-list" style={{ marginTop: 18 }} stagger={0.07}>
         {faqs.map((f, i) => {
           const isOpen = open === i;
           const questionId = `faq-question-${i}`;
           const answerId = `faq-answer-${i}`;
           return (
-            <div key={f.question} className={`faq-item${isOpen ? " is-open" : ""}`}>
+            <RevealItem key={f.question} className={`faq-item${isOpen ? " is-open" : ""}`}>
               <button
                 type="button"
                 id={questionId}
@@ -81,10 +82,10 @@ export default function FAQ() {
                   )}
                 </div>
               </div>
-            </div>
+            </RevealItem>
           );
         })}
-      </div>
+      </RevealGroup>
 
       <CornerDots />
     </section>

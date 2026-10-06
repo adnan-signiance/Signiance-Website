@@ -1,10 +1,15 @@
 "use client";
 
-import { useRef } from "react";
 import Link from "next/link";
+import { m } from "motion/react";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealGroup, RevealHeading } from "./Reveal";
+import { staggerItem } from "@/lib/motion";
 import { services } from "@/lib/data";
+
+// Each cell is a Next <Link>, so it is made a motion component once here, not on every render.
+const MotionLink = m.create(Link);
 
 // Named grid-template-areas below (not a uniform 3-column repeat): the first
 // practice spans the first two columns of row 1, everything else is one cell.
@@ -14,8 +19,6 @@ const AREAS = ["a", "b", "c", "d", "e"];
 const EDGE_INDEXES = [1, 4];
 
 export default function Services() {
-  const gridRef = useRef<HTMLDivElement | null>(null);
-
   return (
     <section
       id="services"
@@ -27,10 +30,10 @@ export default function Services() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>Services</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -42,24 +45,27 @@ export default function Services() {
             }}
           >
             Where Cloud becomes Agentic AI
-          </h2>
+          </RevealHeading>
         </div>
-        <p className="section-head-note">
+        <Reveal as="p" className="section-head-note" delay={0.15}>
           Five practices, one senior team.
           <br />
           Scoped in a week, delivered against outcomes.
-        </p>
+        </Reveal>
       </div>
 
       <div className="section-rule" />
 
-      <div className="grid-services" ref={gridRef} style={{ marginTop: 24 }}>
+      <RevealGroup className="grid-services" style={{ marginTop: 24 }} stagger={0.07} spotlight>
         {services.map((sv, i) => {
           const wide = i === 0;
           const edge = EDGE_INDEXES.includes(i);
           return (
-            <Link
+            <MotionLink
               key={sv.id}
+              variants={staggerItem}
+              data-reveal=""
+              data-spot=""
               // Each cell goes to its own practice page. These all pointed at
               // #contact, so clicking any of the five dropped the visitor at the
               // booking form instead of the thing they asked about — and left the
@@ -68,16 +74,20 @@ export default function Services() {
               className={`grid-services-cell${wide ? " grid-services-cell--wide" : ""}${edge ? " grid-services-cell--edge" : ""}`}
               style={{ gridArea: AREAS[i] }}
             >
-              <span className="grid-services-num">{sv.no}</span>
-              <h3 className="grid-services-title">{sv.title}</h3>
-              <p className="grid-services-body">{sv.body}</p>
-              <svg width="12" height="14" viewBox="0 0 12 14" fill="none" aria-hidden="true" className="grid-services-arrow">
-                <path d="M4 3 8 7 4 11" stroke="var(--color-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </Link>
+              <div className="grid-services-text">
+                <span className="grid-services-num">{sv.no}</span>
+                <h3 className="grid-services-title">{sv.title}</h3>
+                <p className="grid-services-body">{sv.body}</p>
+              </div>
+              <span className="grid-services-arrow" aria-hidden="true">
+                <svg width="15" height="18" viewBox="0 0 12 14" fill="none">
+                  <path d="M4 3 8 7 4 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </span>
+            </MotionLink>
           );
         })}
-      </div>
+      </RevealGroup>
 
       <CornerDots />
     </section>

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import { models } from "@/lib/data";
 
 export default function Engagements() {
@@ -15,10 +16,10 @@ export default function Engagements() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>Engagements</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -30,21 +31,21 @@ export default function Engagements() {
             }}
           >
             Three ways to work with us
-          </h2>
+          </RevealHeading>
         </div>
-        <p className="section-head-note">
+        <Reveal as="p" className="section-head-note" delay={0.15}>
           Start small, scale only if the outcome lands.
           <br />
           No annual lock-in, no bench time on your invoice.
-        </p>
+        </Reveal>
       </div>
 
       <div className="section-rule" />
 
       <div style={{ position: "relative", margin: "24px var(--bleed) 0", padding: "0 var(--pad-x)" }}>
-        <div className="grid-engagements">
+        <RevealGroup className="grid-engagements" stagger={0.12}>
           {models.map((m, i) => (
-            <div key={m.name} className="engagement-col">
+            <RevealItem key={m.name} className="engagement-col">
               {i > 0 && (
                 <>
                   <span
@@ -156,9 +157,9 @@ export default function Engagements() {
                   </svg>
                 </span>
               </Link>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
       </div>
 
       <CornerDots />

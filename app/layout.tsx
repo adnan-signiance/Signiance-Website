@@ -7,6 +7,7 @@ import "./fallbacks.css";
 import "./consent.css";
 import "./contact-form.css";
 import PageTransition from "@/components/PageTransition";
+import MotionProvider from "@/components/MotionProvider";
 import CookieConsent from "@/components/CookieConsent";
 import Analytics from "@/components/Analytics";
 import { subhead } from "@/lib/data";
@@ -79,6 +80,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${bricolage.variable} ${geist.variable}`}>
+      <head>
+        {/* Scroll reveals render hidden on the server and are shown by script. With
+            JavaScript off nothing would ever show them, so this undoes the hidden
+            state for everything marked data-reveal. */}
+        <noscript>
+          <style>{"[data-reveal],[data-reveal] *{opacity:1!important;transform:none!important}"}</style>
+        </noscript>
+      </head>
       <body
         style={{
           fontFamily: "var(--font-sans)",
@@ -87,10 +96,12 @@ export default function RootLayout({
           WebkitFontSmoothing: "antialiased",
         }}
       >
-        <PageTransition />
-        {children}
-        <CookieConsent />
-        <Analytics />
+        <MotionProvider>
+          <PageTransition />
+          {children}
+          <CookieConsent />
+          <Analytics />
+        </MotionProvider>
       </body>
     </html>
   );

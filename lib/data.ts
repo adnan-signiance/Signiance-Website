@@ -113,7 +113,7 @@ export const services: Service[] = [
     ],
     techStack: [AWS, TERRAFORM, KUBERNETES, DOCKER, GITHUB],
     techStackDetail: [AWS, TERRAFORM, KUBERNETES, DOCKER, GITHUB, GITHUB_ACTIONS, GRAFANA, PROMETHEUS, ANSIBLE, HELM],
-    image: "/media/eng-01.webp",
+    image: "/media/svc-cloud.webp",
     bg: "var(--color-white)",
   },
   {
@@ -141,7 +141,7 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, ANTHROPIC, LANGCHAIN, PYTHON],
     techStackDetail: [OPENAI, ANTHROPIC, LANGCHAIN, PYTHON, HUGGINGFACE, REDIS, FASTAPI, SLACK],
-    image: "/media/eng-02.webp",
+    image: "/media/svc-agentic.webp",
     bg: "var(--color-tint)",
   },
   {
@@ -169,7 +169,7 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, PYTHON, GITHUB, ANTHROPIC],
     techStackDetail: [OPENAI, ANTHROPIC, PYTHON, QDRANT, POSTGRESQL, ELASTICSEARCH, JUPYTER, HUGGINGFACE],
-    image: "/media/eng-03.webp",
+    image: "/media/svc-rag.webp",
     bg: "var(--color-white)",
   },
   {
@@ -197,7 +197,7 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, ANTHROPIC, AWS, PYTHON],
     techStackDetail: [OPENAI, ANTHROPIC, AWS, PYTHON, NEXTJS, VERCEL, FASTAPI, GITHUB],
-    image: "/media/case-fintech.webp",
+    image: "/media/svc-mvp.webp",
     bg: "var(--color-tint)",
   },
   {
@@ -225,7 +225,7 @@ export const services: Service[] = [
     ],
     techStack: [OPENAI, LANGCHAIN, PYTHON, GITHUB],
     techStackDetail: [OPENAI, LANGCHAIN, PYTHON, AUTH0, HUBSPOT, MIXPANEL, SLACK, GITHUB],
-    image: "/media/case-health.webp",
+    image: "/media/svc-copilot.webp",
     bg: "var(--color-white)",
   },
 ];
@@ -378,7 +378,7 @@ export const testimonials: Testimonial[] = [
     role: "CEO",
     company: "THEMAGIC5 INC.",
     photo: "/media/testimonial-bo-haaber.webp",
-    logo: "/media/logo-themagic5.png",
+    logo: "/media/logo-themagic5.webp",
     quoteBefore:
       "We have been working with Signiance Technologies LLP, and they have always been",
     quoteHighlight: "responsive and very good at solving issues",
@@ -390,7 +390,7 @@ export const testimonials: Testimonial[] = [
     role: "Founder & Principal Consultant",
     company: "RevDau",
     photo: "/media/testimonial-bhuvanesh-rajput.webp",
-    logo: "/media/logo-revdau.png",
+    logo: "/media/logo-revdau.webp",
     quoteBefore: "Team has all the attributes required to make any cloud project successful –",
     quoteHighlight: "Technical Expertise, Project Management, Proactiveness",
     quoteAfter: ", and Tactical and Strategic way of looking at the deliverables.",
@@ -401,7 +401,7 @@ export const testimonials: Testimonial[] = [
     role: "COO",
     company: "1300 Group",
     photo: "/media/testimonial-bryn-nicholls.webp",
-    logo: "/media/logo-1300.png",
+    logo: "/media/logo-1300.webp",
     quoteBefore: "Consistently relying on their services, I find their",
     quoteHighlight: "ability to collaborate effectively",
     quoteAfter: " noteworthy. They adeptly complete tasks within the designated timelines, meeting all requirements with efficiency.",
@@ -433,7 +433,7 @@ export const testimonials: Testimonial[] = [
     role: "CTO",
     company: "Seagage Inc.",
     photo: "/media/testimonial-moises.webp",
-    logo: "/media/logo-seagage.png",
+    logo: "/media/logo-seagage.webp",
     quoteBefore: "Signiance has been providing us with support and is very flexible and",
     quoteHighlight: "easy to work with",
     quoteAfter: ". They are willing to work at odd hours in the morning or at night when needed.",
@@ -511,7 +511,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Retrieval-augmented generation", "LLM evaluation harness", "Secure document pipeline"],
     statValue: "80%",
     statLabel: "faster report review",
-    image: "/media/case-healthcare.jpg",
+    image: "/media/case-healthcare.webp",
     dark: false,
   },
   {
@@ -549,7 +549,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Multi-agent orchestration", "Call transcription & diarization", "Playbook-based scoring model"],
     statValue: "10K+",
     statLabel: "calls analyzed",
-    image: "/media/case-sales.jpg",
+    image: "/media/case-sales.webp",
     dark: true,
   },
   {
@@ -587,7 +587,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Conversational agent framework", "Auth & session management", "Autoscaling infrastructure", "Conversation observability"],
     statValue: null,
     statLabel: null,
-    image: "/media/case-food.jpg",
+    image: "/media/case-food.webp",
     dark: false,
   },
   {
@@ -663,7 +663,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["AWS", "Terraform / IaC", "CI/CD pipelines", "Automated health checks"],
     statValue: "12 min",
     statLabel: "median deploy time",
-    image: "/media/work-blue.png",
+    image: "/media/work-blue.webp",
     dark: false,
   },
   {
@@ -701,7 +701,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Multi-agent orchestration", "Real-time routing engine", "Guardrail & eval tooling"],
     statValue: "2 min",
     statLabel: "to replan a disrupted route",
-    image: "/media/work-red.png",
+    image: "/media/work-red.webp",
     dark: true,
   },
   {
@@ -739,7 +739,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     techStack: ["Retrieval-augmented generation", "Vector databases", "LLM evaluation harness"],
     statValue: "<1 min",
     statLabel: "to answer a clause lookup",
-    image: "/media/work-yellow.png",
+    image: "/media/work-yellow.webp",
     dark: false,
   },
   {
@@ -823,14 +823,14 @@ export const caseStudyEntries: CaseStudyEntry[] = [
 export const caseStudyFilters = ["All", "Cloud & DevOps", "Agentic AI", "Gen AI & RAG", "AI POC / MVP", "Copilots"];
 
 export const clients = [
-  { src: "/media/client-abbi.png", alt: "Abbi.ai", height: 48, invert: false },
-  { src: "/media/client-dfw.png", alt: "DFW Logics", height: 56, invert: false },
-  { src: "/media/client-english3.png", alt: "English3", height: 52, invert: false },
-  { src: "/media/client-seagage.png", alt: "Seagage", height: 48, invert: false },
-  { src: "/media/client-themagic5.png", alt: "TheMagic5", height: 42, invert: false },
-  { src: "/media/client-v5.png", alt: "V5", height: 56, invert: true },
-  { src: "/media/logo-revdau.png", alt: "RevDau", height: 46, invert: false },
-  { src: "/media/logo-1300.png", alt: "1300 Group", height: 48, invert: false },
+  { src: "/media/client-abbi.webp", alt: "Abbi.ai", height: 48, invert: false },
+  { src: "/media/client-dfw.webp", alt: "DFW Logics", height: 56, invert: false },
+  { src: "/media/client-english3.webp", alt: "English3", height: 52, invert: false },
+  { src: "/media/client-seagage.webp", alt: "Seagage", height: 48, invert: false },
+  { src: "/media/client-themagic5.webp", alt: "TheMagic5", height: 42, invert: false },
+  { src: "/media/client-v5.webp", alt: "V5", height: 56, invert: true },
+  { src: "/media/logo-revdau.webp", alt: "RevDau", height: 46, invert: false },
+  { src: "/media/logo-1300.webp", alt: "1300 Group", height: 48, invert: false },
   { src: "/media/logo-jac.svg", alt: "JAC", height: 44, invert: false },
 ];
 

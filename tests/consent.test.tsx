@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CalBooking from "@/components/CalBooking";
 import CookieConsent from "@/components/CookieConsent";
@@ -38,13 +38,24 @@ describe("CalBooking consent gating", () => {
     render(<CalBooking />);
     expect(window.Cal).toBeUndefined();
     expect(screen.getByRole("link", { name: /open the booking page/i })).toBeInTheDocument();
-    expect(screen.getByText(/you declined the booking widget/i)).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /email us instead/i })).toBeInTheDocument();
   });
 
-  it("explains how to change a declined choice", () => {
-    setConsent("declined");
-    render(<CalBooking />);
-    expect(screen.getByText(/cookie settings/i)).toBeInTheDocument();
+  // Regression: the embed and the fallback used to share one container <div>, so
+  // after consent was reset the iframe Cal.com had injected survived inside the
+  // fallback and the calendar stayed on screen.
+  it("removes everything Cal.com injected when consent is withdrawn", () => {
+    setConsent("accepted");
+    const { container } = render(<CalBooking />);
+    const embed = container.querySelector(".cal-embed");
+    expect(embed).not.toBeNull();
+    embed!.appendChild(document.createElement("iframe"));
+
+    act(() => resetConsent());
+
+    expect(container.querySelector("iframe")).toBeNull();
+    expect(container.querySelector(".cal-embed")).toBeNull();
+    expect(screen.getByRole("link", { name: /open the booking page/i })).toBeInTheDocument();
   });
 
   // Regression: the IntersectionObserver ref is attached to the embed container,

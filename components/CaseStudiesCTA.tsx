@@ -1,5 +1,6 @@
 import CornerDots from "./CornerDots";
 import CalBooking from "./CalBooking";
+import { Reveal, RevealHeading } from "./Reveal";
 import { bookingPromise } from "@/lib/data";
 
 export default function CaseStudiesCTA() {
@@ -14,7 +15,7 @@ export default function CaseStudiesCTA() {
     >
       <CornerDots position="top" />
       <div style={{ position: "relative" }}>
-        <h2
+        <RevealHeading
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
@@ -26,13 +27,13 @@ export default function CaseStudiesCTA() {
           }}
         >
           Want outcomes like this for your workflow?
-        </h2>
-        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        </RevealHeading>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {bookingPromise} You leave with a scoped plan either way.
-        </p>
-        <div className="cal-frame" style={{ marginTop: 24 }}>
+        </Reveal>
+        <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>
           <CalBooking />
-        </div>
+        </Reveal>
       </div>
       <CornerDots />
     </section>

@@ -26,8 +26,16 @@ const CAL_LINK = booking.calLink;
 const BRAND_COLOR = "#193DAA";
 const BRAND_COLOR_STRONG = "#152F85";
 
-export default function CalBooking({ style }: { style?: React.CSSProperties }) {
-  const consent = useConsent();
+/**
+ * The embed lives in its own component so it mounts only while consent is
+ * "accepted" and unmounts the moment it is withdrawn. Cal's script injects its
+ * own <cal-inline> element into the container behind React's back; if the
+ * fallback shared this component (and so this container <div>), React would reuse
+ * the div, keep Cal's injected iframe, and show the calendar inside the fallback
+ * after consent was reset. A fresh mount also gets a fresh useId, so re-accepting
+ * initialises a new Cal namespace instead of re-using a dead one.
+ */
+function CalEmbed({ style }: { style?: React.CSSProperties }) {
   const reactId = useId().replace(/[^a-zA-Z0-9]/g, "");
   const elementId = `cal-inline-${reactId}`;
   // Each embed instance gets its own namespace so mounting more than one
@@ -45,11 +53,6 @@ export default function CalBooking({ style }: { style?: React.CSSProperties }) {
   useEffect(() => {
     if (inView) return;
     const el = containerRef.current;
-    // Null until consent is accepted, because the ref is attached to the embed
-    // container and the fallback renders in its place. `consent` must therefore
-    // be a dependency: without it this effect ran once on mount, found no
-    // element, bailed, and never re-ran — so the observer was never created, and
-    // accepting cookies left an empty container with no calendar in it.
     if (!el) return;
     const observer = new IntersectionObserver(
       (entries) => {
@@ -62,12 +65,12 @@ export default function CalBooking({ style }: { style?: React.CSSProperties }) {
     );
     observer.observe(el);
     return () => observer.disconnect();
-  }, [inView, consent]);
+  }, [inView]);
 
   useEffect(() => {
-    // Nothing from Cal.com is requested until the visitor has accepted, and not
-    // until the widget is actually near the viewport.
-    if (consent !== "accepted" || !inView) return;
+    // This component only exists after the visitor has accepted; nothing from
+    // Cal.com is requested until the widget is also near the viewport.
+    if (!inView) return;
 
     track("booking_widget_shown", { mode: "embed" });
 
@@ -100,50 +103,48 @@ export default function CalBooking({ style }: { style?: React.CSSProperties }) {
       // empty box where the calendar should be and nothing else reveals it.
       track("booking_widget_failed");
     }
-  }, [consent, inView, elementId, namespace]);
-
-  // Until consent is given — and for anyone who declined, or who has JavaScript
-  // disabled — the booking path stays open without loading a third party: a
-  // direct link to the same Cal.com page plus the email address. Conversion is
-  // never gated on accepting cookies.
-  if (consent !== "accepted") {
-    return (
-      <div className="cal-fallback" style={style}>
-        <p className="cal-fallback-lead">Pick a time without loading the widget:</p>
-        <div className="cal-fallback-actions">
-          <a
-            href={`https://cal.com/${CAL_LINK}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn-hero-primary"
-            onClick={() =>
-              track("booking_fallback_click", { target: "cal-page", consent: consent ?? "undecided" })
-            }
-          >
-            Open the booking page
-          </a>
-          <a
-            href={`mailto:${CONTACT_EMAIL}`}
-            className="btn-hero-outline"
-            onClick={() =>
-              track("booking_fallback_click", { target: "email", consent: consent ?? "undecided" })
-            }
-          >
-            Email us instead
-          </a>
-        </div>
-        <p className="cal-fallback-note">
-          {consent === "declined"
-            ? "You declined the booking widget, so it is not loaded on this page. You can change that in cookie settings in the footer."
-            : "The inline widget loads only after you accept it."}
-        </p>
-      </div>
-    );
-  }
+  }, [inView, elementId, namespace]);
 
   // No fixed minHeight: Cal's embed script sets the iframe's own height via
   // postMessage once it knows its real content height, so a taller
   // placeholder here would just leave dead space below the iframe after it
   // resizes down to its actual (shorter) content.
   return <div ref={containerRef} id={elementId} className="cal-embed" style={{ width: "100%", ...style }} />;
+}
+
+export default function CalBooking({ style }: { style?: React.CSSProperties }) {
+  const consent = useConsent();
+  if (consent === "accepted") return <CalEmbed style={style} />;
+
+  // Until consent is given — and for anyone who declined, or who has JavaScript
+  // disabled — the booking path stays open without loading a third party: a
+  // direct link to the same Cal.com page plus the email address. Conversion is
+  // never gated on accepting cookies.
+  return (
+    <div className="cal-fallback" style={style}>
+      <p className="cal-fallback-lead">Pick a time without loading the widget:</p>
+      <div className="cal-fallback-actions">
+        <a
+          href={`https://cal.com/${CAL_LINK}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="btn-hero-primary"
+          onClick={() =>
+            track("booking_fallback_click", { target: "cal-page", consent: consent ?? "undecided" })
+          }
+        >
+          Open the booking page
+        </a>
+        <a
+          href={`mailto:${CONTACT_EMAIL}`}
+          className="btn-hero-outline"
+          onClick={() =>
+            track("booking_fallback_click", { target: "email", consent: consent ?? "undecided" })
+          }
+        >
+          Email us instead
+        </a>
+      </div>
+    </div>
+  );
 }

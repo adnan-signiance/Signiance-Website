@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Fragment } from "react";
 import Link from "next/link";
+import { RevealGroup, RevealItem } from "./Reveal";
 
 type Dot = { top?: number; bottom?: number; left?: number; right?: number; responsive?: "desktop-only" | "mobile-only" };
 
@@ -30,12 +31,14 @@ const ctaArrow = (
   </svg>
 );
 
-const ViewCta = () => (
-  <span className="case-cell-cta">
+// The pill is the card's only link: the photo and copy are not clickable, so a
+// stray click on the card does not navigate.
+const ViewCta = ({ slug, title }: { slug: string; title: string }) => (
+  <Link href={`/case-studies/${slug}`} className="case-cell-cta" data-transition="none" aria-label={`View case study: ${title}`}>
     <span className="case-cell-cta-arrow-in">{ctaArrow}</span>
     <span>View</span>
     <span className="case-cell-cta-arrow-out">{ctaArrow}</span>
-  </span>
+  </Link>
 );
 
 // Every card is a full-bleed photo with the tag, title, copy and CTA laid
@@ -66,7 +69,7 @@ function CaseCard({
   dots: Dot[];
 }) {
   return (
-    <div
+    <RevealItem
       className={`case-cell-${span} ${heightClass}`}
       style={{ position: "relative", background: "var(--color-white)", borderRight: "1px solid var(--color-line-strong)", borderBottom: "1px solid var(--color-line-strong)" }}
     >
@@ -82,7 +85,7 @@ function CaseCard({
             responsive srcset and lazy loading below the fold. */}
         <Image src={image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 60vw" />
         <div className="case-cell-scrim" />
-        <Link href={`/case-studies/${slug}`} className="case-cell-overlay" data-transition="none">
+        <div className="case-cell-overlay case-cell-overlay--static">
           <div className="case-cell-bottom-row">
             <div>
               <div className="case-cell-tag">{tag}</div>
@@ -97,11 +100,11 @@ function CaseCard({
                 </div>
               )}
             </div>
-            <ViewCta />
+            <ViewCta slug={slug} title={title} />
           </div>
-        </Link>
+        </div>
       </div>
-    </div>
+    </RevealItem>
   );
 }
 
@@ -113,11 +116,11 @@ export default function CaseStudies() {
       {cornerDotAbs({ left: 0, bottom: 0 }, "var(--color-white)")}
       {cornerDotAbs({ right: 0, bottom: 0 }, "var(--color-white)")}
 
-      <div className="grid-case">
+      <RevealGroup className="grid-case case-home" stagger={0.1}>
         <CaseCard
           span={7}
           heightClass="case-cell-h-lg"
-          image="/media/case-healthcare.jpg"
+          image="/media/case-healthcare.webp"
           tag="01 · HEALTHCARE"
           title="Making pathology reports easier to understand"
           titleSize={24}
@@ -130,7 +133,7 @@ export default function CaseStudies() {
         <CaseCard
           span={5}
           heightClass="case-cell-h-lg"
-          image="/media/case-sales.jpg"
+          image="/media/case-sales.webp"
           tag="02 · SALES · AI"
           title="Turning sales calls into actionable coaching"
           titleSize={20}
@@ -143,7 +146,7 @@ export default function CaseStudies() {
         <CaseCard
           span={5}
           heightClass="case-cell-h-md"
-          image="/media/case-food.jpg"
+          image="/media/case-food.webp"
           tag="03 · FOOD · AI"
           title="A conversational AI agent built to scale"
           titleSize={20}
@@ -163,7 +166,7 @@ export default function CaseStudies() {
           slug="scaling-engineering-simulations-with-cloud-hpc"
           dots={[]}
         />
-      </div>
+      </RevealGroup>
     </div>
   );
 }

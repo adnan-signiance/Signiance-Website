@@ -123,8 +123,17 @@ describe.skipIf(!buildExists)("content integrity", () => {
 
   it("renders the hero headline with the struck lead-in", () => {
     const markup = html("index.html");
-    expect(markup).toContain("Skip the 12-month AI roadmap.");
-    expect(markup).toContain("Ship the first working agent");
+    const h1 = markup.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? "";
+    // The headline is split into one span per word for the staggered entrance,
+    // so the phrases are checked against its text content, not the raw markup.
+    const text = h1
+      .replace(/<[^>]+>/g, "")
+      .replace(/&nbsp;| /g, " ")
+      .replace(/\s+/g, " ");
+    expect(text).toContain("Skip the 12-month AI roadmap.");
+    expect(text).toContain("Ship the first working agent in weeks.");
+    // The five words of the lead-in are struck through; the promise is not.
+    expect(h1.match(/line-through/g) ?? []).toHaveLength(5);
   });
 
   it("keeps the founder's note above the booking form", () => {

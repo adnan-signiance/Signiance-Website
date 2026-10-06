@@ -32,7 +32,7 @@ export function organizationSchema() {
     email: contactEmail,
     logo: {
       "@type": "ImageObject",
-      url: absolute("/media/signiance-dark.jpg"),
+      url: absolute("/media/signiance-dark.webp"),
     },
     image: absolute("/media/og-image.png"),
     // Offices, not registered address: the legal entity and its registered

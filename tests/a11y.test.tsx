@@ -46,10 +46,10 @@ describe("FAQ disclosure semantics", () => {
 });
 
 describe("Testimonial carousel controls (WCAG 2.2.2)", () => {
-  // The pause / prev / next buttons were removed by design request. The dots are
-  // now the only control, so they have to carry the "stop the movement"
-  // requirement as well as navigation.
-  it("stops the rotation when a testimonial is selected", async () => {
+  // Navigation is the dots plus previous / next arrows. Rotation pauses on hover
+  // and keyboard focus and is off under prefers-reduced-motion, which is what
+  // meets the "stop the movement" requirement.
+  it("moves to the chosen testimonial when a dot is selected", async () => {
     const user = userEvent.setup();
     render(<Testimonials />);
 
@@ -61,11 +61,26 @@ describe("Testimonial carousel controls (WCAG 2.2.2)", () => {
     expect(second).toHaveAttribute("aria-current", "true");
   });
 
-  it("no longer renders pause, previous or next buttons", () => {
+  it("steps forward and backward, wrapping at either end", async () => {
+    const user = userEvent.setup();
+    render(<Testimonials />);
+    const dot = (i: number) =>
+      screen.getByRole("button", { name: new RegExp(`show testimonial from ${testimonials[i].name}`, "i") });
+
+    await user.click(screen.getByRole("button", { name: /next testimonial/i }));
+    expect(dot(1)).toHaveAttribute("aria-current", "true");
+
+    await user.click(screen.getByRole("button", { name: /previous testimonial/i }));
+    await user.click(screen.getByRole("button", { name: /previous testimonial/i }));
+    expect(dot(testimonials.length - 1)).toHaveAttribute("aria-current", "true");
+
+    await user.click(screen.getByRole("button", { name: /next testimonial/i }));
+    expect(dot(0)).toHaveAttribute("aria-current", "true");
+  });
+
+  it("has no pause button", () => {
     render(<Testimonials />);
     expect(screen.queryByRole("button", { name: /pause testimonial/i })).toBeNull();
-    expect(screen.queryByRole("button", { name: /previous testimonial/i })).toBeNull();
-    expect(screen.queryByRole("button", { name: /next testimonial/i })).toBeNull();
   });
 
   it("exposes every position indicator as a labelled button", () => {

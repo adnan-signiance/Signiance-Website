@@ -2,15 +2,15 @@
 
 import Image from "next/image";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import { caseStudyEntries, caseStudyFilters } from "@/lib/data";
 
 export default function CaseStudiesGrid() {
   const [filter, setFilter] = useState("All");
-  const gridRef = useRef<HTMLDivElement | null>(null);
 
   const visibleCases = caseStudyEntries.filter((c) => filter === "All" || c.category === filter);
 
@@ -25,10 +25,10 @@ export default function CaseStudiesGrid() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>Engagements</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -40,7 +40,7 @@ export default function CaseStudiesGrid() {
             }}
           >
             All engagements
-          </h2>
+          </RevealHeading>
         </div>
       </div>
 
@@ -86,9 +86,9 @@ export default function CaseStudiesGrid() {
         </p>
       )}
 
-      <div className="grid-cs-listing" ref={gridRef}>
+      <RevealGroup className="grid-cs-listing" stagger={0.09}>
         {visibleCases.map((cs) => (
-          <div key={cs.id} className="cs-listing-cell">
+          <RevealItem key={cs.id} className="cs-listing-cell">
             <div className="case-cell-frame">
               <Image src={cs.image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 33vw" />
               <div className="case-cell-scrim" />
@@ -123,9 +123,9 @@ export default function CaseStudiesGrid() {
                 </div>
               </Link>
             </div>
-          </div>
+          </RevealItem>
         ))}
-      </div>
+      </RevealGroup>
 
       <CornerDots />
     </section>

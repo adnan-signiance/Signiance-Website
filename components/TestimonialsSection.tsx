@@ -1,5 +1,6 @@
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealHeading } from "./Reveal";
 import Testimonials from "./Testimonials";
 
 export default function TestimonialsSection() {
@@ -13,10 +14,10 @@ export default function TestimonialsSection() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>Testimonials</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -28,18 +29,20 @@ export default function TestimonialsSection() {
             }}
           >
             What clients say after we ship
-          </h2>
+          </RevealHeading>
         </div>
-        <p className="section-head-note">
+        <Reveal as="p" className="section-head-note" delay={0.15}>
           Real feedback from the people
           <br />
           who signed off on the work.
-        </p>
+        </Reveal>
       </div>
 
       <div className="section-rule" />
 
-      <Testimonials />
+      <Reveal delay={0.1}>
+        <Testimonials />
+      </Reveal>
 
       <CornerDots />
     </section>

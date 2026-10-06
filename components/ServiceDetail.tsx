@@ -1,14 +1,21 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
+import { m } from "motion/react";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import HeroHeading from "./HeroHeading";
 import CtaArrow from "./CtaArrow";
 import CalBooking from "./CalBooking";
+import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
+import { staggerItem } from "@/lib/motion";
 import RelatedCaseStudies from "./RelatedCaseStudies";
 import { serviceColor } from "./PracticeIcon";
 import { services, caseStudyEntries, type Service } from "@/lib/data";
+
+// Each other-practice cell is a Next <Link>; made a motion component once, here.
+const MotionLink = m.create(Link);
 
 const GoArrow = () => (
   <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
@@ -22,14 +29,11 @@ export default function ServiceDetail({ service }: { service: Service }) {
   const accent = serviceColor[service.id];
 
   const [openCap, setOpenCap] = useState(0);
-  const otherGridRef = useRef<HTMLDivElement | null>(null);
-  const techGridRef = useRef<HTMLDivElement | null>(null);
-  const whoGridRef = useRef<HTMLDivElement | null>(null);
 
   return (
     <>
       <section style={{ position: "relative", padding: "clamp(32px, 5vw, 48px) var(--pad-x) 0", borderBottom: "1px solid var(--color-line)" }}>
-        <h1
+        <HeroHeading
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
@@ -42,17 +46,17 @@ export default function ServiceDetail({ service }: { service: Service }) {
           }}
         >
           {service.title}
-        </h1>
-        <p style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>{service.long}</p>
+        </HeroHeading>
+        <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>{service.long}</p>
 
-        <div style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
+        <div className="hero-rise hero-d2" style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
           <Link href="/#contact" className="btn-hero-primary">
             <CtaArrow>Book a scoping call</CtaArrow>
           </Link>
         </div>
 
         <div
-          className="svc-panel"
+          className="svc-panel hero-rise hero-d3"
           style={{
             margin: "36px calc(var(--pad-x) * -1) 0",
             borderRadius: 0,
@@ -109,14 +113,18 @@ export default function ServiceDetail({ service }: { service: Service }) {
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>What it is</SectionEyebrow>
-        <p style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)" }}>{service.whatIsIt}</p>
+        <Reveal>
+          <SectionEyebrow>What it is</SectionEyebrow>
+        </Reveal>
+        <Reveal as="p" delay={0.1} style={{ margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-ink-soft)" }}>{service.whatIsIt}</Reveal>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>What&apos;s included</SectionEyebrow>
-        <div style={{ marginTop: 28, maxWidth: 640 }}>
+        <Reveal>
+          <SectionEyebrow>What&apos;s included</SectionEyebrow>
+        </Reveal>
+        <Reveal delay={0.1} style={{ marginTop: 28, maxWidth: 640 }}>
           {service.capabilities.map((c, i) => {
             const isOpen = openCap === i;
             return (
@@ -151,40 +159,47 @@ export default function ServiceDetail({ service }: { service: Service }) {
               </div>
             );
           })}
-        </div>
+        </Reveal>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>Tech stack</SectionEyebrow>
-        <div className="grid-tech-stack" style={{ marginTop: 20 }} ref={techGridRef}>
+        <Reveal>
+          <SectionEyebrow>Tech stack</SectionEyebrow>
+        </Reveal>
+        <RevealGroup className="grid-tech-stack" style={{ marginTop: 20 }} stagger={0.05} spotlight>
           {service.techStackDetail.map((t) => (
-            <div key={t.name} className="tech-stack-cell">
+            <RevealItem key={t.name} className="tech-stack-cell" spotlight>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src={t.logo} alt={t.name} className="tech-stack-logo" />
               <span className="tech-stack-name">{t.name}</span>
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
         <CornerDots />
       </section>
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <SectionEyebrow>Who it&apos;s for</SectionEyebrow>
-        <div className="grid-who-for" style={{ marginTop: 20 }} ref={whoGridRef}>
+        <Reveal>
+          <SectionEyebrow>Who it&apos;s for</SectionEyebrow>
+        </Reveal>
+        <RevealGroup className="grid-who-for" style={{ marginTop: 20 }} stagger={0.1} spotlight>
           {service.whoItsFor.map((w) => (
-            <div key={w} className="who-for-cell">
+            <RevealItem key={w} className="who-for-cell" spotlight>
               {w}
-            </div>
+            </RevealItem>
           ))}
-        </div>
+        </RevealGroup>
         <CornerDots />
       </section>
 
       {relatedCases.length > 0 && (
         <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-          <SectionEyebrow>Proof</SectionEyebrow>
-          <h3
+          <Reveal>
+            <SectionEyebrow>Proof</SectionEyebrow>
+          </Reveal>
+          <RevealHeading
+            level={3}
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -193,20 +208,22 @@ export default function ServiceDetail({ service }: { service: Service }) {
               margin: "16px 0 0",
             }}
           >
-            Case studies in {service.short}
-          </h3>
-          <div style={{ marginTop: 24 }}>
+            {`Case studies in ${service.short}`}
+          </RevealHeading>
+          <Reveal delay={0.1} style={{ marginTop: 24 }}>
             <RelatedCaseStudies cases={relatedCases} />
-          </div>
+          </Reveal>
           <CornerDots />
         </section>
       )}
 
       <section style={{ padding: "var(--section-pt) var(--pad-x) var(--section-pb)" }}>
-        <SectionEyebrow>Other practices</SectionEyebrow>
-        <div className="grid-other-practices" style={{ marginTop: 20 }} ref={otherGridRef}>
+        <Reveal>
+          <SectionEyebrow>Other practices</SectionEyebrow>
+        </Reveal>
+        <RevealGroup className="grid-other-practices" style={{ marginTop: 20 }} stagger={0.1}>
           {otherServices.map((s) => (
-            <Link key={s.id} href={`/services/${s.slug}`} data-transition="none" className="other-practice-cell">
+            <MotionLink key={s.id} variants={staggerItem} data-reveal="" href={`/services/${s.slug}`} data-transition="none" className="other-practice-cell">
               <h4
                 style={{
                   fontFamily: "var(--font-display)",
@@ -222,14 +239,14 @@ export default function ServiceDetail({ service }: { service: Service }) {
                 See details
                 <GoArrow />
               </span>
-            </Link>
+            </MotionLink>
           ))}
-        </div>
+        </RevealGroup>
       </section>
 
       <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)" }}>
         <CornerDots position="top" />
-        <h2
+        <RevealHeading
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
@@ -241,13 +258,13 @@ export default function ServiceDetail({ service }: { service: Service }) {
           }}
         >
           Not sure this is the right practice?
-        </h2>
-        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        </RevealHeading>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           Tell us the workflow. We&apos;ll tell you which of the five gets you there fastest.
-        </p>
-        <div className="cal-frame" style={{ marginTop: 24 }}>
+        </Reveal>
+        <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>
           <CalBooking />
-        </div>
+        </Reveal>
         <CornerDots />
       </section>
     </>

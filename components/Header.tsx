@@ -244,7 +244,7 @@ export default function Header() {
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
             { }
             <Image
-              src="/media/signiance-dark.jpg"
+              src="/media/signiance-dark.webp"
               alt={brand}
               // Intrinsic size of the source file; the style below controls the
               // rendered size. Declaring both lets the browser reserve the box.

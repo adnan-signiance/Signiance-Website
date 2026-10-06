@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealHeading } from "./Reveal";
 import CalBooking from "./CalBooking";
 import ContactForm from "./ContactForm";
 import { bookingPromise, contactEmail } from "@/lib/data";
@@ -34,10 +35,10 @@ export default function Contact() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>Scoping call</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -49,20 +50,20 @@ export default function Contact() {
             }}
           >
             Tell us the workflow that keeps breaking
-          </h2>
+          </RevealHeading>
         </div>
-        <p className="section-head-note">
+        <Reveal as="p" className="section-head-note" delay={0.15}>
           {bookingPromise}
           <br />
           You leave with a scoped plan either way.
-        </p>
+        </Reveal>
       </div>
 
       <div className="section-rule" />
 
-      <div className="cal-frame" style={{ marginTop: 24 }}>
+      <Reveal className="cal-frame" style={{ marginTop: 24 }}>
         <CalBooking />
-      </div>
+      </Reveal>
 
       {embedShown ? (
         <div className="contact-alt">
@@ -90,7 +91,7 @@ export default function Contact() {
         <ContactForm intent="scoping-call" source="/#contact" />
       </div>
 
-      <p style={{ margin: "18px 0 0", fontSize: "var(--fs-xs)", color: "var(--color-muted)", textAlign: "left" }}>
+      <p style={{ margin: "18px 0 0", fontSize: "var(--fs-xs)", color: "var(--color-muted)", textAlign: "center" }}>
         Prefer your own inbox? Email {contactEmail}. We reply within a business day.
       </p>
 

@@ -1,5 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
 import SectionEyebrow from "./SectionEyebrow";
+import HeroHeading from "./HeroHeading";
+import { Reveal } from "./Reveal";
 import CtaArrow from "./CtaArrow";
 import MetricsGrid from "./MetricsGrid";
 import { caseStudyEntries } from "@/lib/data";
@@ -15,29 +18,36 @@ export default function CaseStudiesHero() {
         borderBottom: "1px solid var(--color-line)",
       }}
     >
-      <SectionEyebrow>Case Studies</SectionEyebrow>
-      <h1
-        style={{
-          fontFamily: "var(--font-display)",
-          fontWeight: 600,
-          fontSize: "clamp(29px, 4.4vw, 46px)",
-          lineHeight: 1.05,
-          letterSpacing: "var(--tracking-tight)",
-          margin: "16px 0 0",
-          maxWidth: "20ch",
-          textWrap: "balance",
-        }}
-      >
-        The work behind the numbers
-      </h1>
-      <p style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
-        Every engagement below shipped to production and was measured against a number the client cared
-        about, not a vanity metric.
-      </p>
+      <div className="hero-split">
+        <div>
+          <SectionEyebrow rise={0}>Case Studies</SectionEyebrow>
+          <HeroHeading
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 600,
+              fontSize: "clamp(29px, 4.4vw, 46px)",
+              lineHeight: 1.05,
+              letterSpacing: "var(--tracking-tight)",
+              margin: "16px 0 0",
+              maxWidth: "20ch",
+              textWrap: "balance",
+            }}
+          >
+            The work behind the numbers
+          </HeroHeading>
+          <p className="hero-rise hero-d1" style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+            Every engagement below shipped to production and was measured against a number the client cared
+            about, not a vanity metric.
+          </p>
+        </div>
+        <div className="hero-art hero-rise hero-d2">
+          <Image src="/media/case-studies-hero.webp" alt="" fill priority sizes="320px" style={{ objectFit: "cover" }} />
+        </div>
+      </div>
 
       <MetricsGrid bordered style={{ marginTop: 40, marginBottom: 48 }} />
 
-      <div style={{ position: "relative", margin: "0 var(--bleed)" }}>
+      <Reveal style={{ position: "relative", margin: "0 var(--bleed)" }}>
         <Link
           href={`/case-studies/${featured.slug}`}
           data-transition="none"
@@ -118,7 +128,7 @@ export default function CaseStudiesHero() {
             </div>
           </div>
         </Link>
-      </div>
+      </Reveal>
     </section>
   );
 }

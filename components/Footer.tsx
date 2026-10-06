@@ -47,7 +47,7 @@ export default function Footer() {
         <div>
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
             <Image
-              src="/media/signiance-dark.jpg"
+              src="/media/signiance-dark.webp"
               alt={brand}
               width={538}
               height={125}
@@ -62,14 +62,14 @@ export default function Footer() {
           </p>
           <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
             <Image
-              src="/media/aws-advanced-tier-partner.png"
+              src="/media/aws-advanced-tier-partner.webp"
               alt="AWS Partner: Advanced Tier Services"
               width={1000}
               height={1000}
               style={{ display: "block", height: 46, width: "auto" }}
             />
             <Image
-              src="/media/aws-well-architected-partner.png"
+              src="/media/aws-well-architected-partner.webp"
               alt="AWS Partner: Well-Architected Partner Program"
               width={1000}
               height={1000}

@@ -1,5 +1,6 @@
 import CornerDots from "./CornerDots";
 import CalBooking from "./CalBooking";
+import { Reveal, RevealHeading } from "./Reveal";
 
 export default function ServicesCTA() {
   return (
@@ -13,7 +14,7 @@ export default function ServicesCTA() {
     >
       <CornerDots position="top" />
       <div style={{ position: "relative" }}>
-        <h2
+        <RevealHeading
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
@@ -25,13 +26,13 @@ export default function ServicesCTA() {
           }}
         >
           Not sure which practice fits?
-        </h2>
-        <p style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        </RevealHeading>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
           Tell us the workflow. We&apos;ll tell you which of the five gets you there fastest.
-        </p>
-        <div className="cal-frame" style={{ marginTop: 24 }}>
+        </Reveal>
+        <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>
           <CalBooking />
-        </div>
+        </Reveal>
       </div>
       <CornerDots />
     </section>

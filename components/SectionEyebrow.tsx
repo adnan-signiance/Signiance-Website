@@ -1,7 +1,14 @@
-export default function SectionEyebrow({ children }: { children: React.ReactNode }) {
+/**
+ * `rise` is a delay in seconds. Given one, the badge fades up on page load, on
+ * the same CSS entrance as the page title beside it (see .hero-rise). It is for
+ * eyebrows above the fold; those further down are revealed by <Reveal> instead.
+ */
+export default function SectionEyebrow({ children, rise }: { children: React.ReactNode; rise?: number }) {
   return (
     <span
+      className={rise === undefined ? undefined : "hero-rise"}
       style={{
+        ...(rise === undefined ? null : ({ "--d": `${rise}s` } as React.CSSProperties)),
         display: "inline-flex",
         alignItems: "center",
         fontFamily: "var(--font-sans)",

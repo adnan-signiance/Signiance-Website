@@ -1,5 +1,6 @@
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
+import { Reveal, RevealGroup, RevealItem } from "./Reveal";
 
 /**
  * The counterpart to the timeline above it: the method explains the four weeks,
@@ -22,14 +23,16 @@ export default function WorkHandover() {
         borderBottom: "1px solid var(--color-line)",
       }}
     >
-      <SectionEyebrow>What you own at the end</SectionEyebrow>
-      <div className="grid-who-for" style={{ marginTop: 20 }}>
+      <Reveal>
+        <SectionEyebrow>What you own at the end</SectionEyebrow>
+      </Reveal>
+      <RevealGroup className="grid-who-for" style={{ marginTop: 20 }} stagger={0.1} spotlight>
         {handover.map((h) => (
-          <div key={h} className="who-for-cell">
+          <RevealItem key={h} className="who-for-cell" spotlight>
             {h}
-          </div>
+          </RevealItem>
         ))}
-      </div>
+      </RevealGroup>
       <CornerDots />
     </section>
   );

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { testimonials } from "@/lib/data";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 
@@ -113,25 +113,30 @@ function Avatar({
 export default function Testimonials() {
   const [tIdx, setTIdx] = useState(0);
   const [settled, setSettled] = useState(true);
-  /** Explicit choice via the pause button. Sticky until pressed again. */
-  const [userPaused, setUserPaused] = useState(false);
-  /** Transient: the pointer is over the widget, or focus is inside it. */
-  const [interacting, setInteracting] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  /** A mouse is over the widget. Touch is excluded: a tap leaves no "leave" event. */
+  const [hovered, setHovered] = useState(false);
+  /** Keyboard focus is inside the widget. Mouse clicks do not count (see below). */
+  const [focused, setFocused] = useState(false);
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  // These are kept separate deliberately. Folding hover into the same flag as
-  // the button meant focusing the button counted as a pause, so clicking it
-  // immediately toggled back to playing.
-  const autoplay = !userPaused && !interacting && !prefersReducedMotion;
+  // Hover and focus are tracked separately so one cannot clear the other, and
+  // neither is set by choosing a dot with a mouse or finger — that used to leave
+  // the rotation stopped for good.
+  const autoplay = !hovered && !focused && !prefersReducedMotion;
 
-  const goTo = (index: number) => {
+  // One single mechanism drives every visual change, automatic or chosen: content
+  // swaps instantly (avatars move to their new slots, the quote/company swap to
+  // the new testimonial) while "settled" is momentarily false, snapping the
+  // entering-top avatar and the quote/company to their pre-animation state with
+  // no transition; two rAFs later "settled" flips true and everything eases into
+  // place together, in lockstep, over the same window.
+  const goTo = useCallback((index: number) => {
     setTIdx(((index % COUNT) + COUNT) % COUNT);
     setSettled(false);
     requestAnimationFrame(() => {
       requestAnimationFrame(() => setSettled(true));
     });
-  };
+  }, []);
 
   // Photos and logos are real image files — swapping an <img>'s src doesn't
   // clear the old pixels until the new file finishes loading, so without
@@ -145,38 +150,35 @@ export default function Testimonials() {
     });
   }, []);
 
-  // One single mechanism drives every visual change on a tick: content swaps
-  // instantly (avatars move to their new slots, the quote/company swap to
-  // the new testimonial) while "settled" is momentarily false, snapping the
-  // entering-top avatar and the quote/company to their pre-animation state
-  // with no transition; two rAFs later "settled" flips true and everything
-  // eases into place together, in lockstep, over the same window. There's no
-  // separate timer-based handoff for the quote, so it can't drift out of
-  // sync with the avatars or flicker between two competing transitions.
+  // A timeout re-armed on every change of testimonial, rather than a free-running
+  // interval: choosing a dot restarts the full countdown, so the quote you picked
+  // gets its whole reading time and the progress bar in the active dot always
+  // matches the time that is actually left.
   useEffect(() => {
     if (!autoplay) return;
-    timerRef.current = setInterval(() => {
-      setTIdx((i) => (i + 1) % COUNT);
-      setSettled(false);
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => setSettled(true));
-      });
-    }, INTERVAL_MS);
-    return () => clearInterval(timerRef.current);
-  }, [autoplay]);
+    const id = setTimeout(() => goTo(tIdx + 1), INTERVAL_MS);
+    return () => clearTimeout(id);
+  }, [autoplay, tIdx, goTo]);
 
   const avMid = testimonials[tIdx];
 
   return (
     <div
-      style={{ position: "relative", marginTop: 30, padding: "10px 0 48px" }}
+      style={{ position: "relative", marginTop: 30, padding: "10px 0 56px" }}
       // Rotation stops while a visitor is reading or interacting, so a quote is
       // never pulled away mid-sentence.
-      onMouseEnter={() => setInteracting(true)}
-      onMouseLeave={() => setInteracting(false)}
-      onFocusCapture={() => setInteracting(true)}
+      onPointerEnter={(e) => {
+        if (e.pointerType === "mouse") setHovered(true);
+      }}
+      onPointerLeave={() => setHovered(false)}
+      onFocusCapture={(e) => {
+        // Only keyboard focus pauses. A click also focuses the dot, and treating
+        // that as "reading" held the carousel still until the visitor clicked
+        // somewhere else.
+        if ((e.target as HTMLElement).matches(":focus-visible")) setFocused(true);
+      }}
       onBlurCapture={(e) => {
-        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setInteracting(false);
+        if (!e.currentTarget.contains(e.relatedTarget as Node | null)) setFocused(false);
       }}
     >
       {/* Announces each change to screen readers without moving focus. */}
@@ -277,28 +279,44 @@ export default function Testimonials() {
         </div>
       </div>
       <div className="testimonial-controls">
-        {/* The pause / previous / next buttons were removed by design request.
-            The dots remain the control surface: selecting one both navigates and
-            stops the auto-advance, which keeps a mechanism to halt the movement
-            (WCAG 2.2.2) alongside pause-on-hover, pause-on-focus, and the
-            prefers-reduced-motion gate. */}
-        <div className="testimonial-dots">
-          {testimonials.map((t, i) => (
-            <button
-              key={t.name}
-              type="button"
-              className={`testimonial-dot${i === tIdx ? " is-active" : ""}`}
-              onClick={() => {
-                // Picking a testimonial deliberately also stops the rotation, so
-                // the visitor's choice is not overwritten a few seconds later.
-                setUserPaused(true);
-                goTo(i);
-              }}
-              aria-label={`Show testimonial from ${t.name}, ${t.company}`}
-              aria-current={i === tIdx}
-            />
-          ))}
+        {/* Previous / next arrows flank the dots. Any of the three controls
+            navigates and restarts the countdown; rotation still pauses on hover
+            and on keyboard focus, and stops entirely under prefers-reduced-motion
+            (WCAG 2.2.2). The active dot fills as the countdown runs, so it shows
+            how long the current quote has left. */}
+        <button type="button" className="testimonial-arrow" onClick={() => goTo(tIdx - 1)} aria-label="Previous testimonial">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M8.5 2.5 4 7l4.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
+        <div className="testimonial-dots" role="group" aria-label="Choose a testimonial">
+          {testimonials.map((t, i) => {
+            const active = i === tIdx;
+            return (
+              <button
+                key={t.name}
+                type="button"
+                className={`testimonial-dot${active ? " is-active" : ""}`}
+                onClick={() => {
+                  if (!active) goTo(i);
+                }}
+                aria-label={`Show testimonial from ${t.name}, ${t.company}`}
+                aria-current={active}
+              >
+                <span className={`testimonial-dot-bar${active && autoplay ? " is-running" : ""}`}>
+                  {/* Keyed on the testimonial so each one's fill starts from empty,
+                      and mounted only while the countdown is actually running. */}
+                  {active && autoplay && <span key={tIdx} className="testimonial-dot-fill" style={{ animationDuration: `${INTERVAL_MS}ms` }} />}
+                </span>
+              </button>
+            );
+          })}
         </div>
+        <button type="button" className="testimonial-arrow" onClick={() => goTo(tIdx + 1)} aria-label="Next testimonial">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M5.5 2.5 10 7l-4.5 4.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
       </div>
     </div>
   );

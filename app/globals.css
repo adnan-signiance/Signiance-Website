@@ -36,6 +36,9 @@
   --color-tint: #eef2fb;
   --color-warm: #f9f8f5;
   --color-warm-alt: #f0efea;
+  /* Tint of the cursor-following glow on cards. Translucent by design, so it
+     lays over whatever surface the card is on rather than replacing it. */
+  --color-spot: rgba(25, 61, 170, 0.07);
 
   /* Text, strongest to softest */
   --color-ink: #131417;
@@ -620,12 +623,16 @@ a {
   pointer-events: none;
 }
 
+/* Text and arrow share one row anchored to the cell's bottom edge, the same
+   structure the case-study cards use: the button's baseline always matches the
+   last line of copy, and it sits in the bottom-right corner, instead of trailing
+   under the text at whatever height the copy happens to end. */
 .grid-services-cell {
   position: relative;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: center;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
   min-height: 200px;
   padding: 30px var(--pad-x);
   border-right: 1px solid var(--color-line-strong);
@@ -676,12 +683,22 @@ a {
   max-width: 46ch;
 }
 
+.grid-services-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+/* A bare arrow, no border and no fill. The cell is already the button; a second
+   chrome-ed shape inside it competed with the edge rail and the title for
+   attention. Its box is the glyph itself, so the arrow's right edge lands on the
+   cell's own padding line instead of floating inside a larger invisible circle. */
 .grid-services-arrow {
-  margin-top: 16px;
-  transition:
-    transform 0.3s ease,
-    opacity 0.3s ease;
-  opacity: 0.55;
+  flex: 0 0 auto;
+  display: flex;
+  color: var(--color-accent);
+  transition: transform 0.3s ease;
 }
 
 /* These cells are large clickable targets, so the hover state needs to be
@@ -708,8 +725,7 @@ a {
 
 .grid-services-cell:hover .grid-services-arrow,
 .grid-services-cell:focus-visible .grid-services-arrow {
-  transform: translateX(10px);
-  opacity: 1;
+  transform: translateX(5px);
 }
 
 .grid-services-cell:hover .grid-services-num {
@@ -855,6 +871,46 @@ a {
   inset: 0;
   background: radial-gradient(120% 90% at 100% 100%, rgba(0, 0, 0, 0.35) 0%, transparent 55%);
   pointer-events: none;
+}
+
+/* Services list panel with artwork: no dot grid over the picture, and the corner
+   shade becomes a bottom scrim so the practice caption stays legible. */
+.svc-panel--art::before {
+  display: none;
+}
+
+.svc-panel--art::after {
+  z-index: 0;
+  background: linear-gradient(180deg, rgba(5, 10, 40, 0) 55%, rgba(5, 10, 40, 0.78) 100%);
+}
+
+/* Page heroes (Services, Case Studies, About): copy on the left, artwork on the right. The
+   artwork is 250px square, so it is shown at about that size and dropped on
+   narrow screens, where it would only push the headline down. */
+.hero-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.hero-art {
+  position: relative;
+  width: clamp(240px, 24vw, 320px);
+  aspect-ratio: 1 / 1;
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--color-navy);
+}
+
+@media (max-width: 880px) {
+  .hero-split {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-art {
+    display: none;
+  }
 }
 
 /* Related case studies — the same embedded, shared-border treatment as
@@ -1235,11 +1291,15 @@ a {
   max-width: 560px;
 }
 
-/* Hero — entrance animation + scroll cue */
-@keyframes heroContentIn {
+/* Hero — staggered entrance. The headline words rise out of their masks 28ms
+   apart, then the badge, subline, CTAs and proof points fade up on their own
+   delays (--d, set inline). Timing and easing match lib/motion.ts so the hero
+   moves like every scroll reveal below it. Pure CSS, so it starts on the first
+   frame with no wait for hydration. */
+@keyframes heroRise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(20px);
   }
   to {
     opacity: 1;
@@ -1247,8 +1307,38 @@ a {
   }
 }
 
-.hero-content-in {
-  animation: heroContentIn 0.7s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+@keyframes heroWord {
+  from {
+    opacity: 0;
+    transform: translateY(105%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hero-rise {
+  animation: heroRise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--d, 0s);
+}
+
+.hero-d1 {
+  --d: 0.14s;
+}
+
+.hero-d2 {
+  --d: 0.26s;
+}
+
+.hero-d3 {
+  --d: 0.38s;
+}
+
+.hero-word {
+  display: inline-block;
+  animation: heroWord 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(0.04s + var(--i, 0) * 0.028s);
 }
 
 @keyframes scrollCueBounce {
@@ -1872,15 +1962,29 @@ a {
    instead of a narrow centered column, matching the "use full width" note
    these rows were designed to. */
 .faq-list {
+  /* Side inset shared by the question and answer rows so their text lines up. */
+  --faq-pad-x: clamp(24px, 4.2vw, 56px);
   width: 100%;
 }
 
 .faq-item {
-  border-bottom: 1px solid var(--color-line-strong);
+  position: relative;
 }
 
-.faq-item:last-child {
-  border-bottom: none;
+/* The divider is inset by the same amount as the text, so each line runs exactly
+   as wide as the question and answer above it. */
+.faq-item::after {
+  content: "";
+  position: absolute;
+  left: var(--faq-pad-x);
+  right: var(--faq-pad-x);
+  bottom: 0;
+  height: 1px;
+  background: var(--color-line-strong);
+}
+
+.faq-item:last-child::after {
+  display: none;
 }
 
 .faq-question {
@@ -1889,7 +1993,7 @@ a {
   justify-content: space-between;
   gap: 20px;
   width: 100%;
-  padding: 26px 18px;
+  padding: 26px var(--faq-pad-x);
   background: none;
   border: none;
   cursor: pointer;
@@ -1936,7 +2040,7 @@ a {
 
 .faq-answer p {
   margin: 0 0 26px;
-  padding: 0 18px;
+  padding: 0 var(--faq-pad-x);
   max-width: 82ch;
   font-size: var(--fs-md);
   line-height: 1.65;
@@ -2106,7 +2210,8 @@ a {
   transition: background 0.2s ease;
 }
 
-.case-cell-overlay:hover .case-cell-cta {
+.case-cell-overlay:hover .case-cell-cta,
+.case-cell-cta:hover {
   background: var(--color-tint);
 }
 
@@ -2123,7 +2228,8 @@ a {
   transition: width 0.3s ease, margin-right 0.3s ease, opacity 0.25s ease, transform 0.3s ease;
 }
 
-.case-cell-overlay:hover .case-cell-cta-arrow-in {
+.case-cell-overlay:hover .case-cell-cta-arrow-in,
+.case-cell-cta:hover .case-cell-cta-arrow-in {
   width: 10px;
   margin-right: 7px;
   opacity: 1;
@@ -2141,7 +2247,8 @@ a {
   transition: width 0.3s ease, margin-left 0.3s ease, opacity 0.25s ease, transform 0.3s ease;
 }
 
-.case-cell-overlay:hover .case-cell-cta-arrow-out {
+.case-cell-overlay:hover .case-cell-cta-arrow-out,
+.case-cell-cta:hover .case-cell-cta-arrow-out {
   width: 0;
   margin-left: 0;
   opacity: 0;
@@ -2230,12 +2337,6 @@ a {
 
   .testimonial-mobile-focus.is-settled {
     transform: translateY(0);
-  }
-
-  .testimonial-controls {
-    position: static;
-    justify-content: center;
-    margin-top: 20px;
   }
 
   .testimonial-mobile-focus {
@@ -2460,6 +2561,13 @@ a {
     opacity: 1;
     transform: none;
   }
+
+  /* The durations above collapse to nothing, but a delay would still hold the
+     hero at its hidden start frame before snapping it in. */
+  .hero-rise,
+  .hero-word {
+    animation-delay: 0s !important;
+  }
 }
 
 /* Page transition curtain --------------------------------------------------
@@ -2579,4 +2687,185 @@ a {
 
 .legal-body li:last-child {
   margin-bottom: 0;
+}
+
+/* Scroll motion ------------------------------------------------------------
+   Progress bar, word-mask headings and the cursor spotlight. The timing for
+   everything that reveals on scroll lives in lib/motion.ts. */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  transform-origin: 0 50%;
+  background: linear-gradient(90deg, var(--color-accent-strong), var(--color-accent-light));
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* Each heading word sits in a box that clips it, so it rises into place instead
+   of just fading. The padding/negative margin pairs give descenders and the
+   line-height-tight ascenders room inside the clip without changing the
+   heading's own line spacing. */
+.rw {
+  display: inline;
+}
+
+.rw-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.06em 0 0.16em;
+  margin: -0.06em 0 -0.16em;
+}
+
+.rw-word {
+  display: inline-block;
+}
+
+[data-spot] {
+  position: relative;
+  isolation: isolate;
+}
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  [data-spot]::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: radial-gradient(340px circle at var(--mx, 50%) var(--my, 0%), var(--color-spot), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    pointer-events: none;
+  }
+
+  [data-spot]:hover::before {
+    opacity: 1;
+  }
+}
+
+/* How We Work page: a sticky rail beside the timeline. The rail repeats the four
+   step names and highlights whichever is mid-screen; the pill that marks it is
+   moved by script, so the item height and gap it travels by come from custom
+   properties set on .work-split rather than being repeated here. */
+.work-split {
+  display: grid;
+  grid-template-columns: minmax(230px, 290px) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: start;
+}
+
+.work-rail {
+  position: sticky;
+  /* Clears the 63px sticky header with room to breathe. */
+  top: 104px;
+}
+
+.work-rail ol {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  gap: var(--rail-gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.work-rail li {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: var(--rail-item);
+  padding: 0 16px;
+  border: 1px solid var(--color-line-strong);
+  color: var(--color-muted);
+  transition: color 0.25s ease;
+}
+
+.work-rail li.is-active {
+  color: var(--color-white);
+  border-color: transparent;
+}
+
+.work-rail-pill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 0;
+  height: var(--rail-item);
+  background: var(--color-accent);
+}
+
+.work-rail-num {
+  font-family: var(--font-mono);
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--tracking-wide);
+}
+
+.work-rail-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.work-rail-week {
+  font-size: var(--fs-2xs);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.work-rail-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-base);
+  letter-spacing: var(--tracking-snug);
+}
+
+@media (max-width: 900px) {
+  .work-split {
+    display: block;
+  }
+
+  /* On a phone the timeline is the whole column already; a second list of the
+     same steps above it would just push the content down. */
+  .work-rail {
+    display: none;
+  }
+}
+
+/* Homepage case studies: the photo and copy are not links, only the CTA pill is.
+   Photos are black and white at rest and full colour while the card is hovered
+   (touch screens have no hover, so they keep full colour there). */
+.case-cell-overlay--static {
+  pointer-events: none;
+}
+
+.case-cell-overlay--static .case-cell-cta {
+  pointer-events: auto;
+  text-decoration: none;
+}
+
+.case-home .case-cell-bg {
+  filter: grayscale(1) contrast(1.04);
+}
+
+.case-home .case-cell-7:hover .case-cell-bg,
+.case-home .case-cell-5:hover .case-cell-bg {
+  filter: grayscale(0);
+}
+
+@media (hover: none) {
+  .case-home .case-cell-bg {
+    filter: none;
+  }
 }

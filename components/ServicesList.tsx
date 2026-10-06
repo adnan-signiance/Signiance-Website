@@ -1,7 +1,9 @@
+import Image from "next/image";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import CtaArrow from "./CtaArrow";
 import { serviceColor } from "./PracticeIcon";
+import { Reveal, RevealHeading } from "./Reveal";
 import { services } from "@/lib/data";
 
 export default function ServicesList() {
@@ -24,67 +26,63 @@ export default function ServicesList() {
             }}
           >
             <div className="grid-svc-detail">
-              <div
-                className="svc-panel"
-                style={{
-                  order: imgOrder,
-                  borderRadius: 14,
-                  height: "clamp(220px, 28vw, 340px)",
-                  background: `linear-gradient(135deg, ${accent} 0%, var(--color-navy) 100%)`,
-                }}
-              >
-                <span
-                  aria-hidden="true"
-                  style={{
-                    position: "absolute",
-                    right: 4,
-                    bottom: -24,
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 700,
-                    fontSize: "clamp(120px, 15vw, 200px)",
-                    lineHeight: 1,
-                    letterSpacing: "var(--tracking-tight)",
-                    color: "rgba(255,255,255,0.1)",
-                  }}
-                >
-                  {sv.no}
-                </span>
+              {/* The reveal sits on an outer wrapper, not on .svc-panel itself: that
+                  class has its own transform transition and hover scale, and an
+                  inline reveal transform would smooth every frame and then override
+                  the hover rule. */}
+              <Reveal style={{ order: imgOrder }}>
+                {/* The artwork is 250px square, so the panel is a square capped near
+                    the size it stays sharp at, centred in its half of the row,
+                    rather than a wide box it would have to be stretched to fill. */}
                 <div
+                  className="svc-panel svc-panel--art"
                   style={{
-                    position: "relative",
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "flex-end",
-                    padding: "26px 28px",
-                    boxSizing: "border-box",
+                    borderRadius: 14,
+                    width: "min(100%, 360px)",
+                    aspectRatio: "1 / 1",
+                    margin: "0 auto",
+                    background: `linear-gradient(135deg, ${accent} 0%, var(--color-navy) 100%)`,
                   }}
                 >
+                  <Image src={sv.image} alt="" fill sizes="(max-width: 880px) 360px, 360px" style={{ objectFit: "cover" }} />
                   <div
                     style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "var(--fs-xs)",
-                      color: "rgba(255,255,255,0.6)",
+                      position: "relative",
+                      zIndex: 1,
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "flex-end",
+                      padding: "22px 24px",
+                      boxSizing: "border-box",
                     }}
                   >
-                    Practice {sv.no} / 05
-                  </div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontWeight: 600,
-                      fontSize: "var(--fs-xl)",
-                      letterSpacing: "var(--tracking-snug)",
-                      color: "var(--color-white)",
-                      marginTop: 4,
-                    }}
-                  >
-                    {sv.short}
+                    <div
+                      style={{
+                        fontFamily: "var(--font-mono)",
+                        fontSize: "var(--fs-xs)",
+                        color: "rgba(255,255,255,0.7)",
+                      }}
+                    >
+                      Practice {sv.no} / 05
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: "var(--font-display)",
+                        fontWeight: 600,
+                        fontSize: "var(--fs-xl)",
+                        letterSpacing: "var(--tracking-snug)",
+                        color: "var(--color-white)",
+                        marginTop: 4,
+                      }}
+                    >
+                      {sv.short}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div style={{ order: contentOrder }}>
-                <h2
+              </Reveal>
+              <Reveal delay={0.12} style={{ order: contentOrder }}>
+                <RevealHeading
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 600,
@@ -95,7 +93,7 @@ export default function ServicesList() {
                   }}
                 >
                   {sv.title}
-                </h2>
+                </RevealHeading>
                 <p style={{ margin: "14px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.65, color: "var(--color-text)", textWrap: "pretty" }}>
                   {sv.long}
                 </p>
@@ -170,7 +168,7 @@ export default function ServicesList() {
                     <CtaArrow>See full details</CtaArrow>
                   </Link>
                 </div>
-              </div>
+              </Reveal>
             </div>
             <CornerDots position="top" />
           </section>

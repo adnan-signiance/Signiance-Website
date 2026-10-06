@@ -1,7 +1,72 @@
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import CtaArrow from "./CtaArrow";
+import Magnetic from "./Magnetic";
 import { subhead } from "@/lib/data";
+
+/**
+ * Headline words, in reading order, so the stagger runs continuously from the
+ * first word of the struck line to the last of the promise instead of restarting
+ * per line. Punctuation stays attached to its word, or it would rise on its own.
+ */
+type Word = { text: string; tail?: string; accent?: boolean };
+
+const STRUCK: Word[] = [
+  { text: "Skip" },
+  { text: "the" },
+  { text: "12-month" },
+  { text: "AI" },
+  { text: "roadmap." },
+];
+
+const PROMISE: Word[] = [
+  { text: "Ship" },
+  { text: "the" },
+  { text: "first" },
+  { text: "working" },
+  { text: "agent" },
+  { text: "in", accent: true },
+  { text: "weeks", tail: ".", accent: true },
+];
+
+/**
+ * One word inside its clipping mask, rising on a CSS delay of 28ms per word.
+ *
+ * CSS rather than motion: the hero is the first thing painted, and a JS-driven
+ * entrance would wait for hydration before showing the headline, pushing the
+ * largest paint later. A keyframe animation starts with the first frame, runs on
+ * the compositor, and needs no script at all.
+ *
+ * `struck` words carry their trailing space inside the mask. Text-decoration does
+ * not propagate into inline-block children, so a space left between masks would
+ * break the strikethrough into a dashed line of separate words.
+ */
+function HeroWord({ word, index, struck = false, last = false }: { word: Word; index: number; struck?: boolean; last?: boolean }) {
+  const gap = struck ? (last ? "" : " ") : "";
+  return (
+    <>
+      <span className="rw-mask">
+        <span
+          className="hero-word"
+          style={
+            {
+              "--i": index,
+              color: word.accent ? "var(--color-accent)" : undefined,
+              ...(struck
+                ? { textDecoration: "line-through", textDecorationColor: "var(--color-border-ui)", textDecorationThickness: 2 }
+                : null),
+            } as React.CSSProperties
+          }
+        >
+          {word.text}
+          {word.tail ? <span style={{ color: "var(--color-ink)" }}>{word.tail}</span> : null}
+          {gap}
+        </span>
+      </span>
+      {!struck && !last ? " " : null}
+    </>
+  );
+}
 
 export default function Hero() {
   return (
@@ -18,7 +83,6 @@ export default function Hero() {
       }}
     >
       <div
-        className="hero-content-in"
         style={{
           position: "relative",
           zIndex: 2,
@@ -32,8 +96,9 @@ export default function Hero() {
         }}
       >
         <div
-          className="hero-badge"
+          className="hero-badge hero-rise"
           style={{
+            "--d": "0s",
             display: "inline-flex",
             alignItems: "center",
             gap: 11,
@@ -45,7 +110,7 @@ export default function Hero() {
             backdropFilter: "blur(10px)",
             boxShadow:
               "0 1px 2px rgba(19,20,23,0.04), inset 0 1px 0 rgba(255,255,255,0.9)",
-          }}
+          } as React.CSSProperties}
         >
           <span
             style={{
@@ -143,12 +208,11 @@ export default function Hero() {
               fontSize: "clamp(22px, 4.75vw, 55px)",
               letterSpacing: "var(--tracking-display)",
               color: "var(--color-muted)",
-              textDecoration: "line-through",
-              textDecorationColor: "var(--color-border-ui)",
-              textDecorationThickness: 2,
             }}
           >
-            Skip the 12-month AI roadmap.
+            {STRUCK.map((w, i) => (
+              <HeroWord key={w.text} word={w} index={i} struck last={i === STRUCK.length - 1} />
+            ))}
           </span>
           <span
             style={{
@@ -161,13 +225,16 @@ export default function Hero() {
               marginTop: "clamp(2px, 0.5vw, 6px)",
             }}
           >
-            Ship the first working agent{" "}
-            <span style={{ color: "var(--color-accent)" }}>in weeks</span>.
+            {PROMISE.map((w, i) => (
+              <HeroWord key={w.text} word={w} index={STRUCK.length + i} last={i === PROMISE.length - 1} />
+            ))}
           </span>
         </h1>
 
         <p
+          className="hero-rise"
           style={{
+            "--d": "0.14s",
             // Widened from 520px, which sat as a narrow column under a headline
             // roughly 780px across and wrapped to three lines. `balance` evens
             // the lines out so it settles into two of similar length instead of
@@ -179,26 +246,30 @@ export default function Hero() {
             color: "var(--color-ink-soft)",
             fontWeight: 400,
             textWrap: "balance",
-          }}
+          } as React.CSSProperties}
         >
           {subhead}
         </p>
 
         <div
+          className="hero-rise"
           style={{
+            "--d": "0.26s",
             display: "flex",
             gap: 12,
             justifyContent: "center",
             marginTop: "clamp(16px, 4vw, 32px)",
             flexWrap: "wrap",
-          }}
+          } as React.CSSProperties}
         >
           {/* Absolute (`/#…`) rather than bare (`#…`): a bare fragment only
               resolves on whichever page the component happens to render on, so
               the link silently breaks the moment the section is reused. */}
-          <Link href="/#contact" className="btn-hero-primary">
-            <CtaArrow>Book a scoping call</CtaArrow>
-          </Link>
+          <Magnetic>
+            <Link href="/#contact" className="btn-hero-primary">
+              <CtaArrow>Book a scoping call</CtaArrow>
+            </Link>
+          </Magnetic>
           <Link href="/how-we-work" className="btn-hero-outline">
             <CtaArrow>See how we work</CtaArrow>
           </Link>
@@ -222,21 +293,21 @@ export default function Hero() {
             color: "var(--color-ink)",
           }}
         >
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+          <span className="hero-rise" style={{ "--d": "0.34s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="var(--color-accent)" strokeWidth="1.2" />
               <path d="M4.5 7.2 6.3 9l3.2-4" stroke="var(--color-accent)" strokeWidth="1.2" strokeLinecap="round" />
             </svg>
             Fixed-fee scoping, credited to the build
           </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+          <span className="hero-rise" style={{ "--d": "0.41s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <circle cx="7" cy="7" r="5.5" stroke="var(--color-accent)" strokeWidth="1.2" />
               <circle cx="7" cy="7" r="1.8" fill="var(--color-accent)" />
             </svg>
             Senior-only pods, no bench time
           </span>
-          <span style={{ display: "inline-flex", alignItems: "center", gap: 7 }}>
+          <span className="hero-rise" style={{ "--d": "0.48s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <path
                 d="M7 1.8 12 4v4c0 2.2-2.2 3.6-5 4.2C4.2 11.6 2 10.2 2 8V4l5-2.2Z"

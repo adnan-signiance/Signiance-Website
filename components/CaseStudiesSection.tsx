@@ -2,6 +2,7 @@ import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import CaseStudies from "./CaseStudies";
+import { Reveal, RevealHeading } from "./Reveal";
 
 export default function CaseStudiesSection() {
   return (
@@ -14,10 +15,10 @@ export default function CaseStudiesSection() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <div style={{ marginBottom: 18 }}>
+          <Reveal style={{ marginBottom: 18 }}>
             <SectionEyebrow>Case Studies</SectionEyebrow>
-          </div>
-          <h2
+          </Reveal>
+          <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
@@ -29,7 +30,7 @@ export default function CaseStudiesSection() {
             }}
           >
             Built. Shipped. Proven.
-          </h2>
+          </RevealHeading>
         </div>
         <Link href="/case-studies" className="btn-primary">
           <span className="btn-primary-arrow-in">
