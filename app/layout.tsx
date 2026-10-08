@@ -3,6 +3,8 @@ import { Bricolage_Grotesque, Geist } from "next/font/google";
 import "./globals.css";
 import "./a11y.css";
 import "./metrics-band.css";
+import "./how-we-work-slides.css";
+import "./responsive.css";
 import "./fallbacks.css";
 import "./consent.css";
 import "./contact-form.css";
@@ -85,7 +87,7 @@ export default function RootLayout({
             JavaScript off nothing would ever show them, so this undoes the hidden
             state for everything marked data-reveal. */}
         <noscript>
-          <style>{"[data-reveal],[data-reveal] *{opacity:1!important;transform:none!important}"}</style>
+          <style>{"[data-reveal],[data-reveal] *{opacity:1!important;transform:none!important}.hw-track{height:auto!important}.hw-sticky{position:static!important;height:auto!important;display:block!important;padding-bottom:var(--section-pb)!important}.hw-slide{display:block!important;margin:12px 0 0!important;border:0!important;overflow:visible!important}.hw-pane,.hw-meter,.hw-panel-next{display:none!important}.hw-panels{position:static!important}.hw-panel{position:static!important;opacity:1!important;transform:none!important;pointer-events:auto!important;padding:28px 0!important;border-bottom:1px solid var(--color-line)}.hw-panel-main>*{opacity:1!important;transform:none!important}"}</style>
         </noscript>
       </head>
       <body

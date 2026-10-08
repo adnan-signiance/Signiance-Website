@@ -1,4 +1,4 @@
-import { brand, contactEmail, services, caseStudyEntries, faqs, subhead, type Service, type CaseStudyEntry } from "./data";
+import { brand, contactEmail, services, caseStudyEntries, faqs, subhead, socialLinks, type Service, type CaseStudyEntry } from "./data";
 
 /**
  * JSON-LD builders.
@@ -38,7 +38,8 @@ export function organizationSchema() {
     // Offices, not registered address: the legal entity and its registered
     // address are still outstanding (Phase 1.4), and inventing them here would
     // publish a claim we cannot stand behind.
-    areaServed: ["Bengaluru", "Rajkot", "Melbourne"],
+    areaServed: ["Bengaluru", "Rajkot"],
+    sameAs: Object.values(socialLinks),
     knowsAbout: [
       "Cloud architecture",
       "DevOps",

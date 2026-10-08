@@ -83,6 +83,7 @@ export default function Hero() {
       }}
     >
       <div
+        className="hero-inner"
         style={{
           position: "relative",
           zIndex: 2,
@@ -199,6 +200,7 @@ export default function Hero() {
           }}
         >
           <span
+            className="hero-line-struck"
             style={{
               display: "block",
               // Roughly 0.83-0.91x the promise below it (4.75vw against 5.2vw,
@@ -215,6 +217,7 @@ export default function Hero() {
             ))}
           </span>
           <span
+            className="hero-line-promise"
             style={{
               display: "block",
               // 5.5vw looked right on desktop but wrapped this line to two at
@@ -232,7 +235,7 @@ export default function Hero() {
         </h1>
 
         <p
-          className="hero-rise"
+          className="hero-rise hero-subline"
           style={{
             "--d": "0.14s",
             // Widened from 520px, which sat as a narrow column under a headline
@@ -252,7 +255,7 @@ export default function Hero() {
         </p>
 
         <div
-          className="hero-rise"
+          className="hero-rise hero-ctas"
           style={{
             "--d": "0.26s",
             display: "flex",
@@ -280,6 +283,7 @@ export default function Hero() {
             buried them under the CTAs while eating the vertical space that made
             the section feel crowded. */}
         <div
+          className="hero-proof"
           style={{
             display: "flex",
             flexWrap: "wrap",

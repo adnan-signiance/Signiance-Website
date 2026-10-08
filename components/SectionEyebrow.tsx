@@ -6,7 +6,7 @@
 export default function SectionEyebrow({ children, rise }: { children: React.ReactNode; rise?: number }) {
   return (
     <span
-      className={rise === undefined ? undefined : "hero-rise"}
+      className={rise === undefined ? "section-eyebrow" : "section-eyebrow hero-rise"}
       style={{
         ...(rise === undefined ? null : ({ "--d": `${rise}s` } as React.CSSProperties)),
         display: "inline-flex",

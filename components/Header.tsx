@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { brand, services } from "@/lib/data";
+import { brand, services, socialLinks } from "@/lib/data";
 import CornerDots from "./CornerDots";
 
 type MenuName = "services" | "resources";
@@ -226,7 +226,8 @@ export default function Header() {
     >
       <div
         style={{
-          maxWidth: 1280,
+          // No width cap of its own: the header sits inside the page frame, so it
+          // takes the frame's width (1280px on a laptop, wider on a big monitor).
           margin: "0 auto",
           padding: "0 var(--pad-x)",
           height: 62,
@@ -433,7 +434,7 @@ export default function Header() {
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <div className="nav-socials">
             <a
-              href="https://linkedin.com/company/signiance"
+              href={socialLinks.linkedin}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Signiance on LinkedIn"
@@ -447,7 +448,7 @@ export default function Header() {
               </svg>
             </a>
             <a
-              href="https://x.com/signiance"
+              href={socialLinks.x}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Signiance on X"

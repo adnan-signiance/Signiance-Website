@@ -1,3 +1,4 @@
+import Image from "next/image";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import { Reveal } from "./Reveal";
@@ -12,6 +13,7 @@ export default function FoundersNote() {
         borderBottom: "1px solid var(--color-line)",
       }}
     >
+      <div className="founders-note-layout">
       <div className="founders-note">
         <Reveal style={{ marginBottom: 18 }}>
           <SectionEyebrow>From the founder</SectionEyebrow>
@@ -26,14 +28,22 @@ export default function FoundersNote() {
           people doing the work, not from a boardroom.
         </Reveal>
         <Reveal className="founders-note-sig" delay={0.22}>
-          <span className="team-avatar" style={{ background: "var(--color-accent-strong)" }}>
-            B
-          </span>
           <div>
             <div className="founders-note-name">Brijesh</div>
             <div className="founders-note-role">Founder &amp; CEO, Signiance</div>
           </div>
         </Reveal>
+      </div>
+      {/* Framed the way the page's own blocks are: a hairline border with the
+          signature dot at each corner. The clip layer keeps the portrait inside the
+          frame while the corner dots sit half outside it. */}
+      <Reveal className="founders-note-photo" delay={0.15}>
+        <div className="founders-note-photo-clip">
+          <Image src="/media/founder-brijesh.webp" alt="Brijesh, Founder & CEO of Signiance" width={840} height={916} sizes="(max-width: 900px) 260px, 380px" />
+        </div>
+        <CornerDots position="top" />
+        <CornerDots />
+      </Reveal>
       </div>
       <CornerDots />
     </section>

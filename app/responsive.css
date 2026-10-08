@@ -1,0 +1,781 @@
+/* ---------------------------------------------------------------------------
+   Responsive layer
+
+   Rules for screens that are NOT laptop-sized: tablets and phones below, large
+   monitors above. Nothing here applies between 1101px and 1699px, so the laptop
+   layout is exactly what it was. Loaded after globals.css so it wins on equal
+   specificity.
+   --------------------------------------------------------------------------- */
+
+.cs-cta-foot {
+  display: none;
+}
+
+/* Case-study cards: grow with their content ------------------------------------
+   The cards are fixed-height photo tiles with the copy laid over the picture. That
+   works at laptop width, where each tile is wide, but on a tablet or phone the title
+   and teaser run longer than the tile, so the title was clipped at the top and long
+   copy sat on bright areas of the photo. Below 1100px (listing and related cards)
+   and below 900px (the homepage bento) the tile is as tall as its copy needs,
+   the teaser is capped at three lines, and the bottom scrim is stronger. */
+
+@media (max-width: 1100px) {
+  .cs-listing-cell,
+  .related-case-cell {
+    height: auto;
+    min-height: 340px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 900px) {
+  .case-cell-7,
+  .case-cell-5 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .case-cell-h-lg,
+  .case-cell-h-md {
+    height: auto;
+    min-height: 320px;
+  }
+}
+
+@media (max-width: 1100px) {
+  .cs-listing-cell .case-cell-frame,
+  .related-case-cell .case-cell-frame {
+    position: relative;
+    inset: auto;
+    flex: 1;
+    min-height: 324px;
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cs-listing-cell .case-cell-overlay,
+  .related-case-cell .case-cell-overlay {
+    flex: 1;
+    height: auto;
+  }
+
+  .cs-listing-cell .case-cell-scrim,
+  .related-case-cell .case-cell-scrim {
+    background: linear-gradient(180deg, rgba(8, 12, 24, 0.3) 0%, rgba(8, 12, 24, 0.9) 100%);
+  }
+
+  .cs-listing-cell .case-cell-body,
+  .related-case-cell .case-cell-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 900px) {
+  .case-cell-7 .case-cell-frame,
+  .case-cell-5 .case-cell-frame {
+    position: relative;
+    inset: auto;
+    flex: 1;
+    min-height: 304px;
+    margin: 8px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .case-cell-7 .case-cell-overlay,
+  .case-cell-5 .case-cell-overlay {
+    flex: 1;
+    height: auto;
+  }
+
+  .case-cell-7 .case-cell-scrim,
+  .case-cell-5 .case-cell-scrim {
+    background: linear-gradient(180deg, rgba(8, 12, 24, 0.3) 0%, rgba(8, 12, 24, 0.9) 100%);
+  }
+
+  .case-cell-7 .case-cell-body,
+  .case-cell-5 .case-cell-body {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+  }
+}
+
+/* The CTA drops under the copy on a narrow card instead of squeezing it. */
+@media (max-width: 480px) {
+  .case-cell-bottom-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
+
+/* About page ------------------------------------------------------------------- */
+
+.about-mv-a {
+  padding-right: 40px;
+}
+
+.about-mv-b {
+  border-left: 1px solid var(--color-line);
+  padding-left: 40px;
+}
+
+/* The two-column blocks on the About page set their columns inline, which outranks
+   the stylesheet's own phone rule, so they stayed two columns on a phone. */
+@media (max-width: 780px) {
+  .grid-3col {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-mv-a {
+    padding-right: 0;
+  }
+
+  .about-mv-b {
+    margin-top: 28px;
+    padding-top: 28px;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--color-line);
+  }
+}
+
+/* Services list: the artwork panel -------------------------------------------- */
+
+/* A square 326px panel above every practice made the phone version very tall. */
+@media (max-width: 640px) {
+  .svc-panel--art {
+    width: 100% !important;
+    aspect-ratio: 16 / 11 !important;
+  }
+}
+
+/* Large monitors ---------------------------------------------------------------
+   The page frame is a fixed 1280px, so on a 1920px or 4K monitor the whole site
+   sat small in a narrow column with wide empty margins. The frame widens and the
+   body-size type steps up, so proportions stay close to what a laptop shows. */
+
+@media (min-width: 1700px) {
+  :root {
+    --pad-x: 36px;
+    --section-pt: 70px;
+    --section-pb: 74px;
+
+    --fs-h2: clamp(26px, 4vw, 50px);
+    --fs-2xs: 12px;
+    --fs-xs: 13.5px;
+    --fs-sm: 14.5px;
+    --fs-base: 16px;
+    --fs-md: 17.5px;
+    --fs-lg: 20px;
+    --fs-xl: 23px;
+    --fs-2xl: 29px;
+  }
+
+  .page-frame {
+    max-width: 1520px !important;
+  }
+}
+
+@media (min-width: 2300px) {
+  :root {
+    --pad-x: 44px;
+    --section-pt: 84px;
+    --section-pb: 88px;
+
+    --fs-h2: clamp(26px, 4vw, 58px);
+    --fs-2xs: 13px;
+    --fs-xs: 14.5px;
+    --fs-sm: 15.5px;
+    --fs-base: 17.5px;
+    --fs-md: 19.5px;
+    --fs-lg: 22px;
+    --fs-xl: 26px;
+    --fs-2xl: 33px;
+  }
+
+  .page-frame {
+    max-width: 1800px !important;
+  }
+}
+
+/* Case-study filter chips: one scrollable row on a phone ------------------------
+   The rail already allowed horizontal scrolling at this width, but it still wrapped
+   its chips, which stacked them inside a pill-shaped container as a lumpy block. */
+@media (max-width: 640px) {
+  .cs-filter-rail {
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+
+  .cs-filter-rail::-webkit-scrollbar {
+    display: none;
+  }
+
+  .cs-filter-chip {
+    flex: 0 0 auto;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Phone type and spacing scale (640px and below)
+
+   On a phone the sections had drifted out of proportion: the hero headline was
+   about the size of a section title, while the section badges, titles, card copy
+   and buttons were each sized on their own. One scale now drives all of them:
+
+     hero promise    ~36px   (the page's one big statement)
+     hero premise    ~30px   (the struck-through line, 0.83x the promise: the
+                              same ratio the desktop headline uses, 55px : 66px)
+     section title   ~27px   (--fs-h2)
+     card / step     ~20px   (service, case, step titles)
+     lead / body     15px
+     small           13px
+     badge           11px
+     buttons         one size: 13.5px type, 40px tall
+
+   Laptop and tablet sizes are untouched.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  :root {
+    --fs-h2: clamp(24px, 7vw, 30px);
+    --fs-lead: 16px;
+    --fs-quote: 17px;
+    --section-pt: 32px;
+    --section-pb: 36px;
+  }
+
+  /* Hero ----------------------------------------------------------------------
+     The two headline lines were sized at the floor of their clamps (22px and
+     32px) because their vw terms are tuned for desktop. The promise is now the
+     biggest thing on the page; the struck line stays on one line at 25px. */
+  .hero-line-struck {
+    font-size: clamp(25px, 7.7vw, 31.5px) !important;
+  }
+
+  .hero-line-promise {
+    font-size: clamp(30px, 9.3vw, 38px) !important;
+    margin-top: 6px !important;
+  }
+
+  /* Left-aligned on a phone. The centred block reads well on a wide screen, but on a
+     narrow one the ragged left edge of a centred headline, subline and stacked
+     buttons looks unsettled; the rest of the page is left-aligned already. */
+  .hero-inner {
+    text-align: left !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .hero-subline {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .hero-ctas,
+  .hero-proof {
+    justify-content: flex-start !important;
+  }
+
+  .hero-section h1 {
+    margin-top: 18px !important;
+  }
+
+  /* Subline and the three points under the buttons: one step down each from the
+     headline (36px > 15px > 12.5px) and an even 16px / 20px / 20px rhythm
+     from headline to subline to buttons to points. */
+  .hero-subline {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin-top: 14px !important;
+    max-width: 34ch !important;
+  }
+
+  .hero-ctas {
+    margin-top: 20px !important;
+    gap: 10px !important;
+  }
+
+  .hero-proof {
+    margin-top: 20px !important;
+    row-gap: 9px !important;
+    font-size: var(--fs-xs) !important;
+  }
+
+  /* Section badges ------------------------------------------------------------- */
+  .section-eyebrow {
+    font-size: 11px !important;
+    padding: 4px 10px !important;
+  }
+
+  .section-head-main > :first-child {
+    margin-bottom: 12px !important;
+  }
+
+  /* Services cards -------------------------------------------------------------- */
+  .grid-services-cell {
+    min-height: 0;
+    padding-top: 22px;
+    padding-bottom: 22px;
+  }
+
+  .grid-services-num {
+    font-size: 22px;
+  }
+
+  .grid-services-title {
+    font-size: 19px;
+    margin-top: 10px;
+  }
+
+  .grid-services-cell--wide .grid-services-title {
+    font-size: 19px;
+  }
+
+  .grid-services-body {
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+
+  /* How we work (stacked steps) ---------------------------------------------------- */
+  .hw-panel,
+  .hw-panel.is-past,
+  .hw-panel.is-active {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+  }
+
+  .hw-panel-week {
+    font-size: 10.5px;
+    padding: 3px 9px;
+  }
+
+  .hw-panel-count {
+    font-size: 11px;
+  }
+
+  /* Same step as the service-card titles and copy (19px / 13.5px), since these are
+     the same kind of block: a numbered item with a title and a sentence. */
+  .hw-panel-title {
+    font-size: clamp(19px, 5.3vw, 21px);
+    line-height: 1.15;
+    margin-top: 8px;
+  }
+
+  .hw-panel-body {
+    margin-top: 6px;
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+  }
+
+  /* Proof: the four figures as a 2 x 2 grid ---------------------------------------- */
+  .grid-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 26px 18px !important;
+  }
+
+  .metric-value {
+    font-size: clamp(28px, 8.4vw, 34px) !important;
+  }
+
+  .metric-label {
+    font-size: var(--fs-xs) !important;
+    line-height: 1.45 !important;
+    margin-top: 8px !important;
+    max-width: none !important;
+  }
+
+  /* Case cards -------------------------------------------------------------------- */
+  .case-home .case-cell-title,
+  .case-cell-title {
+    font-size: 20px !important;
+  }
+
+  .case-cell-stat-value {
+    font-size: var(--fs-lg);
+  }
+
+  /* Testimonial, founder's note, FAQ ---------------------------------------------- */
+  .founders-note-text {
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .founders-note-quote-mark {
+    font-size: 48px;
+    margin-bottom: -10px;
+  }
+
+  /* FAQ: the questions use nearly the full width of the section. The side inset was
+     sized for a wide screen (24px each side), which on a phone left the question text
+     and the +/x icon squeezed into a narrow column. */
+  .faq-list {
+    --faq-pad-x: 4px;
+  }
+
+  .faq-question {
+    font-size: var(--fs-md);
+    padding-top: 20px;
+    padding-bottom: 20px;
+    gap: 14px;
+  }
+
+  /* The founder's portrait is centred under the note on a phone. */
+  .founders-note-photo {
+    justify-self: center;
+    margin-right: 0;
+  }
+
+  /* Case studies: the "See all" button sits after the cards on a phone, centred like a
+     "see more", and is dropped from beside the title. */
+  .cs-cta-head {
+    display: none !important;
+  }
+
+  .cs-cta-foot {
+    display: flex;
+    justify-content: center;
+    margin-top: 22px;
+  }
+
+  /* Buttons: one size everywhere ------------------------------------------------------
+     The hero CTAs, the "See all case studies" button, the form's submit and the
+     newsletter button were each a slightly different height and type size. */
+  .btn-hero-primary,
+  .btn-hero-outline,
+  .btn-primary {
+    font-size: var(--fs-sm) !important;
+    padding: 10px 20px !important;
+    min-height: 40px;
+    box-sizing: border-box;
+  }
+}
+
+/* Inner-page titles (Services, Case Studies, About, How we work, legal) sit between
+   the homepage headline and a section title on a phone. */
+@media (max-width: 640px) {
+  .page-title {
+    font-size: clamp(30px, 8.4vw, 34px) !important;
+    margin-top: 14px !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Phone scale on the inner pages (Services, Case Studies, About, How we work,
+   the detail pages)
+
+   Same scale as the homepage: page title ~33px, intro 15px, section titles 27px,
+   step and card titles ~20px, body 14-15px, one button size.
+   --------------------------------------------------------------------------- */
+
+@media (max-width: 640px) {
+  /* Page intro under the title: the same 15px / 1.55 as the homepage subline. */
+  p.hero-d1 {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin-top: 12px !important;
+  }
+
+  /* The closing "ready to start?" band on every page: one title size, one blurb size. */
+  .cta-title {
+    font-size: 25px !important;
+    line-height: 1.12 !important;
+  }
+
+  .cta-title + p {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+    margin-top: 12px !important;
+  }
+
+  /* Services page: row copy steps down with the rest. */
+  .grid-svc-detail p {
+    font-size: 15px !important;
+    line-height: 1.55 !important;
+  }
+
+  /* How we work page: the full timeline uses the same step scale as the homepage. */
+  .vtimeline-title {
+    font-size: 20px;
+    line-height: 1.15;
+    margin-top: 8px;
+  }
+
+  .vtimeline-body {
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    margin-top: 6px;
+  }
+
+  .vtimeline-content {
+    padding-bottom: 28px;
+  }
+
+  /* Engagement cards (How we work, Case Studies). */
+  .engagement-col h3 {
+    font-size: 19px !important;
+  }
+
+  .engagement-col p {
+    font-size: var(--fs-sm) !important;
+    line-height: 1.5 !important;
+  }
+
+  /* Case Studies: the featured card's title steps down to the card-title size. */
+  .cs-featured-title {
+    font-size: 24px !important;
+  }
+
+  /* The framed figures on Case Studies and About: 2 x 2, like the homepage Proof. */
+  .grid-cs-metrics-bordered {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .metric-cell {
+    padding: 18px var(--pad-x) !important;
+    border-right: 1px solid var(--color-line-strong) !important;
+    border-bottom: none !important;
+  }
+
+  .metric-cell:nth-child(2n) {
+    border-right: none !important;
+  }
+
+  .metric-cell:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--color-line-strong) !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tablet (641px to 1100px)
+
+   Tablet inherited sizes tuned for a laptop (large type scaled down by vw) or for a
+   phone (single stacked column), so a few things looked either undersized next to
+   the wide canvas or stretched across it. These rules sit between the phone scale
+   above and the laptop layout, which they do not touch.
+   --------------------------------------------------------------------------- */
+
+@media (min-width: 641px) and (max-width: 1100px) {
+  /* Hero: the subline and the points under the buttons were laptop-small beside a
+     42px headline on a 700px-wide column. */
+  .hero-subline {
+    font-size: 17px !important;
+    line-height: 1.55 !important;
+    max-width: 560px !important;
+  }
+
+  /* Three points on one row at tablet width; any larger and the third wraps alone. */
+  .hero-proof {
+    font-size: var(--fs-xs) !important;
+    column-gap: 22px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .hero-section {
+    padding-top: 64px !important;
+    padding-bottom: 56px !important;
+  }
+
+  /* Intro paragraph under each inner-page title. */
+  p.hero-d1 {
+    font-size: 16.5px !important;
+    line-height: 1.6 !important;
+  }
+
+  /* Closing banner title and blurb. */
+  .cta-title {
+    font-size: 30px !important;
+  }
+
+  .cta-title + p {
+    font-size: 16px !important;
+  }
+}
+
+/* Stacked "How we work" steps (641px to 860px): title and copy at the same step as
+   the cards beside them, instead of the 33px / 18px pinned-slide sizes, and the copy
+   held to a readable measure so it does not run edge to edge. */
+@media (min-width: 641px) and (max-width: 860px) {
+  .hw-panel-title {
+    font-size: 22px;
+    line-height: 1.18;
+    margin-top: 10px;
+  }
+
+  .hw-panel-body {
+    font-size: var(--fs-base);
+    line-height: 1.55;
+    max-width: 56ch;
+    margin-top: 8px;
+  }
+
+  .hw-panel-week {
+    font-size: 11.5px;
+  }
+
+  .hw-panel {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+  }
+
+  /* Page timeline (How we work page). */
+}
+
+/* Homepage case-study bento: two across on a tablet instead of four wide, tall
+   bands that each stretch over the whole 700px column. */
+@media (min-width: 641px) and (max-width: 900px) {
+  .case-home.grid-case {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .case-home .case-cell-h-lg,
+  .case-home .case-cell-h-md {
+    min-height: 380px;
+  }
+
+  .case-home .case-cell-title {
+    font-size: 21px !important;
+  }
+
+  /* The bottom-right CTA wraps under the copy in a half-width card. */
+  .case-home .case-cell-bottom-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
+
+/* Founder's note: keep the portrait beside the text on a tablet; stacking it left a
+   small photo stranded under a full-width paragraph. */
+@media (min-width: 641px) and (max-width: 900px) {
+  .founders-note-layout {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    gap: 36px;
+  }
+
+  .founders-note-photo {
+    justify-self: end;
+    width: 240px;
+    margin-right: 0;
+  }
+
+  .founders-note-text {
+    font-size: 20px;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Tablet type and spacing scale (641px to 1100px)
+
+   The rules above fixed individual blocks. This one sets the scale the whole tablet
+   layout sits on, the way the phone block does, so blocks that are alike share a size:
+
+     hero promise    ~42px   (5.2vw, one line)   hero premise  0.83x of it, as on desktop
+     page title      ~38px
+     section title   ~33px   (--fs-h2)
+     card / step     22px    (service, case, step and engagement titles)
+     lead / body     16-17px intros, 14.5px card copy
+     small           13.5px
+     badge           12px
+     buttons         one size: 14px type, 42px tall
+     metric figures  36px
+
+   Laptop sizes are untouched.
+   --------------------------------------------------------------------------- */
+
+@media (min-width: 641px) and (max-width: 1100px) {
+  /* Hero headline: the struck line was 0.91x the promise here (4.75vw : 5.2vw); desktop
+     is 0.83x (55 : 66). Same ratio as desktop and phone. */
+  .hero-line-struck {
+    font-size: clamp(30px, 4.3vw, 46px) !important;
+  }
+
+  .hero-line-promise {
+    font-size: clamp(36px, 5.2vw, 56px) !important;
+  }
+
+  /* Badges */
+  .section-eyebrow {
+    font-size: 12px !important;
+    padding: 5px 12px !important;
+  }
+
+  .section-head-main > :first-child {
+    margin-bottom: 14px !important;
+  }
+
+  /* Card, step and engagement titles: one size */
+  .grid-services-title,
+  .grid-services-cell--wide .grid-services-title,
+  .case-cell-title,
+  .case-home .case-cell-title,
+  .vtimeline-title,
+  .engagement-col h3 {
+    font-size: 22px !important;
+    line-height: 1.18 !important;
+  }
+
+  .grid-services-num {
+    font-size: 24px;
+  }
+
+  /* Card and step copy: one size */
+  .grid-services-body,
+  .vtimeline-body,
+  .engagement-col p {
+    font-size: var(--fs-base) !important;
+    line-height: 1.55 !important;
+  }
+
+  /* Icon cards (About values, why-us, detail pages) */
+  .grid-3col h3,
+  .grid-3col h4 {
+    font-size: 18px !important;
+  }
+
+  /* Figures */
+  .metric-value {
+    font-size: 36px !important;
+  }
+
+  .metric-label {
+    font-size: var(--fs-sm) !important;
+  }
+
+  /* FAQ */
+  .faq-question {
+    font-size: 17px;
+  }
+
+  /* Buttons: one size everywhere */
+  .btn-hero-primary,
+  .btn-hero-outline,
+  .btn-primary {
+    font-size: 14px !important;
+    padding: 10px 22px !important;
+    min-height: 42px;
+    box-sizing: border-box;
+  }
+
+  /* Inner-page intro and detail-page headings */
+  .grid-svc-detail p {
+    font-size: 16px !important;
+    line-height: 1.6 !important;
+  }
+
+  .page-title {
+    font-size: 38px !important;
+  }
+
+  .cs-featured-title {
+    font-size: 28px !important;
+  }
+}

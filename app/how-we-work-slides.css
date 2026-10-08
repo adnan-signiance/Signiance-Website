@@ -1,0 +1,504 @@
+/* ---------------------------------------------------------------------------
+   Homepage "How we work": pinned, slide-style layout (HowWeWorkSlides)
+
+   The section heading and a framed slide pin together under the fixed header
+   while the page scrolls through a tall track, so there is never empty space
+   above or below the content while it is pinned. The slide is one unit: a
+   contents column on the left, the current step on the right, and a segmented
+   meter along the bottom edge. Plain page scroll drives it; nothing is hijacked.
+   --------------------------------------------------------------------------- */
+
+.hw-track {
+  --hw-header: 62px;
+  /* Scroll distance each step change takes. */
+  --hw-step: 48vh;
+  position: relative;
+  height: calc(100vh - var(--hw-header) + (var(--hw-n) - 1) * var(--hw-step));
+  height: calc(100svh - var(--hw-header) + (var(--hw-n) - 1) * var(--hw-step));
+}
+
+.hw-sticky {
+  position: sticky;
+  top: var(--hw-header);
+  height: calc(100vh - var(--hw-header));
+  height: calc(100svh - var(--hw-header));
+  display: flex;
+  flex-direction: column;
+  /* The bottom padding is the gap left between the slide and the next section
+     once the pin releases. */
+  padding: 22px 0 clamp(48px, 8vh, 84px);
+  box-sizing: border-box;
+}
+
+/* The slide fills whatever the heading leaves, so it always meets the bottom of the pinned block. */
+.hw-slide {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  margin: 22px var(--bleed) 0;
+  display: grid;
+  grid-template-columns: clamp(290px, 27vw, 390px) minmax(0, 1fr);
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-white);
+  overflow: hidden;
+}
+
+/* Left: the process -------------------------------------------------------- */
+
+.hw-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-right: 1px solid var(--color-line-strong);
+  background: var(--color-white);
+}
+
+.hw-pane-list {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hw-step {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+}
+
+.hw-step + .hw-step {
+  border-top: 1px solid var(--color-line-strong);
+}
+
+.hw-step-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 1.4vw, 22px);
+  width: 100%;
+  height: 100%;
+  padding: 0 clamp(20px, 2vw, 30px);
+  background: none;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  font: inherit;
+  color: var(--color-ink-soft);
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease;
+}
+
+.hw-step-item:hover {
+  background: var(--color-warm);
+}
+
+.hw-step-item:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -3px;
+}
+
+/* The row you are on takes the brand tint and an accent bar down its left edge. */
+.hw-step-item::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: var(--color-accent);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 0.4s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.hw-step.is-active .hw-step-item {
+  background: var(--color-tint);
+  color: var(--color-ink);
+}
+
+.hw-step.is-active .hw-step-item::before {
+  transform: scaleY(1);
+}
+
+.hw-step-num {
+  flex: 0 0 auto;
+  min-width: clamp(38px, 3.2vw, 50px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(var(--fs-2xl), 2.6vw, 36px);
+  letter-spacing: var(--tracking-tight);
+  line-height: 1;
+  color: var(--color-numeral);
+  transition: color 0.3s ease;
+}
+
+.hw-step.is-active .hw-step-num,
+.hw-step.is-done .hw-step-num {
+  color: var(--color-accent);
+}
+
+.hw-pane-text {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  flex: 1;
+}
+
+.hw-pane-week {
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-muted);
+  transition: color 0.3s ease;
+}
+
+.hw-pane-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(var(--fs-lg), 1.75vw, var(--fs-2xl));
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.hw-step.is-active .hw-pane-week {
+  color: var(--color-accent);
+}
+
+/* Tick for a finished step. */
+.hw-step-done {
+  position: absolute;
+  top: 16px;
+  right: 18px;
+  color: var(--color-accent);
+  opacity: 0;
+  transform: scale(0.6);
+  transition:
+    opacity 0.3s ease,
+    transform 0.4s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.hw-step.is-done .hw-step-done {
+  opacity: 1;
+  transform: none;
+}
+
+/* Arrow badge sitting on the divider between two steps: the hand-off from one to
+   the next. It lights up once the step above it is finished. */
+.hw-step-joint {
+  position: absolute;
+  z-index: 2;
+  left: calc(clamp(20px, 2vw, 30px) + clamp(38px, 3.2vw, 50px) / 2 - 13px);
+  bottom: -13px;
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--color-line-strong);
+  background: var(--color-white);
+  color: var(--color-muted);
+  transition:
+    background-color 0.35s ease,
+    border-color 0.35s ease,
+    color 0.35s ease;
+}
+
+.hw-step.is-active .hw-step-joint {
+  border-color: var(--color-accent-pale);
+  color: var(--color-accent);
+}
+
+.hw-step.is-done .hw-step-joint {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-white);
+}
+
+/* Right: the current step -------------------------------------------------- */
+
+.hw-panels {
+  position: relative;
+  min-height: 0;
+}
+
+.hw-panel {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.82fr);
+  gap: clamp(24px, 3vw, 48px);
+  padding: clamp(26px, 3.2vw, 48px) clamp(26px, 3.2vw, 48px) calc(clamp(26px, 3.2vw, 48px) + 3px);
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+  transition:
+    opacity 0.4s ease,
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+/* Steps already passed leave upward and upcoming ones arrive from below, so the
+   motion always follows the scroll direction, like turning slides. */
+.hw-panel.is-past {
+  transform: translateY(-18px);
+}
+
+.hw-panel.is-active {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.hw-panel-main {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.hw-panel-main > * {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.45s ease,
+    transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.hw-panel.is-active .hw-panel-main > * {
+  opacity: 1;
+  transform: none;
+}
+
+.hw-panel.is-active .hw-panel-main > :nth-child(2) {
+  transition-delay: 0.06s;
+}
+
+.hw-panel.is-active .hw-panel-main > :nth-child(3) {
+  transition-delay: 0.12s;
+}
+
+.hw-panel.is-active .hw-panel-main > :nth-child(4) {
+  transition-delay: 0.2s;
+}
+
+.hw-panel-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.hw-panel-week {
+  display: inline-block;
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--color-tint);
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.hw-panel-count {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: var(--tracking-wide);
+  color: var(--color-muted);
+}
+
+/* Free space above the title and above "Next" is shared equally, so the heading
+   and copy sit in the optical middle whatever the slide's height. */
+.hw-panel-title {
+  margin: auto 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+}
+
+.hw-panel-body {
+  margin: 20px 0 0;
+  max-width: 42ch;
+  font-size: var(--fs-lg);
+  line-height: 1.6;
+  color: var(--color-text);
+  text-wrap: pretty;
+}
+
+.hw-panel-next {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: auto 0 0;
+  padding-top: 18px;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+}
+
+.hw-panel-main > .hw-panel-next:last-child {
+  margin-top: auto;
+}
+
+.hw-panel-next-label {
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+}
+
+.hw-panel-next-title {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.hw-panel-next svg {
+  margin-left: 2px;
+  color: var(--color-accent);
+}
+
+/* Slot for each step's illustration. */
+.hw-panel-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 0;
+  border-radius: 14px;
+  border: 1px solid var(--color-line);
+  background:
+    radial-gradient(circle at 28% 18%, rgba(25, 61, 170, 0.12), transparent 62%),
+    radial-gradient(rgba(25, 61, 170, 0.16) 1px, transparent 1px) 0 0 / 20px 20px,
+    var(--color-tint);
+  overflow: hidden;
+}
+
+.hw-panel-art-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(110px, 13vw, 180px);
+  line-height: 1;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-accent);
+  opacity: 0.14;
+}
+
+/* Segmented meter along the bottom of the right side. Each segment fills over the
+   scroll distance its own step owns. */
+.hw-meter {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  display: flex;
+  background: var(--color-line);
+}
+
+.hw-meter-seg {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+}
+
+.hw-meter-seg + .hw-meter-seg {
+  border-left: 2px solid var(--color-white);
+}
+
+.hw-meter-seg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--color-accent);
+  transform: scaleX(clamp(0, calc(var(--hw-p, 0) * var(--hw-n) - var(--i)), 1));
+  transform-origin: left;
+}
+
+@media (max-width: 1100px) {
+  .hw-panel {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hw-panel-art {
+    display: none;
+  }
+}
+
+/* Narrow screens and short windows: no pinning. The steps stack as ordinary blocks,
+   which reads better than a pinned slide in a phone-height window, and the
+   contents column (which only mirrors them) is dropped. ----------------------- */
+@media (max-width: 860px), (max-height: 560px) {
+  .hw-track {
+    height: auto;
+  }
+
+  .hw-sticky {
+    position: static;
+    height: auto;
+    display: block;
+    padding-bottom: var(--section-pb);
+  }
+
+  .hw-slide {
+    display: block;
+    margin: 12px 0 0;
+    border: none;
+    overflow: visible;
+  }
+
+  .hw-pane,
+  .hw-meter {
+    display: none;
+  }
+
+  .hw-panels {
+    position: static;
+  }
+
+  .hw-panel,
+  .hw-panel.is-past,
+  .hw-panel.is-active {
+    position: static;
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .hw-panel:last-of-type {
+    border-bottom: none;
+  }
+
+  .hw-panel-main > * {
+    opacity: 1;
+    transform: none;
+  }
+
+  .hw-panel-title {
+    margin-top: 14px;
+  }
+
+  .hw-panel-next {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-panel,
+  .hw-panel-main > *,
+  .hw-step-item,
+  .hw-step-item::before,
+  .hw-step-done,
+  .hw-step-joint {
+    transition-duration: 0.01ms;
+    transition-delay: 0s !important;
+  }
+}

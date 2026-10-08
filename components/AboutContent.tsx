@@ -5,12 +5,13 @@ import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import HeroHeading from "./HeroHeading";
 import ClientsStrip from "./ClientsStrip";
+import FoundersNote from "./FoundersNote";
 import FeatureCard from "./FeatureCard";
 import MetricsGrid from "./MetricsGrid";
 import CalBooking from "./CalBooking";
 import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import PracticeIcon, { type IconName } from "./PracticeIcon";
-import { bookingPromise, headline, team } from "@/lib/data";
+import { bookingPromise, headline } from "@/lib/data";
 
 // Literal hex for the same reason as serviceColor in PracticeIcon: FeatureCard
 // builds a translucent tint with `${color}17`, which needs a raw hex value.
@@ -71,8 +72,6 @@ const whyUs: { title: string; body: string; icon: IconName }[] = [
 ];
 
 export default function AboutContent() {
-  const founder = team.find((m) => m.name === "Brijesh")!;
-
   return (
     <>
       <section style={{ position: "relative", padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0", borderBottom: "1px solid var(--color-line)" }}>
@@ -99,7 +98,7 @@ export default function AboutContent() {
               at the idea stage or already running production infrastructure, we take the hard part off your
               shoulders and build alongside your team, not instead of it.
             </p>
-            <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>Bengaluru · Rajkot · Melbourne</p>
+            <p style={{ maxWidth: 620, margin: "10px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>Bengaluru · Rajkot</p>
           </div>
           <div className="hero-art hero-rise hero-d2">
             <Image src="/media/about-team.webp" alt="" fill priority sizes="320px" style={{ objectFit: "cover" }} />
@@ -115,7 +114,7 @@ export default function AboutContent() {
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
         <div className="grid-3col" style={{ gridTemplateColumns: "1fr 1fr", gap: 0 }}>
-          <div style={{ position: "relative", paddingRight: 40, overflow: "hidden" }}>
+          <div className="about-mv-a" style={{ position: "relative", overflow: "hidden" }}>
             <span
               aria-hidden="true"
               style={{
@@ -141,7 +140,7 @@ export default function AboutContent() {
               </p>
             </Reveal>
           </div>
-          <div style={{ position: "relative", borderLeft: "1px solid var(--color-line)", paddingLeft: 40, overflow: "hidden" }}>
+          <div className="about-mv-b" style={{ position: "relative", overflow: "hidden" }}>
             <span
               aria-hidden="true"
               style={{
@@ -171,32 +170,7 @@ export default function AboutContent() {
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
-        <Reveal>
-          <SectionEyebrow>Founder</SectionEyebrow>
-        </Reveal>
-        <Reveal delay={0.1} style={{ display: "flex", alignItems: "center", gap: 20, marginTop: 24 }}>
-          <span className="team-avatar" style={{ width: 64, height: 64, fontSize: "var(--fs-xl)", background: blueScale[0] }}>
-            {founder.name.charAt(0)}
-          </span>
-          <div>
-            <h4
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: "var(--fs-xl)",
-                letterSpacing: "var(--tracking-snug)",
-                margin: 0,
-                color: "var(--color-ink)",
-              }}
-            >
-              {founder.name}
-            </h4>
-            <p style={{ margin: "4px 0 0", fontSize: "var(--fs-base)", color: "var(--color-muted)" }}>{founder.role}</p>
-          </div>
-        </Reveal>
-        <CornerDots />
-      </section>
+      <FoundersNote />
 
       <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)", background: "var(--color-tint)" }}>
         <Reveal>
@@ -274,7 +248,7 @@ export default function AboutContent() {
 
       <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)" }}>
         <CornerDots position="top" />
-        <RevealHeading
+        <RevealHeading className="cta-title"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,

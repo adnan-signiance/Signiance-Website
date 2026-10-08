@@ -232,7 +232,7 @@ export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
 
       <section style={{ position: "relative", padding: "clamp(52px, 7vw, 74px) var(--pad-x)", textAlign: "center", borderTop: "1px solid var(--color-line)", borderBottom: "1px solid var(--color-line)" }}>
         <CornerDots position="top" />
-        <RevealHeading
+        <RevealHeading className="cta-title"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,

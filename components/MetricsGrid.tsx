@@ -86,6 +86,7 @@ export default function MetricsGrid({ style, bordered }: { style?: React.CSSProp
         const revealContent = (
           <>
             <div
+              className="metric-value"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
@@ -97,7 +98,7 @@ export default function MetricsGrid({ style, bordered }: { style?: React.CSSProp
             >
               {target === null ? m.value : <Counter target={target} suffix={suffix} start={visible} />}
             </div>
-            <div style={{ marginTop: 10, fontSize: "var(--fs-sm)", lineHeight: 1.5, color: "var(--color-text)", maxWidth: "22ch" }}>
+            <div className="metric-label" style={{ marginTop: 10, fontSize: "var(--fs-sm)", lineHeight: 1.5, color: "var(--color-text)", maxWidth: "22ch" }}>
               {m.label}
             </div>
           </>

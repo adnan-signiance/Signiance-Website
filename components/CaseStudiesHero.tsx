@@ -97,6 +97,7 @@ export default function CaseStudiesHero() {
               </span>
             </div>
             <h2
+              className="cs-featured-title"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,

@@ -1,5 +1,14 @@
 export const brand = "Signiance";
 
+/** The company's social profiles: one list, used by the header, the footer and the structured data. */
+export const socialLinks = {
+  linkedin: "https://www.linkedin.com/company/signiance-aws-cloud-devops",
+  x: "https://x.com/signiancetech",
+  youtube: "https://www.youtube.com/@signiance",
+  facebook: "https://www.facebook.com/profile.php?id=61556190298011",
+  instagram: "https://www.instagram.com/signiancetechnologies/",
+} as const;
+
 /** Single source of truth for the public contact address. */
 export const contactEmail = "hello@signiance.com";
 

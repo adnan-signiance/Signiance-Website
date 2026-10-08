@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import CtaArrow from "./CtaArrow";
 import { contactEmail } from "@/lib/data";
 import { track } from "@/lib/analytics";
 import type { ContactIntent } from "@/lib/contactSchema";
@@ -219,7 +220,7 @@ export default function ContactForm({
 
       <div className="contact-form-footer">
         <button type="submit" className="btn-hero-primary" disabled={status === "submitting"}>
-          {status === "submitting" ? "Sending…" : "Send it over"}
+          <CtaArrow>{status === "submitting" ? "Sending…" : "Send it over"}</CtaArrow>
         </button>
         <p className="contact-field-hint">We reply within a business day.</p>
       </div>

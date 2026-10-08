@@ -30,7 +30,7 @@ export default function HeroHeading({
   const Tag = `h${level}` as "h1" | "h2";
   const words = children.split(" ").filter(Boolean);
   return (
-    <Tag className={className} style={style}>
+    <Tag className={`page-title${className ? ` ${className}` : ""}`} style={style}>
       {words.map((word, i) => (
         <span key={i}>
           <span className="rw-mask">

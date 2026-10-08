@@ -464,6 +464,10 @@ a {
   border-radius: 999px;
   white-space: nowrap;
   overflow: hidden;
+  /* This class is also put on a real <button> (the enquiry form), which would
+     otherwise keep the browser's default border and arrow cursor. Harmless on links. */
+  border: none;
+  cursor: pointer;
   transition: background 0.2s ease;
 }
 
@@ -521,8 +525,9 @@ a {
 /* Client logos */
 .client-logo {
   height: 26px;
-  filter: grayscale(1);
-  opacity: 0.72;
+  /* Full colour at rest, just dimmed; hover brings it to full strength. */
+  filter: none;
+  opacity: 0.5;
   transition:
     filter 0.25s ease,
     opacity 0.25s ease;
@@ -534,7 +539,9 @@ a {
 }
 
 .client-logo-invert {
-  filter: grayscale(1) invert(1);
+  /* The V5 mark is already a colour logo; the old invert only existed to make
+     its greyscale version read, so it is no longer applied. */
+  filter: none;
 }
 
 /* A continuous right-to-left logo roll at every width. The track is the logo
@@ -561,7 +568,7 @@ a {
 }
 
 /* The roll deliberately does NOT pause on hover — the strip should keep moving.
-   Individual logos still light up from grayscale to full colour as the pointer
+   Individual logos still go from dimmed to full strength as the pointer
    passes over them (see .client-logo:hover above). */
 
 .clients-marquee-item {
@@ -587,7 +594,7 @@ a {
 }
 
 .client-logo-invert:hover {
-  filter: invert(1);
+  filter: none;
   opacity: 1;
 }
 
@@ -1770,9 +1777,59 @@ a {
 /* Founder's note — an editorial pull-quote aside rather than another
    eyebrow/heading/body section, so it reads as a personal break before the
    footer instead of one more templated block. */
+/* The note on the left, the founder's portrait on the right. The portrait is a
+   transparent cut-out with no fill behind it: it sits straight on the page inside
+   a line frame with corner dots, cropped by the frame's bottom edge. */
+.founders-note-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 700px) minmax(0, 1fr);
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
 .founders-note {
   position: relative;
   max-width: 700px;
+}
+
+.founders-note-photo {
+  position: relative;
+  justify-self: end;
+  /* Breathing room between the frame and the right edge of the section. */
+  margin-right: clamp(0px, 4vw, 64px);
+  width: min(100%, 380px);
+  aspect-ratio: 1 / 1.08;
+  border: 1px solid var(--color-line-strong);
+}
+
+/* Keeps the cut-out inside the frame. Inset from the border (as the case-study
+   cards do) so the corner dots land on plain background, not on the photo, where
+   their white punch-out would show as notches. */
+.founders-note-photo-clip {
+  position: absolute;
+  inset: 8px;
+  overflow: hidden;
+}
+
+.founders-note-photo img {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+@media (max-width: 900px) {
+  .founders-note-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .founders-note-photo {
+    justify-self: start;
+    width: min(100%, 260px);
+  }
 }
 
 .founders-note-quote-mark {
@@ -1859,7 +1916,7 @@ a {
 }
 
 .grid-logos-cell:hover .client-logo-invert {
-  filter: invert(1);
+  filter: none;
   opacity: 1;
 }
 

@@ -15,7 +15,7 @@ export default function HowWeWorkCTA() {
     >
       <CornerDots position="top" />
       <div style={{ position: "relative" }}>
-        <RevealHeading
+        <RevealHeading className="cta-title"
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,

@@ -3,8 +3,7 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { m } from "motion/react";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
-import { Reveal, RevealHeading } from "./Reveal";
+import HowWeWorkSlides from "./HowWeWorkSlides";
 import { springSnappy } from "@/lib/motion";
 import { steps } from "@/lib/data";
 
@@ -21,11 +20,16 @@ const markerColors = ["var(--color-accent-pale)", "var(--color-accent-lighter)",
 const labelColors = ["var(--color-accent-mid)", "var(--color-accent-mid)", "var(--color-accent)", "var(--color-accent-deep)"];
 
 /**
- * `variant="page"` drops the section head. On /how-we-work the page hero already
- * carries the eyebrow and the method's name, so rendering them again here put
- * two identical eyebrows and two headings within a screen of each other.
+ * The homepage section is the pinned, slide-style layout in HowWeWorkSlides.
+ * `variant="page"` (the /how-we-work page) keeps the full vertical timeline with
+ * its sticky rail, since the page hero already carries the eyebrow and the
+ * method's name and there is room to read every step in sequence.
  */
 export default function HowWeWork({ variant = "section" }: { variant?: "section" | "page" }) {
+  return variant === "page" ? <HowWeWorkTimeline /> : <HowWeWorkSlides />;
+}
+
+function HowWeWorkTimeline() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [visible, setVisible] = useState<boolean[]>(() => steps.map(() => false));
   const [active, setActive] = useState(0);
@@ -54,7 +58,6 @@ export default function HowWeWork({ variant = "section" }: { variant?: "section"
   // Which step is mid-screen, for the sticky rail. The band is a thin slice
   // across the middle of the viewport so only one row is in it at a time.
   useEffect(() => {
-    if (variant !== "page") return;
     const observer = new IntersectionObserver(
       (entries) => {
         const hit = entries
@@ -66,7 +69,7 @@ export default function HowWeWork({ variant = "section" }: { variant?: "section"
     );
     rowRefs.current.forEach((el) => el && observer.observe(el));
     return () => observer.disconnect();
-  }, [variant]);
+  }, []);
 
   return (
     <section
@@ -77,70 +80,32 @@ export default function HowWeWork({ variant = "section" }: { variant?: "section"
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
       }}
     >
-      {variant === "section" && (
-        <>
-          <div className="section-head">
-            <div className="section-head-main">
-              <Reveal style={{ marginBottom: 18 }}>
-                <SectionEyebrow>How we work</SectionEyebrow>
-              </Reveal>
-              <RevealHeading
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 600,
-                  fontSize: "var(--fs-h2)",
-                  lineHeight: 1.04,
-                  letterSpacing: "var(--tracking-tight)",
-                  margin: 0,
-                  textWrap: "balance",
-                }}
-              >
-                The Thin Slice Method
-              </RevealHeading>
-            </div>
-            <Reveal as="p" className="section-head-note" delay={0.15}>
-              No pyramid staffing.
-              <br />
-              The people who scope it also build it.
-            </Reveal>
-          </div>
-
-          <div className="section-rule" />
-        </>
-      )}
-
       <div
-        className={variant === "page" ? "work-split" : undefined}
-        style={
-          variant === "page"
-            ? ({ "--rail-item": `${RAIL_ITEM}px`, "--rail-gap": `${RAIL_GAP}px` } as CSSProperties)
-            : undefined
-        }
+        className="work-split"
+        style={{ "--rail-item": `${RAIL_ITEM}px`, "--rail-gap": `${RAIL_GAP}px` } as CSSProperties}
       >
-        {variant === "page" && (
-          // Decorative: the timeline beside it carries the same four steps in
-          // full, so this only needs to be hidden from assistive technology.
-          <aside className="work-rail" aria-hidden="true">
-            <ol>
-              <m.span
-                className="work-rail-pill"
-                animate={{ y: active * (RAIL_ITEM + RAIL_GAP) }}
-                transition={springSnappy}
-              />
-              {steps.map((st, i) => (
-                <li key={st.n} className={i === active ? "is-active" : undefined}>
-                  <span className="work-rail-num">{String(i + 1).padStart(2, "0")}</span>
-                  <span className="work-rail-text">
-                    <span className="work-rail-week">{st.week}</span>
-                    <span className="work-rail-title">{st.title}</span>
-                  </span>
-                </li>
-              ))}
-            </ol>
-          </aside>
-        )}
+        {/* Decorative: the timeline beside it carries the same four steps in
+            full, so this only needs to be hidden from assistive technology. */}
+        <aside className="work-rail" aria-hidden="true">
+          <ol>
+            <m.span
+              className="work-rail-pill"
+              animate={{ y: active * (RAIL_ITEM + RAIL_GAP) }}
+              transition={springSnappy}
+            />
+            {steps.map((st, i) => (
+              <li key={st.n} className={i === active ? "is-active" : undefined}>
+                <span className="work-rail-num">{String(i + 1).padStart(2, "0")}</span>
+                <span className="work-rail-text">
+                  <span className="work-rail-week">{st.week}</span>
+                  <span className="work-rail-title">{st.title}</span>
+                </span>
+              </li>
+            ))}
+          </ol>
+        </aside>
 
-        <div className="vtimeline" style={{ marginTop: variant === "page" ? 0 : 40 }}>
+        <div className="vtimeline" style={{ marginTop: 0 }}>
           {steps.map((st, i) => (
             <div
               key={st.n}
