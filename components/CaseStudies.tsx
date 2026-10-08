@@ -89,7 +89,7 @@ function CaseCard({
           <div className="case-cell-bottom-row">
             <div>
               <div className="case-cell-tag">{tag}</div>
-              <h3 className="case-cell-title" style={{ fontSize: titleSize }}>
+              <h3 className="case-cell-title" style={{ fontSize: `calc(var(--type-scale, 1) * ${titleSize}px)` }}>
                 {title}
               </h3>
               <p className="case-cell-body">{body}</p>
