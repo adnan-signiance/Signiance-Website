@@ -223,7 +223,7 @@ export default function ServiceDetail({ service }: { service: Service }) {
         </Reveal>
         <RevealGroup className="grid-other-practices" style={{ marginTop: 20 }} stagger={0.1}>
           {otherServices.map((s) => (
-            <MotionLink key={s.id} variants={staggerItem} data-reveal="" href={`/services/${s.slug}`} data-transition="none" className="other-practice-cell">
+            <MotionLink key={s.id} variants={staggerItem} data-reveal="" href={`/services/${s.slug}`} className="other-practice-cell">
               <h4
                 style={{
                   fontFamily: "var(--font-display)",

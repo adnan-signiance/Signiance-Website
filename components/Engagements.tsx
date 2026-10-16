@@ -62,7 +62,7 @@ export default function Engagements() {
                       pointerEvents: "none",
                     }}
                   >
-                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "var(--color-dot)" }} />
+                    <span className="plus-mark" />
                   </span>
                   <span
                     className="engagement-col-dot engagement-col-dot-end"
@@ -78,7 +78,7 @@ export default function Engagements() {
                       pointerEvents: "none",
                     }}
                   >
-                    <span style={{ width: 3, height: 3, borderRadius: "50%", background: "var(--color-dot)" }} />
+                    <span className="plus-mark" />
                   </span>
                 </>
               )}

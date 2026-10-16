@@ -164,7 +164,7 @@ export default function ServicesList() {
                   <Link href="/#contact" className="btn-hero-primary">
                     <CtaArrow>Book a scoping call</CtaArrow>
                   </Link>
-                  <Link href={`/services/${sv.slug}`} data-transition="none" className="btn-hero-outline">
+                  <Link href={`/services/${sv.slug}`} className="btn-hero-outline">
                     <CtaArrow>See full details</CtaArrow>
                   </Link>
                 </div>

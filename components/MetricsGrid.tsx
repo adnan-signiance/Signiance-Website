@@ -5,6 +5,7 @@ import { metrics } from "@/lib/data";
 import { onCurtainClear } from "@/lib/curtainSignal";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { useHydrated } from "@/lib/useHydrated";
+import { useRevisit } from "./RouteMemory";
 
 const COUNT_MS = 1400;
 
@@ -21,7 +22,7 @@ function parseMetric(value: string) {
   return { target: Number(match[1]), suffix: match[2] };
 }
 
-function Counter({ target, suffix, start }: { target: number; suffix: string; start: boolean }) {
+function Counter({ target, suffix, start, skip }: { target: number; suffix: string; start: boolean; skip: boolean }) {
   const [animated, setAnimated] = useState(0);
   const prefersReducedMotion = usePrefersReducedMotion();
   const hydrated = useHydrated();
@@ -30,10 +31,11 @@ function Counter({ target, suffix, start }: { target: number; suffix: string; st
   // visitors without JavaScript see "5 wks" rather than "0 wks". Only once the
   // client has taken over does the value reset to zero ready to count up — which
   // happens well before the section scrolls into view.
-  const display = !hydrated || prefersReducedMotion ? target : animated;
+  // `skip`: a repeat view of the page shows the final figure without counting up again.
+  const display = !hydrated || prefersReducedMotion || skip ? target : animated;
 
   useEffect(() => {
-    if (!start || prefersReducedMotion) return;
+    if (!start || prefersReducedMotion || skip) return;
     let raf: number;
     const startTime = performance.now();
     const tick = (now: number) => {
@@ -43,7 +45,7 @@ function Counter({ target, suffix, start }: { target: number; suffix: string; st
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [start, target, prefersReducedMotion]);
+  }, [start, target, prefersReducedMotion, skip]);
 
   return (
     <>
@@ -55,7 +57,8 @@ function Counter({ target, suffix, start }: { target: number; suffix: string; st
 
 export default function MetricsGrid({ style, bordered }: { style?: React.CSSProperties; bordered?: boolean }) {
   const gridRef = useRef<HTMLDivElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const revisit = useRevisit();
+  const [visible, setVisible] = useState(revisit);
 
   useEffect(() => {
     const el = gridRef.current;
@@ -96,7 +99,7 @@ export default function MetricsGrid({ style, bordered }: { style?: React.CSSProp
                 fontVariantNumeric: "tabular-nums",
               }}
             >
-              {target === null ? m.value : <Counter target={target} suffix={suffix} start={visible} />}
+              {target === null ? m.value : <Counter target={target} suffix={suffix} start={visible} skip={revisit} />}
             </div>
             <div className="metric-label" style={{ marginTop: 10, fontSize: "var(--fs-sm)", lineHeight: 1.5, color: "var(--color-text)", maxWidth: "22ch" }}>
               {m.label}

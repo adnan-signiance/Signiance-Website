@@ -92,7 +92,7 @@ export default function CaseStudiesGrid() {
             <div className="case-cell-frame">
               <Image src={cs.image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 33vw" />
               <div className="case-cell-scrim" />
-              <Link href={`/case-studies/${cs.slug}`} className="case-cell-overlay" data-transition="none">
+              <Link href={`/case-studies/${cs.slug}`} className="case-cell-overlay">
                 <div className="case-cell-bottom-row">
                   <div>
                     <div className="case-cell-tag">{cs.tag}</div>

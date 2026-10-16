@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import Header from "./Header";
 import Footer from "./Footer";
+import RouteMemory from "./RouteMemory";
 
 export default function PageShell({ children }: { children: ReactNode }) {
   return (
@@ -21,7 +22,7 @@ export default function PageShell({ children }: { children: ReactNode }) {
         {/* tabIndex={-1} makes the landmark a valid target for the skip link
             without adding it to the tab order. */}
         <main id="main-content" tabIndex={-1}>
-          {children}
+          <RouteMemory>{children}</RouteMemory>
         </main>
         <Footer />
       </div>

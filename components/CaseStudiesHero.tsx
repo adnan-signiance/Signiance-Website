@@ -50,7 +50,6 @@ export default function CaseStudiesHero() {
       <Reveal style={{ position: "relative", margin: "0 var(--bleed)" }}>
         <Link
           href={`/case-studies/${featured.slug}`}
-          data-transition="none"
           style={{
             position: "relative",
             display: "block",

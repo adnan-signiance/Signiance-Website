@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { m } from "motion/react";
 import CornerDots from "./CornerDots";
 import HowWeWorkSlides from "./HowWeWorkSlides";
+import { useRevisit } from "./RouteMemory";
 import { springSnappy } from "@/lib/motion";
 import { steps } from "@/lib/data";
 
@@ -31,7 +32,9 @@ export default function HowWeWork({ variant = "section" }: { variant?: "section"
 
 function HowWeWorkTimeline() {
   const rowRefs = useRef<(HTMLDivElement | null)[]>([]);
-  const [visible, setVisible] = useState<boolean[]>(() => steps.map(() => false));
+  // A repeat view of the page shows every step straight away instead of re-revealing them.
+  const revisit = useRevisit();
+  const [visible, setVisible] = useState<boolean[]>(() => steps.map(() => revisit));
   const [active, setActive] = useState(0);
 
   useEffect(() => {

@@ -18,7 +18,7 @@ export default function RelatedCaseStudies({ cases }: { cases: CaseStudyEntry[] 
           <div className="case-cell-frame">
             <Image src={r.image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 33vw" />
             <div className="case-cell-scrim" />
-            <Link href={`/case-studies/${r.slug}`} className="case-cell-overlay" data-transition="none">
+            <Link href={`/case-studies/${r.slug}`} className="case-cell-overlay">
               <div className="case-cell-bottom-row">
                 <div>
                   <div className="case-cell-tag">{r.tag}</div>

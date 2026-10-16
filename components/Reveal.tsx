@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import { m, useInView } from "motion/react";
 import { onCurtainClear } from "@/lib/curtainSignal";
 import { trackSpotlight } from "@/lib/spotlight";
+import { useRevisit } from "./RouteMemory";
 import { EASE_OUT, REVEAL_VIEWPORT, staggerItem, staggerParent, wordChild, wordParent } from "@/lib/motion";
 
 /**
@@ -23,6 +24,7 @@ import { EASE_OUT, REVEAL_VIEWPORT, staggerItem, staggerParent, wordChild, wordP
 function useReveal<T extends HTMLElement>() {
   const ref = useRef<T>(null);
   const inView = useInView(ref, REVEAL_VIEWPORT);
+  const revisit = useRevisit();
   const [shown, setShown] = useState(false);
 
   useEffect(() => {
@@ -30,7 +32,13 @@ function useReveal<T extends HTMLElement>() {
     return onCurtainClear(() => setShown(true));
   }, [inView]);
 
-  return { ref, animate: shown ? "show" : "hidden" } as const;
+  // A page the visitor has already seen this visit is drawn revealed from the first
+  // frame: `initial={false}` starts the element in its "show" state with no motion.
+  return {
+    ref,
+    animate: revisit || shown ? "show" : "hidden",
+    initial: revisit ? false : "hidden",
+  } as const;
 }
 
 type Common = {
@@ -48,7 +56,7 @@ export function Reveal({
   y = 20,
   as = "div",
 }: Common & { delay?: number; y?: number; as?: "div" | "p" | "span" | "section" | "li" }) {
-  const { ref, animate } = useReveal<HTMLElement>();
+  const { ref, animate, initial } = useReveal<HTMLElement>();
   const Tag = m[as] as typeof m.div;
   return (
     <Tag
@@ -56,7 +64,7 @@ export function Reveal({
       data-reveal=""
       className={className}
       style={style}
-      initial="hidden"
+      initial={initial}
       animate={animate}
       variants={{
         hidden: { opacity: 0, y },
@@ -81,14 +89,14 @@ export function RevealGroup({
   delayChildren = 0,
   spotlight = false,
 }: Common & { stagger?: number; delayChildren?: number; spotlight?: boolean }) {
-  const { ref, animate } = useReveal<HTMLDivElement>();
+  const { ref, animate, initial } = useReveal<HTMLDivElement>();
   return (
     <m.div
       ref={ref}
       data-reveal=""
       className={className}
       style={style}
-      initial="hidden"
+      initial={initial}
       animate={animate}
       variants={staggerParent(stagger, delayChildren)}
       onPointerMove={spotlight ? trackSpotlight : undefined}
@@ -128,13 +136,13 @@ export function RevealHeading({
   level = 2,
   id,
 }: Common & { children: string; level?: 1 | 2 | 3; id?: string }) {
-  const { ref, animate } = useReveal<HTMLSpanElement>();
+  const { ref, animate, initial } = useReveal<HTMLSpanElement>();
   const Tag = `h${level}` as "h1" | "h2" | "h3";
   const words = children.split(" ").filter(Boolean);
 
   return (
     <Tag className={className} style={style} id={id}>
-      <m.span ref={ref} data-reveal="" className="rw" initial="hidden" animate={animate} variants={wordParent}>
+      <m.span ref={ref} data-reveal="" className="rw" initial={initial} animate={animate} variants={wordParent}>
         {words.map((word, i) => (
           <span key={i}>
             <span className="rw-mask">

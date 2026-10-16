@@ -6,10 +6,12 @@ import { setCurtainActive } from "@/lib/curtainSignal";
 
 // The curtain covers the viewport for SWEEP_MS + MIN_HOLD_MS on every internal
 // navigation, during which the destination is invisible and clicks are
-// swallowed. That was 1050ms, long enough to read as latency rather than
-// polish; 580ms keeps the effect legible while roughly halving the delay.
-const SWEEP_MS = 420;
-const MIN_HOLD_MS = 160;
+// swallowed. It was 1050ms, then 580ms; at 320 + 90 the effect is still legible
+// but a click reaches its destination in well under a second. Routes are
+// prefetched on hover, focus and touch (below), so the swap behind the curtain
+// is normally instant and the sweeps are the only wait.
+const SWEEP_MS = 320;
+const MIN_HOLD_MS = 90;
 
 // Only the top-level section name is shown on the curtain — a case study or
 // service detail page still reads as "Case Studies" / "Services", since a
@@ -26,7 +28,19 @@ function getPageLabel(pathname: string): string {
   return "";
 }
 
-function isTransitionable(anchor: HTMLAnchorElement, currentPath: string): string | null {
+type Link =
+  | { kind: "page"; href: string; path: string; hash: string }
+  | { kind: "scroll"; id: string; href: string };
+
+/**
+ * Classifies a clicked anchor.
+ *  - "page":   an internal link to another route (with or without a #section). It gets
+ *              the curtain, and a #section is scrolled to behind it.
+ *  - "scroll": a #section on the page already open ("/#contact" while on "/"). No
+ *              navigation is needed, so it glides there instead of jumping.
+ *  - null:     anything else, left to the browser.
+ */
+function classifyLink(anchor: HTMLAnchorElement, currentPath: string): Link | null {
   const href = anchor.getAttribute("href");
   if (!href) return null;
   if (anchor.getAttribute("data-transition") === "none") return null;
@@ -34,10 +48,16 @@ function isTransitionable(anchor: HTMLAnchorElement, currentPath: string): strin
   if (anchor.hasAttribute("download")) return null;
   if (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//")) return null;
   if (href.startsWith("mailto:") || href.startsWith("tel:")) return null;
-  if (href.includes("#")) return null;
-  if (href === currentPath) return null;
-  if (!href.startsWith("/")) return null;
-  return href;
+  if (!href.startsWith("/")) return null; // also leaves bare "#fragment" links (the skip link) alone
+
+  const hashAt = href.indexOf("#");
+  const path = hashAt === -1 ? href : href.slice(0, hashAt) || "/";
+  const hash = hashAt === -1 ? "" : href.slice(hashAt + 1);
+
+  if (path === currentPath) {
+    return hash ? { kind: "scroll", id: hash, href } : null;
+  }
+  return { kind: "page", href, path, hash };
 }
 
 // A single panel only ever moves left-to-right: it starts parked off-screen
@@ -62,20 +82,49 @@ export default function PageTransition() {
       const target = e.target as HTMLElement | null;
       const anchor = target?.closest("a");
       if (!anchor) return;
-      const href = isTransitionable(anchor, pathname);
-      if (!href) return;
+      const link = classifyLink(anchor, pathname);
+      if (!link) return;
 
       const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      if (link.kind === "scroll") {
+        const el = document.getElementById(link.id);
+        if (!el) return;
+        e.preventDefault();
+        // scroll-margin-top on the target keeps it clear of the fixed header.
+        el.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+        window.history.pushState(null, "", link.href);
+        return;
+      }
+
       if (reduceMotion) return; // let the normal Link navigation happen untouched
 
       e.preventDefault();
-      pendingHref.current = href;
-      setLabel(getPageLabel(href));
+      pendingHref.current = link.href;
+      setLabel(link.hash === "contact" ? "Contact" : getPageLabel(link.path));
       setPhase("entering");
     };
+
+    // Fetch the destination while the pointer is still on its way to the click, so by
+    // the time the curtain has covered the page the route is already there.
+    const warm = (e: Event) => {
+      const anchor = (e.target as HTMLElement | null)?.closest?.("a");
+      if (!anchor) return;
+      const link = classifyLink(anchor, pathname);
+      if (link?.kind === "page") router.prefetch(link.path);
+    };
+
     document.addEventListener("click", onClick, true);
-    return () => document.removeEventListener("click", onClick, true);
-  }, [pathname]);
+    document.addEventListener("pointerover", warm, { passive: true });
+    document.addEventListener("focusin", warm);
+    document.addEventListener("touchstart", warm, { passive: true });
+    return () => {
+      document.removeEventListener("click", onClick, true);
+      document.removeEventListener("pointerover", warm);
+      document.removeEventListener("focusin", warm);
+      document.removeEventListener("touchstart", warm);
+    };
+  }, [pathname, router]);
 
   // The panel finishes sweeping in SWEEP_MS after it starts — that's when
   // the route swap happens, hidden behind it instead of visible to the user.

@@ -14,15 +14,18 @@ const cornerDotAbs = (pos: Dot, bg: string) => (
       bottom: pos.bottom,
       left: pos.left,
       right: pos.right,
-      width: 3,
-      height: 3,
-      borderRadius: "50%",
-      background: "var(--color-dot)",
-      boxShadow: `0 0 0 6px ${bg}`,
+      width: 15,
+      height: 15,
+      display: "grid",
+      placeItems: "center",
+      background: bg,
+      pointerEvents: "none" as const,
       transform: `translate(${pos.right !== undefined ? "50%" : "-50%"},${pos.bottom !== undefined ? "50%" : "-50%"})`,
       zIndex: 2,
     }}
-  />
+  >
+    <span className="plus-mark" />
+  </span>
 );
 
 const ctaArrow = (
@@ -34,7 +37,7 @@ const ctaArrow = (
 // The pill is the card's only link: the photo and copy are not clickable, so a
 // stray click on the card does not navigate.
 const ViewCta = ({ slug, title }: { slug: string; title: string }) => (
-  <Link href={`/case-studies/${slug}`} className="case-cell-cta" data-transition="none" aria-label={`View case study: ${title}`}>
+  <Link href={`/case-studies/${slug}`} className="case-cell-cta" aria-label={`View case study: ${title}`}>
     <span className="case-cell-cta-arrow-in">{ctaArrow}</span>
     <span>View</span>
     <span className="case-cell-cta-arrow-out">{ctaArrow}</span>
