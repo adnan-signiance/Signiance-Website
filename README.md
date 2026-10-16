@@ -81,9 +81,7 @@ Set in `.env.local` (see `.env.example`):
 | `NEXT_PUBLIC_CAL_LINK` | Cal.com booking target, `<account>/<event-slug>` |
 | `NEXT_PUBLIC_CAL_MINUTES` | Length of that event; the site quotes it in copy |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin for metadata, sitemap and robots |
-| `RESEND_API_KEY` | Enquiry delivery. Without it the form returns 503 and shows the email fallback |
-| `CONTACT_FROM_EMAIL` | Verified sender for enquiry emails |
-| `CONTACT_TO_EMAIL` | Where enquiries land (defaults to the public address) |
+| `NEXT_PUBLIC_CONTACT_ENDPOINT` | Google Apps Script URL that emails enquiries to `hello@signiance.com`. Without it the forms show the email fallback |
 
 `booking.durationMinutes` in `lib/data.ts` derives from `NEXT_PUBLIC_CAL_MINUTES`
 and feeds every "N minutes with the people who'd do the work" line on the site,
@@ -95,20 +93,23 @@ There are three, deliberately, so no single dependency can block an enquiry:
 
 1. **Cal.com embed** — inline scheduling, loaded only after cookie consent and
    only once scrolled near (`IntersectionObserver`, 400px margin).
-2. **First-party form** — `components/ContactForm.tsx` posting to
-   `app/api/contact/route.ts`. Works with cookies declined and embeds blocked.
-   Validation lives in `lib/contactSchema.ts` so it is unit tested directly.
-   Spam handling is a honeypot plus a minimum completion time; rate limiting is
-   in-process (5 per 10 minutes per IP) and resets on redeploy.
+2. **First-party form** — `components/ContactForm.tsx` (and the footer
+   `NewsletterForm.tsx`) posting through `lib/contactDelivery.ts` to a Google
+   Apps Script web app, which emails `hello@signiance.com`. Works with cookies
+   declined and embeds blocked. Validation lives in `lib/contactSchema.ts` so it
+   is unit tested directly, and runs in the browser and again in the script.
+   Spam handling is a honeypot plus a minimum completion time in the browser, and
+   a per-address and hourly rate limit in the script. Setup and the script itself
+   are in `integrations/google-apps-script/`.
 3. **Plain email** — present in the prerendered HTML, so it survives JavaScript
    being disabled entirely.
 
-If delivery is unconfigured the API returns `503 delivery_unconfigured` and the
-form surfaces the email address. This is intentionally loud: a form that
-silently discards submissions is worse than no form.
+If `NEXT_PUBLIC_CONTACT_ENDPOINT` is unset, or Google does not accept the
+submission, the form surfaces the email address. This is intentionally loud: a
+form that silently discards submissions is worse than no form.
 
-> Adding the API route means the app needs a Node runtime. Every page is still
-> prerendered; only `/api/contact` is dynamic.
+> There is no server code. Every page is prerendered and the forms talk to
+> Google directly, so the site does not depend on a Node runtime for delivery.
 
 ## Design system
 
@@ -122,9 +123,8 @@ node scripts/check-token-usage.cjs   # catches var() misuse
 ```
 
 `tests/design-system.test.ts` fails the build on a literal hex colour outside the
-token layer. Four files are documented exceptions:
+token layer. Three files are documented exceptions:
 
-- `app/api/contact/route.ts` — email HTML; clients don't resolve custom properties
 - `components/PracticeIcon.tsx` and `components/AboutContent.tsx` — values are
   concatenated with an alpha suffix (`` `${accent}17` ``), and `var(--x)17` is
   invalid CSS, so the raw hex has to survive to the point of use
@@ -213,7 +213,7 @@ Tracked against the remediation plan; these are deliberate, not oversights:
 - Small data-driven logos still use raw `<img>` (Phase 4.2 remainder — see above)
 - 16 of 37 components are client components; several could be narrowed (Phase 4.5)
 - CSP is report-only until verified in a browser (Phase 4.6 — see above)
-- Enquiry delivery needs `RESEND_API_KEY`; until it is set the form returns 503 and shows the email fallback
+- Enquiry delivery needs `NEXT_PUBLIC_CONTACT_ENDPOINT` (the deployed Google Apps Script URL); until it is set the forms show the email fallback
 - The Cal.com booking event is still a personal handle on a 15-minute slot while the copy promises 30 minutes (Phase 2.1)
 - The legal pages do not yet name the registered legal entity, address, or governing jurisdiction (Phase 1.4 — needs input)
 - No analytics or error monitoring (Phase 8)

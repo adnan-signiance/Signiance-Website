@@ -4,6 +4,11 @@
 // below and the embed in components/CalBooking.tsx cannot drift apart.
 const CAL_ORIGINS = "https://cal.com https://app.cal.com";
 
+// The enquiry forms post to a Google Apps Script web app (lib/contactDelivery.ts).
+// It answers with a redirect from script.google.com to script.googleusercontent.com,
+// and connect-src is enforced on every hop, so both origins are needed.
+const FORM_ORIGINS = "https://script.google.com https://script.googleusercontent.com";
+
 /**
  * Content Security Policy.
  *
@@ -26,7 +31,7 @@ const csp = [
   "style-src 'self' 'unsafe-inline'",
   `img-src 'self' data: blob: ${CAL_ORIGINS}`,
   "font-src 'self' data:",
-  `connect-src 'self' ${CAL_ORIGINS}`,
+  `connect-src 'self' ${CAL_ORIGINS} ${FORM_ORIGINS}`,
   `frame-src ${CAL_ORIGINS}`,
   "media-src 'self'",
   "worker-src 'self' blob:",

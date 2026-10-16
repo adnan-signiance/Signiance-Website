@@ -23,7 +23,6 @@ const sources = [join(ROOT, "components"), join(ROOT, "app"), join(ROOT, "lib")]
  */
 const ALLOWED = new Map<string, string>([
   ["app/globals.css", "defines the tokens"],
-  ["app/api/contact/route.ts", "email HTML — clients do not resolve custom properties"],
   [
     "components/PracticeIcon.tsx",
     "serviceColor is concatenated with an alpha suffix at call sites",

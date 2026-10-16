@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import CtaArrow from "./CtaArrow";
 import { contactEmail } from "@/lib/data";
 import { track } from "@/lib/analytics";
+import { submitEnquiry } from "@/lib/contactDelivery";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
@@ -31,37 +32,30 @@ export default function NewsletterForm() {
     const form = event.currentTarget;
     const email = String(new FormData(form).get("email") ?? "");
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          intent: "newsletter",
-          source: "footer",
-          startedAt: startedAt.current,
-        }),
-      });
-      const data = await response.json().catch(() => ({}));
+    const result = await submitEnquiry({
+      email,
+      intent: "newsletter",
+      source: "footer",
+      startedAt: startedAt.current,
+    });
 
-      if (response.ok && data.ok) {
-        setStatus("success");
-        setMessage("You're on the list.");
-        track("newsletter_submitted");
-        form.reset();
-        return;
-      }
+    if (result.ok) {
+      setStatus("success");
+      setMessage("You're on the list.");
+      track("newsletter_submitted");
+      form.reset();
+      return;
+    }
 
-      setStatus("error");
-      setMessage(
-        data.errors?.email ??
-          (response.status === 429
-            ? "Too many attempts. Try again shortly."
-            : `Could not sign you up. Email ${contactEmail} instead.`)
-      );
-    } catch {
-      setStatus("error");
+    setStatus("error");
+    if (result.error === "validation_failed") {
+      setMessage(result.errors.email ?? `Could not sign you up. Email ${contactEmail} instead.`);
+    } else if (result.error === "rate_limited") {
+      setMessage("Too many attempts. Try again shortly.");
+    } else if (result.error === "network") {
       setMessage(`Could not reach the server. Email ${contactEmail} instead.`);
+    } else {
+      setMessage(`Could not sign you up. Email ${contactEmail} instead.`);
     }
   }
 

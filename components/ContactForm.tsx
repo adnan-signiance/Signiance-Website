@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import CtaArrow from "./CtaArrow";
 import { contactEmail } from "@/lib/data";
 import { track } from "@/lib/analytics";
+import { submitEnquiry } from "@/lib/contactDelivery";
 import type { ContactIntent } from "@/lib/contactSchema";
 
 type Status = "idle" | "submitting" | "success" | "error";
@@ -61,47 +62,45 @@ export default function ContactForm({
     const form = event.currentTarget;
     const payload = Object.fromEntries(new FormData(form).entries());
 
-    try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, intent, source, startedAt: startedAt.current }),
-      });
-      const data = await response.json().catch(() => ({}));
+    const result = await submitEnquiry({ ...payload, intent, source, startedAt: startedAt.current });
 
-      if (response.ok && data.ok) {
-        setStatus("success");
-        // The conversion event that matters most: a real enquiry reached us.
-        track("enquiry_submitted", { intent, source, useCase: String(payload.useCase ?? "") });
-        form.reset();
-        return;
-      }
+    if (result.ok) {
+      setStatus("success");
+      // The conversion event that matters most: a real enquiry reached us.
+      track("enquiry_submitted", { intent, source, useCase: String(payload.useCase ?? "") });
+      form.reset();
+      return;
+    }
 
-      if (response.status === 422 && data.errors) {
-        setErrors(data.errors);
+    switch (result.error) {
+      case "validation_failed":
+        setErrors(result.errors);
         setFormError("Please check the highlighted fields.");
         track("enquiry_failed", { intent, reason: "validation" });
-      } else if (response.status === 429) {
+        break;
+      case "rate_limited":
         setFormError("That is a few submissions in a short time. Please try again shortly.");
         track("enquiry_failed", { intent, reason: "rate_limited" });
-      } else if (data.error === "delivery_unconfigured" || data.error === "delivery_failed") {
+        break;
+      case "delivery_unconfigured":
+      case "delivery_failed":
         setFormError("We could not send that from here.");
         setShowEmailFallback(true);
         // Separated from other failures on purpose: this one means enquiries are
         // being lost to a misconfiguration, which needs to be noticed fast.
-        track("enquiry_failed", { intent, reason: String(data.error) });
-      } else {
+        track("enquiry_failed", { intent, reason: result.error });
+        break;
+      case "network":
+        setFormError("We could not reach the server. You may be offline.");
+        setShowEmailFallback(true);
+        track("enquiry_failed", { intent, reason: "network" });
+        break;
+      default:
         setFormError("Something went wrong sending that.");
         setShowEmailFallback(true);
         track("enquiry_failed", { intent, reason: "unknown" });
-      }
-      setStatus("error");
-    } catch {
-      setFormError("We could not reach the server. You may be offline.");
-      setShowEmailFallback(true);
-      track("enquiry_failed", { intent, reason: "network" });
-      setStatus("error");
     }
+    setStatus("error");
   }
 
   if (status === "success") {
