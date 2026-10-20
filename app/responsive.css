@@ -164,45 +164,45 @@
 
 @media (min-width: 1700px) {
   :root {
-    --pad-x: 36px;
-    --section-pt: 70px;
-    --section-pb: 74px;
+    --pad-x: 32px;
+    --section-pt: 62px;
+    --section-pb: 65.5px;
 
-    --fs-h2: clamp(26px, 4vw, 50px);
-    --fs-2xs: 12px;
-    --fs-xs: 13.5px;
-    --fs-sm: 14.5px;
-    --fs-base: 16px;
-    --fs-md: 17.5px;
-    --fs-lg: 20px;
-    --fs-xl: 23px;
-    --fs-2xl: 29px;
+    --fs-h2: clamp(23px, 4vw, 44px);
+    --fs-2xs: 11.2px;
+    --fs-xs: 12.6px;
+    --fs-sm: 13.5px;
+    --fs-base: 14.9px;
+    --fs-md: 16.3px;
+    --fs-lg: 18.6px;
+    --fs-xl: 21.5px;
+    --fs-2xl: 27px;
   }
 
   .page-frame {
-    max-width: 1520px !important;
+    max-width: 1343px !important;
   }
 }
 
 @media (min-width: 2300px) {
   :root {
-    --pad-x: 44px;
-    --section-pt: 84px;
-    --section-pb: 88px;
+    --pad-x: 39px;
+    --section-pt: 74px;
+    --section-pb: 78px;
 
-    --fs-h2: clamp(26px, 4vw, 58px);
-    --fs-2xs: 13px;
-    --fs-xs: 14.5px;
-    --fs-sm: 15.5px;
-    --fs-base: 17.5px;
-    --fs-md: 19.5px;
-    --fs-lg: 22px;
-    --fs-xl: 26px;
-    --fs-2xl: 33px;
+    --fs-h2: clamp(23px, 4vw, 51.5px);
+    --fs-2xs: 12.1px;
+    --fs-xs: 13.5px;
+    --fs-sm: 14.4px;
+    --fs-base: 16.3px;
+    --fs-md: 18.1px;
+    --fs-lg: 20.5px;
+    --fs-xl: 24px;
+    --fs-2xl: 30.5px;
   }
 
   .page-frame {
-    max-width: 1800px !important;
+    max-width: 1590.5px !important;
   }
 }
 
@@ -783,8 +783,9 @@
 /* ---------------------------------------------------------------------------
    Laptop (1101px to 1699px)
 
-   The page column is a little narrower than it was (1180px, from 1280px), and type,
-   spacing and fixed-size elements are scaled with it by the same ratio (about 0.92),
+   The page column is narrower again (about 1040px, from 1180px), and headings,
+   spacing and fixed-size elements are scaled with it by the same ratio (about 0.82);
+   body-size text is held at 13.5px and up so it stays legible,
    so the proportions between hero, titles, cards and buttons are what they were, just
    one notch smaller. Below 1101px the tablet and phone scales above apply; at 1700px
    and up the large-screen scale does.
@@ -795,154 +796,154 @@
 
 @media (min-width: 1101px) and (max-width: 1699px) {
   :root {
-    --type-scale: 0.92;
+    --type-scale: 0.82;
 
-    --pad-x: clamp(18px, 4.2vw, 26px);
-    --section-pt: clamp(38px, 5vw, 54px);
-    --section-pb: clamp(40px, 5.2vw, 56px);
+    --pad-x: clamp(15.9px, 4.2vw, 23px);
+    --section-pt: clamp(33.5px, 5vw, 47.5px);
+    --section-pb: clamp(35px, 5.2vw, 49.5px);
 
-    --fs-h1: clamp(31px, 5.2vw, 59px);
-    --fs-h2: clamp(26px, 3.6vw, 38.5px);
-    --fs-lead: clamp(14.5px, 1.4vw, 16.5px);
-    --fs-quote: clamp(18px, 2vw, 24.5px);
+    --fs-h1: clamp(27.5px, 5.2vw, 52px);
+    --fs-h2: clamp(23px, 3.6vw, 34px);
+    --fs-lead: clamp(12.8px, 1.4vw, 14.5px);
+    --fs-quote: clamp(15.9px, 2vw, 22px);
 
     --fs-2xs: 11px;
     --fs-xs: 12px;
     --fs-sm: 13px;
     --fs-base: 13.5px;
     --fs-md: 15px;
-    --fs-lg: 17px;
-    --fs-xl: 19.5px;
-    --fs-2xl: 24px;
+    --fs-lg: 16.5px;
+    --fs-xl: 18.1px;
+    --fs-2xl: 22.5px;
   }
 
   .page-frame {
-    max-width: 1180px !important;
+    max-width: 1042.5px !important;
   }
 
   /* Hero headline: both lines scale together, so the gray : black ratio is unchanged. */
   .hero-line-struck {
-    font-size: clamp(22px, 4.4vw, 51px) !important;
+    font-size: clamp(19.5px, 4.4vw, 45px) !important;
   }
 
   .hero-line-promise {
-    font-size: clamp(32px, 4.8vw, 61px) !important;
+    font-size: clamp(28.5px, 4.8vw, 53.5px) !important;
   }
 
   .hero-section {
-    padding-top: 72px !important;
-    padding-bottom: 54px !important;
+    padding-top: 63.5px !important;
+    padding-bottom: 47.5px !important;
   }
 
   .hero-subline {
-    max-width: 640px !important;
+    max-width: 565px !important;
   }
 
   .btn-hero-primary,
   .btn-hero-outline,
   .btn-primary {
-    padding: 10px 20px;
+    padding: 8.8px 17.7px;
   }
 
   .btn-primary {
-    padding: 7px 15px;
+    padding: 6.2px 13.3px;
   }
 
   .section-eyebrow {
-    padding: 5px 12px !important;
+    padding: 4.4px 10.6px !important;
   }
 
   /* Services cards */
   .grid-services-cell {
-    min-height: 184px;
-    padding-top: 27px;
-    padding-bottom: 27px;
+    min-height: 162.5px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 
   .grid-services-num {
-    font-size: clamp(24px, 2.2vw, 31px);
+    font-size: clamp(21.5px, 2.2vw, 27.5px);
   }
 
   .grid-services-title {
-    font-size: clamp(18px, 1.75vw, 21px);
+    font-size: clamp(15.9px, 1.75vw, 18.5px);
   }
 
   .grid-services-cell--wide .grid-services-title {
-    font-size: clamp(21px, 2.4vw, 27px);
+    font-size: clamp(18.5px, 2.4vw, 24px);
   }
 
   /* How we work, pinned slide */
   .hw-panel-title {
-    font-size: clamp(30px, 3.7vw, 51px);
+    font-size: clamp(26.5px, 3.7vw, 45px);
   }
 
   .hw-panel {
-    padding: clamp(24px, 3vw, 44px);
-    padding-bottom: calc(clamp(24px, 3vw, 44px) + 3px);
+    padding: clamp(21.5px, 3vw, 39px);
+    padding-bottom: calc(clamp(21.5px, 3vw, 39px) + 3px);
   }
 
   .hw-stage,
   .hw-slide {
-    grid-template-columns: clamp(270px, 25vw, 340px) minmax(0, 1fr);
+    grid-template-columns: clamp(238.5px, 25vw, 300px) minmax(0, 1fr);
   }
 
   .hw-pane-title {
-    font-size: clamp(17px, 1.6vw, 22px);
+    font-size: clamp(15px, 1.6vw, 19.5px);
   }
 
   .hw-step-num {
-    font-size: clamp(24px, 2.4vw, 33px);
+    font-size: clamp(21.5px, 2.4vw, 29px);
   }
 
   /* Proof figures */
   .metric-value {
-    font-size: clamp(32px, 3.5vw, 42px) !important;
+    font-size: clamp(28.5px, 3.5vw, 37px) !important;
   }
 
   /* Case cards, listing and related tiles */
   .case-cell-h-lg {
-    height: 350px;
+    height: 309px;
   }
 
   .case-cell-h-md {
-    height: 276px;
+    height: 243.5px;
   }
 
   .cs-listing-cell,
   .related-case-cell {
-    height: clamp(290px, 28vw, 350px);
+    height: clamp(256px, 28vw, 309px);
   }
 
   .case-cell-overlay {
-    padding: 18px 20px;
+    padding: 15.9px 17.7px;
   }
 
   .metrics-band {
-    padding-top: clamp(44px, 5.6vw, 66px);
-    padding-bottom: clamp(44px, 5.6vw, 66px);
+    padding-top: clamp(39px, 5.6vw, 58.5px);
+    padding-bottom: clamp(39px, 5.6vw, 58.5px);
   }
 
   /* Reading blocks */
   .faq-question {
-    font-size: clamp(17px, 1.7vw, 19.5px);
+    font-size: clamp(15px, 1.7vw, 17.2px);
   }
 
   .founders-note-text {
-    font-size: clamp(19px, 2.2vw, 25px);
+    font-size: clamp(16.8px, 2.2vw, 22px);
   }
 
   .founders-note-photo {
-    width: min(100%, 350px);
+    width: min(100%, 309px);
   }
 
   .cta-title {
-    font-size: clamp(24px, 3.1vw, 33px);
+    font-size: clamp(21.5px, 3.1vw, 29px);
   }
 
   /* Self-contained blocks with pixel-sized contents (logo heights, the avatar reel) are
      scaled whole; they contain no viewport units or measured positions. */
   .clients-marquee,
   .grid-logos {
-    zoom: 0.92;
+    zoom: 0.82;
   }
 }
