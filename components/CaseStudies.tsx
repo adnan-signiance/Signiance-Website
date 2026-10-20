@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Fragment } from "react";
 import Link from "next/link";
 import { RevealGroup, RevealItem } from "./Reveal";
+import type { CaseStudyEntry } from "@/lib/data";
 
 type Dot = { top?: number; bottom?: number; left?: number; right?: number; responsive?: "desktop-only" | "mobile-only" };
 
@@ -111,7 +112,22 @@ function CaseCard({
   );
 }
 
-export default function CaseStudies() {
+// The grid is a fixed editorial layout: each slot has its own width, height, title
+// size and corner marks. The studies shown are chosen in the CMS (homeSlot); the
+// layout belongs to the slot, not to the study that happens to fill it.
+const SLOTS: {
+  span: 5 | 7;
+  heightClass: "case-cell-h-lg" | "case-cell-h-md";
+  titleSize: number;
+  dots: Dot[];
+}[] = [
+  { span: 7, heightClass: "case-cell-h-lg", titleSize: 24, dots: [{ top: 0, right: 0, responsive: "desktop-only" }, { bottom: 0, left: 0 }, { bottom: 0, right: 0 }] },
+  { span: 5, heightClass: "case-cell-h-lg", titleSize: 20, dots: [{ bottom: 0, left: 0 }, { bottom: 0, right: 0 }] },
+  { span: 5, heightClass: "case-cell-h-md", titleSize: 20, dots: [{ top: 0, right: 0 }, { bottom: 0, left: 0, responsive: "mobile-only" }, { bottom: 0, right: 0 }] },
+  { span: 7, heightClass: "case-cell-h-md", titleSize: 20, dots: [] },
+];
+
+export default function CaseStudies({ entries }: { entries: CaseStudyEntry[] }) {
   return (
     <div style={{ position: "relative", margin: "20px var(--bleed) 0" }}>
       {cornerDotAbs({ left: 0, top: 0 }, "var(--color-white)")}
@@ -120,55 +136,18 @@ export default function CaseStudies() {
       {cornerDotAbs({ right: 0, bottom: 0 }, "var(--color-white)")}
 
       <RevealGroup className="grid-case case-home" stagger={0.1}>
-        <CaseCard
-          span={7}
-          heightClass="case-cell-h-lg"
-          image="/media/case-healthcare.webp"
-          tag="01 · HEALTHCARE"
-          title="Making pathology reports easier to understand"
-          titleSize={24}
-          body="AI-powered analysis that turns complex pathology reports into clearer, structured insights."
-          stat={{ value: "80%", label: "faster report review" }}
-          slug="making-pathology-reports-easier-to-understand"
-          dots={[{ top: 0, right: 0, responsive: "desktop-only" }, { bottom: 0, left: 0 }, { bottom: 0, right: 0 }]}
-        />
-
-        <CaseCard
-          span={5}
-          heightClass="case-cell-h-lg"
-          image="/media/case-sales.webp"
-          tag="02 · SALES · AI"
-          title="Turning sales calls into actionable coaching"
-          titleSize={20}
-          body="An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve."
-          stat={{ value: "10K+", label: "calls analyzed" }}
-          slug="turning-sales-calls-into-actionable-coaching"
-          dots={[{ bottom: 0, left: 0 }, { bottom: 0, right: 0 }]}
-        />
-
-        <CaseCard
-          span={5}
-          heightClass="case-cell-h-md"
-          image="/media/case-food.webp"
-          tag="03 · FOOD · AI"
-          title="A conversational AI agent built to scale"
-          titleSize={20}
-          body="Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in."
-          slug="a-conversational-ai-agent-built-to-scale"
-          dots={[{ top: 0, right: 0 }, { bottom: 0, left: 0, responsive: "mobile-only" }, { bottom: 0, right: 0 }]}
-        />
-
-        <CaseCard
-          span={7}
-          heightClass="case-cell-h-md"
-          image="/media/case-engineering.webp"
-          tag="04 · ENGINEERING · CLOUD"
-          title="Scaling engineering simulations with cloud HPC"
-          titleSize={20}
-          body="A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations."
-          slug="scaling-engineering-simulations-with-cloud-hpc"
-          dots={[]}
-        />
+        {entries.slice(0, SLOTS.length).map((cs, i) => (
+          <CaseCard
+            key={cs.id}
+            {...SLOTS[i]}
+            image={cs.image}
+            tag={cs.tag}
+            title={cs.title}
+            body={cs.teaser}
+            stat={cs.statValue && cs.statLabel ? { value: cs.statValue, label: cs.statLabel } : undefined}
+            slug={cs.slug}
+          />
+        ))}
       </RevealGroup>
     </div>
   );

@@ -1,0 +1,520 @@
+{
+  "caseStudies": [
+    {
+      "slug": "making-pathology-reports-easier-to-understand",
+      "title": "Making pathology reports easier to understand",
+      "category": "Gen AI & RAG",
+      "industry": "Healthcare",
+      "tag": "01 · HEALTHCARE",
+      "teaser": "AI-powered analysis that turns complex pathology reports into clearer, structured insights.",
+      "client": "Healthcare · Clinical operations",
+      "engagementLength": "4 weeks, single workflow",
+      "challenge": "Pathology reports arrived as dense, inconsistent narrative text, so reviewing one for the next clinical decision often took longer than the diagnosis itself.",
+      "challengePoints": [
+        "Reports arrived as dense, inconsistent narrative text with no standard structure.",
+        "Reviewing one report for the next clinical decision often took longer than making the diagnosis itself.",
+        "Any fix had to slot into the clinicians' existing tools: no new software to learn."
+      ],
+      "approach": "We built an AI layer that reads each report, extracts the clinically relevant findings, and restructures them into a consistent, scannable format the review team already recognized.",
+      "solutionPoints": [
+        {
+          "title": "Extraction pipeline",
+          "body": "An AI layer reads each incoming report and extracts the clinically relevant findings."
+        },
+        {
+          "title": "Consistent structure",
+          "body": "Findings are restructured into a scannable format the review team already recognized."
+        },
+        {
+          "title": "Fits existing tools",
+          "body": "Delivered inside the clinicians' current workflow, with no new software to learn."
+        }
+      ],
+      "result": "Report review dropped from a first read to a confirmed summary 80% faster, with no change to the clinicians' existing tools.",
+      "benefits": [
+        {
+          "title": "80% faster review",
+          "body": "Report review dropped from a first read to a confirmed summary 80% faster."
+        },
+        {
+          "title": "No workflow disruption",
+          "body": "Shipped with no change to the clinicians' existing tools."
+        },
+        {
+          "title": "Consistent output",
+          "body": "Every report now follows the same scannable structure, regardless of how it arrived."
+        }
+      ],
+      "techStack": [
+        "Retrieval-augmented generation",
+        "LLM evaluation harness",
+        "Secure document pipeline"
+      ],
+      "statValue": "80%",
+      "statLabel": "faster report review",
+      "order": 1,
+      "homeSlot": 1,
+      "featured": false,
+      "imageFile": "case-healthcare.webp"
+    },
+    {
+      "slug": "turning-sales-calls-into-actionable-coaching",
+      "title": "Turning sales calls into actionable coaching",
+      "category": "Agentic AI",
+      "industry": "Sales",
+      "tag": "02 · SALES · AI",
+      "teaser": "An AI sales agent that scores rep performance, identifies what went wrong, and recommends ways to improve.",
+      "client": "Sales · Revenue operations",
+      "engagementLength": "6 weeks, one team",
+      "challenge": "Managers could only sit in on a handful of calls a week, so most coaching happened days later, from memory, on the calls someone happened to catch.",
+      "challengePoints": [
+        "Managers could only sit in on a handful of calls a week.",
+        "Most coaching happened days later, from memory, on whichever calls someone happened to catch.",
+        "Reps got feedback at the next weekly review, long after the call that needed it."
+      ],
+      "approach": "We shipped an agent that listens to every call, scores it against the team's own playbook, and surfaces what went wrong with a timestamped clip, same day, not next review.",
+      "solutionPoints": [
+        {
+          "title": "Listens to every call",
+          "body": "An agent processes 100% of calls, not a manager-sampled handful."
+        },
+        {
+          "title": "Scores against your playbook",
+          "body": "Each call is scored against the team's own playbook, not a generic rubric."
+        },
+        {
+          "title": "Same-day, timestamped feedback",
+          "body": "Surfaces what went wrong with a timestamped clip, ready the same day."
+        }
+      ],
+      "result": "10K+ calls analyzed and counting, with coaching notes ready before the rep's next call instead of during a weekly review.",
+      "benefits": [
+        {
+          "title": "10K+ calls analyzed",
+          "body": "And counting: every call, not a sample."
+        },
+        {
+          "title": "Same-day coaching",
+          "body": "Notes ready before the rep's next call, not during a weekly review."
+        },
+        {
+          "title": "Consistent scoring",
+          "body": "Every call measured against the same playbook, not manager memory."
+        }
+      ],
+      "techStack": [
+        "Multi-agent orchestration",
+        "Call transcription & diarization",
+        "Playbook-based scoring model"
+      ],
+      "statValue": "10K+",
+      "statLabel": "calls analyzed",
+      "order": 2,
+      "homeSlot": 2,
+      "featured": false,
+      "imageFile": "case-sales.webp"
+    },
+    {
+      "slug": "a-conversational-ai-agent-built-to-scale",
+      "title": "A conversational AI agent built to scale",
+      "category": "Copilots",
+      "industry": "Food",
+      "tag": "03 · FOOD · AI",
+      "teaser": "Secure, production-ready AI deployed across web and mobile, with authentication, scaling, and observability built in.",
+      "client": "Food & Beverage · Customer support",
+      "engagementLength": "8 weeks, web + mobile",
+      "challenge": "Their support agent worked in a demo, but had none of the authentication, scaling or monitoring a security review, or a real launch, would require.",
+      "challengePoints": [
+        "The support agent worked in a demo, but wasn't built for production.",
+        "No authentication, scaling, or monitoring: the basics a security review would require.",
+        "Needed to go live across both web and mobile without a rebuild from scratch."
+      ],
+      "approach": "We rebuilt the agent on production infrastructure: proper auth, autoscaling under load, and full observability into every conversation it has.",
+      "solutionPoints": [
+        {
+          "title": "Production authentication",
+          "body": "Proper auth in front of every conversation, not a demo shortcut."
+        },
+        {
+          "title": "Autoscaling under load",
+          "body": "Rebuilt to scale with real traffic instead of a fixed demo environment."
+        },
+        {
+          "title": "Full observability",
+          "body": "Every conversation is monitored end to end, not just logged after the fact."
+        }
+      ],
+      "result": "The agent now handles live customer conversations across web and mobile in production, with a security review already signed off.",
+      "benefits": [
+        {
+          "title": "Security review signed off",
+          "body": "Passed the review a demo-grade agent couldn't have."
+        },
+        {
+          "title": "Live on web and mobile",
+          "body": "Handles real customer conversations across both surfaces."
+        },
+        {
+          "title": "Production-grade from day one",
+          "body": "Built to stay up under real load, not just demo traffic."
+        }
+      ],
+      "techStack": [
+        "Conversational agent framework",
+        "Auth & session management",
+        "Autoscaling infrastructure",
+        "Conversation observability"
+      ],
+      "statValue": null,
+      "statLabel": null,
+      "order": 3,
+      "homeSlot": 3,
+      "featured": false,
+      "imageFile": "case-food.webp"
+    },
+    {
+      "slug": "scaling-engineering-simulations-with-cloud-hpc",
+      "title": "Scaling engineering simulations with cloud HPC",
+      "category": "Cloud & DevOps",
+      "industry": "Engineering",
+      "tag": "04 · ENGINEERING · CLOUD",
+      "teaser": "A high-performance AWS environment built for CPU-intensive CFD and GPU-accelerated DEM simulations.",
+      "client": "Engineering · Industrial simulation",
+      "engagementLength": "5 weeks, infra rebuild",
+      "challenge": "Their simulation queue was bottlenecked on fixed on-prem hardware: CFD and DEM runs that should take hours were taking days waiting for a slot.",
+      "challengePoints": [
+        "Simulation queue was bottlenecked on fixed on-prem hardware.",
+        "CFD and DEM runs that should take hours were taking days waiting for a slot.",
+        "Capacity was fixed to the rack, not to the actual workload."
+      ],
+      "approach": "We designed a high-performance AWS environment purpose-built for CPU-intensive CFD and GPU-accelerated DEM workloads, elastic to the queue instead of a fixed rack.",
+      "solutionPoints": [
+        {
+          "title": "CPU-optimized CFD environment",
+          "body": "Purpose-built AWS environment for CPU-intensive CFD workloads."
+        },
+        {
+          "title": "GPU-accelerated DEM",
+          "body": "Elastic GPU capacity for DEM simulations, provisioned on demand."
+        },
+        {
+          "title": "Elastic to the queue",
+          "body": "Capacity scales to the workload instead of the workload waiting on a fixed rack."
+        }
+      ],
+      "result": "Engineers now queue simulations on demand instead of waiting for hardware, with capacity that scales to the workload rather than the other way around.",
+      "benefits": [
+        {
+          "title": "Hours, not days",
+          "body": "Simulations that waited days for a slot now run on demand."
+        },
+        {
+          "title": "Elastic capacity",
+          "body": "Scales to the workload instead of the workload scaling to fixed hardware."
+        },
+        {
+          "title": "No more queue bottleneck",
+          "body": "Engineers queue simulations on demand instead of waiting for hardware."
+        }
+      ],
+      "techStack": [
+        "AWS HPC infrastructure",
+        "CPU-optimized compute (CFD)",
+        "GPU-accelerated compute (DEM)",
+        "Elastic job scheduling"
+      ],
+      "statValue": null,
+      "statLabel": null,
+      "order": 4,
+      "homeSlot": 4,
+      "featured": true,
+      "imageFile": "case-engineering.webp"
+    },
+    {
+      "slug": "cutting-deploy-time-from-hours-to-minutes",
+      "title": "Cutting deploy time from hours to minutes",
+      "category": "Cloud & DevOps",
+      "industry": "Retail",
+      "tag": "05 · RETAIL · CLOUD",
+      "teaser": "A legacy release process rebuilt around CI/CD and infrastructure as code, so shipping stopped depending on one engineer's calendar.",
+      "client": "Retail · E-commerce platform",
+      "engagementLength": "4 weeks, infra rebuild",
+      "challenge": "Every release meant one senior engineer manually running a checklist late at night, and a bad deploy could take hours to detect and roll back.",
+      "challengePoints": [
+        "Deploys ran through a manual checklist only one engineer fully understood.",
+        "A bad release could take hours to detect and roll back.",
+        "Nobody wanted to ship on a Friday, so releases piled up."
+      ],
+      "approach": "We replaced the manual checklist with a CI/CD pipeline and infrastructure as code, plus automated rollback triggered by the same health checks the team already trusted.",
+      "solutionPoints": [
+        {
+          "title": "CI/CD pipeline",
+          "body": "Every merge to main runs the same automated build, test, and deploy sequence, no manual checklist."
+        },
+        {
+          "title": "Infrastructure as code",
+          "body": "Environments are reproducible from a repo, not a runbook in someone's head."
+        },
+        {
+          "title": "Automated rollback",
+          "body": "A failed health check reverts the release automatically, before an engineer has to notice."
+        }
+      ],
+      "result": "Deploys dropped from a multi-hour, one-person process to a 12-minute pipeline anyone on the team can trigger.",
+      "benefits": [
+        {
+          "title": "12-minute deploys",
+          "body": "Down from a multi-hour manual process."
+        },
+        {
+          "title": "No more single point of failure",
+          "body": "Any engineer on the team can ship a release."
+        },
+        {
+          "title": "Automatic rollback",
+          "body": "Bad releases revert themselves before they reach most users."
+        }
+      ],
+      "techStack": [
+        "AWS",
+        "Terraform / IaC",
+        "CI/CD pipelines",
+        "Automated health checks"
+      ],
+      "statValue": "12 min",
+      "statLabel": "median deploy time",
+      "order": 5,
+      "homeSlot": null,
+      "featured": false,
+      "imageFile": "work-blue.webp"
+    },
+    {
+      "slug": "an-agent-that-replans-routes-when-a-delivery-falls-through",
+      "title": "An agent that replans routes when a delivery falls through",
+      "category": "Agentic AI",
+      "industry": "Logistics",
+      "tag": "06 · LOGISTICS · AI",
+      "teaser": "A multi-agent system that reassigns and replans delivery routes in real time, instead of a dispatcher doing it by hand.",
+      "client": "Logistics · Last-mile delivery",
+      "engagementLength": "7 weeks, one region",
+      "challenge": "When a driver called in or a delivery window slipped, a dispatcher had to manually re-sequence a dozen other routes by hand, under time pressure.",
+      "challengePoints": [
+        "One disruption meant manually re-sequencing a dozen other routes.",
+        "Dispatchers made the call under time pressure, with incomplete visibility.",
+        "The same disruption pattern repeated daily, with no system learning from it."
+      ],
+      "approach": "We built a multi-agent system that monitors live delivery status, detects a disruption, and re-plans affected routes automatically, with a dispatcher approving before anything changes.",
+      "solutionPoints": [
+        {
+          "title": "Live disruption detection",
+          "body": "Agents watch delivery status in real time and flag a disruption the moment it happens."
+        },
+        {
+          "title": "Automatic re-planning",
+          "body": "Affected routes are re-sequenced by the agent, not rebuilt by hand under pressure."
+        },
+        {
+          "title": "Human approval checkpoint",
+          "body": "A dispatcher signs off before a changed route goes live."
+        }
+      ],
+      "result": "Disruptions that used to cost 20+ minutes of manual re-planning now resolve in under two minutes, with a dispatcher only approving, not building, the fix.",
+      "benefits": [
+        {
+          "title": "20+ min saved per disruption",
+          "body": "Re-planning that took a dispatcher 20+ minutes now takes under two."
+        },
+        {
+          "title": "Fewer missed windows",
+          "body": "Faster replanning means fewer delivery windows blown by a single disruption."
+        },
+        {
+          "title": "Dispatcher stays in control",
+          "body": "Every change is approved by a human before it ships."
+        }
+      ],
+      "techStack": [
+        "Multi-agent orchestration",
+        "Real-time routing engine",
+        "Guardrail & eval tooling"
+      ],
+      "statValue": "2 min",
+      "statLabel": "to replan a disrupted route",
+      "order": 6,
+      "homeSlot": null,
+      "featured": false,
+      "imageFile": "work-red.webp"
+    },
+    {
+      "slug": "making-a-contract-library-searchable-in-plain-english",
+      "title": "Making a contract library searchable in plain English",
+      "category": "Gen AI & RAG",
+      "industry": "Legal",
+      "tag": "07 · LEGAL · GEN AI",
+      "teaser": "A retrieval pipeline that lets associates ask a contract library a question and get a cited answer, instead of searching by keyword.",
+      "client": "Legal · Corporate contracts",
+      "engagementLength": "5 weeks, single practice group",
+      "challenge": "Associates searched thousands of contracts by keyword and still had to open a dozen documents to confirm one clause was standard.",
+      "challengePoints": [
+        "Keyword search returned dozens of documents for one question.",
+        "Confirming a clause was standard meant opening and comparing several contracts by hand.",
+        "Nothing traced an answer back to the exact clause it came from."
+      ],
+      "approach": "We indexed the firm's contract library into a retrieval pipeline that answers a plain-English question with the relevant clauses and a citation back to the source document.",
+      "solutionPoints": [
+        {
+          "title": "Retrieval pipeline",
+          "body": "The full contract library indexed and retrievable by meaning, not just keyword."
+        },
+        {
+          "title": "Grounded, cited answers",
+          "body": "Every answer points back to the exact clause and document it came from."
+        },
+        {
+          "title": "Evaluation dashboard",
+          "body": "Ongoing measurement against a set of questions the practice group actually asks."
+        }
+      ],
+      "result": "A question that took an associate 20-30 minutes of manual search now gets a cited answer in under a minute.",
+      "benefits": [
+        {
+          "title": "Minutes, not half an hour",
+          "body": "Clause lookups that took 20-30 minutes now resolve in under a minute."
+        },
+        {
+          "title": "Every answer cited",
+          "body": "Associates can verify the source clause instead of trusting a summary."
+        },
+        {
+          "title": "Scales with the library",
+          "body": "Adding new contracts doesn't add new manual search time."
+        }
+      ],
+      "techStack": [
+        "Retrieval-augmented generation",
+        "Vector databases",
+        "LLM evaluation harness"
+      ],
+      "statValue": "<1 min",
+      "statLabel": "to answer a clause lookup",
+      "order": 7,
+      "homeSlot": null,
+      "featured": false,
+      "imageFile": "work-yellow.webp"
+    },
+    {
+      "slug": "proving-an-underwriting-model-before-funding-the-build",
+      "title": "Proving an underwriting model before funding the build",
+      "category": "AI POC / MVP",
+      "industry": "Fintech",
+      "tag": "08 · FINTECH · POC",
+      "teaser": "A scoped proof of concept on real loan data, answering whether an AI underwriting assist could work before the board funded a production build.",
+      "client": "Fintech · Consumer lending",
+      "engagementLength": "3 weeks, single workflow",
+      "challenge": "The team believed an AI-assisted underwriting model could speed up approvals, but couldn't get budget without proof it worked on their actual, messy loan data.",
+      "challengePoints": [
+        "Leadership wouldn't fund a build without evidence it worked on real data.",
+        "Prior AI demos elsewhere in the business had been thrown away after the pilot.",
+        "The team had weeks, not quarters, to make the case."
+      ],
+      "approach": "We built a scoped proof of concept directly against the lender's historical loan data, then gave a direct read-out on accuracy, edge cases, and what production would take.",
+      "solutionPoints": [
+        {
+          "title": "Scoped POC on real data",
+          "body": "Built and tested against the lender's actual historical loan applications."
+        },
+        {
+          "title": "Feasibility read-out",
+          "body": "A direct answer on where the model performed and where it didn't."
+        },
+        {
+          "title": "Path to production",
+          "body": "Architected so a green light meant extending the POC, not rebuilding it."
+        }
+      ],
+      "result": "The board approved production funding off a working proof of concept in three weeks, and the POC's architecture became the first production build.",
+      "benefits": [
+        {
+          "title": "Funded off a working proof",
+          "body": "Board sign-off came from a real result, not a slide deck."
+        },
+        {
+          "title": "No thrown-away work",
+          "body": "The POC's code became the start of the production system."
+        },
+        {
+          "title": "Clear-eyed on limits",
+          "body": "The read-out was honest about where the model needed guardrails."
+        }
+      ],
+      "techStack": [
+        "Rapid prototyping",
+        "LLM APIs",
+        "Production-readiness review"
+      ],
+      "statValue": "3 wks",
+      "statLabel": "from idea to board-approved POC",
+      "order": 8,
+      "homeSlot": null,
+      "featured": false,
+      "imageFile": "case-fintech.webp"
+    },
+    {
+      "slug": "a-copilot-that-drafts-the-answer-before-support-has-to",
+      "title": "A copilot that drafts the answer before support has to",
+      "category": "Copilots",
+      "industry": "SaaS",
+      "tag": "09 · SAAS · COPILOT",
+      "teaser": "An in-product copilot that drafts a reply to the same five questions support was answering all day, tuned to the product's own tone.",
+      "client": "SaaS · HR software",
+      "engagementLength": "6 weeks, web app",
+      "challenge": "Support tickets were overwhelmingly the same five questions, but every reply was still typed out by hand in a tone that varied by agent.",
+      "challengePoints": [
+        "The same five questions made up most of the support queue.",
+        "Every reply was still typed by hand, in a tone that varied by agent.",
+        "Users asked mid-workflow, not in a separate help tab."
+      ],
+      "approach": "We embedded a copilot directly in the product that drafts a reply in the team's tone, pulling from the same answers support already gives, with an agent reviewing before it sends.",
+      "solutionPoints": [
+        {
+          "title": "Conversation design",
+          "body": "Scripted around the actual five questions, not a generic FAQ bot."
+        },
+        {
+          "title": "In-product integration",
+          "body": "Lives inside the app where the user already is, not a separate widget."
+        },
+        {
+          "title": "Usage analytics",
+          "body": "Visibility into which drafts agents edit, so the copilot keeps improving."
+        }
+      ],
+      "result": "First-response time on the top five ticket types dropped by more than half, with agents editing instead of writing from scratch.",
+      "benefits": [
+        {
+          "title": "50%+ faster first response",
+          "body": "On the ticket types that made up most of the queue."
+        },
+        {
+          "title": "Consistent tone",
+          "body": "Every drafted reply matches the same voice, regardless of which agent sends it."
+        },
+        {
+          "title": "Agents review, not write",
+          "body": "Agents edit a drafted answer instead of typing one from scratch."
+        }
+      ],
+      "techStack": [
+        "Conversational agent frameworks",
+        "Product integrations",
+        "Usage analytics"
+      ],
+      "statValue": "50%+",
+      "statLabel": "faster first response",
+      "order": 9,
+      "homeSlot": null,
+      "featured": false,
+      "imageFile": "case-health.webp"
+    }
+  ]
+}

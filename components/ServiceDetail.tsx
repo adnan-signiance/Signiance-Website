@@ -12,7 +12,7 @@ import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import { staggerItem } from "@/lib/motion";
 import RelatedCaseStudies from "./RelatedCaseStudies";
 import { serviceColor } from "./PracticeIcon";
-import { services, caseStudyEntries, type Service } from "@/lib/data";
+import { services, type CaseStudyEntry, type Service } from "@/lib/data";
 
 // Each other-practice cell is a Next <Link>; made a motion component once, here.
 const MotionLink = m.create(Link);
@@ -23,8 +23,7 @@ const GoArrow = () => (
   </svg>
 );
 
-export default function ServiceDetail({ service }: { service: Service }) {
-  const relatedCases = caseStudyEntries.filter((c) => c.category === service.short).slice(0, 3);
+export default function ServiceDetail({ service, relatedCases }: { service: Service; relatedCases: CaseStudyEntry[] }) {
   const otherServices = services.filter((s) => s.id !== service.id);
   const accent = serviceColor[service.id];
 

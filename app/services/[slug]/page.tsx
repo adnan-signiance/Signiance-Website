@@ -4,6 +4,7 @@ import PageShell from "@/components/PageShell";
 import ServiceDetail from "@/components/ServiceDetail";
 import JsonLd from "@/components/JsonLd";
 import { services } from "@/lib/data";
+import { getCaseStudies, pickForPractice } from "@/lib/content/caseStudies";
 import { breadcrumbSchema, jsonLdGraph, organizationSchema, serviceSchema } from "@/lib/schema";
 
 export function generateStaticParams() {
@@ -51,6 +52,8 @@ export default async function ServiceDetailPage({
   const service = services.find((s) => s.slug === slug);
   if (!service) notFound();
 
+  const relatedCases = pickForPractice(await getCaseStudies(), service.short);
+
   return (
     <PageShell>
       <JsonLd
@@ -64,7 +67,7 @@ export default async function ServiceDetailPage({
           ])
         )}
       />
-      <ServiceDetail service={service} />
+      <ServiceDetail service={service} relatedCases={relatedCases} />
     </PageShell>
   );
 }

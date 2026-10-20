@@ -5,7 +5,7 @@ import axe from "axe-core";
 import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
 import CaseStudiesGrid from "@/components/CaseStudiesGrid";
-import { testimonials } from "@/lib/data";
+import { caseStudyEntries, testimonials } from "@/lib/data";
 
 async function axeViolations(container: HTMLElement): Promise<string[]> {
   const results = await axe.run(container, {
@@ -126,13 +126,13 @@ describe("Testimonial carousel controls (WCAG 2.2.2)", () => {
 
 describe("Case study filters", () => {
   it("groups the chips with an accessible name", () => {
-    render(<CaseStudiesGrid />);
+    render(<CaseStudiesGrid entries={caseStudyEntries} />);
     expect(screen.getByRole("group", { name: /filter case studies/i })).toBeInTheDocument();
   });
 
   it("reports selected state via aria-pressed rather than colour alone", async () => {
     const user = userEvent.setup();
-    render(<CaseStudiesGrid />);
+    render(<CaseStudiesGrid entries={caseStudyEntries} />);
     const group = screen.getByRole("group", { name: /filter case studies/i });
 
     const all = within(group).getByRole("button", { name: "All" });
@@ -146,14 +146,14 @@ describe("Case study filters", () => {
 
   it("announces the filtered result count", async () => {
     const user = userEvent.setup();
-    const { container } = render(<CaseStudiesGrid />);
+    const { container } = render(<CaseStudiesGrid entries={caseStudyEntries} />);
     await user.click(screen.getByRole("button", { name: "Agentic AI" }));
     const live = container.querySelector('[aria-live="polite"]');
     expect(live).toHaveTextContent(/case stud(y|ies) shown for Agentic AI/i);
   });
 
   it("has no axe violations", async () => {
-    const { container } = render(<CaseStudiesGrid />);
+    const { container } = render(<CaseStudiesGrid entries={caseStudyEntries} />);
     expect(await axeViolations(container)).toEqual([]);
   });
 });

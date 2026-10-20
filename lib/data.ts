@@ -482,6 +482,10 @@ export type CaseStudyEntry = {
   statLabel: string | null;
   image: string;
   dark: boolean;
+  /** Position (1 to 4) on the homepage grid, when this study is shown there. */
+  homeSlot?: number;
+  /** The study promoted at the top of /case-studies. */
+  featured?: boolean;
 };
 
 export const caseStudyEntries: CaseStudyEntry[] = [
@@ -522,6 +526,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     statLabel: "faster report review",
     image: "/media/case-healthcare.webp",
     dark: false,
+    homeSlot: 1,
   },
   {
     id: "c2",
@@ -560,6 +565,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     statLabel: "calls analyzed",
     image: "/media/case-sales.webp",
     dark: true,
+    homeSlot: 2,
   },
   {
     id: "c3",
@@ -598,6 +604,7 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     statLabel: null,
     image: "/media/case-food.webp",
     dark: false,
+    homeSlot: 3,
   },
   {
     id: "c4",
@@ -636,6 +643,8 @@ export const caseStudyEntries: CaseStudyEntry[] = [
     statLabel: null,
     image: "/media/case-engineering.webp",
     dark: false,
+    homeSlot: 4,
+    featured: true,
   },
   {
     id: "c5",

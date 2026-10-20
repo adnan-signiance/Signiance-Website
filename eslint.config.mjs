@@ -22,6 +22,8 @@ const config = [
       "scratch/**",
       "media/**",
       "public/**",
+      // The Sanity Studio is its own project with its own dependencies.
+      "studio/**",
       "*.dc.html",
     ],
   },

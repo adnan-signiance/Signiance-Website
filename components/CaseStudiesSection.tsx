@@ -2,9 +2,12 @@ import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import CaseStudies from "./CaseStudies";
+import { getCaseStudies, pickHome } from "@/lib/content/caseStudies";
 import { Reveal, RevealHeading } from "./Reveal";
 
-export default function CaseStudiesSection() {
+export default async function CaseStudiesSection() {
+  const entries = pickHome(await getCaseStudies());
+
   return (
     <section
       style={{
@@ -50,7 +53,7 @@ export default function CaseStudiesSection() {
       <div className="section-rule" />
 
       <div style={{ marginTop: 24 }}>
-        <CaseStudies />
+        <CaseStudies entries={entries} />
       </div>
 
       {/* On a phone the button moves from beside the title to the end of the cards, where

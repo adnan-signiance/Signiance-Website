@@ -1,4 +1,6 @@
-import { brand, contactEmail, services, caseStudyEntries, faqs, subhead, socialLinks, type Service, type CaseStudyEntry } from "./data";
+import type { BlogPost } from "./content/posts";
+import { socialImage } from "./content/images";
+import { brand, contactEmail, services, faqs, subhead, socialLinks, type Service, type CaseStudyEntry } from "./data";
 
 /**
  * JSON-LD builders.
@@ -94,11 +96,28 @@ export function caseStudySchema(entry: CaseStudyEntry) {
     headline: entry.title,
     description: entry.teaser,
     url: absolute(`/case-studies/${entry.slug}`),
-    image: absolute(entry.image),
+    image: absolute(socialImage(entry.image)),
     author: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },
     about: entry.category,
     articleSection: entry.industry,
+  };
+}
+
+/** One article. `author` falls back to the organisation when a post names no one. */
+export function blogPostingSchema(post: BlogPost) {
+  return {
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.seoDescription ?? post.excerpt,
+    url: absolute(`/blog/${post.slug}`),
+    mainEntityOfPage: absolute(`/blog/${post.slug}`),
+    datePublished: post.publishedAt,
+    dateModified: post.updatedAt ?? post.publishedAt,
+    ...(post.cover ? { image: socialImage(post.cover.src) } : {}),
+    author: post.author ? { "@type": "Person", name: post.author.name } : { "@id": ORG_ID },
+    publisher: { "@id": ORG_ID },
+    ...(post.categories.length > 0 ? { keywords: post.categories.join(", "), articleSection: post.categories[0] } : {}),
   };
 }
 
@@ -139,10 +158,10 @@ export function serviceListSchema() {
 }
 
 /** Lists every case study, for the case studies index page. */
-export function caseStudyListSchema() {
+export function caseStudyListSchema(entries: CaseStudyEntry[]) {
   return {
     "@type": "ItemList",
-    itemListElement: caseStudyEntries.map((c, i) => ({
+    itemListElement: entries.map((c, i) => ({
       "@type": "ListItem",
       position: i + 1,
       url: absolute(`/case-studies/${c.slug}`),
@@ -159,5 +178,8 @@ export function caseStudyListSchema() {
  * rather than repeating the organisation on every page.
  */
 export function jsonLdGraph(...nodes: object[]) {
-  return JSON.stringify({ "@context": "https://schema.org", "@graph": nodes });
+  // `<` is written as its JSON escape so a title or excerpt containing
+  // "</script>" cannot end the script tag early. Content now comes from the CMS,
+  // not only from lib/data.ts, so this is no longer hypothetical.
+  return JSON.stringify({ "@context": "https://schema.org", "@graph": nodes }).replace(/</g, "\\u003c");
 }

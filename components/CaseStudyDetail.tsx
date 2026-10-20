@@ -10,10 +10,9 @@ import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import FeatureCard from "./FeatureCard";
 import RelatedCaseStudies from "./RelatedCaseStudies";
 import PracticeIcon, { serviceIcon, serviceColor } from "./PracticeIcon";
-import { bookingPromise, caseStudyEntries, services, type CaseStudyEntry } from "@/lib/data";
+import { bookingPromise, services, type CaseStudyEntry } from "@/lib/data";
 
-export default function CaseStudyDetail({ entry }: { entry: CaseStudyEntry }) {
-  const related = caseStudyEntries.filter((c) => c.id !== entry.id).slice(0, 3);
+export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEntry; related: CaseStudyEntry[] }) {
   const matchedService = services.find((s) => s.short === entry.category);
   const accent = matchedService ? serviceColor[matchedService.id] : "var(--color-accent)";
   const icon = matchedService ? serviceIcon[matchedService.id] : "target";

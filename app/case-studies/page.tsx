@@ -5,6 +5,7 @@ import CaseStudiesGrid from "@/components/CaseStudiesGrid";
 import CaseStudiesTestimonials from "@/components/CaseStudiesTestimonials";
 import CaseStudiesCTA from "@/components/CaseStudiesCTA";
 import JsonLd from "@/components/JsonLd";
+import { getCaseStudies, pickFeatured } from "@/lib/content/caseStudies";
 import { breadcrumbSchema, caseStudyListSchema, jsonLdGraph, organizationSchema } from "@/lib/schema";
 
 export const metadata: Metadata = {
@@ -20,21 +21,23 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CaseStudiesPage() {
+export default async function CaseStudiesPage() {
+  const entries = await getCaseStudies();
+
   return (
     <PageShell>
       <JsonLd
         json={jsonLdGraph(
           organizationSchema(),
-          caseStudyListSchema(),
+          caseStudyListSchema(entries),
           breadcrumbSchema([
             { name: "Home", path: "/" },
             { name: "Case Studies", path: "/case-studies" },
           ])
         )}
       />
-      <CaseStudiesHero />
-      <CaseStudiesGrid />
+      <CaseStudiesHero featured={pickFeatured(entries)} />
+      <CaseStudiesGrid entries={entries} />
       <CaseStudiesTestimonials />
       <CaseStudiesCTA />
     </PageShell>

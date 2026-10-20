@@ -128,7 +128,7 @@ describe("anchor targets", () => {
 describe("sitemap coverage", () => {
   it("lists every indexable static route", async () => {
     const { default: sitemap } = await import("@/app/sitemap");
-    const urls: string[] = sitemap().map((e: { url: string }) =>
+    const urls: string[] = (await sitemap()).map((e: { url: string }) =>
       new URL(e.url).pathname.replace(/\/$/, "") || "/"
     );
 

@@ -3,11 +3,12 @@ import { notFound } from "next/navigation";
 import PageShell from "@/components/PageShell";
 import CaseStudyDetail from "@/components/CaseStudyDetail";
 import JsonLd from "@/components/JsonLd";
-import { caseStudyEntries } from "@/lib/data";
+import { getCaseStudies, getCaseStudy, pickRelated } from "@/lib/content/caseStudies";
+import { socialImage } from "@/lib/content/images";
 import { breadcrumbSchema, caseStudySchema, jsonLdGraph, organizationSchema } from "@/lib/schema";
 
-export function generateStaticParams() {
-  return caseStudyEntries.map((entry) => ({ slug: entry.slug }));
+export async function generateStaticParams() {
+  return (await getCaseStudies()).map((entry) => ({ slug: entry.slug }));
 }
 
 export async function generateMetadata({
@@ -16,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const entry = caseStudyEntries.find((c) => c.slug === slug);
+  const entry = await getCaseStudy(slug);
   if (!entry) return {};
 
   const url = `/case-studies/${entry.slug}`;
@@ -32,13 +33,13 @@ export async function generateMetadata({
       description: entry.teaser,
       url,
       type: "article",
-      images: [{ url: entry.image, alt: entry.title }],
+      images: [{ url: socialImage(entry.image), alt: entry.title }],
     },
     twitter: {
       card: "summary_large_image",
       title: `${entry.title} · Signiance`,
       description: entry.teaser,
-      images: [entry.image],
+      images: [socialImage(entry.image)],
     },
   };
 }
@@ -49,7 +50,7 @@ export default async function CaseStudyPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const entry = caseStudyEntries.find((c) => c.slug === slug);
+  const [all, entry] = await Promise.all([getCaseStudies(), getCaseStudy(slug)]);
   if (!entry) notFound();
 
   return (
@@ -65,7 +66,7 @@ export default async function CaseStudyPage({
           ])
         )}
       />
-      <CaseStudyDetail entry={entry} />
+      <CaseStudyDetail entry={entry} related={pickRelated(all, entry)} />
     </PageShell>
   );
 }

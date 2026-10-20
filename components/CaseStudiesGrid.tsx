@@ -7,12 +7,12 @@ import Link from "next/link";
 import CornerDots from "./CornerDots";
 import SectionEyebrow from "./SectionEyebrow";
 import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
-import { caseStudyEntries, caseStudyFilters } from "@/lib/data";
+import { caseStudyFilters, type CaseStudyEntry } from "@/lib/data";
 
-export default function CaseStudiesGrid() {
+export default function CaseStudiesGrid({ entries }: { entries: CaseStudyEntry[] }) {
   const [filter, setFilter] = useState("All");
 
-  const visibleCases = caseStudyEntries.filter((c) => filter === "All" || c.category === filter);
+  const visibleCases = entries.filter((c) => filter === "All" || c.category === filter);
 
   return (
     <section

@@ -49,15 +49,17 @@ tests/            Vitest suites
 public/media/     Images actually served
 ```
 
-Content lives in `lib/data.ts`, not in components. Editing copy, adding a case
-study, or adding a service is almost always a change to that one file.
+Most content lives in `lib/data.ts`, not in components: services, testimonials,
+FAQs, metrics. **Case studies and the blog are managed in a CMS** (see
+[Content management](#content-management)); `lib/data.ts` keeps a copy of the case
+studies that the site uses whenever the CMS is not configured.
 
-### Adding a service or case study
+### Adding a service
 
-Append to the `services` or `caseStudyEntries` array in `lib/data.ts`. Routes,
-`generateStaticParams`, the sitemap, and navigation all derive from those arrays.
-The test suite enforces slug uniqueness, url-safe slugs, and that every case
-study category has a matching filter chip.
+Append to the `services` array in `lib/data.ts`. Routes, `generateStaticParams`,
+the sitemap, and navigation all derive from it. The test suite enforces slug
+uniqueness, url-safe slugs, and that every case study category has a matching
+filter chip.
 
 ## Testing
 
@@ -67,6 +69,9 @@ study category has a matching filter chip.
 | `tests/links.test.ts` | Every internal link and `#anchor` resolves; sitemap covers every route |
 | `tests/components.test.tsx` | Component behaviour plus axe accessibility checks |
 | `tests/routes.test.ts` | Prerendered HTML for all routes — one `h1`, title, meta description, no duplicate titles |
+| `tests/content-*.test.ts`, `tests/cms-sanity.test.ts` | The CMS data layer: mapping, validation messages, fallback to bundled content, build-time failure modes |
+| `tests/portable-text.test.tsx`, `tests/blog-feed.test.ts` | Blog rendering (tables, lists, links, code, video), accessibility, RSS |
+| `tests/studio-*.test.ts` | The seed data matches `lib/data.ts`; the WordPress converter |
 
 Accessibility assertions use `axe-core` in jsdom, which has no layout engine, so
 colour-contrast and target-size rules are disabled there and are verified
@@ -82,10 +87,43 @@ Set in `.env.local` (see `.env.example`):
 | `NEXT_PUBLIC_CAL_MINUTES` | Length of that event; the site quotes it in copy |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin for metadata, sitemap and robots |
 | `NEXT_PUBLIC_CONTACT_ENDPOINT` | Google Apps Script URL that emails enquiries to `hello@signiance.com`. Without it the forms show the email fallback |
+| `SANITY_PROJECT_ID` | Turns on the CMS for case studies and the blog. Without it the site uses the bundled case studies and has no blog posts |
+| `SANITY_DATASET` | Sanity dataset to read (default `production`) |
+| `SANITY_READ_TOKEN` | Only if the dataset is private; a public dataset needs no token |
 
 `booking.durationMinutes` in `lib/data.ts` derives from `NEXT_PUBLIC_CAL_MINUTES`
 and feeds every "N minutes with the people who'd do the work" line on the site,
 so the quoted length can never drift from the event the link points at.
+
+## Content management
+
+Case studies and blog posts are edited in a Sanity Studio (`studio/`), by someone
+who does not need Git or a developer. The website reads them at **build time**, so
+it stays fully static: publishing in the Studio triggers a rebuild through a
+webhook, and the new content is live a few minutes later.
+
+```
+editor ──publish──▶ Sanity ──webhook──▶ host rebuilds the site ──▶ live
+                       ▲                        │
+                       └──── queried at build ──┘
+```
+
+- **Setup, import of the existing content, the rebuild webhook, and a guide for
+  editors:** [`studio/README.md`](studio/README.md).
+- **Data layer:** `lib/cms/sanity.ts` (a small read client over Sanity's HTTP
+  query API, no SDK) and `lib/content/` (`caseStudies.ts`, `posts.ts`). Pages never
+  talk to Sanity directly; they call `getCaseStudies()` and `getPosts()`.
+- **Without a CMS configured** (no `SANITY_PROJECT_ID`) the site builds from the
+  case studies in `lib/data.ts` and `/blog` stays a noindexed "coming soon" page.
+  Fresh checkouts, CI and the test suite all work this way.
+- **With a CMS configured**, a build that cannot read it, or that finds a
+  half-filled document, **fails** with a message naming the problem, and the host
+  keeps serving the previous deployment. It never quietly publishes less.
+- **Images** come from Sanity's CDN. `next.config.js` allows only this project's
+  path on `cdn.sanity.io`, and only when `SANITY_PROJECT_ID` is set.
+- **Blog:** `/blog` (paginated at `/blog/page/N`), `/blog/<slug>`, an RSS feed at
+  `/blog/feed.xml`. `/blog` and the posts join the sitemap, and `/blog` stops being
+  `noindex`, as soon as the first post is published.
 
 ## Conversion paths
 

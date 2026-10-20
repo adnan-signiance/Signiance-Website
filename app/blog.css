@@ -1,0 +1,547 @@
+/* Blog: the post listing, the article page and the prose that Portable Text
+   renders into. Imported by BlogIndex and BlogPostView, so only the blog routes load it.
+   Tokens only (see the TOKENS block in globals.css); sizes come from --fs-*, which
+   responsive.css already scales for phone, tablet and large screens. */
+
+/* ------------------------------------------------------------------ listing */
+
+.blog-hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-top: 20px;
+  padding-bottom: clamp(30px, 4vw, 40px);
+  font-size: var(--fs-sm);
+}
+
+.blog-hero-links a {
+  color: var(--color-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.blog-hero-links a:hover {
+  color: var(--color-ink);
+}
+
+/* Same frame as the case-study listing: accent rules at the sides, neutral
+   rules above and below, hairlines between cells. */
+.blog-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  margin: 0 var(--bleed);
+}
+
+.blog-grid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  border-top: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+  border-left: 1px solid var(--color-accent);
+  border-right: 1px solid var(--color-accent);
+  pointer-events: none;
+}
+
+.blog-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-line-strong);
+  border-bottom: 1px solid var(--color-line-strong);
+}
+
+.blog-card:nth-child(3n),
+.blog-card:last-child {
+  border-right: none;
+}
+
+/* A short list (one or two posts) uses that many columns instead of leaving
+   empty cells inside the frame. */
+.blog-grid[data-count="1"] {
+  grid-template-columns: 1fr;
+}
+
+.blog-grid[data-count="2"] {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Close to the 1.9:1 of the banner covers, so a card shows nearly all of one. */
+.blog-card-media {
+  position: relative;
+  aspect-ratio: 19 / 10;
+  overflow: hidden;
+  background: var(--color-tint);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.blog-card-media img {
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.blog-card:hover .blog-card-media img {
+  transform: scale(1.03);
+}
+
+/* Shown when a post has no cover image. */
+.blog-card-fallback {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--color-tint) 0%, var(--color-warm-alt) 100%);
+}
+
+.blog-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px 22px 24px;
+}
+
+.blog-card-cat {
+  font-size: var(--fs-2xs);
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.blog-card-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-xl);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+/* The title link stretches over the whole card, so the card is one target. */
+.blog-card-title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.blog-card-title a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+}
+
+.blog-card-title a:focus-visible {
+  outline: none;
+}
+
+.blog-card-title a:focus-visible::after {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+}
+
+.blog-card-excerpt {
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--color-text);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.blog-card-meta {
+  margin-top: auto;
+  padding-top: 6px;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+}
+
+.blog-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 28px 0 0;
+  font-size: var(--fs-sm);
+  color: var(--color-muted);
+}
+
+.blog-pager a {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border: 1px solid var(--color-border-ui);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.blog-pager a:hover {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+/* Keeps "Older" on the right when there is no "Newer" to its left. */
+.blog-pager-spacer {
+  flex: 1;
+}
+
+@media (max-width: 1100px) {
+  .blog-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .blog-card:nth-child(3n) {
+    border-right: 1px solid var(--color-line-strong);
+  }
+
+  .blog-card:nth-child(2n) {
+    border-right: none;
+  }
+}
+
+@media (max-width: 700px) {
+  .blog-grid,
+  .blog-grid[data-count] {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-card,
+  .blog-card:nth-child(2n),
+  .blog-card:nth-child(3n) {
+    border-right: none;
+  }
+
+  .blog-card-body {
+    padding: 18px 18px 22px;
+  }
+}
+
+/* ------------------------------------------------------------------ article */
+
+.post-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 18px;
+  margin-top: 22px;
+  font-size: var(--fs-sm);
+  color: var(--color-muted);
+}
+
+.post-meta strong {
+  font-weight: 500;
+  color: var(--color-ink-soft);
+}
+
+/* The aspect ratio comes from the image itself (inline style). */
+.post-cover {
+  position: relative;
+  max-width: 960px;
+  margin: 0 auto clamp(28px, 4vw, 40px);
+  overflow: hidden;
+  background: var(--color-tint);
+  border: 1px solid var(--color-line);
+}
+
+.post-cover img {
+  object-fit: contain;
+}
+
+.post-body {
+  position: relative;
+  padding: var(--section-pt) var(--pad-x) var(--section-pb);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.post-footer {
+  max-width: 720px;
+  margin: clamp(34px, 5vw, 48px) auto 0;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-line);
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.post-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.post-author img {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-pill);
+  object-fit: cover;
+}
+
+.post-author-name {
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.post-author-role {
+  margin-top: 2px;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.post-tag {
+  padding: 5px 12px;
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-pill);
+  font-size: var(--fs-xs);
+  color: var(--color-text);
+}
+
+/* -------------------------------------------------------------------- prose */
+
+.prose {
+  max-width: 720px;
+  margin: 0 auto;
+  font-size: var(--fs-md);
+  line-height: 1.75;
+  color: var(--color-ink-soft);
+  overflow-wrap: break-word;
+}
+
+.prose > * + * {
+  margin-top: 1.25em;
+}
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-ink);
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.18;
+  /* Clears the fixed header when a heading is the target of an anchor link. */
+  scroll-margin-top: 96px;
+}
+
+.prose h2 {
+  margin-top: 2.2em;
+  font-size: var(--fs-2xl);
+}
+
+.prose h3 {
+  margin-top: 1.9em;
+  font-size: var(--fs-xl);
+}
+
+.prose h4 {
+  margin-top: 1.6em;
+  font-size: var(--fs-lg);
+}
+
+.prose h2 + *,
+.prose h3 + *,
+.prose h4 + * {
+  margin-top: 0.7em;
+}
+
+.prose a {
+  color: var(--color-link);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+
+.prose a:hover {
+  color: var(--color-accent);
+}
+
+.prose ul,
+.prose ol {
+  padding-left: 1.4em;
+}
+
+.prose li + li {
+  margin-top: 0.4em;
+}
+
+.prose li > ul,
+.prose li > ol {
+  margin-top: 0.4em;
+}
+
+.prose blockquote {
+  margin-left: 0;
+  margin-right: 0;
+  padding: 2px 0 2px 20px;
+  border-left: 3px solid var(--color-accent);
+  font-size: var(--fs-lg);
+  color: var(--color-text);
+}
+
+.prose code {
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-tint);
+  font-family: var(--font-mono);
+  font-size: 0.88em;
+}
+
+.prose pre {
+  margin: 0;
+  padding: 18px 20px;
+  overflow-x: auto;
+  border-radius: var(--radius-md);
+  background: var(--color-navy);
+  color: var(--color-accent-faint);
+  font-size: var(--fs-sm);
+  line-height: 1.6;
+}
+
+.prose pre:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.prose pre code {
+  padding: 0;
+  background: none;
+  color: inherit;
+  font-size: inherit;
+}
+
+.prose figure {
+  margin: 2em 0;
+}
+
+.prose figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.prose figcaption {
+  margin-top: 8px;
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+  color: var(--color-muted);
+}
+
+/* A code block's filename sits above it, not below. */
+.prose .prose-code figcaption {
+  margin: 0 0 8px;
+  font-family: var(--font-mono);
+}
+
+.prose .prose-table {
+  margin: 2em 0;
+  overflow-x: auto;
+  border: 1px solid var(--color-line-strong);
+  /* Soft edges that appear only on a side with more to scroll to, so a wide table on
+     a phone shows that it continues. The white fades travel with the content
+     (local) and hide the grey ones until the content has moved. */
+  background:
+    linear-gradient(to right, var(--color-white) 30%, transparent) left center / 28px 100% no-repeat local,
+    linear-gradient(to left, var(--color-white) 30%, transparent) right center / 28px 100% no-repeat local,
+    linear-gradient(to right, var(--color-line-strong), transparent) left center / 10px 100% no-repeat scroll,
+    linear-gradient(to left, var(--color-line-strong), transparent) right center / 10px 100% no-repeat scroll;
+}
+
+.prose .prose-table:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.prose table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+}
+
+.prose th,
+.prose td {
+  padding: 10px 14px;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.prose th {
+  background: var(--color-tint);
+  font-weight: 600;
+  color: var(--color-ink);
+  white-space: nowrap;
+}
+
+.prose tbody tr:last-child td {
+  border-bottom: none;
+}
+
+@media (max-width: 700px) {
+  .prose th,
+  .prose td {
+    padding: 8px 10px;
+  }
+
+  .prose table {
+    font-size: var(--fs-xs);
+  }
+}
+
+/* A first column of labels reads better when it does not wrap to a sliver. */
+.prose td:first-child {
+  min-width: 9em;
+  color: var(--color-ink);
+  font-weight: 500;
+}
+
+/* A video is a link, not an embed (see PortableText.tsx). */
+.prose .prose-video a {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 18px;
+  border: 1px solid var(--color-border-ui);
+  border-radius: var(--radius-pill);
+  color: var(--color-ink);
+  font-size: var(--fs-base);
+  text-decoration: none;
+}
+
+.prose .prose-video a::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 5px 0 5px 9px;
+  border-color: transparent transparent transparent var(--color-accent);
+}
+
+.prose .prose-video a:hover {
+  background: var(--color-ink);
+  border-color: var(--color-ink);
+  color: var(--color-white);
+}
+
+.prose .prose-video a:hover::before {
+  border-left-color: var(--color-white);
+}

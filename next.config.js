@@ -9,6 +9,11 @@ const CAL_ORIGINS = "https://cal.com https://app.cal.com";
 // and connect-src is enforced on every hop, so both origins are needed.
 const FORM_ORIGINS = "https://script.google.com https://script.googleusercontent.com";
 
+// Case-study and blog images are served from Sanity's CDN. Only listed when the CMS
+// is configured, so a build without it keeps the original "no remote images" policy.
+const SANITY_PROJECT = process.env.SANITY_PROJECT_ID;
+const CMS_IMAGE_ORIGIN = SANITY_PROJECT ? "https://cdn.sanity.io" : "";
+
 /**
  * Content Security Policy.
  *
@@ -29,7 +34,7 @@ const csp = [
   "form-action 'self'",
   `script-src 'self' 'unsafe-inline' ${CAL_ORIGINS}`,
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: ${CAL_ORIGINS}`,
+  `img-src 'self' data: blob: ${CAL_ORIGINS} ${CMS_IMAGE_ORIGIN}`.trim(),
   "font-src 'self' data:",
   `connect-src 'self' ${CAL_ORIGINS} ${FORM_ORIGINS}`,
   `frame-src ${CAL_ORIGINS}`,
@@ -65,9 +70,19 @@ const securityHeaders = [
 
 const nextConfig = {
   // `images.remotePatterns` previously allowed commons.wikimedia.org, which the
-  // site never used. Every image is local, so no remote origins are needed.
+  // site never used. Every image is local unless the CMS is configured, and then
+  // the only remote origin is that project's own path on Sanity's CDN.
   images: {
     formats: ["image/avif", "image/webp"],
+    // Scoped to this project's path, so the optimiser cannot be used to proxy
+    // anyone else's images from the same CDN.
+    ...(SANITY_PROJECT
+      ? {
+          remotePatterns: [
+            { protocol: "https", hostname: "cdn.sanity.io", pathname: `/images/${SANITY_PROJECT}/**` },
+          ],
+        }
+      : {}),
   },
 
   async headers() {

@@ -17,6 +17,10 @@ coverage
 test-results
 playwright-report
 
+# Sanity Studio build output (its node_modules is already covered above)
+studio/dist
+studio/.sanity
+
 # Local Lighthouse CI run output
 .lighthouseci
 

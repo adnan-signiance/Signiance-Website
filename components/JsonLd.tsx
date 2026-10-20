@@ -5,8 +5,8 @@
  * read it without executing JavaScript.
  *
  * `dangerouslySetInnerHTML` is required — React escapes text children, which
- * would corrupt the JSON. The content is safe because it is built entirely from
- * `lib/data.ts` by `JSON.stringify`, never from user input.
+ * would corrupt the JSON. The JSON comes from `jsonLdGraph`, which serialises with
+ * `JSON.stringify` and escapes `<`, so text from the CMS cannot close the tag.
  */
 export default function JsonLd({ json }: { json: string }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: json }} />;
