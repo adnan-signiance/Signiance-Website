@@ -22,12 +22,10 @@ export default function MetricsSection() {
             <Reveal style={{ marginBottom: 18 }}>
               <SectionEyebrow>Proof</SectionEyebrow>
             </Reveal>
-            <RevealHeading className="metrics-band-title">Outcomes, not case-study theatre</RevealHeading>
+            <RevealHeading className="metrics-band-title">Outcomes, not case-study theatre.</RevealHeading>
           </div>
           <Reveal as="p" className="metrics-band-note" delay={0.15}>
-            Every engagement shipped to production
-            <br />
-            and measured against a number that mattered.
+            Every engagement shipped to production and measured against a number that mattered.
           </Reveal>
         </div>
 

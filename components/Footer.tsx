@@ -50,7 +50,7 @@ export default function Footer() {
             />
           </Link>
           <p style={{ margin: "14px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
-            An AI-native services company.
+            An AI-native engineering company. From AI potential to production impact.
           </p>
           <p style={{ margin: "6px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
             Bengaluru · Rajkot
@@ -63,6 +63,30 @@ export default function Footer() {
               height={1000}
               style={{ display: "block", height: 46, width: "auto" }}
             />
+            {/* Text badge until the official Anthropic Partner artwork is dropped in: put the
+                file in public/media and swap this block for an <Image> like the AWS one. */}
+            <div
+              role="img"
+              aria-label="Anthropic Partner"
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: 9,
+                height: 46,
+                padding: "0 14px",
+                border: "1px solid var(--color-line-strong)",
+                borderRadius: "var(--radius-sm)",
+                background: "var(--color-white)",
+              }}
+            >
+              <Image src="/media/tech-logos/anthropic.svg" alt="" width={20} height={20} style={{ display: "block", height: 20, width: "auto" }} />
+              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
+                <span style={{ fontSize: "var(--fs-sm)", fontWeight: 600, color: "var(--color-ink)" }}>Anthropic</span>
+                <span style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
+                  Partner
+                </span>
+              </span>
+            </div>
           </div>
         </div>
 

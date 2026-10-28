@@ -18,6 +18,18 @@ const AREAS = ["a", "b", "c", "d", "e"];
 // container's primary-blue edge (drawn via ::before) isn't hidden behind it.
 const EDGE_INDEXES = [1, 4];
 
+// The order the practices are shown in on the home page: Agentic AI leads (it is the wide
+// card) and the cloud foundation comes last, as the layer under the four AI practices. The
+// data keeps its own order, which the service pages and navigation still use.
+const HOME_ORDER = [
+  "agentic-ai-development",
+  "gen-ai-rag-solutions",
+  "ai-poc-mvp-development",
+  "copilots-conversational-ai",
+  "cloud-architecture-devops",
+];
+const ordered = [...services].sort((a, b) => HOME_ORDER.indexOf(a.slug) - HOME_ORDER.indexOf(b.slug));
+
 export default function Services() {
   return (
     <section
@@ -44,20 +56,18 @@ export default function Services() {
               textWrap: "balance",
             }}
           >
-            Where Cloud becomes Agentic AI
+            AI-native engineering, built on a production foundation.
           </RevealHeading>
         </div>
         <Reveal as="p" className="section-head-note" delay={0.15}>
-          Five practices, one senior team.
-          <br />
-          Scoped in a week, delivered against outcomes.
+          Four AI practices and the cloud layer underneath them. One senior team, scoped in a week, delivered against outcomes.
         </Reveal>
       </div>
 
       <div className="section-rule" />
 
       <RevealGroup className="grid-services" style={{ marginTop: 24 }} stagger={0.07} spotlight>
-        {services.map((sv, i) => {
+        {ordered.map((sv, i) => {
           const wide = i === 0;
           const edge = EDGE_INDEXES.includes(i);
           return (
@@ -75,8 +85,8 @@ export default function Services() {
               style={{ gridArea: AREAS[i] }}
             >
               <div className="grid-services-text">
-                <span className="grid-services-num">{sv.no}</span>
-                <h3 className="grid-services-title">{sv.title}</h3>
+                <span className="grid-services-num">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="grid-services-title">{sv.homeTitle ?? sv.title}</h3>
                 <p className="grid-services-body">{sv.body}</p>
               </div>
               <span className="grid-services-arrow" aria-hidden="true">

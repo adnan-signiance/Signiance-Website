@@ -34,12 +34,24 @@ export const bookingPromise = `${booking.durationMinutes} minutes with the peopl
 export const headline =
   "The team you hire when the AI pilot has to become real work";
 
-// Reinforces the H1's promise (speed) instead of competing with it. The previous
-// version pitched staffing-cost relief — "without the overhead of a full in
-// house team" — which is a different value proposition, and left the page making
-// three claims at once. Also doubles as the site meta description.
+// Backs up the H1 (the pilot that works but is still a pilot) with what we do about it.
 export const subhead =
-  "Pick the workflow that is costing you most. We scope it in a week, ship it to production in weeks, and hand you the code and the runbook.";
+  "We take AI from demo to production in weeks, with the evals, monitoring, cost controls and guardrails that keep it running under real users. Then we hand it over, or we run it for you.";
+
+// The home page's meta description, also used for the site's structured data. Written for a
+// search snippet, so it is not the hero subhead.
+export const siteDescription =
+  "Your AI pilot works but won't ship. We take AI from demo to production in weeks with evals, monitoring, cost controls and guardrails, then hand it over or run it for you.";
+
+// Where the AI production readiness check lives. There is no check page yet, so it points at the
+// booking form; change it here and both places that offer the check (the hero's second button and
+// the readiness section) follow.
+export const READINESS_HREF = "/#contact";
+
+// Whether the 30%-in-30-days guarantee has been approved for use. While false, the home page's
+// guarantee band shows the fixed-fee scoping fallback instead, /guarantee returns a 404 and
+// is left out of the sitemap.
+export const GUARANTEE_APPROVED = true;
 
 export const accent = "var(--color-accent)";
 
@@ -52,6 +64,8 @@ export type Service = {
   short: string;
   navLabel: string;
   title: string;
+  /** Title on the home page's service card, where it differs from `title`. */
+  homeTitle?: string;
   body: string;
   long: string;
   bestFor: string;
@@ -104,7 +118,8 @@ export const services: Service[] = [
     short: "Cloud & DevOps",
     navLabel: "Cloud & DevOps",
     title: "Cloud Architecture & DevOps",
-    body: "Resilient, scalable architectures with CI/CD and IaC, so you ship faster with confidence.",
+    homeTitle: "Cloud & DevOps Foundation",
+    body: "The infrastructure AI runs on: CI/CD, infrastructure as code, observability and cost engineering on AWS. Twelve years of running production is why our AI stays up.",
     long: "Resilient, scalable cloud foundations with CI/CD and infrastructure as code, so every release ships with confidence instead of a war room.",
     bestFor: "Choose this if the platform is the bottleneck - deploys, reliability or running cost - before any AI work can pay off.",
     deliverables: ["Architecture review", "CI/CD & IaC", "On-call runbook"],
@@ -132,7 +147,7 @@ export const services: Service[] = [
     short: "Agentic AI",
     navLabel: "Agentic AI Development",
     title: "Agentic AI Development",
-    body: "Multi-agent systems that plan, coordinate, and execute real work end to end.",
+    body: "Agents that plan, take actions and hand off to humans at the right moment, with guardrails and audit trails built in from day one.",
     long: "Multi-agent systems that plan, coordinate, and execute real work end to end, with the guardrails your risk team needs to sign off.",
     bestFor: "Choose this if the work is multi-step and has to take actions in your systems, not just answer questions about them.",
     deliverables: ["Agent orchestration", "Tool & memory integration", "Guardrails & evals"],
@@ -160,7 +175,7 @@ export const services: Service[] = [
     short: "Gen AI & RAG",
     navLabel: "Gen AI & RAG Solutions",
     title: "Gen AI & RAG Solutions",
-    body: "Production LLM apps: retrieval pipelines, grounding, and evaluations.",
+    body: "Production LLM apps that answer from your own data: retrieval pipelines, grounding, evaluations and cost controls that hold up at scale.",
     long: "Production-grade LLM applications: retrieval pipelines, grounding strategies, and the evaluations that keep answers trustworthy at scale.",
     bestFor: "Choose this if the job is answering from your own documents and data, with a source someone can check.",
     deliverables: ["Retrieval pipeline", "Grounding & citations", "Evaluation dashboard"],
@@ -188,7 +203,7 @@ export const services: Service[] = [
     short: "AI POC / MVP",
     navLabel: "AI MVP Development",
     title: "AI POC & MVP Development",
-    body: "From idea to a working prototype on real data, in weeks not quarters.",
+    body: "A working version on your real data in weeks, built to become production, not thrown away after the demo.",
     long: "From idea to a working prototype on your real data, in weeks not quarters, built to convert into production, not thrown away.",
     bestFor: "Choose this if the open question is still whether it works at all, and someone needs proof before funding a build.",
     deliverables: ["Scoped POC on real data", "Feasibility read-out", "Path to production"],
@@ -216,7 +231,7 @@ export const services: Service[] = [
     short: "Copilots",
     navLabel: "AI Copilots",
     title: "Copilots & Conversational AI",
-    body: "Assistants embedded in your product, tuned to your workflows and tone.",
+    body: "Assistants embedded in your product, tuned to your workflows and tone, monitored so you know when they get it wrong.",
     long: "Assistants embedded directly in your product, tuned to your workflows, tone, and the edge cases your users actually hit.",
     bestFor: "Choose this if the assistant belongs inside your product, alongside the user's workflow rather than in a separate tab.",
     deliverables: ["Conversation design", "Product integration & auth", "Usage analytics"],
@@ -311,10 +326,10 @@ export const metrics = [
   // board approval rather than production. It also contradicted the delivery
   // model's own "4-9 weeks per outcome". tests/data-integrity.test.ts now
   // recomputes the median and fails if this number drifts from the case studies.
-  { value: "5 wks", label: "Median engagement, scope to production" },
-  { value: "30%", label: "Average running cost reduction" },
-  { value: "50", label: "Workflows delivered and handed over" },
-  { value: "20+", label: "Happy clients we've delivered for" },
+  { value: "5 wks", label: "Median time from scope to production" },
+  { value: "30%", label: "Average reduction in running cost" },
+  { value: "50", label: "Workflows shipped and handed over" },
+  { value: "20+", label: "Startups and teams we've shipped for" },
 ];
 
 export const steps = [
@@ -328,19 +343,19 @@ export const steps = [
     n: "2",
     week: "WEEK 02",
     title: "Build the thin slice",
-    body: "A working version on your real data, behind a flag, with your reviewers in the loop from the first day.",
+    body: "A working version on your real data, behind a flag, with your reviewers in the loop from day one.",
   },
   {
     n: "3",
     week: "WEEK 03",
     title: "Ship it for real",
-    body: "Live traffic, guardrails and dashboards your team owns, plus the training sessions to run it without us.",
+    body: "Live traffic, evals, guardrails and dashboards, plus training so your team understands exactly how it runs.",
   },
   {
     n: "4",
     week: "AFTER",
-    title: "Hand over and step back",
-    body: "Runbook, code, evals and a support window. We stay available; we don't stay necessary.",
+    title: "Hand over or we run it",
+    body: "Take the code, runbook and evals and run it yourselves. Or let us operate it: monitoring, eval regression, model upgrades, cost tuning and on-call. Your call, and you can switch anytime.",
   },
 ];
 
@@ -600,8 +615,8 @@ export const caseStudyEntries: CaseStudyEntry[] = [
       { title: "Production-grade from day one", body: "Built to stay up under real load, not just demo traffic." },
     ],
     techStack: ["Conversational agent framework", "Auth & session management", "Autoscaling infrastructure", "Conversation observability"],
-    statValue: null,
-    statLabel: null,
+    statValue: "8 wks",
+    statLabel: "to live on web and mobile",
     image: "/media/case-food.webp",
     dark: false,
     homeSlot: 3,
@@ -639,8 +654,8 @@ export const caseStudyEntries: CaseStudyEntry[] = [
       { title: "No more queue bottleneck", body: "Engineers queue simulations on demand instead of waiting for hardware." },
     ],
     techStack: ["AWS HPC infrastructure", "CPU-optimized compute (CFD)", "GPU-accelerated compute (DEM)", "Elastic job scheduling"],
-    statValue: null,
-    statLabel: null,
+    statValue: "5 wks",
+    statLabel: "to an elastic cloud HPC environment",
     image: "/media/case-engineering.webp",
     dark: false,
     homeSlot: 4,
@@ -896,6 +911,16 @@ export const faqs: FAQ[] = [
       "You keep the read-out either way. If the numbers don't support building it, we'll tell you that directly instead of talking you into a build.",
   },
   {
+    question: "Can you run the system after launch?",
+    answer:
+      "Yes. Many clients take the code and runbook and run it themselves. Others have us operate it on a monthly plan covering monitoring, eval regression, model upgrades, cost optimisation and on-call. You can start either way and switch later.",
+  },
+  {
+    question: "Our AI is already live but unreliable. Can you help?",
+    answer:
+      "That's where we're most useful. We start with a scoping sprint on the system you already have, find what's breaking it, and fix the highest-impact issues first.",
+  },
+  {
     question: "How do you handle our data and security?",
     answer:
       "We work inside your existing infrastructure and access controls wherever possible, sign whatever NDA or DPA your legal team requires, and never train shared models on your data.",
@@ -906,7 +931,7 @@ export const faqs: FAQ[] = [
   {
     question: "Why you rather than hiring in-house, or a larger firm?",
     answer:
-      "An in-house AI team is the right answer eventually, and we help you hire it — but it is a 6 to 9 month build before anything ships. A larger firm will staff you a pyramid and bill the learning curve. We are a senior pod that ships one workflow in weeks and hands it over, which is the fastest way to find out whether the thing is worth building a team around.",
+      "An in-house AI team is the right answer eventually, and we help you hire it. But it's a 6 to 9 month build before anything ships. A larger firm will staff you a pyramid and bill the learning curve. We are a senior pod that ships one workflow in weeks, which is the fastest way to find out whether it's worth building a team around.",
   },
   {
     question: "Can AWS help fund the first project?",

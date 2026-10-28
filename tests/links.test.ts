@@ -94,6 +94,7 @@ describe("route discovery", () => {
       "/privacy",
       "/terms",
       "/security",
+      "/guarantee",
     ]) {
       expect(staticRoutes.has(expected), `missing route ${expected}`).toBe(true);
     }

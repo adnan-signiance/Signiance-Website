@@ -27,6 +27,7 @@ const routes = [
   { name: "privacy", file: "privacy.html" },
   { name: "terms", file: "terms.html" },
   { name: "security", file: "security.html" },
+  { name: "guarantee", file: "guarantee.html" },
   { name: "404", file: "_not-found.html" },
   ...services.map((s) => ({ name: `service/${s.slug}`, file: join("services", `${s.slug}.html`) })),
   ...caseStudyEntries.map((c) => ({
@@ -121,19 +122,20 @@ describe.skipIf(!buildExists)("content integrity", () => {
     expect(markup, "counters must not render as zero").not.toMatch(/>0<!-- --> wks/);
   });
 
-  it("renders the hero headline with the struck lead-in", () => {
+  it("renders the hero headline as a lead line and a punchline", () => {
     const markup = html("index.html");
     const h1 = markup.match(/<h1[\s\S]*?<\/h1>/)?.[0] ?? "";
     // The headline is split into one span per word for the staggered entrance,
     // so the phrases are checked against its text content, not the raw markup.
     const text = h1
       .replace(/<[^>]+>/g, "")
-      .replace(/&nbsp;| /g, " ")
+      .replace(/&#x27;/g, "'")
+      .replace(/&nbsp;| /g, " ")
       .replace(/\s+/g, " ");
-    expect(text).toContain("Skip the 12-month AI roadmap.");
-    expect(text).toContain("Ship the first working agent in weeks.");
-    // The five words of the lead-in are struck through; the promise is not.
-    expect(h1.match(/line-through/g) ?? []).toHaveLength(5);
+    expect(text).toContain("Your AI pilot works.");
+    expect(text).toContain("It's still a pilot.");
+    // Neither line is struck through.
+    expect(h1).not.toContain("line-through");
   });
 
   it("keeps the founder's note above the booking form", () => {

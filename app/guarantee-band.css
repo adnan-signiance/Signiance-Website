@@ -1,0 +1,51 @@
+/* The guarantee band on the home page (components/GuaranteeBand.tsx): a pale blue band
+   between the testimonials and the FAQ, the promise on the left and its one link on the right.
+   Tint, not the navy of the proof band: that stays the only dark band on the page. */
+
+.guarantee-band {
+  position: relative;
+  border-bottom: 1px solid var(--color-line);
+  background: var(--color-tint);
+  padding: clamp(40px, 6vw, 68px) var(--pad-x);
+}
+
+.guarantee-band-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 28px 48px;
+  flex-wrap: wrap;
+}
+
+.guarantee-band-copy {
+  max-width: 720px;
+}
+
+.guarantee-band-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+.guarantee-band-body {
+  margin: 16px 0 0;
+  max-width: 52ch;
+  font-size: var(--fs-md);
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.guarantee-band-cta {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 860px) {
+  .guarantee-band-inner {
+    align-items: flex-start;
+  }
+}

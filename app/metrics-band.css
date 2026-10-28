@@ -69,7 +69,7 @@
   color: var(--color-on-dark-muted) !important;
 }
 
-@media (max-width: 780px) {
+@media (max-width: 860px) {
   .metrics-band-note {
     text-align: left;
   }

@@ -1,6 +1,6 @@
 import type { BlogPost } from "./content/posts";
 import { socialImage } from "./content/images";
-import { brand, contactEmail, services, faqs, subhead, socialLinks, type Service, type CaseStudyEntry } from "./data";
+import { brand, contactEmail, services, faqs, siteDescription, socialLinks, type Service, type CaseStudyEntry } from "./data";
 
 /**
  * JSON-LD builders.
@@ -30,7 +30,7 @@ export function organizationSchema() {
     "@id": ORG_ID,
     name: brand,
     url: SITE_URL,
-    description: subhead,
+    description: siteDescription,
     email: contactEmail,
     logo: {
       "@type": "ImageObject",
@@ -64,7 +64,7 @@ export function websiteSchema() {
     "@id": WEBSITE_ID,
     url: SITE_URL,
     name: brand,
-    description: subhead,
+    description: siteDescription,
     publisher: { "@id": ORG_ID },
   };
 }

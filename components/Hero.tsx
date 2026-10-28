@@ -2,31 +2,27 @@ import Link from "next/link";
 import CornerDots from "./CornerDots";
 import CtaArrow from "./CtaArrow";
 import Magnetic from "./Magnetic";
-import { subhead } from "@/lib/data";
+import { READINESS_HREF, subhead } from "@/lib/data";
 
 /**
  * Headline words, in reading order, so the stagger runs continuously from the
- * first word of the struck line to the last of the promise instead of restarting
+ * first word of the lead line to the last of the punchline instead of restarting
  * per line. Punctuation stays attached to its word, or it would rise on its own.
  */
 type Word = { text: string; tail?: string; accent?: boolean };
 
-const STRUCK: Word[] = [
-  { text: "Skip" },
-  { text: "the" },
-  { text: "12-month" },
+const LEAD: Word[] = [
+  { text: "Your" },
   { text: "AI" },
-  { text: "roadmap." },
+  { text: "pilot" },
+  { text: "works." },
 ];
 
 const PROMISE: Word[] = [
-  { text: "Ship" },
-  { text: "the" },
-  { text: "first" },
-  { text: "working" },
-  { text: "agent" },
-  { text: "in", accent: true },
-  { text: "weeks", tail: ".", accent: true },
+  { text: "It's" },
+  { text: "still", accent: true },
+  { text: "a", accent: true },
+  { text: "pilot", tail: ".", accent: true },
 ];
 
 /**
@@ -37,12 +33,8 @@ const PROMISE: Word[] = [
  * largest paint later. A keyframe animation starts with the first frame, runs on
  * the compositor, and needs no script at all.
  *
- * `struck` words carry their trailing space inside the mask. Text-decoration does
- * not propagate into inline-block children, so a space left between masks would
- * break the strikethrough into a dashed line of separate words.
  */
-function HeroWord({ word, index, struck = false, last = false }: { word: Word; index: number; struck?: boolean; last?: boolean }) {
-  const gap = struck ? (last ? "" : " ") : "";
+function HeroWord({ word, index, last = false }: { word: Word; index: number; last?: boolean }) {
   return (
     <>
       <span className="rw-mask">
@@ -52,18 +44,14 @@ function HeroWord({ word, index, struck = false, last = false }: { word: Word; i
             {
               "--i": index,
               color: word.accent ? "var(--color-accent)" : undefined,
-              ...(struck
-                ? { textDecoration: "line-through", textDecorationColor: "var(--color-border-ui)", textDecorationThickness: 2 }
-                : null),
             } as React.CSSProperties
           }
         >
           {word.text}
           {word.tail ? <span style={{ color: "var(--color-ink)" }}>{word.tail}</span> : null}
-          {gap}
         </span>
       </span>
-      {!struck && !last ? " " : null}
+      {!last ? " " : null}
     </>
   );
 }
@@ -152,7 +140,7 @@ export default function Hero() {
               whiteSpace: "nowrap",
             }}
           >
-            Cloud &amp; AI Engineering
+            AI-Native Engineering for Startups
           </span>
           <span
             className="hero-badge-aside"
@@ -179,10 +167,10 @@ export default function Hero() {
           </span>
         </div>
 
-        {/* Two deliberate lines, not one wrapping block. The struck-through
-            premise is set smaller and the promise larger, so the size jump
-            between them does the work: the thing being dismissed is visibly
-            diminished and the thing being offered dominates. */}
+        {/* Two deliberate lines, not one wrapping block. The lead line (the
+            pilot works) is set smaller and muted and the punchline (it is still
+            a pilot) larger, so the size jump between them does the work. The
+            class name hero-line-struck is kept: the responsive layers size it. */}
         <h1
           style={{
             fontFamily: "var(--font-display)",
@@ -212,8 +200,8 @@ export default function Hero() {
               color: "var(--color-muted)",
             }}
           >
-            {STRUCK.map((w, i) => (
-              <HeroWord key={w.text} word={w} index={i} struck last={i === STRUCK.length - 1} />
+            {LEAD.map((w, i) => (
+              <HeroWord key={w.text} word={w} index={i} last={i === LEAD.length - 1} />
             ))}
           </span>
           <span
@@ -229,7 +217,7 @@ export default function Hero() {
             }}
           >
             {PROMISE.map((w, i) => (
-              <HeroWord key={w.text} word={w} index={STRUCK.length + i} last={i === PROMISE.length - 1} />
+              <HeroWord key={w.text} word={w} index={LEAD.length + i} last={i === PROMISE.length - 1} />
             ))}
           </span>
         </h1>
@@ -273,8 +261,8 @@ export default function Hero() {
               <CtaArrow>Book a scoping call</CtaArrow>
             </Link>
           </Magnetic>
-          <Link href="/how-we-work" className="btn-hero-outline">
-            <CtaArrow>See how we work</CtaArrow>
+          <Link href={READINESS_HREF} className="btn-hero-outline">
+            <CtaArrow>Check your AI production readiness</CtaArrow>
           </Link>
         </div>
 
@@ -299,17 +287,17 @@ export default function Hero() {
         >
           <span className="hero-rise" style={{ "--d": "0.34s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
+              <circle cx="7" cy="7" r="5.5" stroke="var(--color-accent)" strokeWidth="1.2" />
+              <circle cx="7" cy="7" r="1.8" fill="var(--color-accent)" />
+            </svg>
+            5-week median to production
+          </span>
+          <span className="hero-rise" style={{ "--d": "0.41s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
               <rect x="1.5" y="1.5" width="11" height="11" rx="2" stroke="var(--color-accent)" strokeWidth="1.2" />
               <path d="M4.5 7.2 6.3 9l3.2-4" stroke="var(--color-accent)" strokeWidth="1.2" strokeLinecap="round" />
             </svg>
             Fixed-fee scoping, credited to the build
-          </span>
-          <span className="hero-rise" style={{ "--d": "0.41s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
-            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>
-              <circle cx="7" cy="7" r="5.5" stroke="var(--color-accent)" strokeWidth="1.2" />
-              <circle cx="7" cy="7" r="1.8" fill="var(--color-accent)" />
-            </svg>
-            Senior-only pods, no bench time
           </span>
           <span className="hero-rise" style={{ "--d": "0.48s", display: "inline-flex", alignItems: "center", gap: 7 } as React.CSSProperties}>
             <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true" style={{ flex: "0 0 auto" }}>

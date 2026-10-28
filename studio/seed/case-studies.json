@@ -165,8 +165,8 @@
         "Autoscaling infrastructure",
         "Conversation observability"
       ],
-      "statValue": null,
-      "statLabel": null,
+      "statValue": "8 wks",
+      "statLabel": "to live on web and mobile",
       "order": 3,
       "homeSlot": 3,
       "featured": false,
@@ -223,8 +223,8 @@
         "GPU-accelerated compute (DEM)",
         "Elastic job scheduling"
       ],
-      "statValue": null,
-      "statLabel": null,
+      "statValue": "5 wks",
+      "statLabel": "to an elastic cloud HPC environment",
       "order": 4,
       "homeSlot": 4,
       "featured": true,

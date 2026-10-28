@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { services } from "@/lib/data";
+import { GUARANTEE_APPROVED, services } from "@/lib/data";
 import { getCaseStudies } from "@/lib/content/caseStudies";
 import { getPosts, pageCount } from "@/lib/content/posts";
 import { SITE_URL } from "@/lib/schema";
@@ -27,6 +27,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${SITE_URL}/privacy`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/terms`, lastModified, changeFrequency: "yearly", priority: 0.3 },
     { url: `${SITE_URL}/security`, lastModified, changeFrequency: "yearly", priority: 0.3 },
+    // The guarantee terms exist only while the guarantee is approved.
+    ...(GUARANTEE_APPROVED
+      ? [{ url: `${SITE_URL}/guarantee`, lastModified, changeFrequency: "yearly" as const, priority: 0.5 }]
+      : []),
   ];
 
   const serviceRoutes: MetadataRoute.Sitemap = services.map((sv) => ({

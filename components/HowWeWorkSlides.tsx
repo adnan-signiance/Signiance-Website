@@ -125,9 +125,7 @@ export default function HowWeWorkSlides() {
               </RevealHeading>
             </div>
             <Reveal as="p" className="section-head-note" delay={0.15}>
-              No pyramid staffing.
-              <br />
-              The people who scope it also build it.
+              No pyramid staffing. The people who scope it also build it, and can run it after.
             </Reveal>
           </div>
 

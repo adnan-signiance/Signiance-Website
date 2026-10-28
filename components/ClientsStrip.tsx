@@ -103,7 +103,7 @@ export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "g
       {/* This strip sits inside the first screen, so it joins the hero's page-load
           sequence (CSS, no script) instead of waiting on a scroll reveal. */}
       <p className="hero-rise hero-d3" style={{ margin: "0 0 22px" }}>
-        <SectionEyebrow>Trusted By Teams At</SectionEyebrow>
+        <SectionEyebrow>Trusted by startups and growing teams at</SectionEyebrow>
       </p>
       {/* A continuous right-to-left marquee at every width, not just on mobile.
           The track is the list rendered twice back to back, so translating it

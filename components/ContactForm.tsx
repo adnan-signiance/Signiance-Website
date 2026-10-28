@@ -18,6 +18,9 @@ const TIMELINES = ["Not sure yet", "Within a month", "This quarter", "Next quart
  */
 const USE_CASES = [
   "Not sure yet",
+  "Our AI pilot won't make it to production",
+  "Our AI bill is growing too fast",
+  "We're blocked on a security review",
   "Cloud, DevOps or cost",
   "An agent that takes actions",
   "Answers from our own documents",

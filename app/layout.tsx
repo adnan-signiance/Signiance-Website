@@ -12,7 +12,7 @@ import PageTransition from "@/components/PageTransition";
 import MotionProvider from "@/components/MotionProvider";
 import CookieConsent from "@/components/CookieConsent";
 import Analytics from "@/components/Analytics";
-import { subhead } from "@/lib/data";
+import { siteDescription } from "@/lib/data";
 
 /**
  * Fonts are self-hosted through next/font rather than fetched from
@@ -38,11 +38,10 @@ const geist = Geist({
   display: "swap",
 });
 
-// Title and description are kept in step with the hero: the H1 promises speed,
-// so the search snippet should too. The description is the same sentence the
-// page leads with, imported rather than duplicated.
-const title = "Signiance · Ship your first working agent in weeks";
-const description = subhead;
+// Home page title and description, kept in lib/data.ts (the description is shared with the
+// site's structured data).
+const title = "Signiance · AI-Native Engineering for Startups | Demo to Production in Weeks";
+const description = siteDescription;
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.signiance.com"),

@@ -105,8 +105,8 @@ describe("metrics", () => {
     const median =
       weeks.length % 2 === 0 ? (weeks[mid - 1] + weeks[mid]) / 2 : weeks[mid];
 
-    const claimed = metrics.find((m) => /median engagement/i.test(m.label));
-    expect(claimed, "expected a 'median engagement' metric").toBeTruthy();
+    const claimed = metrics.find((m) => /median time/i.test(m.label));
+    expect(claimed, "expected a 'median time' metric").toBeTruthy();
 
     const claimedWeeks = Number(claimed!.value.match(/^(\d+)/)?.[1]);
     expect(

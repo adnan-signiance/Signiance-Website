@@ -30,6 +30,7 @@ const staticPages = [
   "privacy",
   "terms",
   "security",
+  "guarantee",
   "blog",
   "careers",
 ];

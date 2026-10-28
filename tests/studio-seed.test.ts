@@ -69,7 +69,8 @@ describe("buildDocument", () => {
   });
 
   it("leaves out the headline number when there is none, and the slot when unassigned", () => {
-    const noStat = seed.caseStudies.find((s: SeedEntry) => s.statValue === null) as SeedEntry;
+    // Every bundled study now has a number, so take one and take its number away.
+    const noStat = { ...entry, statValue: null, statLabel: null } as unknown as SeedEntry;
     const doc = buildDocument(noStat, "x") as Doc;
     expect("statValue" in doc).toBe(false);
     expect("statLabel" in doc).toBe(false);

@@ -1,0 +1,22 @@
+/* "Why Signiance" on the home page (components/WhySigniance.tsx): a long headline, a rule, and
+   one paragraph set larger than body copy. */
+
+.why-title {
+  max-width: 30ch;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h2);
+  line-height: 1.06;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+.why-body {
+  max-width: 62ch;
+  margin: 24px 0 0;
+  font-size: var(--fs-lead);
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}
