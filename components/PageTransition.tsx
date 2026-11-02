@@ -172,7 +172,7 @@ export default function PageTransition() {
       <div className="curtain-panel" style={{ transform, transition: phase === "idle" ? "none" : undefined }}>
         <div className="curtain-label">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/media/signiance-dark.webp" alt="" className="curtain-logo" />
+          <img src="/media/logo_2_blue.svg" alt="" className="curtain-logo" />
           <div>{label}</div>
         </div>
       </div>

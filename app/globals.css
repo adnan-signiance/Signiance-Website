@@ -2721,8 +2721,7 @@ a {
   display: block;
   height: 40px;
   width: auto;
-  filter: invert(1) drop-shadow(0 2px 16px rgba(0, 0, 0, 0.3));
-  mix-blend-mode: screen;
+  filter: brightness(0) invert(1) drop-shadow(0 2px 16px rgba(0, 0, 0, 0.3));
 }
 
 /* Legal pages (privacy, terms, security) ---------------------------------- */

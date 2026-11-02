@@ -42,7 +42,7 @@ export default function Footer() {
         <div>
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
             <Image
-              src="/media/signiance-dark.webp"
+              src="/media/logo_2_blue.svg"
               alt={brand}
               width={538}
               height={125}

@@ -245,18 +245,14 @@ export default function Header() {
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
             { }
             <Image
-              src="/media/signiance-dark.webp"
+              src="/media/logo_2_blue.svg"
               alt={brand}
               // Intrinsic size of the source file; the style below controls the
               // rendered size. Declaring both lets the browser reserve the box.
               width={538}
               height={125}
               priority
-              // The source file is a JPEG with a plain white background (no
-              // alpha channel) — multiply blend makes that white drop out
-              // against any backdrop, including the frosted blur behind it,
-              // instead of sitting on top as a visible white rectangle.
-              style={{ display: "block", height: 40, width: "auto", mixBlendMode: "multiply" }}
+              style={{ display: "block", height: 40, width: "auto" }}
             />
           </Link>
 
