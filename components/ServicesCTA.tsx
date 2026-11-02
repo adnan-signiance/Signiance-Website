@@ -27,11 +27,12 @@ export default function ServicesCTA() {
         >
           Not sure which practice fits?
         </RevealHeading>
-        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
-          Tell us the workflow. We&apos;ll tell you which of the five gets you there fastest.
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 560, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+          Tell us the workflow, or the AI pilot that&apos;s stuck. We&apos;ll tell you which practice gets it to
+          production fastest, and if it&apos;s not worth building, we&apos;ll say so.
         </Reveal>
         <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>
-          <CalBooking />
+          <CalBooking primaryLabel="Book a scoping call" />
         </Reveal>
       </div>
       <CornerDots />

@@ -25,15 +25,16 @@ export default function ServicesHero() {
               lineHeight: 1.05,
               letterSpacing: "var(--tracking-tight)",
               margin: "16px 0 0",
-              maxWidth: "20ch",
+              maxWidth: "24ch",
               textWrap: "balance",
             }}
           >
-            Five practices, one senior team
+            Five practices, one goal: AI that runs in production
           </HeroHeading>
-          <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
-            Scoped in a week, delivered against outcomes you define. Every engagement below is staffed by the
-            people who build, not a bench.
+          <p className="hero-rise hero-d1" style={{ maxWidth: 600, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+            Agents, RAG, MVPs, copilots and the cloud foundation underneath them. Every engagement is scoped in a
+            week, built by the people you meet on the first call, and shipped with everything it needs to survive
+            real users.
           </p>
           <div
             style={{
@@ -58,7 +59,7 @@ export default function ServicesHero() {
                 <circle cx="7" cy="7" r="5.5" stroke="var(--color-accent)" strokeWidth="1.2" />
                 <circle cx="7" cy="7" r="1.8" fill="var(--color-accent)" />
               </svg>
-              Senior-only pods, no bench time
+              Production-ready, not demo-ready
             </span>
           </div>
           <div style={{ display: "flex", gap: 8, marginTop: 30, flexWrap: "wrap" }}>

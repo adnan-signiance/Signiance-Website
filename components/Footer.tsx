@@ -52,9 +52,6 @@ export default function Footer() {
           <p style={{ margin: "14px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
             An AI-native engineering company. From AI potential to production impact.
           </p>
-          <p style={{ margin: "6px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
-            Bengaluru · Rajkot
-          </p>
           <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
             <Image
               src="/media/aws-advanced-tier-partner.webp"
