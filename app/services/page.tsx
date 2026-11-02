@@ -6,17 +6,17 @@ import ServicesCTA from "@/components/ServicesCTA";
 import JsonLd from "@/components/JsonLd";
 import { breadcrumbSchema, jsonLdGraph, organizationSchema, serviceListSchema } from "@/lib/schema";
 
+// Long enough that search engines do not pad the snippet with arbitrary page text.
+const servicesDescription =
+  "Five practices that take AI from idea to production for startups. One senior team, scoped in a week, shipped in weeks, with evals, monitoring and cost controls built in.";
+
 export const metadata: Metadata = {
   title: "Services",
-  // Lengthened from ~90 characters, which was short enough that search engines
-  // would pad the snippet with arbitrary page text.
-  description:
-    "Five practices covering cloud architecture, DevOps, agentic AI, RAG and copilots. One senior team, scoped in a week and delivered against outcomes you define.",
+  description: servicesDescription,
   alternates: { canonical: "/services" },
   openGraph: {
     title: "Services · Signiance",
-    description:
-      "Five practices covering cloud architecture, DevOps, agentic AI, RAG and copilots. One senior team, scoped in a week.",
+    description: servicesDescription,
     url: "/services",
   },
 };

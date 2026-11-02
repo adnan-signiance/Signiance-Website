@@ -112,7 +112,14 @@ function CalEmbed({ style }: { style?: React.CSSProperties }) {
   return <div ref={containerRef} id={elementId} className="cal-embed" style={{ width: "100%", ...style }} />;
 }
 
-export default function CalBooking({ style }: { style?: React.CSSProperties }) {
+export default function CalBooking({
+  style,
+  primaryLabel = "Open the booking page",
+}: {
+  style?: React.CSSProperties;
+  /** Label for the booking link shown until the visitor accepts the widget. */
+  primaryLabel?: string;
+}) {
   const consent = useConsent();
   if (consent === "accepted") return <CalEmbed style={style} />;
 
@@ -133,7 +140,7 @@ export default function CalBooking({ style }: { style?: React.CSSProperties }) {
             track("booking_fallback_click", { target: "cal-page", consent: consent ?? "undecided" })
           }
         >
-          Open the booking page
+          {primaryLabel}
         </a>
         <a
           href={`mailto:${CONTACT_EMAIL}`}
