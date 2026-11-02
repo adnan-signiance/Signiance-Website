@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
 import CtaArrow from "./CtaArrow";
@@ -59,15 +60,12 @@ function HeroWord({ word, index, last = false }: { word: Word; index: number; la
 export default function Hero() {
   return (
     <section
-      className="hero-section"
+      className="hero-section hero-home"
       style={{
         position: "relative",
         padding: "clamp(32px, 7vw, 78px) var(--pad-x) clamp(28px, 6vw, 58px)",
         borderBottom: "1px solid var(--color-line)",
         minHeight: "clamp(460px, calc(100vh - 226px), 860px)",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
       }}
     >
       <div
@@ -75,13 +73,11 @@ export default function Hero() {
         style={{
           position: "relative",
           zIndex: 2,
-          // Wide enough that the headline's second line holds on one line at
-          // desktop widths, which is the whole point of the two-line split. The
-          // lead paragraph keeps its own 520px measure, so only the headline and
-          // the single-row proof points actually use this width.
-          maxWidth: 1120,
-          margin: "0 auto",
-          textAlign: "center",
+          // Left-aligned copy column; .hero-home puts the artwork beside it.
+          // The lead paragraph keeps its own measure, so only the headline and
+          // the single-row proof points actually use the full column.
+          maxWidth: 700,
+          textAlign: "left",
         }}
       >
         <div
@@ -230,8 +226,8 @@ export default function Hero() {
             // roughly 780px across and wrapped to three lines. `balance` evens
             // the lines out so it settles into two of similar length instead of
             // a long line over a short orphan.
-            maxWidth: 700,
-            margin: "clamp(12px, 3vw, 20px) auto 0",
+            maxWidth: 560,
+            margin: "clamp(12px, 3vw, 20px) 0 0",
             fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
             color: "var(--color-ink-soft)",
@@ -248,7 +244,7 @@ export default function Hero() {
             "--d": "0.26s",
             display: "flex",
             gap: 12,
-            justifyContent: "center",
+            justifyContent: "flex-start",
             marginTop: "clamp(16px, 4vw, 32px)",
             flexWrap: "wrap",
           } as React.CSSProperties}
@@ -276,7 +272,7 @@ export default function Hero() {
             display: "flex",
             flexWrap: "wrap",
             alignItems: "center",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             columnGap: 20,
             rowGap: 10,
             marginTop: "clamp(18px, 3.5vw, 30px)",
@@ -311,6 +307,20 @@ export default function Hero() {
             You own the code and runbook
           </span>
         </div>
+      </div>
+
+      {/* Decorative: the headline and proof points carry the message. Dropped
+          below 880px, where it would only push the headline down. */}
+      <div className="hero-home-art hero-rise" style={{ "--d": "0.2s" } as React.CSSProperties}>
+        <Image
+          src="/media/hero-art.webp"
+          alt=""
+          width={500}
+          height={500}
+          priority
+          sizes="(max-width: 1100px) 32vw, 440px"
+          style={{ display: "block", width: "100%", height: "auto" }}
+        />
       </div>
 
       {/* The "Scroll" cue was removed: it was a sixth element competing for

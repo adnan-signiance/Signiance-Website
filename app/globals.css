@@ -947,6 +947,30 @@ a {
   }
 }
 
+/* Home hero: copy on the left, artwork on the right, centred on one another.
+   The corner dots are absolutely positioned, so the section has exactly two
+   grid items. Stacks to one column (and drops the artwork) on narrow screens. */
+.hero-home {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.hero-home-art {
+  width: clamp(280px, 32vw, 440px);
+}
+
+@media (max-width: 880px) {
+  .hero-home {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hero-home-art {
+    display: none;
+  }
+}
+
 /* Related case studies — the same embedded, shared-border treatment as
    the case-studies listing grid, sized down for a 3-up "more like this"
    strip on a detail page. Full-bleed to the page's own rails, same as the
@@ -2029,7 +2053,7 @@ a {
      max-width and centring here would have centred both. */
 }
 
-/* The framed surface belongs to the Cal.com embed itself, so it appears only
+/* The framed surface belongs to the Calendly embed itself, so it appears only
    when the embed is actually rendered — and it is the one element on the page
    that is centred. */
 .cal-embed {
