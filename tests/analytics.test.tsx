@@ -69,7 +69,6 @@ describe("observability", () => {
 describe("funnel instrumentation is wired", () => {
   beforeEach(() => {
     resetConsent();
-    delete (window as { Cal?: unknown }).Cal;
   });
 
   it("tracks the consent decision", async () => {
@@ -89,7 +88,7 @@ describe("funnel instrumentation is wired", () => {
   it("keeps the fallback links working with instrumentation attached", async () => {
     render(<CalBooking />);
     const link = screen.getByRole("link", { name: /open the booking page/i });
-    expect(link).toHaveAttribute("href", expect.stringContaining("cal.com/"));
+    expect(link).toHaveAttribute("href", expect.stringContaining("calendly.com/"));
     // Clicking must not throw even though an onClick handler now calls track().
     expect(() => link.click()).not.toThrow();
   });

@@ -83,15 +83,15 @@ Set in `.env.local` (see `.env.example`):
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_CAL_LINK` | Cal.com booking target, `<account>/<event-slug>` |
-| `NEXT_PUBLIC_CAL_MINUTES` | Length of that event; the site quotes it in copy |
+| `NEXT_PUBLIC_BOOKING_URL` | Calendly event URL the booking widget and fallback link point at |
+| `NEXT_PUBLIC_BOOKING_MINUTES` | Length of that event; the site quotes it in copy |
 | `NEXT_PUBLIC_SITE_URL` | Canonical origin for metadata, sitemap and robots |
 | `NEXT_PUBLIC_CONTACT_ENDPOINT` | Google Apps Script URL that emails enquiries to `hello@signiance.com`. Without it the forms show the email fallback |
 | `SANITY_PROJECT_ID` | Turns on the CMS for case studies and the blog. Without it the site uses the bundled case studies and has no blog posts |
 | `SANITY_DATASET` | Sanity dataset to read (default `production`) |
 | `SANITY_READ_TOKEN` | Only if the dataset is private; a public dataset needs no token |
 
-`booking.durationMinutes` in `lib/data.ts` derives from `NEXT_PUBLIC_CAL_MINUTES`
+`booking.durationMinutes` in `lib/data.ts` derives from `NEXT_PUBLIC_BOOKING_MINUTES`
 and feeds every "N minutes with the people who'd do the work" line on the site,
 so the quoted length can never drift from the event the link points at.
 
@@ -129,8 +129,8 @@ editor ──publish──▶ Sanity ──webhook──▶ host rebuilds the si
 
 There are three, deliberately, so no single dependency can block an enquiry:
 
-1. **Cal.com embed** — inline scheduling, loaded only after cookie consent and
-   only once scrolled near (`IntersectionObserver`, 400px margin).
+1. **Calendly embed** — inline scheduling in an iframe, rendered only after
+   cookie consent and lazy-loaded by the browser.
 2. **First-party form** — `components/ContactForm.tsx` (and the footer
    `NewsletterForm.tsx`) posting through `lib/contactDelivery.ts` to a Google
    Apps Script web app, which emails `hello@signiance.com`. Works with cookies
@@ -239,7 +239,7 @@ Set in `next.config.js`. `X-Frame-Options`, `X-Content-Type-Options`,
 enforced.
 
 CSP ships as **`Content-Security-Policy-Report-Only`** on purpose: the policy has
-not yet been exercised against the live Cal.com embed in a real browser, and a
+not yet been exercised against the live Calendly embed in a real browser, and a
 CSP that silently breaks booking would be worse than none. Load the site, confirm
 devtools reports no violations, then rename the header to
 `Content-Security-Policy` to enforce it.
@@ -252,22 +252,21 @@ Tracked against the remediation plan; these are deliberate, not oversights:
 - 16 of 37 components are client components; several could be narrowed (Phase 4.5)
 - CSP is report-only until verified in a browser (Phase 4.6 — see above)
 - Enquiry delivery needs `NEXT_PUBLIC_CONTACT_ENDPOINT` (the deployed Google Apps Script URL); until it is set the forms show the email fallback
-- The Cal.com booking event is still a personal handle on a 15-minute slot while the copy promises 30 minutes (Phase 2.1)
+- The Calendly booking event belongs to an individual's account (Brijesh Akbari) rather than a company one (Phase 2.1)
 - The legal pages do not yet name the registered legal entity, address, or governing jurisdiction (Phase 1.4 — needs input)
 - No analytics or error monitoring (Phase 8)
 - No security headers (Phase 4.6)
-- Cal.com integration is typed with `any` (Phase 9.5)
 - `/blog` and `/careers` are placeholder pages, excluded from the sitemap pending a decision (Phase 5.14)
 
 ## Cookie consent
 
-The Cal.com booking embed is the only non-essential third party on the site, and
+The Calendly booking embed is the only non-essential third party on the site, and
 it is not loaded until the visitor accepts it. `lib/consent.ts` stores the choice
 in a first-party `signiance_consent` cookie; `components/CookieConsent.tsx`
 prompts for it; `components/CalBooking.tsx` reads it.
 
 Declining is a supported path, not a dead end: the widget is replaced by a direct
-link to the same Cal.com page plus the email address, both of which are in the
+link to the same Calendly page plus the email address, both of which are in the
 prerendered HTML and therefore work with JavaScript disabled. `tests/routes.test.ts`
-asserts that no Cal.com resource appears in any prerendered page, so a regression
+asserts that no Calendly resource appears in any prerendered page, so a regression
 that bypasses the gate fails the build.

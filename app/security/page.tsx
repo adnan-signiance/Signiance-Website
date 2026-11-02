@@ -60,7 +60,7 @@ export default function SecurityPage() {
               {
                 list: [
                   "Amazon Web Services — hosting and infrastructure.",
-                  "Cal.com, Inc. — call scheduling. Loaded only after a visitor consents, and receives the booking details that visitor enters.",
+                  "Calendly, LLC — call scheduling. Loaded only after a visitor consents, and receives the booking details that visitor enters.",
                 ],
               },
               "Providers used inside a specific client engagement are disclosed in that engagement's own agreement. Our website privacy policy sets out what each provider above receives.",

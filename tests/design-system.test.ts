@@ -31,7 +31,7 @@ const ALLOWED = new Map<string, string>([
   ["app/fallbacks.css", "rgba fallbacks for color-mix"],
   [
     "components/CalBooking.tsx",
-    "brand colours are injected into the Cal.com iframe, where this document's custom properties do not exist",
+    "brand colours are passed to the Calendly iframe, where this document's custom properties do not exist",
   ],
   [
     "app/global-error.tsx",

@@ -24,7 +24,7 @@ export default function PrivacyPage() {
               {
                 list: [
                   "Contact details you send us directly: if you email us, we receive your address and whatever you choose to tell us.",
-                  "Booking details you enter into our scheduling widget when you reserve a call: name, email address, time zone, and any notes you add. This widget is provided by Cal.com — see section 3.",
+                  "Booking details you enter into our scheduling widget when you reserve a call: name, email address, time zone, and any notes you add. This widget is provided by Calendly — see section 3.",
                   "Usage data your browser sends automatically, recorded in standard server logs: pages visited, referring URL, browser and device type, and approximate location derived from IP address.",
                   "One essential cookie recording your cookie choice, so we do not have to ask again on your next visit.",
                   "Project-related information you share with us once an engagement begins, handled under the terms of that engagement's own agreement.",
@@ -42,11 +42,11 @@ export default function PrivacyPage() {
             heading: "3. Cookies and third-party embeds",
             body: [
               "We do not use advertising or cross-site tracking cookies. Our site analytics are cookieless: they count page views and a small set of events (such as an enquiry being submitted) in aggregate, without cookies, without a device identifier, and without building a profile of you. The only cookie we set ourselves is a small essential one that remembers whether you accepted or declined the booking widget, so we do not ask again on every page.",
-              "Our scheduling widget is provided by Cal.com, Inc. It is a third party, and loading it allows Cal.com to set its own cookies and to receive your IP address and browser information. For that reason we do not load it until you accept:",
+              "Our scheduling widget is provided by Calendly, LLC. It is a third party, and loading it allows Calendly to set its own cookies and to receive your IP address and browser information. For that reason we do not load it until you accept:",
               {
                 list: [
-                  "If you accept, the widget loads inline and you can pick a time without leaving the site. Cal.com receives the name, email address and notes you enter, and processes them as described in its own privacy policy.",
-                  "If you decline, the widget is never loaded and Cal.com sets nothing. You can still book by following a direct link to our Cal.com page, or simply email us — both options are shown in place of the widget.",
+                  "If you accept, the widget loads inline and you can pick a time without leaving the site. Calendly receives the name, email address and notes you enter, and processes them as described in its own privacy policy.",
+                  "If you decline, the widget is never loaded and Calendly sets nothing. You can still book by following a direct link to our Calendly page, or simply email us — both options are shown in place of the widget.",
                 ],
               },
               "You can change or withdraw your choice at any time using the cookie settings link in the footer, and you can block or clear cookies in your browser settings. The rest of the site works normally without any of them.",
@@ -58,7 +58,7 @@ export default function PrivacyPage() {
               "We do not sell or rent personal information. We share it only with:",
               {
                 list: [
-                  "Cal.com, Inc. — scheduling. Receives the name, email address, time zone and notes you enter when booking a call. Loaded only with your consent.",
+                  "Calendly, LLC — scheduling. Receives the name, email address, time zone and notes you enter when booking a call. Loaded only with your consent.",
                   "Plausible Analytics — cookieless, aggregate site statistics. Receives no cookies, no device identifier and no personal profile.",
                   "Amazon Web Services — hosting and infrastructure for this site.",
                   "Our email provider — correspondence you send to or receive from us.",
@@ -66,7 +66,7 @@ export default function PrivacyPage() {
                   "Authorities, where required by law or to protect our rights.",
                 ],
               },
-              "Each provider is bound by confidentiality obligations and processes information only on our instructions, except where they act as an independent controller of their own data — as Cal.com does for the booking information you give it directly.",
+              "Each provider is bound by confidentiality obligations and processes information only on our instructions, except where they act as an independent controller of their own data — as Calendly does for the booking information you give it directly.",
             ],
           },
           {

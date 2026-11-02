@@ -217,24 +217,24 @@ describe.skipIf(!buildExists)("rendered link integrity", () => {
 });
 
 describe.skipIf(!buildExists)("third-party consent compliance", () => {
-  // The Cal.com embed sets its own cookies, so nothing belonging to it may
+  // The Calendly embed sets its own cookies, so nothing belonging to it may
   // appear in markup served before the visitor has agreed to load it. These
   // assertions fail loudly if the gate in CalBooking is ever bypassed.
   const bookingPages = routes.filter(
     (r) => r.name === "home" || r.name === "about" || r.name.startsWith("service") || r.name.startsWith("case-study")
   );
 
-  it.each(bookingPages)("$name requests no Cal.com resource before consent", ({ file }) => {
+  it.each(bookingPages)("$name requests no Calendly resource before consent", ({ file }) => {
     const markup = html(file);
-    expect(markup, "embed loader must not be prerendered").not.toMatch(/app\.cal\.com/);
-    expect(markup, "embed script must not be prerendered").not.toMatch(/embed\.js/);
+    expect(markup, "embed frame must not be prerendered").not.toMatch(/<iframe[^>]*calendly\.com/);
+    expect(markup, "embed script must not be prerendered").not.toMatch(/assets\.calendly\.com/);
   });
 
   it("still offers a booking path in the no-JavaScript markup", () => {
     const markup = html("index.html");
     // A plain link to the booking page, so the page converts even with the
     // embed unloaded and scripting disabled.
-    expect(markup).toMatch(/href="https:\/\/cal\.com\//);
+    expect(markup).toMatch(/href="https:\/\/calendly\.com\//);
     expect(markup).toMatch(/mailto:/);
   });
 
@@ -242,12 +242,12 @@ describe.skipIf(!buildExists)("third-party consent compliance", () => {
     expect(html("index.html")).not.toMatch(/cookie-consent-inner/);
   });
 
-  it("discloses Cal.com in the privacy policy", () => {
-    expect(html("privacy.html")).toMatch(/Cal\.com/);
+  it("discloses Calendly in the privacy policy", () => {
+    expect(html("privacy.html")).toMatch(/Calendly/);
   });
 
-  it("lists Cal.com as a sub-processor on the security page", () => {
-    expect(html("security.html")).toMatch(/Cal\.com/);
+  it("lists Calendly as a sub-processor on the security page", () => {
+    expect(html("security.html")).toMatch(/Calendly/);
   });
 
   it("describes its cookie and analytics use accurately", () => {

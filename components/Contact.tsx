@@ -17,7 +17,7 @@ export default function Contact() {
    * With the calendar on screen the form is redundant clutter, so it is collapsed
    * behind a disclosure rather than removed: someone who would rather write than
    * pick a slot still has a first-party path, and the enquiry endpoint stays the
-   * backstop if Cal.com is ever unreachable.
+   * backstop if Calendly is ever unreachable.
    *
    * When the embed is not shown, the form is the primary path and is open.
    */

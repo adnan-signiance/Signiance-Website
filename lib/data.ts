@@ -16,19 +16,20 @@ export const contactEmail = "hello@signiance.com";
  * Booking configuration.
  *
  * `durationMinutes` is what the site's copy quotes, so it must match the length
- * of the Cal.com event `calLink` points at — otherwise the page promises one
+ * of the Calendly event `url` points at — otherwise the page promises one
  * thing and the booking form delivers another.
  *
- * The default is 15 to match the event currently configured. Pointing
- * NEXT_PUBLIC_CAL_LINK at a 30-minute company event and setting
- * NEXT_PUBLIC_CAL_MINUTES=30 updates the link and every piece of copy together.
+ * The default is 30 to match the event currently configured. Pointing
+ * NEXT_PUBLIC_BOOKING_URL at a different event and setting
+ * NEXT_PUBLIC_BOOKING_MINUTES to its length updates the link and every piece of
+ * copy together.
  */
 export const booking = {
-  calLink: process.env.NEXT_PUBLIC_CAL_LINK || "adnan2004/15min",
-  durationMinutes: Number(process.env.NEXT_PUBLIC_CAL_MINUTES ?? 15),
+  url: process.env.NEXT_PUBLIC_BOOKING_URL || "https://calendly.com/brijeshakbari/discovery-meeting",
+  durationMinutes: Number(process.env.NEXT_PUBLIC_BOOKING_MINUTES ?? 30),
 } as const;
 
-/** "15 minutes with the people who'd do the work." — kept consistent sitewide. */
+/** "30 minutes with the people who'd do the work." — kept consistent sitewide. */
 export const bookingPromise = `${booking.durationMinutes} minutes with the people who'd do the work.`;
 
 export const headline =

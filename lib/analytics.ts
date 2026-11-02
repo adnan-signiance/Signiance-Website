@@ -7,7 +7,7 @@
  *
  *  1. **Cookieless.** The provider is Plausible, which sets no cookies and
  *     stores no personal data, so analytics does not need to sit behind the
- *     consent gate the Cal.com embed does. Adding a cookie-based tool would
+ *     consent gate the Calendly embed does. Adding a cookie-based tool would
  *     mean measurement only works for visitors who accept — i.e. exactly the
  *     population you least need to understand.
  *
@@ -29,7 +29,7 @@ export type AnalyticsEvent =
   | "cta_click"
   /** The booking widget was actually shown to the visitor. */
   | "booking_widget_shown"
-  /** The Cal.com embed script loaded, or failed to. */
+  /** The Calendly embed loaded, or failed to. */
   | "booking_widget_loaded"
   | "booking_widget_failed"
   /** The link-out fallback was used instead of the inline widget. */

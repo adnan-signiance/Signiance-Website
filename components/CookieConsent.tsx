@@ -7,7 +7,7 @@ import { useHydrated } from "@/lib/useHydrated";
 import { track } from "@/lib/analytics";
 
 /**
- * Consent prompt for the Cal.com booking embed.
+ * Consent prompt for the Calendly booking embed.
  *
  * Only shown when no choice has been recorded. It is a dialog rather than a
  * passive bar because declining has a real consequence (the inline widget is
@@ -43,7 +43,7 @@ export default function CookieConsent() {
             Booking widget
           </p>
           <p id="cookie-consent-body" className="cookie-consent-body">
-            Our scheduling widget is provided by Cal.com and sets its own cookies. We only load it if you
+            Our scheduling widget is provided by Calendly and sets its own cookies. We only load it if you
             agree. Decline and you can still book through a direct link or by email.{" "}
             <Link href="/privacy" className="cookie-consent-link">
               Privacy policy

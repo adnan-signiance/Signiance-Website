@@ -8,7 +8,7 @@ const COOKIE_NAME = "signiance_consent";
 const MAX_AGE_DAYS = 180;
 
 /**
- * Consent state for the one non-essential third party on the site: the Cal.com
+ * Consent state for the one non-essential third party on the site: the Calendly
  * booking embed.
  *
  * Stored in a first-party cookie rather than localStorage so the privacy policy

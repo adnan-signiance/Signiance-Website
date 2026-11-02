@@ -1,8 +1,10 @@
 /** @type {import('next').NextConfig} */
 
 // Only non-essential third party on the site. Kept in one place so the policy
-// below and the embed in components/CalBooking.tsx cannot drift apart.
-const CAL_ORIGINS = "https://cal.com https://app.cal.com";
+// below and the embed in components/CalBooking.tsx cannot drift apart. The
+// Calendly page is a plain iframe, so only frame-src needs to allow it; its own
+// scripts and requests run inside the frame under Calendly's policy, not ours.
+const BOOKING_ORIGIN = "https://calendly.com";
 
 // The enquiry forms post to a Google Apps Script web app (lib/contactDelivery.ts).
 // It answers with a redirect from script.google.com to script.googleusercontent.com,
@@ -32,12 +34,12 @@ const csp = [
   "object-src 'none'",
   "frame-ancestors 'none'",
   "form-action 'self'",
-  `script-src 'self' 'unsafe-inline' ${CAL_ORIGINS}`,
+  "script-src 'self' 'unsafe-inline'",
   "style-src 'self' 'unsafe-inline'",
-  `img-src 'self' data: blob: ${CAL_ORIGINS} ${CMS_IMAGE_ORIGIN}`.trim(),
+  `img-src 'self' data: blob: ${CMS_IMAGE_ORIGIN}`.trim(),
   "font-src 'self' data:",
-  `connect-src 'self' ${CAL_ORIGINS} ${FORM_ORIGINS}`,
-  `frame-src ${CAL_ORIGINS}`,
+  `connect-src 'self' ${FORM_ORIGINS}`,
+  `frame-src ${BOOKING_ORIGIN}`,
   "media-src 'self'",
   "worker-src 'self' blob:",
   "upgrade-insecure-requests",
@@ -45,7 +47,7 @@ const csp = [
 
 const securityHeaders = [
   // Shipped in report-only mode first. The policy has not yet been exercised
-  // against the live Cal.com embed in a real browser, and a CSP that silently
+  // against the live Calendly embed in a real browser, and a CSP that silently
   // breaks the booking widget would be worse than none. Verify in devtools that
   // no violations are reported, then rename this header to
   // `Content-Security-Policy` to enforce it.

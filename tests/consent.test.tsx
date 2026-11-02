@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it } from "vitest";
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import CalBooking from "@/components/CalBooking";
@@ -7,20 +7,19 @@ import { resetConsent, setConsent } from "@/lib/consent";
 
 beforeEach(() => {
   resetConsent();
-  delete (window as { Cal?: unknown }).Cal;
 });
 
 describe("CalBooking consent gating", () => {
-  it("does not load the Cal.com embed before consent is given", () => {
-    render(<CalBooking />);
-    expect(window.Cal, "Cal.com loader must not be installed without consent").toBeUndefined();
-    expect(document.querySelector('script[src*="cal.com"]')).toBeNull();
+  it("does not load the Calendly embed before consent is given", () => {
+    const { container } = render(<CalBooking />);
+    expect(container.querySelector("iframe"), "no frame may be created without consent").toBeNull();
+    expect(document.querySelector('[src*="calendly.com"]')).toBeNull();
   });
 
   it("offers a working booking path when consent has not been given", () => {
     render(<CalBooking />);
     const link = screen.getByRole("link", { name: /open the booking page/i });
-    expect(link).toHaveAttribute("href", expect.stringContaining("cal.com/"));
+    expect(link).toHaveAttribute("href", expect.stringContaining("calendly.com/"));
     expect(link).toHaveAttribute("target", "_blank");
     expect(link).toHaveAttribute("rel", expect.stringContaining("noopener"));
   });
@@ -35,21 +34,19 @@ describe("CalBooking consent gating", () => {
 
   it("keeps the fallback and loads nothing after an explicit decline", () => {
     setConsent("declined");
-    render(<CalBooking />);
-    expect(window.Cal).toBeUndefined();
+    const { container } = render(<CalBooking />);
+    expect(container.querySelector("iframe")).toBeNull();
     expect(screen.getByRole("link", { name: /open the booking page/i })).toBeInTheDocument();
     expect(screen.getByRole("link", { name: /email us instead/i })).toBeInTheDocument();
   });
 
-  // Regression: the embed and the fallback used to share one container <div>, so
-  // after consent was reset the iframe Cal.com had injected survived inside the
-  // fallback and the calendar stayed on screen.
-  it("removes everything Cal.com injected when consent is withdrawn", () => {
+  // The frame must disappear the moment consent is withdrawn, so nothing from
+  // the third party stays on screen (or keeps running) after the visitor resets.
+  it("removes the Calendly frame when consent is withdrawn", () => {
     setConsent("accepted");
     const { container } = render(<CalBooking />);
-    const embed = container.querySelector(".cal-embed");
-    expect(embed).not.toBeNull();
-    embed!.appendChild(document.createElement("iframe"));
+    expect(container.querySelector(".cal-embed")).not.toBeNull();
+    expect(container.querySelector("iframe")).not.toBeNull();
 
     act(() => resetConsent());
 
@@ -58,54 +55,24 @@ describe("CalBooking consent gating", () => {
     expect(screen.getByRole("link", { name: /open the booking page/i })).toBeInTheDocument();
   });
 
-  // Regression: the IntersectionObserver ref is attached to the embed container,
-  // which only exists once consent is accepted. With `consent` missing from the
-  // observer effect's dependencies the observer was never created, so `inView`
-  // stayed false and loadCalEmbed() was never called — the container rendered but
-  // stayed empty, with no calendar in it.
-  //
-  // The meaningful assertion is therefore that the Cal.com loader gets installed,
-  // not merely that the container appears (it did before the fix too).
-  it("requests the Cal.com embed once consent is accepted", async () => {
-    // A stub that reports its target as visible immediately, the way a container
-    // already in the viewport would. Written without TS parameter properties so
-    // the transpiled class is unambiguous.
-    class FiringObserver {
-      cb: IntersectionObserverCallback;
-      constructor(cb: IntersectionObserverCallback) {
-        this.cb = cb;
-      }
-      observe(el: Element) {
-        this.cb(
-          [{ isIntersecting: true, target: el } as unknown as IntersectionObserverEntry],
-          this as unknown as IntersectionObserver
-        );
-      }
-      unobserve() {}
-      disconnect() {}
-      takeRecords(): IntersectionObserverEntry[] {
-        return [];
-      }
-    }
-    vi.stubGlobal("IntersectionObserver", FiringObserver);
-
+  it("shows the Calendly embed once consent is accepted", async () => {
     const user = userEvent.setup();
-    render(
+    const { container } = render(
       <>
         <CookieConsent />
         <CalBooking />
       </>
     );
 
-    expect(window.Cal, "nothing should load before consent").toBeUndefined();
+    expect(container.querySelector("iframe"), "nothing should load before consent").toBeNull();
 
     await user.click(await screen.findByRole("button", { name: /accept/i }));
 
-    await waitFor(() =>
-      expect(window.Cal, "the embed loader must be installed after accepting").toBeDefined()
-    );
-
-    vi.unstubAllGlobals();
+    await waitFor(() => {
+      const frame = container.querySelector("iframe");
+      expect(frame, "the embed must be rendered after accepting").not.toBeNull();
+      expect(frame).toHaveAttribute("src", expect.stringContaining("https://calendly.com/"));
+    });
   });
 });
 

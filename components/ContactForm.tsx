@@ -32,7 +32,7 @@ const USE_CASES = [
 /**
  * First-party enquiry form.
  *
- * Exists alongside the Cal.com embed so conversion never depends on a third
+ * Exists alongside the Calendly embed so conversion never depends on a third
  * party: anyone who declines cookies, blocks embeds, or is behind a corporate
  * firewall can still reach us.
  */
