@@ -1,0 +1,851 @@
+/* The home page: plain words, plenty of space, one colour.
+
+   Modern and minimal, written for a business owner rather than an engineer. The statement comes first,
+   the pictures are few and arrive later, and the only saturated colour is the brand blue on the actions
+   and on the closing band. The frame is the site's own and is left alone: the left and right rails, the
+   section borders and the + marks where they meet (globals.css). Scoped to .hp-home, so no other page changes.
+
+   Five type sizes: --p-display, --p-title, --p-statement, --p-body and --p-small. The figures (the
+   count under the checklist and the ledger's numerals) are the one place type is set at poster scale. */
+
+.hp-home {
+  --p-display: clamp(34px, 7vw, 100px);
+  --p-title: clamp(32px, 4.4vw, 62px);
+  --p-statement: clamp(22px, 2.3vw, 32px);
+  --p-body: 17px;
+  --p-small: 15px;
+  --p-gap: clamp(88px, 11vw, 168px);
+  --p-cols: repeat(12, minmax(0, 1fr));
+
+  /* The site's own small sizes are tuned for a dense page; on this one nothing meant to be read is under 13px. */
+  --fs-2xs: 13px;
+  --fs-xs: 13px;
+  --fs-sm: 14px;
+  --fs-base: 16px;
+  --fs-md: 17px;
+  --fs-lg: 19px;
+  --fs-lead: 18px;
+}
+
+/* ------------------------------------------------------------ sections and the frame */
+
+.hp-sec {
+  position: relative;
+  padding: var(--p-gap) var(--pad-x);
+  border-bottom: 1px solid var(--color-line); /* the page frame's section border, where the + marks sit: taste-skill-ignore */
+}
+
+.hp-sec--tint {
+  background: var(--color-tint);
+}
+
+/* The + marks sit on a junction that can be white, tint or blue on either side, so they carry no box. */
+.hp-home .corner-dot {
+  background: transparent !important;
+}
+
+.hp-home .corner-dot::before,
+.hp-home .corner-dot::after {
+  background: var(--color-accent-lighter);
+}
+
+.hp-grid {
+  display: grid;
+  grid-template-columns: var(--p-cols);
+  column-gap: 16px;
+}
+
+/* ------------------------------------------------------------ shared type */
+
+.hp-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--p-title);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+.hp-statement {
+  margin: 0;
+  font-size: var(--p-statement);
+  font-weight: 500;
+  line-height: 1.28;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+  text-wrap: pretty;
+}
+
+.hp-body {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--p-body);
+  line-height: 1.6;
+  color: var(--color-text);
+}
+
+.hp-note {
+  margin: 0;
+  max-width: 40ch;
+  font-size: var(--p-body);
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.hp-link {
+  color: var(--color-ink);
+  font-size: var(--p-body);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: text-underline-offset 0.2s ease;
+}
+
+.hp-link:hover {
+  text-underline-offset: 9px;
+}
+
+/* ------------------------------------------------------------ hero: only words */
+
+.hh {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: clamp(48px, 7vw, 96px);
+  min-height: clamp(480px, calc(100svh - 200px), 700px);
+  padding: clamp(64px, 9vw, 128px) var(--pad-x) clamp(36px, 4vw, 56px);
+  border-bottom: 1px solid var(--color-line); /* frame: taste-skill-ignore */
+}
+
+.hh-h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--p-display);
+  line-height: 0.98;
+  letter-spacing: var(--tracking-display);
+  text-wrap: nowrap;
+}
+
+.hh-line {
+  display: block;
+}
+
+.hh-line--lead {
+  color: var(--color-muted);
+}
+
+/* The second line steps across to the right margin, so the pair spans the whole frame. */
+.hh-line--end {
+  text-align: right;
+  color: var(--color-ink);
+}
+
+.hh-row {
+  display: grid;
+  grid-template-columns: var(--p-cols);
+  column-gap: 16px;
+  align-items: end;
+}
+
+.hh-sub {
+  grid-column: 1 / 7;
+  margin: 0;
+  max-width: 40ch;
+  font-size: 20px;
+  line-height: 1.5;
+  color: var(--color-ink);
+}
+
+.hh-ctas {
+  grid-column: 7 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.hp-home .btn-hero-outline {
+  background: var(--color-tint);
+  border-color: transparent;
+}
+
+.hp-home .btn-hero-outline:hover {
+  background: var(--color-accent-faint);
+  border-color: transparent;
+}
+
+.hp-clients-note {
+  margin: 0 0 22px;
+  font-size: var(--p-small);
+  color: var(--color-text);
+}
+
+/* ------------------------------------------------------------ intro: four plain questions */
+
+.hi-lead {
+  margin: 0;
+  max-width: 56ch;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(22px, 2.6vw, 36px);
+  line-height: 1.14;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+  text-wrap: balance;
+}
+
+.hi-cols {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: clamp(48px, 6vw, 88px);
+}
+
+.hi-col p {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.hi-col strong {
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.hi-link {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* ------------------------------------------------------------ the checklist */
+
+.hp-poll-head {
+  align-items: end;
+}
+
+.hp-poll-head .hp-title {
+  grid-column: 1 / 9;
+}
+
+.hp-poll-head .hp-note {
+  grid-column: 9 / -1;
+  max-width: 34ch;
+}
+
+.hp-checks {
+  list-style: none;
+  margin: clamp(40px, 5vw, 72px) 0 0;
+  padding: 0;
+}
+
+.hp-check {
+  margin: 0 0 6px;
+  padding: 0;
+}
+
+.hp-check-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: clamp(18px, 2vw, 26px) clamp(18px, 2vw, 28px);
+  background: var(--color-white);
+  color: var(--color-ink);
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.hp-check-row:hover {
+  background: var(--color-accent-faint);
+}
+
+.hp-check-box {
+  all: unset;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  background: var(--color-tint);
+  color: transparent;
+  cursor: pointer;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+.hp-check-box:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.hp-check-text {
+  margin: 0;
+  font-size: var(--p-statement);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: var(--tracking-snug);
+}
+
+.hp-check-row[data-on="true"] {
+  background: var(--color-navy);
+  color: var(--color-white);
+}
+
+.hp-check-row[data-on="true"] .hp-check-box {
+  background: var(--color-white);
+  color: var(--color-navy);
+}
+
+.hp-verdict {
+  align-items: end;
+  margin-top: clamp(48px, 6vw, 96px);
+}
+
+.hp-verdict-figure {
+  grid-column: 1 / 7;
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(64px, 11vw, 160px);
+  line-height: 0.88;
+  letter-spacing: var(--tracking-display);
+  color: var(--color-ink);
+}
+
+.hp-verdict-side {
+  grid-column: 7 / -1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}
+
+/* ------------------------------------------------------------ how it works: lines that step across */
+
+.hm-stages {
+  display: grid;
+  gap: clamp(36px, 4.4vw, 64px);
+}
+
+.hm-stage {
+  margin-left: calc(var(--i) * 9%);
+}
+
+.hm-line {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 4vw, 58px);
+  line-height: 1.02;
+  letter-spacing: var(--tracking-tight);
+  text-wrap: balance;
+  color: var(--color-ink);
+}
+
+.hm-line[data-last="true"] {
+  color: var(--color-accent);
+}
+
+.hm-note {
+  margin-top: clamp(56px, 7vw, 104px);
+}
+
+.hm-practices {
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  font-size: var(--p-small);
+}
+
+.hm-practices a {
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: color 0.2s ease;
+}
+
+.hm-practices a:hover {
+  color: var(--color-accent);
+}
+
+/* ------------------------------------------------------------ results: a ledger */
+
+.hl-grid {
+  align-items: start;
+}
+
+.hl-side {
+  grid-column: 1 / 6;
+}
+
+.hl-title {
+  font-size: clamp(30px, 3.9vw, 54px);
+}
+
+.hl-soft {
+  color: var(--color-muted);
+}
+
+.hl-rows {
+  grid-column: 7 / -1;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3vw, 44px);
+}
+
+.hl-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+  column-gap: 20px;
+  align-items: baseline;
+}
+
+.hl-figure {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(60px, 7.2vw, 104px);
+  line-height: 0.95;
+  letter-spacing: var(--tracking-display);
+  font-variant-numeric: tabular-nums lining-nums;
+  text-align: right;
+  color: var(--color-ink);
+}
+
+.hl-tail {
+  margin-left: 6px;
+  font-size: 0.3em;
+  font-weight: 500;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-accent);
+}
+
+.hl-caption {
+  max-width: 24ch;
+  font-size: var(--p-body);
+  line-height: 1.4;
+  color: var(--color-ink-soft);
+}
+
+/* ------------------------------------------------------------ three real projects */
+
+.hk-head {
+  align-items: end;
+}
+
+.hk-head .hp-title {
+  grid-column: 1 / 9;
+}
+
+.hk-head .hp-note {
+  grid-column: 9 / -1;
+  max-width: 30ch;
+}
+
+.hk-rows {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(64px, 8vw, 112px);
+  margin-top: clamp(48px, 6vw, 88px);
+}
+
+.hk-row {
+  display: grid;
+  grid-template-columns: var(--p-cols);
+  column-gap: 16px;
+  align-items: center;
+}
+
+.hk-img {
+  grid-column: 1 / 7;
+  grid-row: 1;
+  position: relative;
+  display: block;
+  aspect-ratio: 3 / 2;
+  overflow: hidden;
+  background: var(--color-tint);
+}
+
+.hk-img img {
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hk-row:hover .hk-img img {
+  transform: scale(1.04);
+}
+
+.hk-text {
+  grid-column: 8 / -1;
+  grid-row: 1;
+}
+
+.hk-row:nth-child(even) .hk-img {
+  grid-column: 7 / -1;
+}
+
+.hk-row:nth-child(even) .hk-text {
+  grid-column: 2 / 6;
+}
+
+.hk-tag {
+  margin: 14px 0 0;
+  font-size: var(--p-small);
+  color: var(--color-muted);
+}
+
+.hk-title {
+  margin: 0 0 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(22px, 2vw, 28px);
+  line-height: 1.15;
+  letter-spacing: var(--tracking-snug);
+}
+
+.hk-title a {
+  color: var(--color-ink);
+  transition: color 0.2s ease;
+}
+
+.hk-title a:hover {
+  color: var(--color-accent);
+}
+
+.hk-stat {
+  margin: 24px 0 0;
+  font-size: var(--p-small);
+  color: var(--color-ink-soft);
+}
+
+.hk-stat strong {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(40px, 4.2vw, 60px);
+  line-height: 1;
+  letter-spacing: var(--tracking-tight);
+  color: var(--color-ink);
+}
+
+.hk-more {
+  margin-top: clamp(40px, 5vw, 72px);
+}
+
+/* ------------------------------------------------------------ a client's letter, the founder's word */
+
+.hv-letter {
+  align-items: start;
+}
+
+.hv-portrait {
+  grid-column: 1 / 4;
+}
+
+.hv-portrait img {
+  display: block;
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.hv-letter-text {
+  grid-column: 5 / -1;
+}
+
+.hv-open {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(22px, 2.3vw, 30px);
+  line-height: 1.25;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+
+.hv-rest {
+  margin: 22px 0 0;
+  max-width: 38ch;
+  font-size: 19px;
+  line-height: 1.55;
+  color: var(--color-ink);
+}
+
+.hv-founder {
+  align-items: center;
+}
+
+.hv-photo {
+  grid-column: 1 / 6;
+  position: relative;
+  aspect-ratio: 1 / 1.08;
+  overflow: hidden;
+  background: var(--color-white);
+}
+
+.hv-photo img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+.hv-text {
+  grid-column: 7 / -1;
+}
+
+.hv-sign {
+  margin-top: 28px;
+  font-size: var(--p-small);
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.hv-sign strong {
+  display: block;
+  font-size: var(--p-body);
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+/* ------------------------------------------------------------ the close: one word is the button */
+
+.hp-close {
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* frame: taste-skill-ignore */
+  background: var(--color-accent);
+}
+
+.hp-close-link {
+  position: relative;
+  display: block;
+  min-height: clamp(400px, 62svh, 640px);
+  padding: clamp(20px, 2.4vw, 32px) var(--pad-x);
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.hp-close-link:hover,
+.hp-close-link:focus-visible {
+  background: var(--color-white);
+  color: var(--color-accent);
+}
+
+.hp-close-sentence {
+  display: block;
+  max-width: 40ch;
+  font-size: 20px;
+  line-height: 1.45;
+  font-weight: 500;
+}
+
+.hp-close-arrow {
+  position: absolute;
+  top: clamp(20px, 2.4vw, 32px);
+  right: var(--pad-x);
+  transition: transform 0.3s ease;
+}
+
+.hp-close-link:hover .hp-close-arrow {
+  transform: translate(6px, -6px);
+}
+
+.hp-close-word {
+  position: absolute;
+  left: var(--pad-x);
+  right: var(--pad-x);
+  bottom: clamp(12px, 2vw, 28px);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(120px, 26vw, 360px);
+  line-height: 0.78;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  text-align: center;
+}
+
+/* ------------------------------------------------------------ faq: a wide heading, indented questions */
+
+.hp-faq-title {
+  font-size: clamp(32px, 5.2vw, 72px);
+  max-width: 16ch;
+}
+
+.hp-faq-main {
+  margin-top: clamp(48px, 6vw, 88px);
+  padding-left: calc((100% + 16px) * 4 / 12 - 24px);
+}
+
+.hp-home .faq-list {
+  --faq-pad-x: 24px;
+  margin-top: 0 !important;
+}
+
+.hp-home .faq-item::after {
+  display: none;
+}
+
+.hp-home .faq-item.is-open {
+  background: var(--color-tint);
+}
+
+.hp-home .faq-question {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: clamp(20px, 1.9vw, 26px);
+  line-height: 1.2;
+  letter-spacing: var(--tracking-snug);
+  padding-top: 22px;
+  padding-bottom: 22px;
+}
+
+.hp-home .faq-answer p {
+  font-size: var(--p-body);
+  line-height: 1.6;
+  max-width: 52ch;
+}
+
+/* ------------------------------------------------------------ contact */
+
+.hp-contact-head {
+  align-items: end;
+}
+
+.hp-contact-head .hp-title {
+  grid-column: 1 / 9;
+}
+
+.hp-contact-head .hp-note {
+  grid-column: 9 / -1;
+}
+
+.hp-card {
+  margin-top: clamp(40px, 5vw, 72px);
+  padding: clamp(20px, 3.4vw, 48px);
+  background: var(--color-tint);
+}
+
+.hp-card .contact-alt-rule {
+  display: none;
+}
+
+.hp-card .contact-alt-label {
+  font-family: var(--font-sans);
+  text-transform: none;
+  letter-spacing: normal;
+  font-size: var(--p-small);
+  color: var(--color-text);
+}
+
+.hp-contact-foot {
+  margin: 22px 0 0;
+  font-size: var(--p-small);
+  color: var(--color-text);
+}
+
+/* ------------------------------------------------------------ tablets and phones */
+
+@media (max-width: 960px) {
+  .hp-grid {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 28px;
+  }
+
+  .hp-grid > * {
+    grid-column: 1 / -1 !important;
+    grid-row: auto !important;
+  }
+
+  .hh-row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 28px;
+  }
+
+  .hh-sub,
+  .hh-ctas {
+    grid-column: 1 / -1;
+  }
+
+  .hh-ctas {
+    justify-content: flex-start;
+  }
+
+  .hi-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 36px 24px;
+  }
+
+  .hm-stage {
+    margin-left: calc(var(--i) * 5%);
+  }
+
+  .hl-rows {
+    margin-top: 12px;
+  }
+
+  .hk-row:nth-child(n) .hk-img,
+  .hk-row:nth-child(n) .hk-text {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+
+  .hk-row {
+    row-gap: 24px;
+  }
+
+  .hp-faq-main {
+    padding-left: 0;
+  }
+
+  .hp-home .faq-list {
+    --faq-pad-x: 16px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hp-home {
+    --p-display: clamp(30px, 8.6vw, 52px);
+  }
+
+  .hh-line--end {
+    text-align: left;
+  }
+
+  .hh {
+    min-height: 0;
+    gap: 40px;
+    padding-top: 56px;
+  }
+
+  .hi-cols {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .hl-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hk-img img,
+  .hp-close-arrow {
+    transition: none;
+  }
+}
