@@ -55,7 +55,16 @@ function Counter({ target, suffix, start, skip }: { target: number; suffix: stri
   );
 }
 
-export default function MetricsGrid({ style, bordered }: { style?: React.CSSProperties; bordered?: boolean }) {
+export default function MetricsGrid({
+  style,
+  bordered,
+  display,
+}: {
+  style?: React.CSSProperties;
+  bordered?: boolean;
+  /** The figures at the largest size on the page, for the proof band. */
+  display?: boolean;
+}) {
   const gridRef = useRef<HTMLDivElement | null>(null);
   const revisit = useRevisit();
   const [visible, setVisible] = useState(revisit);
@@ -93,7 +102,7 @@ export default function MetricsGrid({ style, bordered }: { style?: React.CSSProp
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
-                fontSize: "clamp(34px, 3.8vw, 46px)",
+                fontSize: display ? "var(--fs-figure)" : "var(--fs-stat)",
                 letterSpacing: "var(--tracking-tight)",
                 lineHeight: 1,
                 fontVariantNumeric: "tabular-nums",

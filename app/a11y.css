@@ -63,40 +63,7 @@
    ------------------------------------------------------------------------- */
 
 [id] {
-  scroll-margin-top: 86px;
-}
-
-/* --- Nav disclosure buttons (Phase 3.1) ----------------------------------
-   The dropdown triggers were <span>s driven by hover alone. They are now real
-   buttons; these rules strip the native button chrome so the header looks
-   unchanged while becoming keyboard-operable.
-   ------------------------------------------------------------------------- */
-
-.nav-disclosure,
-.nav-disclosure-labelled {
-  font: inherit;
-  color: inherit;
-  background: none;
-  border: none;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-/* Chevron-only trigger sits beside the Services link, so it needs a target
-   large enough to hit without covering the link itself. */
-.nav-disclosure {
-  min-width: 24px;
-  min-height: 24px;
-  justify-content: center;
-}
-
-.nav-disclosure-labelled.is-current .nav-link-inner {
-  color: var(--color-accent);
-  font-weight: 500;
+  scroll-margin-top: 94px;
 }
 
 /* --- Testimonial carousel controls (Phase 3.3) ---------------------------

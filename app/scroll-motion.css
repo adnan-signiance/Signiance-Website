@@ -1,0 +1,71 @@
+/* ---------------------------------------------------------------------------
+   Scroll-linked motion
+
+   Moves that follow the scroll position itself, through CSS scroll-driven animations: no
+   script, run off the main thread, and only transform. They are an enhancement, so they sit
+   behind @supports (a browser without it shows the page still) and behind
+   prefers-reduced-motion (the finished page is the page).
+   --------------------------------------------------------------------------- */
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    /* The hero panel lifts away slowly as the page leaves the first screen. */
+    .hero-home-art {
+      animation: heroLift linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 0px 80vh;
+    }
+
+    /* "still a pilot." slides up and "in production." comes in beneath it as the page leaves the
+       hero. At rest, and without support or with reduced motion, the sentence is the original. */
+    .hero-swap-a {
+      animation: heroSwapOut linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 10px 130px;
+    }
+
+    .hero-swap-b {
+      animation: heroSwapIn linear both;
+      animation-timeline: scroll(root block);
+      animation-range: 10px 130px;
+    }
+
+    /* The case-study picture drifts upward and settles while its section is on screen. */
+    .case-index-photo {
+      animation: previewDrift linear both;
+      animation-timeline: view();
+      animation-range: cover 0% cover 100%;
+    }
+  }
+}
+
+@keyframes heroLift {
+  to {
+    transform: translateY(-9%);
+  }
+}
+
+@keyframes heroSwapOut {
+  to {
+    transform: translateY(-115%);
+  }
+}
+
+@keyframes heroSwapIn {
+  from {
+    transform: translateY(115%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes previewDrift {
+  from {
+    transform: scale(1.14) translateY(4%);
+  }
+  to {
+    transform: scale(1) translateY(-4%);
+  }
+}
+

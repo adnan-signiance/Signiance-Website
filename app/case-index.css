@@ -1,0 +1,201 @@
+/* Home case studies as an editorial index (components/CaseStudies.tsx). */
+
+.case-index {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: start;
+}
+
+.case-index-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.case-index-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 32px;
+  align-items: start;
+  padding: clamp(20px, 2.6vw, 34px) 0;
+  color: var(--color-ink);
+  transition: opacity 0.3s ease;
+}
+
+/* The lines you are not on stay readable but step back. */
+.case-index-item:not(.is-active) .case-index-row {
+  opacity: 0.72;
+}
+
+.case-index-industry {
+  display: block;
+  margin-bottom: 8px;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: var(--color-muted);
+}
+
+.case-index-title {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h3);
+  line-height: 1.12;
+  letter-spacing: var(--tracking-snug);
+  text-wrap: balance;
+  transition: color 0.3s ease;
+}
+
+.case-index-item.is-active .case-index-title {
+  color: var(--color-accent);
+}
+
+.case-index-text {
+  display: block;
+  margin-top: 10px;
+  max-width: 52ch;
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--color-text);
+}
+
+.case-index-result {
+  min-width: 4.5ch;
+  text-align: right;
+}
+
+.case-index-value {
+  display: block;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-figure-sm);
+  line-height: 1;
+  letter-spacing: var(--tracking-snug);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-ink);
+  transition: color 0.3s ease;
+}
+
+/* The line you are on carries its result in the brand blue; the rest wait in ink. */
+.case-index-item.is-active .case-index-value {
+  color: var(--color-accent);
+}
+
+.case-index-label {
+  display: block;
+  max-width: 16ch;
+  margin: 6px 0 0 auto;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+.case-index-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 14px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.35s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.case-index-item.is-active .case-index-more {
+  opacity: 1;
+  transform: none;
+}
+
+.case-index-preview {
+  position: sticky;
+  top: 96px;
+  margin: 0;
+}
+
+.case-index-frame {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--color-navy);
+}
+
+.case-index-caption {
+  margin-top: 12px;
+  font-size: var(--fs-sm);
+  line-height: 1.45;
+  color: var(--color-text);
+}
+
+.case-index-photo {
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.case-index-photo.is-active {
+  opacity: 1;
+}
+
+.case-index-inline {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .case-index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-index-preview {
+    display: none;
+  }
+
+  .case-index-item {
+    padding-bottom: 12px;
+  }
+
+  .case-index-item:not(.is-active) .case-index-row {
+    opacity: 1;
+  }
+
+  .case-index-item.is-active .case-index-title {
+    color: var(--color-ink);
+  }
+
+  .case-index-item .case-index-value,
+  .case-index-item.is-active .case-index-value {
+    color: var(--color-accent);
+  }
+
+  .case-index-more {
+    display: none;
+  }
+
+  .case-index-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .case-index-result {
+    text-align: left;
+  }
+
+  .case-index-label {
+    margin-left: 0;
+    max-width: none;
+  }
+
+  .case-index-inline {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 10;
+    background: var(--color-navy);
+  }
+
+  .case-index-inline img {
+    object-fit: cover;
+  }
+}

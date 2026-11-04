@@ -19,7 +19,7 @@ export default function HowWeWorkCTA() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(25px, 3.4vw, 36px)",
+            fontSize: "var(--fs-h2)",
             lineHeight: 1.08,
             letterSpacing: "var(--tracking-tight)",
             margin: 0,
@@ -28,7 +28,7 @@ export default function HowWeWorkCTA() {
         >
           Start with the workflow that keeps breaking
         </RevealHeading>
-        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {bookingPromise} You leave with a scoped plan either way.
         </Reveal>
         <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>

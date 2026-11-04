@@ -164,46 +164,24 @@
 
 @media (min-width: 1700px) {
   :root {
+    --frame-w: 1343px;
     --pad-x: 32px;
     --section-pt: 62px;
     --section-pb: 65.5px;
 
-    --fs-h2: clamp(23px, 4vw, 44px);
-    --fs-2xs: 11.2px;
-    --fs-xs: 12.6px;
-    --fs-sm: 13.5px;
-    --fs-base: 14.9px;
-    --fs-md: 16.3px;
-    --fs-lg: 18.6px;
-    --fs-xl: 21.5px;
-    --fs-2xl: 27px;
   }
 
-  .page-frame {
-    max-width: 1343px !important;
-  }
 }
 
 @media (min-width: 2300px) {
   :root {
+    --frame-w: 1590px;
     --pad-x: 39px;
     --section-pt: 74px;
     --section-pb: 78px;
 
-    --fs-h2: clamp(23px, 4vw, 51.5px);
-    --fs-2xs: 12.1px;
-    --fs-xs: 13.5px;
-    --fs-sm: 14.4px;
-    --fs-base: 16.3px;
-    --fs-md: 18.1px;
-    --fs-lg: 20.5px;
-    --fs-xl: 24px;
-    --fs-2xl: 30.5px;
   }
 
-  .page-frame {
-    max-width: 1590.5px !important;
-  }
 }
 
 /* Case-study filter chips: one scrollable row on a phone ------------------------
@@ -246,9 +224,6 @@
 
 @media (max-width: 640px) {
   :root {
-    --fs-h2: clamp(24px, 7vw, 30px);
-    --fs-lead: 16px;
-    --fs-quote: 17px;
     --section-pt: 32px;
     --section-pb: 36px;
   }
@@ -257,12 +232,8 @@
      The two headline lines were sized at the floor of their clamps (22px and
      32px) because their vw terms are tuned for desktop. The promise is now the
      biggest thing on the page; the struck line stays on one line at 25px. */
-  .hero-line-struck {
-    font-size: clamp(25px, 7.7vw, 31.5px) !important;
-  }
 
   .hero-line-promise {
-    font-size: clamp(30px, 9.3vw, 38px) !important;
     margin-top: 6px !important;
   }
 
@@ -293,7 +264,6 @@
      headline (36px > 15px > 12.5px) and an even 16px / 20px / 20px rhythm
      from headline to subline to buttons to points. */
   .hero-subline {
-    font-size: 15px !important;
     line-height: 1.55 !important;
     margin-top: 14px !important;
     max-width: 34ch !important;
@@ -307,12 +277,10 @@
   .hero-proof {
     margin-top: 20px !important;
     row-gap: 9px !important;
-    font-size: var(--fs-xs) !important;
   }
 
   /* Section badges ------------------------------------------------------------- */
   .section-eyebrow {
-    font-size: 11px !important;
     padding: 4px 10px !important;
   }
 
@@ -327,21 +295,11 @@
     padding-bottom: 22px;
   }
 
-  .grid-services-num {
-    font-size: 22px;
-  }
-
   .grid-services-title {
-    font-size: 19px;
     margin-top: 10px;
   }
 
-  .grid-services-cell--wide .grid-services-title {
-    font-size: 19px;
-  }
-
   .grid-services-body {
-    font-size: var(--fs-sm);
     line-height: 1.5;
   }
 
@@ -354,25 +312,18 @@
   }
 
   .hw-panel-week {
-    font-size: 10.5px;
     padding: 3px 9px;
-  }
-
-  .hw-panel-count {
-    font-size: 11px;
   }
 
   /* Same step as the service-card titles and copy (19px / 13.5px), since these are
      the same kind of block: a numbered item with a title and a sentence. */
   .hw-panel-title {
-    font-size: clamp(19px, 5.3vw, 21px);
     line-height: 1.15;
     margin-top: 8px;
   }
 
   .hw-panel-body {
     margin-top: 6px;
-    font-size: var(--fs-sm);
     line-height: 1.5;
   }
 
@@ -382,12 +333,7 @@
     gap: 26px 18px !important;
   }
 
-  .metric-value {
-    font-size: clamp(28px, 8.4vw, 34px) !important;
-  }
-
   .metric-label {
-    font-size: var(--fs-xs) !important;
     line-height: 1.45 !important;
     margin-top: 8px !important;
     max-width: none !important;
@@ -395,22 +341,13 @@
 
   /* Case cards -------------------------------------------------------------------- */
   .case-home .case-cell-title,
-  .case-cell-title {
-    font-size: 20px !important;
-  }
-
-  .case-cell-stat-value {
-    font-size: var(--fs-lg);
-  }
 
   /* Testimonial, founder's note, FAQ ---------------------------------------------- */
   .founders-note-text {
-    font-size: 17px;
     line-height: 1.5;
   }
 
   .founders-note-quote-mark {
-    font-size: 48px;
     margin-bottom: -10px;
   }
 
@@ -422,7 +359,6 @@
   }
 
   .faq-question {
-    font-size: var(--fs-md);
     padding-top: 20px;
     padding-bottom: 20px;
     gap: 14px;
@@ -452,7 +388,6 @@
   .btn-hero-primary,
   .btn-hero-outline,
   .btn-primary {
-    font-size: var(--fs-sm) !important;
     padding: 10px 20px !important;
     min-height: 40px;
     box-sizing: border-box;
@@ -463,7 +398,6 @@
    the homepage headline and a section title on a phone. */
 @media (max-width: 640px) {
   .page-title {
-    font-size: clamp(30px, 8.4vw, 34px) !important;
     margin-top: 14px !important;
   }
 }
@@ -479,38 +413,32 @@
 @media (max-width: 640px) {
   /* Page intro under the title: the same 15px / 1.55 as the homepage subline. */
   p.hero-d1 {
-    font-size: 15px !important;
     line-height: 1.55 !important;
     margin-top: 12px !important;
   }
 
   /* The closing "ready to start?" band on every page: one title size, one blurb size. */
   .cta-title {
-    font-size: 25px !important;
     line-height: 1.12 !important;
   }
 
   .cta-title + p {
-    font-size: 15px !important;
     line-height: 1.55 !important;
     margin-top: 12px !important;
   }
 
   /* Services page: row copy steps down with the rest. */
   .grid-svc-detail p {
-    font-size: 15px !important;
     line-height: 1.55 !important;
   }
 
   /* How we work page: the full timeline uses the same step scale as the homepage. */
   .vtimeline-title {
-    font-size: 20px;
     line-height: 1.15;
     margin-top: 8px;
   }
 
   .vtimeline-body {
-    font-size: var(--fs-sm);
     line-height: 1.5;
     margin-top: 6px;
   }
@@ -520,19 +448,12 @@
   }
 
   /* Engagement cards (How we work, Case Studies). */
-  .engagement-col h3 {
-    font-size: 19px !important;
-  }
 
   .engagement-col p {
-    font-size: var(--fs-sm) !important;
     line-height: 1.5 !important;
   }
 
   /* Case Studies: the featured card's title steps down to the card-title size. */
-  .cs-featured-title {
-    font-size: 24px !important;
-  }
 
   /* The framed figures on Case Studies and About: 2 x 2, like the homepage Proof. */
   .grid-cs-metrics-bordered {
@@ -567,14 +488,12 @@
   /* Hero: the subline and the points under the buttons were laptop-small beside a
      42px headline on a 700px-wide column. */
   .hero-subline {
-    font-size: 17px !important;
     line-height: 1.55 !important;
     max-width: 560px !important;
   }
 
   /* Three points on one row at tablet width; any larger and the third wraps alone. */
   .hero-proof {
-    font-size: var(--fs-xs) !important;
     column-gap: 22px !important;
     flex-wrap: nowrap !important;
   }
@@ -586,18 +505,11 @@
 
   /* Intro paragraph under each inner-page title. */
   p.hero-d1 {
-    font-size: 16.5px !important;
     line-height: 1.6 !important;
   }
 
   /* Closing banner title and blurb. */
-  .cta-title {
-    font-size: 30px !important;
-  }
 
-  .cta-title + p {
-    font-size: 16px !important;
-  }
 }
 
 /* Stacked "How we work" steps (641px to 860px): title and copy at the same step as
@@ -605,20 +517,14 @@
    held to a readable measure so it does not run edge to edge. */
 @media (min-width: 641px) and (max-width: 860px) {
   .hw-panel-title {
-    font-size: 22px;
     line-height: 1.18;
     margin-top: 10px;
   }
 
   .hw-panel-body {
-    font-size: var(--fs-base);
     line-height: 1.55;
     max-width: 56ch;
     margin-top: 8px;
-  }
-
-  .hw-panel-week {
-    font-size: 11.5px;
   }
 
   .hw-panel {
@@ -639,10 +545,6 @@
   .case-home .case-cell-h-lg,
   .case-home .case-cell-h-md {
     min-height: 380px;
-  }
-
-  .case-home .case-cell-title {
-    font-size: 21px !important;
   }
 
   /* The bottom-right CTA wraps under the copy in a half-width card. */
@@ -667,9 +569,6 @@
     margin-right: 0;
   }
 
-  .founders-note-text {
-    font-size: 20px;
-  }
 }
 
 /* ---------------------------------------------------------------------------
@@ -694,17 +593,9 @@
 @media (min-width: 641px) and (max-width: 1100px) {
   /* Hero headline: the struck line was 0.91x the promise here (4.75vw : 5.2vw); desktop
      is 0.83x (55 : 66). Same ratio as desktop and phone. */
-  .hero-line-struck {
-    font-size: clamp(30px, 4.3vw, 46px) !important;
-  }
-
-  .hero-line-promise {
-    font-size: clamp(36px, 5.2vw, 56px) !important;
-  }
 
   /* Badges */
   .section-eyebrow {
-    font-size: 12px !important;
     padding: 5px 12px !important;
   }
 
@@ -719,47 +610,27 @@
   .case-home .case-cell-title,
   .vtimeline-title,
   .engagement-col h3 {
-    font-size: 22px !important;
     line-height: 1.18 !important;
-  }
-
-  .grid-services-num {
-    font-size: 24px;
   }
 
   /* Card and step copy: one size */
   .grid-services-body,
   .vtimeline-body,
   .engagement-col p {
-    font-size: var(--fs-base) !important;
     line-height: 1.55 !important;
   }
 
   /* Icon cards (About values, why-us, detail pages) */
   .grid-3col h3,
-  .grid-3col h4 {
-    font-size: 18px !important;
-  }
 
   /* Figures */
-  .metric-value {
-    font-size: 36px !important;
-  }
-
-  .metric-label {
-    font-size: var(--fs-sm) !important;
-  }
 
   /* FAQ */
-  .faq-question {
-    font-size: 17px;
-  }
 
   /* Buttons: one size everywhere */
   .btn-hero-primary,
   .btn-hero-outline,
   .btn-primary {
-    font-size: 14px !important;
     padding: 10px 22px !important;
     min-height: 42px;
     box-sizing: border-box;
@@ -767,183 +638,7 @@
 
   /* Inner-page intro and detail-page headings */
   .grid-svc-detail p {
-    font-size: 16px !important;
     line-height: 1.6 !important;
   }
 
-  .page-title {
-    font-size: 38px !important;
-  }
-
-  .cs-featured-title {
-    font-size: 28px !important;
-  }
-}
-
-/* ---------------------------------------------------------------------------
-   Laptop (1101px to 1699px)
-
-   The page column is narrower again (about 1040px, from 1180px), and headings,
-   spacing and fixed-size elements are scaled with it by the same ratio (about 0.82);
-   body-size text is held at 13.5px and up so it stays legible,
-   so the proportions between hero, titles, cards and buttons are what they were, just
-   one notch smaller. Below 1101px the tablet and phone scales above apply; at 1700px
-   and up the large-screen scale does.
-
-   --type-scale is a single multiplier for the few sizes that are set in pixels inside
-   components (e.g. case-card titles), so they follow the same ratio.
-   --------------------------------------------------------------------------- */
-
-@media (min-width: 1101px) and (max-width: 1699px) {
-  :root {
-    --type-scale: 0.82;
-
-    --pad-x: clamp(15.9px, 4.2vw, 23px);
-    --section-pt: clamp(33.5px, 5vw, 47.5px);
-    --section-pb: clamp(35px, 5.2vw, 49.5px);
-
-    --fs-h1: clamp(27.5px, 5.2vw, 52px);
-    --fs-h2: clamp(23px, 3.6vw, 34px);
-    --fs-lead: clamp(12.8px, 1.4vw, 14.5px);
-    --fs-quote: clamp(15.9px, 2vw, 22px);
-
-    --fs-2xs: 11px;
-    --fs-xs: 12px;
-    --fs-sm: 13px;
-    --fs-base: 13.5px;
-    --fs-md: 15px;
-    --fs-lg: 16.5px;
-    --fs-xl: 18.1px;
-    --fs-2xl: 22.5px;
-  }
-
-  .page-frame {
-    max-width: 1042.5px !important;
-  }
-
-  /* Hero headline: both lines scale together, so the gray : black ratio is unchanged. */
-  .hero-line-struck {
-    font-size: clamp(19.5px, 4.4vw, 45px) !important;
-  }
-
-  .hero-line-promise {
-    font-size: clamp(28.5px, 4.8vw, 53.5px) !important;
-  }
-
-  .hero-section {
-    padding-top: 63.5px !important;
-    padding-bottom: 47.5px !important;
-  }
-
-  .hero-subline {
-    max-width: 565px !important;
-  }
-
-  .btn-hero-primary,
-  .btn-hero-outline,
-  .btn-primary {
-    padding: 8.8px 17.7px;
-  }
-
-  .btn-primary {
-    padding: 6.2px 13.3px;
-  }
-
-  .section-eyebrow {
-    padding: 4.4px 10.6px !important;
-  }
-
-  /* Services cards */
-  .grid-services-cell {
-    min-height: 162.5px;
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-
-  .grid-services-num {
-    font-size: clamp(21.5px, 2.2vw, 27.5px);
-  }
-
-  .grid-services-title {
-    font-size: clamp(15.9px, 1.75vw, 18.5px);
-  }
-
-  .grid-services-cell--wide .grid-services-title {
-    font-size: clamp(18.5px, 2.4vw, 24px);
-  }
-
-  /* How we work, pinned slide */
-  .hw-panel-title {
-    font-size: clamp(26.5px, 3.7vw, 45px);
-  }
-
-  .hw-panel {
-    padding: clamp(21.5px, 3vw, 39px);
-    padding-bottom: calc(clamp(21.5px, 3vw, 39px) + 3px);
-  }
-
-  .hw-stage,
-  .hw-slide {
-    grid-template-columns: clamp(238.5px, 25vw, 300px) minmax(0, 1fr);
-  }
-
-  .hw-pane-title {
-    font-size: clamp(15px, 1.6vw, 19.5px);
-  }
-
-  .hw-step-num {
-    font-size: clamp(21.5px, 2.4vw, 29px);
-  }
-
-  /* Proof figures */
-  .metric-value {
-    font-size: clamp(28.5px, 3.5vw, 37px) !important;
-  }
-
-  /* Case cards, listing and related tiles */
-  .case-cell-h-lg {
-    height: 309px;
-  }
-
-  .case-cell-h-md {
-    height: 243.5px;
-  }
-
-  .cs-listing-cell,
-  .related-case-cell {
-    height: clamp(256px, 28vw, 309px);
-  }
-
-  .case-cell-overlay {
-    padding: 15.9px 17.7px;
-  }
-
-  .metrics-band {
-    padding-top: clamp(39px, 5.6vw, 58.5px);
-    padding-bottom: clamp(39px, 5.6vw, 58.5px);
-  }
-
-  /* Reading blocks */
-  .faq-question {
-    font-size: clamp(15px, 1.7vw, 17.2px);
-  }
-
-  .founders-note-text {
-    font-size: clamp(16.8px, 2.2vw, 22px);
-  }
-
-  .founders-note-photo {
-    width: min(100%, 309px);
-  }
-
-  .cta-title {
-    font-size: clamp(21.5px, 3.1vw, 29px);
-  }
-
-  /* Self-contained blocks with pixel-sized contents (logo heights, the avatar reel) are
-     scaled whole; they contain no viewport units or measured positions. */
-  .clients-marquee,
-  .grid-logos {
-    zoom: 0.82;
-  }
 }

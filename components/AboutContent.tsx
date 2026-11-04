@@ -82,7 +82,7 @@ export default function AboutContent() {
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
-                fontSize: "clamp(29px, 4.4vw, 46px)",
+                fontSize: "var(--fs-h1)",
                 lineHeight: 1.05,
                 letterSpacing: "var(--tracking-tight)",
                 margin: "16px 0 0",
@@ -92,7 +92,7 @@ export default function AboutContent() {
             >
               {headline}
             </HeroHeading>
-            <p className="hero-rise hero-d1" style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+            <p className="hero-rise hero-d1" style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
               We&apos;re a team of senior cloud and AI engineers who believe most AI pilots fail for the same reason
               most infrastructure projects used to: too much ceremony before anything real ships. Whether you&apos;re
               at the idea stage or already running production infrastructure, we take the hard part off your
@@ -123,7 +123,7 @@ export default function AboutContent() {
                 right: 20,
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
-                fontSize: "clamp(80px, 9vw, 120px)",
+                fontSize: "var(--fs-ghost)",
                 lineHeight: 1,
                 letterSpacing: "var(--tracking-tight)",
                 color: "var(--color-tint)",
@@ -149,7 +149,7 @@ export default function AboutContent() {
                 right: 20,
                 fontFamily: "var(--font-display)",
                 fontWeight: 700,
-                fontSize: "clamp(80px, 9vw, 120px)",
+                fontSize: "var(--fs-ghost)",
                 lineHeight: 1,
                 letterSpacing: "var(--tracking-tight)",
                 color: "var(--color-tint)",
@@ -196,7 +196,7 @@ export default function AboutContent() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 600,
-                    fontSize: "var(--fs-md)",
+                    fontSize: "var(--fs-lead)",
                     letterSpacing: "var(--tracking-snug)",
                     margin: "14px 0 0",
                     color: "var(--color-ink)",
@@ -204,7 +204,7 @@ export default function AboutContent() {
                 >
                   {v.title}
                 </h4>
-                <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.55, color: "var(--color-text)" }}>{v.body}</p>
+                <p style={{ margin: "8px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.55, color: "var(--color-text)" }}>{v.body}</p>
               </RevealItem>
             ))}
           </RevealGroup>
@@ -252,7 +252,7 @@ export default function AboutContent() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(24px, 3vw, 32px)",
+            fontSize: "var(--fs-h2)",
             lineHeight: 1.1,
             letterSpacing: "var(--tracking-tight)",
             margin: 0,
@@ -261,7 +261,7 @@ export default function AboutContent() {
         >
           Ready to see how we&apos;d scope your workflow?
         </RevealHeading>
-        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {bookingPromise} You leave with a scoped plan either way.
         </Reveal>
         <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>

@@ -34,7 +34,7 @@ export default function FeatureCard({
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "var(--fs-md)",
+            fontSize: "var(--fs-lead)",
             letterSpacing: "var(--tracking-snug)",
             margin: 0,
             color: "var(--color-ink)",
@@ -42,7 +42,7 @@ export default function FeatureCard({
         >
           {title}
         </h3>
-        <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-text)" }}>{body}</p>
+        <p style={{ margin: "8px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>{body}</p>
       </div>
     </div>
   );

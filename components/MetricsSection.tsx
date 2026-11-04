@@ -1,4 +1,3 @@
-import SectionEyebrow from "./SectionEyebrow";
 import MetricsGrid from "./MetricsGrid";
 import { Reveal, RevealHeading } from "./Reveal";
 
@@ -15,13 +14,10 @@ import { Reveal, RevealHeading } from "./Reveal";
  */
 export default function MetricsSection() {
   return (
-    <section id="proof" className="metrics-band">
+    <section id="proof" className="metrics-band" data-nav-tone="navy">
       <div className="metrics-band-inner">
         <div className="section-head">
           <div className="section-head-main">
-            <Reveal style={{ marginBottom: 18 }}>
-              <SectionEyebrow>Proof</SectionEyebrow>
-            </Reveal>
             <RevealHeading className="metrics-band-title">Outcomes, not case-study theatre.</RevealHeading>
           </div>
           <Reveal as="p" className="metrics-band-note" delay={0.15}>
@@ -29,9 +25,7 @@ export default function MetricsSection() {
           </Reveal>
         </div>
 
-        <div className="metrics-band-rule" />
-
-        <MetricsGrid style={{ marginTop: 28 }} />
+        <MetricsGrid display style={{ marginTop: "clamp(32px, 5vw, 64px)" }} />
       </div>
     </section>
   );

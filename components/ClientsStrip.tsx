@@ -25,23 +25,23 @@ function logoImg(c: (typeof clients)[number]) {
 // here to avoid painting the same corner twice.
 //
 // Each dot is centered on its line the exact same way CornerDots centers
-// its own — a literal -7.5px offset (half the 15px box) — rather than a
+// its own — a literal -8px offset (half the 16px box) — rather than a
 // transform, so every dot on the page rasterizes identically instead of
 // interior ones landing on a different sub-pixel offset and looking smaller.
 function GridDots({ rows }: { rows: number }) {
   const xs = Array.from({ length: GRID_COLS - 1 }, (_, i) => ((i + 1) / GRID_COLS) * 100);
   const ys = Array.from({ length: rows - 1 }, (_, i) => (i + 1) * ROW_H);
   const points: { style: React.CSSProperties }[] = [];
-  const at = (horiz: React.CSSProperties, y: number) => ({ style: { ...horiz, top: `${y - 7.5}px` } });
+  const at = (horiz: React.CSSProperties, y: number) => ({ style: { ...horiz, top: `${y - 8}px` } });
 
   ys.forEach((y) => {
-    points.push(at({ left: -7.5 }, y));
-    points.push(at({ right: -7.5 }, y));
-    xs.forEach((x) => points.push(at({ left: `calc(${x}% - 7.5px)` }, y)));
+    points.push(at({ left: -9 }, y));
+    points.push(at({ right: -9 }, y));
+    xs.forEach((x) => points.push(at({ left: `calc(${x}% - 8px)` }, y)));
   });
   xs.forEach((x) => {
-    points.push(at({ left: `calc(${x}% - 7.5px)` }, 0));
-    points.push(at({ left: `calc(${x}% - 7.5px)` }, rows * ROW_H));
+    points.push(at({ left: `calc(${x}% - 8px)` }, 0));
+    points.push(at({ left: `calc(${x}% - 8px)` }, rows * ROW_H));
   });
 
   return (
@@ -84,36 +84,25 @@ function ClientsGrid() {
         <GridDots rows={rows} />
         <CornerDots position="top" />
       </div>
+      <CornerDots position="top" />
       <CornerDots />
     </section>
   );
 }
 
-export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "grid" }) {
-  if (variant === "grid") return <ClientsGrid />;
-
+/**
+ * "Trusted by" and the rolling logos. Used at the foot of the home hero.
+ *
+ * A continuous right-to-left marquee at every width. The track is the list rendered twice back
+ * to back, so translating it exactly -50% returns to an identical frame and loops with no visible
+ * reset. The logos are decorative repetition, so the visible track is aria-hidden and the real
+ * list is exposed once to assistive technology.
+ */
+export function ClientLogos() {
   return (
-    <section
-      style={{
-        position: "relative",
-        borderBottom: "1px solid var(--color-line)",
-        padding: "26px var(--pad-x) 28px",
-      }}
-    >
-      {/* This strip sits inside the first screen, so it joins the hero's page-load
-          sequence (CSS, no script) instead of waiting on a scroll reveal. */}
-      <p className="hero-rise hero-d3" style={{ margin: "0 0 22px" }}>
-        <SectionEyebrow>Trusted by startups and growing teams at</SectionEyebrow>
-      </p>
-      {/* A continuous right-to-left marquee at every width, not just on mobile.
-          The track is the list rendered twice back to back, so translating it
-          exactly -50% returns to an identical frame and loops with no visible
-          reset.
-
-          The logos are decorative repetition here, so the visible track is
-          aria-hidden and the real list is exposed once to assistive technology
-          below. */}
-      <div className="clients-marquee hero-rise hero-d3" aria-hidden="true">
+    <div className="client-logos">
+      <p className="client-logos-label">Trusted by startups and growing teams at</p>
+      <div className="clients-marquee" aria-hidden="true">
         <div className="clients-marquee-track">
           {[...clients, ...clients].map((c, i) => (
             <div key={`${c.alt}-${i}`} className="clients-marquee-item">
@@ -127,6 +116,24 @@ export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "g
           <li key={c.alt}>{c.alt}</li>
         ))}
       </ul>
+    </div>
+  );
+}
+
+export default function ClientsStrip({ variant = "row" }: { variant?: "row" | "grid" }) {
+  if (variant === "grid") return <ClientsGrid />;
+
+  return (
+    <section
+      style={{
+        position: "relative",
+        // The line pattern starts here on the home page: a first line and its marks above the strip.
+        borderTop: "1px solid var(--color-line)",
+        borderBottom: "1px solid var(--color-line)",
+        padding: "26px var(--pad-x) 28px",
+      }}
+    >
+      <ClientLogos />
       <CornerDots />
     </section>
   );

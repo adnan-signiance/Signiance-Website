@@ -22,7 +22,7 @@ export default function HowWeWorkHero() {
         style={{
           fontFamily: "var(--font-display)",
           fontWeight: 600,
-          fontSize: "clamp(29px, 4.4vw, 46px)",
+          fontSize: "var(--fs-h1)",
           lineHeight: 1.05,
           letterSpacing: "var(--tracking-tight)",
           margin: "16px 0 0",
@@ -32,12 +32,12 @@ export default function HowWeWorkHero() {
       >
         The Thin Slice Method
       </HeroHeading>
-      <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+      <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
         Ship one workflow before you commit to a roadmap. Every engagement starts the same way: one workflow,
         measured against a number you pick, scoped in a week. You leave that week with a baseline, a build
         plan and a go / no-go — and if the answer is no, the plan is still yours.
       </p>
-      <p className="hero-rise hero-d2" style={{ maxWidth: 560, margin: "12px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+      <p className="hero-rise hero-d2" style={{ maxWidth: 560, margin: "12px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>
         No pyramid staffing. The people who scope it also build it.
       </p>
       <div

@@ -9,7 +9,7 @@
    --------------------------------------------------------------------------- */
 
 .hw-track {
-  --hw-header: 62px;
+  --hw-header: var(--header-h, 70px);
   /* Scroll distance each step change takes. */
   --hw-step: 48vh;
   position: relative;
@@ -129,7 +129,7 @@
   min-width: clamp(38px, 3.2vw, 50px);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(var(--fs-2xl), 2.6vw, 36px);
+  font-size: var(--fs-h3);
   letter-spacing: var(--tracking-tight);
   line-height: 1;
   color: var(--color-numeral);
@@ -151,9 +151,7 @@
 
 .hw-pane-week {
   font-size: var(--fs-sm);
-  font-weight: 700;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  font-weight: 600;
   color: var(--color-muted);
   transition: color 0.3s ease;
 }
@@ -161,7 +159,7 @@
 .hw-pane-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(var(--fs-lg), 1.75vw, var(--fs-2xl));
+  font-size: var(--fs-lead);
   letter-spacing: var(--tracking-snug);
   line-height: 1.15;
   text-wrap: balance;
@@ -194,7 +192,7 @@
 .hw-step-joint {
   position: absolute;
   z-index: 2;
-  left: calc(clamp(20px, 2vw, 30px) + clamp(38px, 3.2vw, 50px) / 2 - 13px);
+  left: clamp(20px, 2vw, 30px);
   bottom: -13px;
   display: grid;
   place-items: center;
@@ -300,18 +298,9 @@
   padding: 5px 12px;
   border-radius: 999px;
   background: var(--color-tint);
-  font-size: var(--fs-xs);
-  font-weight: 700;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  font-size: var(--fs-sm);
+  font-weight: 600;
   color: var(--color-accent);
-}
-
-.hw-panel-count {
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-muted);
 }
 
 /* Free space above the title and above "Next" is shared equally, so the heading
@@ -320,7 +309,7 @@
   margin: auto 0 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(32px, 4vw, 56px);
+  font-size: var(--fs-h3);
   line-height: 1.04;
   letter-spacing: var(--tracking-tight);
   text-wrap: balance;
@@ -329,7 +318,7 @@
 .hw-panel-body {
   margin: 20px 0 0;
   max-width: 42ch;
-  font-size: var(--fs-lg);
+  font-size: var(--fs-lead);
   line-height: 1.6;
   color: var(--color-text);
   text-wrap: pretty;
@@ -350,8 +339,7 @@
 }
 
 .hw-panel-next-label {
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
+  font-size: var(--fs-sm);
 }
 
 .hw-panel-next-title {
@@ -371,23 +359,7 @@
   display: grid;
   place-items: center;
   min-height: 0;
-  border-radius: 14px;
-  border: 1px solid var(--color-line);
-  background:
-    radial-gradient(circle at 28% 18%, rgba(25, 61, 170, 0.12), transparent 62%),
-    radial-gradient(rgba(25, 61, 170, 0.16) 1px, transparent 1px) 0 0 / 20px 20px,
-    var(--color-tint);
   overflow: hidden;
-}
-
-.hw-panel-art-num {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(110px, 13vw, 180px);
-  line-height: 1;
-  letter-spacing: var(--tracking-display);
-  color: var(--color-accent);
-  opacity: 0.14;
 }
 
 /* Segmented meter along the bottom of the right side. Each segment fills over the
@@ -489,6 +461,11 @@
   .hw-panel-next {
     display: none;
   }
+
+  .hw-panel-art {
+    display: block;
+    margin-top: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -500,5 +477,389 @@
   .hw-step-joint {
     transition-duration: 0.01ms;
     transition-delay: 0s !important;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Colour by chapter
+
+   The whole slide changes field with the week: tint, a lighter blue, brand blue, navy.
+   Everything inside takes its ink and accent from four custom properties set per chapter,
+   so no element needs to know which week it is on. Flat fields only.
+   --------------------------------------------------------------------------- */
+
+.hw-slide {
+  --hw-fg: var(--color-ink);
+  --hw-soft: var(--color-text);
+  --hw-hi: var(--color-accent);
+  --hw-num: var(--color-numeral);
+  --hw-line: var(--color-line-strong);
+  --hw-tile: var(--color-white);
+  --hw-tile-line: var(--color-accent-pale);
+  --hw-bg: var(--color-tint);
+  background: var(--hw-bg);
+  color: var(--hw-fg);
+  border-color: var(--hw-line);
+  transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+.hw-sticky[data-step="1"] .hw-slide {
+  --hw-bg: var(--color-accent-faint);
+  --hw-num: var(--color-accent-mid);
+  --hw-line: var(--color-accent-pale);
+}
+
+.hw-sticky[data-step="2"] .hw-slide {
+  --hw-fg: var(--color-white);
+  --hw-soft: var(--color-white);
+  --hw-hi: var(--color-white);
+  --hw-num: var(--color-accent-pale);
+  --hw-line: var(--color-accent-mid);
+  --hw-tile: rgba(255, 255, 255, 0.14);
+  --hw-tile-line: rgba(255, 255, 255, 0.5);
+  --hw-bg: var(--color-accent);
+}
+
+.hw-sticky[data-step="3"] .hw-slide {
+  --hw-fg: var(--color-white);
+  --hw-soft: var(--color-white);
+  --hw-hi: var(--color-white);
+  --hw-num: var(--color-on-dark-muted);
+  --hw-line: var(--color-accent-deep);
+  --hw-tile: rgba(255, 255, 255, 0.12);
+  --hw-tile-line: rgba(255, 255, 255, 0.5);
+  --hw-bg: var(--color-navy);
+}
+
+.hw-sticky .hw-pane {
+  background: transparent;
+  border-right-color: var(--hw-line);
+}
+
+.hw-sticky .hw-step + .hw-step {
+  border-top-color: var(--hw-line);
+}
+
+.hw-sticky .hw-step-item,
+.hw-sticky .hw-step-item:hover {
+  background: transparent;
+  color: var(--hw-fg);
+}
+
+.hw-sticky .hw-step.is-active .hw-step-item {
+  background: var(--hw-tile);
+  color: var(--hw-fg);
+}
+
+.hw-sticky .hw-step-item::before {
+  background: var(--hw-hi);
+}
+
+.hw-sticky .hw-step-num {
+  color: var(--hw-num);
+}
+
+.hw-sticky .hw-step.is-active .hw-step-num,
+.hw-sticky .hw-step.is-done .hw-step-num,
+.hw-sticky .hw-step.is-active .hw-pane-week {
+  color: var(--hw-hi);
+}
+
+.hw-sticky .hw-pane-week {
+  color: var(--hw-soft);
+}
+
+.hw-sticky .hw-step:not(.is-active) .hw-pane-title {
+  opacity: 0.72;
+}
+
+.hw-sticky .hw-step-done {
+  color: var(--hw-hi);
+}
+
+/* The tick is cut out of its disc, so its mark takes the field colour. */
+.hw-sticky .hw-step-done path {
+  stroke: var(--hw-bg);
+}
+
+.hw-sticky .hw-step-joint {
+  background: var(--hw-bg);
+  border-color: var(--hw-tile-line);
+  color: var(--hw-hi);
+}
+
+.hw-sticky .hw-panel-week {
+  background: var(--hw-tile);
+  color: var(--hw-hi);
+}
+
+.hw-sticky .hw-panel-next,
+.hw-sticky .hw-panel-next-title {
+  color: var(--hw-soft);
+}
+
+.hw-sticky .hw-panel-next svg {
+  color: var(--hw-hi);
+}
+
+.hw-sticky .hw-panel-title {
+  font-size: var(--fs-h2);
+  color: var(--hw-fg);
+}
+
+.hw-sticky .hw-panel-body {
+  color: var(--hw-soft);
+}
+
+.hw-sticky .hw-meter {
+  background: var(--hw-line);
+}
+
+.hw-sticky .hw-meter-seg + .hw-meter-seg {
+  border-left-color: transparent;
+}
+
+.hw-sticky .hw-meter-seg::after {
+  background: var(--hw-hi);
+}
+
+/* What lands that week: three short lines under the copy. */
+.hw-lands {
+  display: grid;
+  gap: 8px;
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hw-lands li {
+  font-size: var(--fs-base);
+  font-weight: 600;
+  color: var(--hw-fg);
+}
+
+/* What lands that week, drawn as the document itself. Flat white, fixed ink, so it reads the
+   same on every chapter's field. */
+.hw-doc {
+  width: 100%;
+  max-width: 440px;
+  display: grid;
+  gap: 14px;
+  padding: clamp(16px, 1.8vw, 22px);
+  border-radius: var(--radius-md);
+  background: var(--color-white);
+  color: var(--color-ink);
+  text-align: left;
+}
+
+.hw-doc-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.hw-doc-title {
+  font-family: var(--font-display);
+  font-size: var(--fs-base);
+  font-weight: 600;
+  letter-spacing: var(--tracking-snug);
+}
+
+.hw-doc-tag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--color-tint);
+  font-size: var(--fs-xs);
+  color: var(--color-text);
+}
+
+.hw-doc-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+}
+
+.hw-doc-table th,
+.hw-doc-table td {
+  padding: 10px 0;
+  text-align: left;
+  font-weight: 400;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.hw-doc-table thead th {
+  color: var(--color-muted);
+  font-size: var(--fs-sm);
+}
+
+.hw-doc-table tbody th {
+  font-weight: 500;
+}
+
+.hw-doc-table .is-target {
+  font-weight: 700;
+  color: var(--color-accent);
+}
+
+.hw-doc-list,
+.hw-doc-checks {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+}
+
+.hw-doc-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.hw-doc-list li > span:first-child {
+  color: var(--color-text);
+}
+
+.hw-doc-pill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-tint);
+  font-weight: 600;
+}
+
+.hw-doc-pill.is-on {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.hw-doc-tiles {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hw-doc-tiles li {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--color-tint);
+}
+
+.hw-doc-tiles span {
+  font-size: var(--fs-xs);
+  color: var(--color-text);
+}
+
+.hw-doc-tiles strong {
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  line-height: 1.1;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-accent);
+}
+
+.hw-doc-checks li {
+  position: relative;
+  padding: 11px 0 11px 28px;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.hw-doc-checks li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  transform: translateY(-50%);
+}
+
+.hw-doc-checks li::after {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 50%;
+  width: 4px;
+  height: 7px;
+  border: solid var(--color-white);
+  border-width: 0 2px 2px 0;
+  transform: translateY(-65%) rotate(45deg);
+}
+
+.hw-doc-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--fs-sm);
+}
+
+.hw-doc-seg {
+  display: inline-flex;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--color-tint);
+}
+
+.hw-doc-seg span {
+  padding: 3px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.hw-doc-seg span.is-on {
+  background: var(--color-accent);
+  color: var(--color-white);
+}
+
+.hw-doc-note {
+  margin: 0;
+  font-size: var(--fs-sm);
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hw-slide {
+    transition: none;
+  }
+}
+
+/* Stacked mode has no chapter fields: each step sits on the page's own ground, in its own ink,
+   whatever the scroll position last said. */
+@media (max-width: 860px), (max-height: 560px) {
+  /* On the page's own white the documents take a tint, so they still read as a card. */
+  .hw-doc {
+    background: var(--color-tint);
+  }
+
+  .hw-doc-tag,
+  .hw-doc-seg,
+  .hw-doc-tiles li,
+  .hw-doc-pill:not(.is-on) {
+    background: var(--color-white);
+  }
+
+  .hw-sticky[data-step] .hw-slide {
+    --hw-fg: var(--color-ink);
+    --hw-soft: var(--color-text);
+    --hw-hi: var(--color-accent);
+    --hw-num: var(--color-numeral);
+    --hw-line: var(--color-line-strong);
+    --hw-tile: var(--color-tint);
+    --hw-tile-line: var(--color-accent-pale);
+    --hw-bg: transparent;
   }
 }

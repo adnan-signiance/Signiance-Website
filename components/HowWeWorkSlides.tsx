@@ -2,14 +2,18 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
+import HowWeWorkDoc from "./HowWeWorkDocs";
 import { Reveal, RevealHeading } from "./Reveal";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { steps } from "@/lib/data";
 
 const COUNT = steps.length;
 
-const pad = (n: number) => String(n).padStart(2, "0");
+/** "WEEK 01" reads as "Week 1"; "AFTER" as "After launch". */
+const weekLabel = (week: string) => {
+  const m = week.match(/^WEEK\s*0*(\d+)$/i);
+  return m ? `Week ${m[1]}` : "After launch";
+};
 
 /**
  * Homepage "How we work", laid out like a slide deck.
@@ -104,12 +108,9 @@ export default function HowWeWorkSlides() {
       }}
     >
       <div ref={trackRef} className="hw-track" style={{ "--hw-n": COUNT } as CSSProperties}>
-        <div ref={stickyRef} className="hw-sticky" style={{ "--hw-active": active } as CSSProperties}>
+        <div ref={stickyRef} className="hw-sticky" data-step={active} style={{ "--hw-active": active } as CSSProperties}>
           <div className="section-head">
             <div className="section-head-main">
-              <Reveal style={{ marginBottom: 18 }}>
-                <SectionEyebrow>How we work</SectionEyebrow>
-              </Reveal>
               <RevealHeading
                 style={{
                   fontFamily: "var(--font-display)",
@@ -129,8 +130,6 @@ export default function HowWeWorkSlides() {
             </Reveal>
           </div>
 
-          <div className="section-rule" />
-
           <div className="hw-slide">
             <aside className="hw-pane" aria-label="Steps">
               <ol className="hw-pane-list">
@@ -144,9 +143,8 @@ export default function HowWeWorkSlides() {
                         aria-current={i === active ? "step" : undefined}
                         onClick={() => goTo(i)}
                       >
-                        <span className="hw-step-num">{pad(i + 1)}</span>
                         <span className="hw-pane-text">
-                          <span className="hw-pane-week">{st.week}</span>
+                          <span className="hw-pane-week">{weekLabel(st.week)}</span>
                           <span className="hw-pane-title">{st.title}</span>
                         </span>
                         {/* Finished steps are ticked off. */}
@@ -177,13 +175,15 @@ export default function HowWeWorkSlides() {
                   <article key={st.n} className={`hw-panel ${state}`} data-index={i}>
                     <div className="hw-panel-main">
                       <div className="hw-panel-top">
-                        <span className="hw-panel-week">{st.week}</span>
-                        <span className="hw-panel-count" aria-hidden="true">
-                          {pad(i + 1)} / {pad(COUNT)}
-                        </span>
+                        <span className="hw-panel-week">{weekLabel(st.week)}</span>
                       </div>
                       <h3 className="hw-panel-title">{st.title}</h3>
                       <p className="hw-panel-body">{st.body}</p>
+                      <ul className="hw-lands">
+                        {st.lands.map((item) => (
+                          <li key={item}>{item}</li>
+                        ))}
+                      </ul>
                       {next && (
                         <span className="hw-panel-next" aria-hidden="true">
                           <span className="hw-panel-next-label">Next</span>
@@ -194,10 +194,10 @@ export default function HowWeWorkSlides() {
                         </span>
                       )}
                     </div>
-                    {/* Reserved for each step's illustration; the oversized numeral keeps
-                        the slot from reading as empty until the artwork is dropped in. */}
+                    {/* What lands that week, drawn as the document itself. Decorative: the copy
+                        beside it says the same in words. */}
                     <div className="hw-panel-art" aria-hidden="true">
-                      <span className="hw-panel-art-num">{pad(i + 1)}</span>
+                      <HowWeWorkDoc index={i} />
                     </div>
                   </article>
                 );

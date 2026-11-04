@@ -34,7 +34,7 @@ export default function LegalPage({
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(29px, 4.4vw, 46px)",
+            fontSize: "var(--fs-h1)",
             lineHeight: 1.05,
             letterSpacing: "var(--tracking-tight)",
             margin: "14px 0 0",
@@ -47,16 +47,23 @@ export default function LegalPage({
         <p className="hero-rise hero-d1" style={{ margin: "16px 0 0", fontSize: "var(--fs-xs)", letterSpacing: "normal", color: "var(--color-muted)" }}>
           Last updated {updated}
         </p>
-        <p className="hero-rise hero-d2" style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <p className="hero-rise hero-d2" style={{ maxWidth: 620, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {intro}
         </p>
         <CornerDots />
       </section>
 
-      <section style={{ position: "relative", padding: "clamp(40px, 6vw, 58px) var(--pad-x)" }}>
-        <div className="legal-body">
-          {sections.map((s) => (
-            <div key={s.heading} className="legal-section">
+      {sections.map((s) => (
+        <section
+          key={s.heading}
+          style={{
+            position: "relative",
+            padding: "clamp(28px, 4vw, 40px) var(--pad-x)",
+            borderBottom: "1px solid var(--color-line)",
+          }}
+        >
+          <div className="legal-body">
+            <div className="legal-section">
               <h2>{s.heading}</h2>
               {s.body.map((block, i) =>
                 typeof block === "string" ? (
@@ -70,10 +77,10 @@ export default function LegalPage({
                 )
               )}
             </div>
-          ))}
-        </div>
-        <CornerDots />
-      </section>
+          </div>
+          <CornerDots />
+        </section>
+      ))}
     </>
   );
 }

@@ -106,7 +106,7 @@
 }
 
 .blog-card-cat {
-  font-size: var(--fs-2xs);
+  font-size: var(--fs-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: var(--color-accent);
@@ -116,7 +116,7 @@
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-xl);
+  font-size: var(--fs-h3);
   line-height: 1.2;
   letter-spacing: var(--tracking-snug);
   color: var(--color-ink);
@@ -320,7 +320,7 @@
 .prose {
   max-width: 720px;
   margin: 0 auto;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.75;
   color: var(--color-ink-soft);
   overflow-wrap: break-word;
@@ -344,17 +344,17 @@
 
 .prose h2 {
   margin-top: 2.2em;
-  font-size: var(--fs-2xl);
+  font-size: var(--fs-h3);
 }
 
 .prose h3 {
   margin-top: 1.9em;
-  font-size: var(--fs-xl);
+  font-size: var(--fs-lead);
 }
 
 .prose h4 {
   margin-top: 1.6em;
-  font-size: var(--fs-lg);
+  font-size: var(--fs-lead);
 }
 
 .prose h2 + *,
@@ -393,7 +393,7 @@
   margin-right: 0;
   padding: 2px 0 2px 20px;
   border-left: 3px solid var(--color-accent);
-  font-size: var(--fs-lg);
+  font-size: var(--fs-lead);
   color: var(--color-text);
 }
 

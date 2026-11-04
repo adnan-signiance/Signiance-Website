@@ -23,7 +23,7 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: "clamp(29px, 4.4vw, 46px)",
+              fontSize: "var(--fs-h1)",
               lineHeight: 1.05,
               letterSpacing: "var(--tracking-tight)",
               margin: "16px 0 0",
@@ -33,7 +33,7 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
           >
             The work behind the numbers
           </HeroHeading>
-          <p className="hero-rise hero-d1" style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+          <p className="hero-rise hero-d1" style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
             Every engagement below shipped to production and was measured against a number the client cared
             about, not a vanity metric.
           </p>
@@ -85,7 +85,7 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
                 <SectionEyebrow>Featured</SectionEyebrow>
                 <span
                   style={{
-                    fontSize: "var(--fs-2xs)",
+                    fontSize: "var(--fs-xs)",
                     letterSpacing: "var(--tracking-wide)",
                     textTransform: "uppercase",
                     color: "var(--color-on-dark-muted)",
@@ -99,7 +99,7 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 600,
-                  fontSize: 32,
+                  fontSize: "var(--fs-h2)",
                   lineHeight: 1.12,
                   letterSpacing: "var(--tracking-snug)",
                   margin: "14px 0 0",
@@ -115,7 +115,7 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
               <div style={{ display: "flex", alignItems: "center", gap: 24, marginTop: 24, flexWrap: "wrap" }}>
                 {featured.statValue && (
                   <div style={{ display: "flex", alignItems: "baseline", gap: 6 }}>
-                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-2xl)", color: "var(--color-white)" }}>
+                    <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-h3)", color: "var(--color-white)" }}>
                       {featured.statValue}
                     </span>
                     <span style={{ fontSize: "var(--fs-xs)", color: "var(--color-on-dark-muted)" }}>{featured.statLabel}</span>

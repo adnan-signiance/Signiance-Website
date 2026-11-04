@@ -23,7 +23,7 @@ export default function BlogComingSoon() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            fontSize: "clamp(48px, 9vw, 108px)",
+            fontSize: "var(--fs-ghost)",
             lineHeight: 0.9,
             letterSpacing: "var(--tracking-tight)",
             color: "var(--color-accent)",
@@ -45,7 +45,7 @@ export default function BlogComingSoon() {
         >
           Field notes on shipping cloud infrastructure and production AI
         </h1>
-        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
           We&apos;re putting together writing from the engagements we run, not theory. Check back soon, or see
           the outcomes we&apos;ve already delivered.
         </p>

@@ -36,7 +36,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(29px, 4.4vw, 46px)",
+            fontSize: "var(--fs-h1)",
             lineHeight: 1.05,
             letterSpacing: "var(--tracking-tight)",
             margin: 0,
@@ -46,7 +46,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
         >
           {service.title}
         </HeroHeading>
-        <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>{service.long}</p>
+        <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>{service.long}</p>
 
         <div className="hero-rise hero-d2" style={{ display: "flex", gap: 12, marginTop: 28, flexWrap: "wrap" }}>
           <Link href="/#contact" className="btn-hero-primary">
@@ -71,7 +71,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
               bottom: -24,
               fontFamily: "var(--font-display)",
               fontWeight: 700,
-              fontSize: "clamp(120px, 15vw, 220px)",
+              fontSize: "var(--fs-ghost)",
               lineHeight: 1,
               letterSpacing: "var(--tracking-tight)",
               color: "rgba(255,255,255,0.1)",
@@ -97,7 +97,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 600,
-                fontSize: "var(--fs-xl)",
+                fontSize: "var(--fs-h3)",
                 letterSpacing: "var(--tracking-snug)",
                 color: "var(--color-white)",
                 marginTop: 4,
@@ -141,7 +141,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
                     cursor: "pointer",
                     fontFamily: "var(--font-display)",
                     fontWeight: isOpen ? 600 : 500,
-                    fontSize: "var(--fs-xl)",
+                    fontSize: "var(--fs-h3)",
                     letterSpacing: "var(--tracking-snug)",
                     // Was #B5B1A7 at 2.14:1 — a clear AA failure for 21px text,
                     // which needs 4.5:1. --color-muted is 5.20:1 and still reads
@@ -153,7 +153,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
                   {c.title}
                 </button>
                 {isOpen && (
-                  <p style={{ margin: "10px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)", maxWidth: "58ch" }}>{c.body}</p>
+                  <p style={{ margin: "10px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)", maxWidth: "58ch" }}>{c.body}</p>
                 )}
               </div>
             );
@@ -202,7 +202,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: "var(--fs-xl)",
+              fontSize: "var(--fs-h3)",
               letterSpacing: "var(--tracking-snug)",
               margin: "16px 0 0",
             }}
@@ -227,7 +227,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 600,
-                  fontSize: "var(--fs-lg)",
+                  fontSize: "var(--fs-lead)",
                   letterSpacing: "var(--tracking-snug)",
                   margin: 0,
                 }}
@@ -249,7 +249,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(24px, 3vw, 32px)",
+            fontSize: "var(--fs-h2)",
             lineHeight: 1.1,
             letterSpacing: "var(--tracking-tight)",
             margin: 0,
@@ -258,7 +258,7 @@ export default function ServiceDetail({ service, relatedCases }: { service: Serv
         >
           Not sure this is the right practice?
         </RevealHeading>
-        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>
           Tell us the workflow. We&apos;ll tell you which of the five gets you there fastest.
         </Reveal>
         <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>

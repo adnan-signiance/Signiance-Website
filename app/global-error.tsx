@@ -35,10 +35,10 @@ export default function GlobalError({
         }}
       >
         <main style={{ maxWidth: 460, textAlign: "center" }}>
-          <h1 style={{ fontSize: "var(--fs-2xl)", fontWeight: 600, letterSpacing: "var(--tracking-snug)", margin: 0 }}>
+          <h1 style={{ fontSize: "var(--fs-h3)", fontWeight: 600, letterSpacing: "var(--tracking-snug)", margin: 0 }}>
             Signiance
           </h1>
-          <p style={{ margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "#43464A" }}>
+          <p style={{ margin: "16px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "#43464A" }}>
             The site failed to load. This has been logged. Please try again, or email{" "}
             <a href="mailto:hello@signiance.com" style={{ color: "#193DAA" }}>
               hello@signiance.com

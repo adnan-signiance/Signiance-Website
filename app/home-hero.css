@@ -1,0 +1,224 @@
+/* Home hero (components/Hero.tsx). */
+
+/* The hero is exactly as tall as the browser's first screen under the header, so the page
+   opens on one composed frame. It grows only if its content needs more room than that. Its
+   bottom edge is where the line pattern begins. */
+.hero-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - var(--header-h, 62px));
+  min-height: calc(100svh - var(--header-h, 62px));
+  padding-top: clamp(20px, 3vw, 36px);
+  box-sizing: border-box;
+}
+
+/* Copy on the left, the live panel on the right, centred on each other in the space the hero has. */
+.hero-main {
+  flex: 1;
+  padding: 0 var(--pad-x) clamp(20px, 2.4vw, 28px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+  text-align: left;
+}
+
+.hero-sentence {
+  margin: clamp(18px, 3vw, 28px) 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.hero-line {
+  display: block;
+  letter-spacing: var(--tracking-display);
+}
+
+/* One size for the whole sentence, the largest type on the page. The lead line is muted so the
+   punchline still lands. */
+.hero-line-struck,
+.hero-line-promise {
+  font-size: var(--fs-display);
+}
+
+.hero-line-struck {
+  color: var(--color-muted);
+}
+
+/* "still a pilot." and "in production." share one cell. At rest the first is shown; scrolling
+   away from the hero slides it up and the second in beneath it. The cell is as wide as the
+   wider of the two, so nothing moves around it. */
+.hero-swap {
+  display: inline-grid;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding: 0.08em 0.14em 0.2em 0.04em;
+  margin: -0.08em -0.14em -0.2em -0.04em;
+}
+
+.hero-swap-a,
+.hero-swap-b {
+  grid-area: 1 / 1;
+  white-space: nowrap;
+}
+
+.hero-swap-b {
+  color: var(--color-accent);
+  transform: translateY(115%);
+}
+
+
+.hero-subline {
+  max-width: 520px;
+  margin: clamp(16px, 2.4vw, 28px) 0 0;
+  font-size: var(--fs-base);
+  line-height: 1.65;
+  color: var(--color-ink-soft);
+  text-wrap: balance;
+}
+
+.hero-ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px 28px;
+  margin-top: clamp(16px, 3vw, 26px);
+}
+
+/* The second action is a plain link: one filled button, one way in for the undecided. */
+.hero-link {
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--color-accent-pale);
+  text-underline-offset: 6px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.hero-link:hover {
+  color: var(--color-accent);
+  text-decoration-color: var(--color-accent);
+}
+
+/* Three figures: what the offer comes to. */
+.hero-figures {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px clamp(16px, 2.4vw, 32px);
+  margin: clamp(20px, 3.2vw, 32px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-figure-value {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--fs-h2);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+
+.hero-figure-label {
+  display: block;
+  margin-top: 8px;
+  max-width: 22ch;
+  font-size: var(--fs-sm);
+  line-height: 1.4;
+  color: var(--color-text);
+}
+
+/* Credentials along the foot of the first screen, in a band with the page's line pattern:
+   .frame-rails draws the side rails, the band's own lines sit above and below. */
+.hero-band {
+  position: relative;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.hero-credentials {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 48px);
+  padding: clamp(16px, 2vw, 24px) var(--pad-x);
+}
+
+.client-logos {
+  flex: 1;
+  min-width: 0;
+}
+
+.client-logos-label {
+  margin: 0 0 14px;
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
+/* The artwork beside the copy. It is decoration and is dropped below 880px (globals.css). */
+.hero-main .hero-home-art {
+  width: clamp(300px, 33vw, 460px);
+}
+
+@media (max-width: 1000px) {
+  .hero-credentials {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .client-logos {
+    width: 100%;
+  }
+}
+
+@media (max-width: 880px) {
+  .hero-main {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  /* One figure per row, the number beside what it means, so the hero stays on one screen. */
+  .hero-figures {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .hero-figures li {
+    display: grid;
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .hero-figure-label {
+    max-width: none;
+    margin-top: 0;
+  }
+}
+
+/* On a phone the badge comes down so the hero keeps to one screen. */
+@media (max-width: 640px) {
+  .hero-credentials img:first-child {
+    height: 64px !important;
+  }
+}
+
+/* The client strip shows every logo in its own colours at full strength. */
+.clients-marquee .client-logo {
+  filter: none;
+  opacity: 1;
+}

@@ -40,7 +40,7 @@ export default function BlogPostView({ post, related }: { post: BlogPost; relate
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: "clamp(27px, 4.2vw, 44px)",
+              fontSize: "var(--fs-h1)",
               lineHeight: 1.08,
               letterSpacing: "var(--tracking-tight)",
               margin: "16px 0 0",

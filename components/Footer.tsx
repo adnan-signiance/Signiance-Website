@@ -4,7 +4,9 @@ import Image from "next/image";
 
 import Link from "next/link";
 import CookieSettingsButton from "./CookieSettingsButton";
+import CornerDots from "./CornerDots";
 import NewsletterForm from "./NewsletterForm";
+import PartnerMarks from "./PartnerMarks";
 import { brand, footerColumns, socialLinks } from "@/lib/data";
 
 const socials = [
@@ -37,7 +39,7 @@ const socials = [
 
 export default function Footer() {
   return (
-    <footer style={{ padding: "44px var(--pad-x) 20px" }}>
+    <footer>
       <div className="footer-top">
         <div>
           <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
@@ -52,43 +54,13 @@ export default function Footer() {
           <p style={{ margin: "14px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
             An AI-native engineering company. From AI potential to production impact.
           </p>
-          <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
-            <Image
-              src="/media/aws-advanced-tier-partner.webp"
-              alt="AWS Partner: Advanced Tier Services"
-              width={1000}
-              height={1000}
-              style={{ display: "block", height: 46, width: "auto" }}
-            />
-            {/* Text badge until the official Anthropic Partner artwork is dropped in: put the
-                file in public/media and swap this block for an <Image> like the AWS one. */}
-            <div
-              role="img"
-              aria-label="Anthropic Partner"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 9,
-                height: 46,
-                padding: "0 14px",
-                border: "1px solid var(--color-line-strong)",
-                borderRadius: "var(--radius-sm)",
-                background: "var(--color-white)",
-              }}
-            >
-              <Image src="/media/tech-logos/anthropic.svg" alt="" width={20} height={20} style={{ display: "block", height: 20, width: "auto" }} />
-              <span style={{ display: "flex", flexDirection: "column", lineHeight: 1.2 }}>
-                <span style={{ fontSize: "var(--fs-sm)", fontWeight: 600, color: "var(--color-ink)" }}>Anthropic</span>
-                <span style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
-                  Partner
-                </span>
-              </span>
-            </div>
+          <div style={{ marginTop: 20 }}>
+            <PartnerMarks height={46} />
           </div>
         </div>
 
         <div className="footer-newsletter">
-          <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
+          <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
             Newsletter
           </div>
           {/* h2 within the contentinfo landmark, rather than h4 following a
@@ -97,7 +69,7 @@ export default function Footer() {
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: "var(--fs-lg)",
+              fontSize: "var(--fs-lead)",
               letterSpacing: "var(--tracking-snug)",
               margin: "10px 0 0",
             }}
@@ -109,12 +81,13 @@ export default function Footer() {
           </p>
           <NewsletterForm />
         </div>
+        <CornerDots />
       </div>
 
       <div className="footer-links-grid">
         {footerColumns.map((col) => (
           <div key={col.head} style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
+            <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
               {col.head}
             </div>
             {col.items.map((it) => (
@@ -124,6 +97,7 @@ export default function Footer() {
             ))}
           </div>
         ))}
+        <CornerDots />
       </div>
 
       <div className="footer-bottom">

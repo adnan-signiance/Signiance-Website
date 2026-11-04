@@ -339,24 +339,28 @@ export const steps = [
     week: "WEEK 01",
     title: "Scope one workflow",
     body: "We sit with the people doing the work, measure the baseline, and write down what better looks like in numbers.",
+    lands: ["A written baseline", "One workflow, scoped", "A fixed fee, credited to the build"],
   },
   {
     n: "2",
     week: "WEEK 02",
     title: "Build the thin slice",
     body: "A working version on your real data, behind a flag, with your reviewers in the loop from day one.",
+    lands: ["A working version on your real data", "Behind a flag", "Your reviewers in the loop"],
   },
   {
     n: "3",
     week: "WEEK 03",
     title: "Ship it for real",
     body: "Live traffic, evals, guardrails and dashboards, plus training so your team understands exactly how it runs.",
+    lands: ["Live traffic", "Evals, guardrails and dashboards", "Your team trained on how it runs"],
   },
   {
     n: "4",
     week: "AFTER",
     title: "Hand over or we run it",
     body: "Take the code, runbook and evals and run it yourselves. Or let us operate it: monitoring, eval regression, model upgrades, cost tuning and on-call. Your call, and you can switch anytime.",
+    lands: ["The code, runbook and evals are yours", "Or we run it, on call", "Switch anytime"],
   },
 ];
 

@@ -70,7 +70,7 @@ export default function ServicesList() {
                       style={{
                         fontFamily: "var(--font-display)",
                         fontWeight: 600,
-                        fontSize: "var(--fs-xl)",
+                        fontSize: "var(--fs-h3)",
                         letterSpacing: "var(--tracking-snug)",
                         color: "var(--color-white)",
                         marginTop: 4,
@@ -86,7 +86,7 @@ export default function ServicesList() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 600,
-                    fontSize: "clamp(27px, 3.2vw, 36px)",
+                    fontSize: "var(--fs-h2)",
                     letterSpacing: "var(--tracking-snug)",
                     margin: 0,
                     textWrap: "balance",
@@ -94,7 +94,7 @@ export default function ServicesList() {
                 >
                   {sv.title}
                 </RevealHeading>
-                <p style={{ margin: "14px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.65, color: "var(--color-text)", textWrap: "pretty" }}>
+                <p style={{ margin: "14px 0 0", fontSize: "var(--fs-base)", lineHeight: 1.65, color: "var(--color-text)", textWrap: "pretty" }}>
                   {sv.long}
                 </p>
 
@@ -110,7 +110,7 @@ export default function ServicesList() {
                 >
                   <div
                     style={{
-                      fontSize: "var(--fs-2xs)",
+                      fontSize: "var(--fs-xs)",
                       fontWeight: 700,
                       letterSpacing: "var(--tracking-wide)",
                       textTransform: "uppercase",
@@ -127,7 +127,7 @@ export default function ServicesList() {
                     live on the detail page. Showing all three in full here
                     made the row too dense to scan at a glance. */}
                 <div style={{ marginTop: 22 }}>
-                  <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 12 }}>
+                  <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 12 }}>
                     Includes
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: "10px 16px" }}>
@@ -149,7 +149,7 @@ export default function ServicesList() {
                 </div>
 
                 <div style={{ marginTop: 22 }}>
-                  <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 12 }}>
+                  <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 12 }}>
                     Tech stack
                   </div>
                   <div style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: 22 }}>

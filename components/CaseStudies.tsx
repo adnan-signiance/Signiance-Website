@@ -1,154 +1,74 @@
+"use client";
+
 import Image from "next/image";
-import { Fragment } from "react";
 import Link from "next/link";
-import { RevealGroup, RevealItem } from "./Reveal";
+import { useState } from "react";
+import "../app/case-index.css";
 import type { CaseStudyEntry } from "@/lib/data";
 
-type Dot = { top?: number; bottom?: number; left?: number; right?: number; responsive?: "desktop-only" | "mobile-only" };
-
-const cornerDotAbs = (pos: Dot, bg: string) => (
-  <span
-    className={pos.responsive === "desktop-only" ? "case-dot-desktop-only" : pos.responsive === "mobile-only" ? "case-dot-mobile-only" : undefined}
-    style={{
-      position: "absolute" as const,
-      top: pos.top,
-      bottom: pos.bottom,
-      left: pos.left,
-      right: pos.right,
-      width: 15,
-      height: 15,
-      display: "grid",
-      placeItems: "center",
-      background: bg,
-      pointerEvents: "none" as const,
-      transform: `translate(${pos.right !== undefined ? "50%" : "-50%"},${pos.bottom !== undefined ? "50%" : "-50%"})`,
-      zIndex: 2,
-    }}
-  >
-    <span className="plus-mark" />
-  </span>
-);
-
-const ctaArrow = (
-  <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-    <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-ink)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-  </svg>
-);
-
-// The pill is the card's only link: the photo and copy are not clickable, so a
-// stray click on the card does not navigate.
-const ViewCta = ({ slug, title }: { slug: string; title: string }) => (
-  <Link href={`/case-studies/${slug}`} className="case-cell-cta" aria-label={`View case study: ${title}`}>
-    <span className="case-cell-cta-arrow-in">{ctaArrow}</span>
-    <span>View</span>
-    <span className="case-cell-cta-arrow-out">{ctaArrow}</span>
-  </Link>
-);
-
-// Every card is a full-bleed photo with the tag, title, copy and CTA laid
-// over it — a bottom scrim keeps the white text legible regardless of how
-// light the underlying image is, rather than reserving a separate text
-// block below the image.
-function CaseCard({
-  span,
-  heightClass,
-  image,
-  tag,
-  title,
-  titleSize,
-  body,
-  stat,
-  slug,
-  dots,
-}: {
-  span: 5 | 7;
-  heightClass: "case-cell-h-lg" | "case-cell-h-md";
-  image: string;
-  tag: string;
-  title: string;
-  titleSize: number;
-  body: string;
-  stat?: { value: string; label: string };
-  slug: string;
-  dots: Dot[];
-}) {
-  return (
-    <RevealItem
-      className={`case-cell-${span} ${heightClass}`}
-      style={{ position: "relative", background: "var(--color-white)", borderRight: "1px solid var(--color-line-strong)", borderBottom: "1px solid var(--color-line-strong)" }}
-    >
-      {dots.map((d, i) => (
-        <Fragment key={i}>{cornerDotAbs(d, "var(--color-white)")}</Fragment>
-      ))}
-      {/* Inset from the cell's own border so the corner dots land on plain
-          background instead of the photo — otherwise their white punch-box
-          shows as a hard-edged square over the image. */}
-      <div className="case-cell-frame">
-        {/* `fill` matches what .case-cell-bg already did (absolutely positioned,
-            100%/100%, object-fit: cover) so the CSS is unchanged — this adds
-            responsive srcset and lazy loading below the fold. */}
-        <Image src={image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 60vw" />
-        <div className="case-cell-scrim" />
-        <div className="case-cell-overlay case-cell-overlay--static">
-          <div className="case-cell-bottom-row">
-            <div>
-              <div className="case-cell-tag">{tag}</div>
-              <h3 className="case-cell-title" style={{ fontSize: `calc(var(--type-scale, 1) * ${titleSize}px)` }}>
-                {title}
-              </h3>
-              <p className="case-cell-body">{body}</p>
-              {stat && (
-                <div className="case-cell-stat">
-                  <span className="case-cell-stat-value">{stat.value}</span>
-                  <span className="case-cell-stat-label">{stat.label}</span>
-                </div>
-              )}
-            </div>
-            <ViewCta slug={slug} title={title} />
-          </div>
-        </div>
-      </div>
-    </RevealItem>
-  );
-}
-
-// The grid is a fixed editorial layout: each slot has its own width, height, title
-// size and corner marks. The studies shown are chosen in the CMS (homeSlot); the
-// layout belongs to the slot, not to the study that happens to fill it.
-const SLOTS: {
-  span: 5 | 7;
-  heightClass: "case-cell-h-lg" | "case-cell-h-md";
-  titleSize: number;
-  dots: Dot[];
-}[] = [
-  { span: 7, heightClass: "case-cell-h-lg", titleSize: 24, dots: [{ top: 0, right: 0, responsive: "desktop-only" }, { bottom: 0, left: 0 }, { bottom: 0, right: 0 }] },
-  { span: 5, heightClass: "case-cell-h-lg", titleSize: 20, dots: [{ bottom: 0, left: 0 }, { bottom: 0, right: 0 }] },
-  { span: 5, heightClass: "case-cell-h-md", titleSize: 20, dots: [{ top: 0, right: 0 }, { bottom: 0, left: 0, responsive: "mobile-only" }, { bottom: 0, right: 0 }] },
-  { span: 7, heightClass: "case-cell-h-md", titleSize: 20, dots: [] },
-];
-
+/**
+ * The work as an editorial index: each study is a line of type with its result set large on
+ * the right, and the picture for the line you are on sits beside the list. Names carry the
+ * section, so a photograph only ever appears one at a time. Hover or focus moves the picture and
+ * the caption under it; below 900px each line carries its own picture instead.
+ */
 export default function CaseStudies({ entries }: { entries: CaseStudyEntry[] }) {
-  return (
-    <div style={{ position: "relative", margin: "20px var(--bleed) 0" }}>
-      {cornerDotAbs({ left: 0, top: 0 }, "var(--color-white)")}
-      {cornerDotAbs({ right: 0, top: 0 }, "var(--color-white)")}
-      {cornerDotAbs({ left: 0, bottom: 0 }, "var(--color-white)")}
-      {cornerDotAbs({ right: 0, bottom: 0 }, "var(--color-white)")}
+  const [active, setActive] = useState(0);
+  if (entries.length === 0) return null;
 
-      <RevealGroup className="grid-case case-home" stagger={0.1}>
-        {entries.slice(0, SLOTS.length).map((cs, i) => (
-          <CaseCard
-            key={cs.id}
-            {...SLOTS[i]}
-            image={cs.image}
-            tag={cs.tag}
-            title={cs.title}
-            body={cs.teaser}
-            stat={cs.statValue && cs.statLabel ? { value: cs.statValue, label: cs.statLabel } : undefined}
-            slug={cs.slug}
-          />
+  return (
+    <div className="case-index">
+      <ul className="case-index-list">
+        {entries.map((cs, i) => (
+          <li key={cs.id} className={i === active ? "case-index-item is-active" : "case-index-item"}>
+            <Link
+              href={`/case-studies/${cs.slug}`}
+              className="case-index-row"
+              onMouseEnter={() => setActive(i)}
+              onFocus={() => setActive(i)}
+            >
+              <span className="case-index-main">
+                <span className="case-index-industry">{cs.industry}</span>
+                <span className="case-index-title">{cs.title}</span>
+                <span className="case-index-text">{cs.teaser}</span>
+                <span className="case-index-more">
+                  Read the case study
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                    <path d="M3 7h8m0 0L7.5 3.5M11 7l-3.5 3.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </span>
+              </span>
+              {cs.statValue && (
+                <span className="case-index-result">
+                  <span className="case-index-value">{cs.statValue}</span>
+                  <span className="case-index-label">{cs.statLabel}</span>
+                </span>
+              )}
+            </Link>
+            <div className="case-index-inline">
+              <Image src={cs.image} alt="" fill sizes="(max-width: 900px) 100vw, 1px" />
+            </div>
+          </li>
         ))}
-      </RevealGroup>
+      </ul>
+
+      <figure className="case-index-preview" aria-hidden="true">
+        <div className="case-index-frame">
+          {entries.map((cs, i) => (
+            <Image
+              key={cs.id}
+              src={cs.image}
+              alt=""
+              fill
+              sizes="(max-width: 900px) 1px, 34vw"
+              className={i === active ? "case-index-photo is-active" : "case-index-photo"}
+            />
+          ))}
+        </div>
+        <figcaption className="case-index-caption">
+          {entries[active].client}. {entries[active].engagementLength}.
+        </figcaption>
+      </figure>
     </div>
   );
 }

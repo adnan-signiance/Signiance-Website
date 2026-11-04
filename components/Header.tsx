@@ -5,91 +5,153 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { brand, services, socialLinks } from "@/lib/data";
+import { brand, caseStudyEntries, services } from "@/lib/data";
 import CornerDots from "./CornerDots";
+import "../app/header.css";
 
 type MenuName = "services" | "resources";
 
+const RESOURCES = [
+  { label: "Case Studies", href: "/case-studies" },
+  { label: "Blogs", href: "/blog" },
+  { label: "Careers", href: "/careers" },
+];
+
+/** The result each practice is shown with: its first case study that has a headline figure. */
+function resultFor(practice: string) {
+  const c = caseStudyEntries.find((e) => e.category === practice && e.statValue && e.statLabel);
+  return c ? { value: c.statValue as string, label: c.statLabel as string, title: c.title, href: `/case-studies/${c.slug}` } : null;
+}
+
 const ArrowIcon = () => (
-  <svg
-    className="drop-item-arrow"
-    width="10"
-    height="12"
-    viewBox="0 0 10 12"
-    fill="none"
-    aria-hidden="true"
-  >
-    <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-accent)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+  <svg className="site-panel-arrow" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <path d="M2 6h8M6.5 2.5 10 6 6.5 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
 const Chevron = ({ open }: { open: boolean }) => (
   <svg
-    className={`nav-chevron${open ? " is-open" : ""}`}
-    width="9"
-    height="9"
+    className={`site-chevron${open ? " is-open" : ""}`}
+    width="10"
+    height="10"
     viewBox="0 0 10 10"
     fill="none"
     aria-hidden="true"
   >
-    <path d="M2 3.5 5 6.5 8 3.5" stroke="var(--color-border-ui)" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M2 3.5 5 6.5 8 3.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 );
 
-const MENU_WIDTH: Record<MenuName, number> = { services: 236, resources: 200 };
+/** The wordmark. When the page has scrolled it folds down to the mark alone. */
+function Logo({ compact }: { compact: boolean }) {
+  return (
+    <Link href="/" className={`site-logo${compact ? " is-compact" : ""}`} aria-label={brand}>
+      <span className="site-logo-clip">
+        <Image
+          src="/media/logo_2_blue.svg"
+          alt=""
+          // Intrinsic size of the source file; the style below controls the rendered size.
+          width={538}
+          height={125}
+          priority
+          className="site-logo-img"
+        />
+      </span>
+    </Link>
+  );
+}
 
-/** Shared id so each trigger's aria-controls points at the panel it opens. */
-const NAV_MENU_ID = "nav-dropdown-panel";
-
-export default function Header() {
+export default function Header({ plain = false }: { plain?: boolean }) {
   const pathname = usePathname();
   const isServicesPage = pathname.startsWith("/services");
-  const isCaseStudiesPage = pathname.startsWith("/case-studies");
-  const isBlogPage = pathname.startsWith("/blog");
-  const isCareersPage = pathname.startsWith("/careers");
-  const isResourcesPage = isCaseStudiesPage || isBlogPage || isCareersPage;
+  const isResourcesPage =
+    pathname.startsWith("/case-studies") || pathname.startsWith("/blog") || pathname.startsWith("/careers");
   const isHowWeWorkPage = pathname.startsWith("/how-we-work");
   const isAboutPage = pathname.startsWith("/about");
 
   const [scrolled, setScrolled] = useState(false);
+  const [tone, setTone] = useState<"light" | "navy">("light");
   const [activeMenu, setActiveMenu] = useState<MenuName | null>(null);
-  const [menuPos, setMenuPos] = useState({ left: 0, top: 0 });
+  // The menu whose content is mounted: it follows the open one at once and lets go shortly after the
+  // panel has faded, so a closed menu leaves no hidden text on the page.
+  const [rendered, setRendered] = useState<MenuName | null>(null);
+  const [activeService, setActiveService] = useState(0);
+  const [resourcesLeft, setResourcesLeft] = useState(0);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const [mobileResourcesOpen, setMobileResourcesOpen] = useState(false);
 
-  const navRef = useRef<HTMLElement>(null);
-  const dropRef = useRef<HTMLDivElement>(null);
-  const drawerRef = useRef<HTMLDivElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
+  const sheetRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
   const servicesTriggerRef = useRef<HTMLSpanElement>(null);
   const resourcesTriggerRef = useRef<HTMLSpanElement>(null);
+  const panelRefs = useRef<Record<MenuName, HTMLDivElement | null>>({ services: null, resources: null });
   const closeTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
+  // Scroll behaviour, one pass per frame: the bar stays where it is, turns solid once the page
+  // moves, folds its wordmark to the mark, and takes the tone of the section behind it.
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 16);
-    onScroll();
+    let frame = 0;
+
+    const update = () => {
+      frame = 0;
+      const y = window.scrollY;
+      const bar = headerRef.current;
+      const h = bar ? bar.offsetHeight : 70;
+
+      setScrolled(y > 16);
+
+      let next: "light" | "navy" = "light";
+      document.querySelectorAll<HTMLElement>("[data-nav-tone]").forEach((el) => {
+        const b = el.getBoundingClientRect();
+        if (b.top <= h / 2 && b.bottom > h / 2) next = el.dataset.navTone === "navy" ? "navy" : "light";
+      });
+      setTone(next);
+    };
+
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+
+    update();
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    window.addEventListener("resize", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (frame) cancelAnimationFrame(frame);
+    };
   }, []);
 
   useEffect(() => () => clearTimeout(closeTimer.current), []);
 
-  // Close the drawer on navigation. Done as a render-phase adjustment (React's
-  // documented "reset state when a prop changes" pattern) rather than in an
-  // effect: an effect here fired a second render pass on every navigation and
-  // tripped react-hooks/set-state-in-effect.
+  useEffect(() => {
+    if (activeMenu) return;
+    const t = setTimeout(() => setRendered(null), 320);
+    return () => clearTimeout(t);
+  }, [activeMenu]);
+
+  useEffect(() => {
+    if (!activeMenu) return;
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setActiveMenu(null);
+    };
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [activeMenu]);
+
+  // Close the sheet on navigation (React's documented "reset state when a prop changes" pattern).
   const [lastPathname, setLastPathname] = useState(pathname);
   if (lastPathname !== pathname) {
     setLastPathname(pathname);
     setMobileOpen(false);
     setMobileServicesOpen(false);
     setMobileResourcesOpen(false);
+    setActiveMenu(null);
   }
 
-  // Closing when the viewport grows back past the breakpoint — otherwise the
-  // drawer stays mounted but hidden, and reappears the next time the window
-  // narrows.
+  // Back above the breakpoint the sheet must not stay mounted but hidden.
   useEffect(() => {
     const onResize = () => {
       if (window.innerWidth > 1080) {
@@ -102,29 +164,20 @@ export default function Header() {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  const triggerRefs: Record<MenuName, React.RefObject<HTMLSpanElement | null>> = {
-    services: servicesTriggerRef,
-    resources: resourcesTriggerRef,
-  };
-
   const openMenu = (name: MenuName) => {
     clearTimeout(closeTimer.current);
-    const navEl = navRef.current;
-    const triggerEl = triggerRefs[name].current;
-    if (navEl && triggerEl) {
-      const navRect = navEl.getBoundingClientRect();
-      const triggerRect = triggerEl.getBoundingClientRect();
-      setMenuPos({
-        left: triggerRect.left - navRect.left - 14,
-        top: triggerRect.bottom - navRect.top + 10,
-      });
+    if (name === "resources") {
+      const bar = headerRef.current;
+      const trigger = resourcesTriggerRef.current;
+      if (bar && trigger) setResourcesLeft(trigger.getBoundingClientRect().left - bar.getBoundingClientRect().left - 14);
     }
+    setRendered(name);
     setActiveMenu(name);
   };
 
   const scheduleClose = () => {
     clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setActiveMenu(null), 260);
+    closeTimer.current = setTimeout(() => setActiveMenu(null), 220);
   };
 
   const keepOpen = () => clearTimeout(closeTimer.current);
@@ -134,59 +187,64 @@ export default function Header() {
     else openMenu(name);
   };
 
-  /**
-   * Keyboard behaviour for the dropdown triggers, following the disclosure
-   * pattern: Escape closes, Arrow Down opens and moves into the menu.
-   */
+  const focusFirstIn = (name: MenuName) => {
+    // The panel is visibility:hidden while closed and cannot take focus until it is shown.
+    requestAnimationFrame(() => panelRefs.current[name]?.querySelector<HTMLAnchorElement>("a")?.focus());
+  };
+
+  /** Disclosure pattern for the triggers: Escape closes, Arrow Down opens and moves in. */
   const onTriggerKeyDown = (event: React.KeyboardEvent, name: MenuName) => {
     if (event.key === "Escape") {
       setActiveMenu(null);
       return;
     }
-    if (event.key === "ArrowDown" || event.key === "Down") {
+    if (event.key === "ArrowDown") {
       event.preventDefault();
       openMenu(name);
-      // Wait for the panel to become visible before moving focus — it is
-      // visibility:hidden while closed and so cannot receive focus yet.
-      requestAnimationFrame(() => {
-        dropRef.current?.querySelector<HTMLAnchorElement>("a")?.focus();
-      });
+      focusFirstIn(name);
     }
   };
 
-  /** Escape anywhere in the menu returns focus to the trigger that opened it. */
-  const onMenuKeyDown = (event: React.KeyboardEvent) => {
-    if (event.key !== "Escape") return;
-    const name = activeMenu;
-    setActiveMenu(null);
-    if (name) triggerRefs[name].current?.querySelector("button")?.focus();
-  };
-
-  /** Closes once focus leaves the nav entirely, so tabbing past it tidies up. */
-  const onNavBlur = (event: React.FocusEvent) => {
-    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+  /** Inside a panel: arrows move between its links, Home and End jump, Escape returns to the trigger. */
+  const onPanelKeyDown = (event: React.KeyboardEvent, name: MenuName) => {
+    if (event.key === "Escape") {
       setActiveMenu(null);
+      const trigger = name === "services" ? servicesTriggerRef.current : resourcesTriggerRef.current;
+      trigger?.querySelector<HTMLElement>("button, a")?.focus();
+      return;
     }
+    const links = Array.from(panelRefs.current[name]?.querySelectorAll<HTMLAnchorElement>("a") ?? []);
+    const at = links.indexOf(document.activeElement as HTMLAnchorElement);
+    if (at === -1) return;
+    const move = (to: number) => {
+      event.preventDefault();
+      links[(to + links.length) % links.length]?.focus();
+    };
+    if (event.key === "ArrowDown") move(at + 1);
+    else if (event.key === "ArrowUp") move(at - 1);
+    else if (event.key === "Home") move(0);
+    else if (event.key === "End") move(links.length - 1);
   };
 
-  /**
-   * Focus management for the mobile drawer (WCAG 2.1.2, 2.4.3).
-   *
-   * The drawer covers the page, so focus has to move into it on open, stay
-   * inside it while open, and return to the toggle on close — otherwise a
-   * keyboard user tabs invisibly through the page behind it.
-   */
+  /** Closes once focus leaves the header entirely, so tabbing past it tidies up. */
+  const onHeaderBlur = (event: React.FocusEvent) => {
+    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setActiveMenu(null);
+  };
+
+  // The sheet covers the page, so focus moves into it, stays inside it, and returns to the toggle on
+  // close (WCAG 2.1.2, 2.4.3); the page behind it does not scroll.
   useEffect(() => {
     if (!mobileOpen) return;
-    const drawer = drawerRef.current;
-    if (!drawer) return;
+    const sheet = sheetRef.current;
+    if (!sheet) return;
 
     const focusable = () =>
-      Array.from(drawer.querySelectorAll<HTMLElement>('a[href], button:not([disabled])')).filter(
-        (el) => el.offsetParent !== null
-      );
+      Array.from(sheet.querySelectorAll<HTMLElement>("a[href], button:not([disabled])")).filter((el) => el.offsetParent !== null);
 
-    focusable()[0]?.focus();
+    const previous = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    document.body.dataset.sheetOpen = "true";
+    (sheet.querySelector<HTMLElement>(".site-sheet-link") ?? focusable()[0])?.focus();
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
@@ -195,12 +253,10 @@ export default function Header() {
         return;
       }
       if (event.key !== "Tab") return;
-
       const items = focusable();
       if (items.length === 0) return;
       const first = items[0];
       const last = items[items.length - 1];
-
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -211,95 +267,66 @@ export default function Header() {
     };
 
     document.addEventListener("keydown", onKeyDown);
-    return () => document.removeEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previous;
+      delete document.body.dataset.sheetOpen;
+      document.removeEventListener("keydown", onKeyDown);
+    };
   }, [mobileOpen]);
+
+  const current = services[activeService] ?? services[0];
+  const result = resultFor(current.short);
+
+  const cta = (className: string) => (
+    <Link href="/#contact" className={`btn-primary ${className}`}>
+      <span className="btn-primary-arrow-in">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+          <path d="M3 2.5 7 6 3 9.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+      <span className="btn-primary-label">Book a scoping call</span>
+      <span className="btn-primary-arrow-out">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
+          <path d="M3 2.5 7 6 3 9.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </span>
+    </Link>
+  );
 
   return (
     <header
-      style={{
-        position: "sticky",
-        top: 0,
-        zIndex: 40,
-        borderBottom: scrolled ? "none" : "1px solid var(--color-line)",
-        transition: "border-color .28s ease",
-      }}
+      ref={headerRef}
+      className="site-header"
+      data-scrolled={scrolled}
+      data-tone={tone}
+      data-plain={plain}
+      onBlur={onHeaderBlur}
     >
-      <div
-        style={{
-          // No width cap of its own: the header sits inside the page frame, so it
-          // takes the frame's width (1280px on a laptop, wider on a big monitor).
-          margin: "0 auto",
-          padding: "0 var(--pad-x)",
-          height: 62,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          gap: 20,
-          background: scrolled ? "rgba(255,255,255,0.88)" : "transparent",
-          backdropFilter: scrolled ? "blur(16px)" : "none",
-          boxShadow: scrolled ? "0 10px 30px rgba(22,24,28,0.06)" : "none",
-          transition: "background .28s ease, box-shadow .28s ease, backdrop-filter .28s ease",
-        }}
-      >
-        <div className="nav-desktop">
-          <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
-            { }
-            <Image
-              src="/media/logo_2_blue.svg"
-              alt={brand}
-              // Intrinsic size of the source file; the style below controls the
-              // rendered size. Declaring both lets the browser reserve the box.
-              width={538}
-              height={125}
-              priority
-              style={{ display: "block", height: 40, width: "auto" }}
-            />
-          </Link>
+      <div className="site-bar">
+        <div className="site-bar-left">
+          <Logo compact={scrolled} />
 
-          <nav
-            ref={navRef}
-            className="nav-desktop-links"
-            onBlur={onNavBlur}
-            style={{
-              position: "relative",
-              alignItems: "center",
-              gap: 16,
-              fontSize: "var(--fs-base)",
-              color: "var(--color-text-soft)",
-            }}
-          >
+          <nav className="site-links" aria-label="Primary">
             <span
               ref={servicesTriggerRef}
-              className={`nav-pill${activeMenu === "services" ? " is-open" : ""}`}
+              className="site-item"
               onMouseEnter={() => openMenu("services")}
               onMouseLeave={scheduleClose}
             >
-              {/* .nav-label is the hover-background surface. It wraps only the
-                  text, so the tint no longer extends under the chevron. */}
-              <span className="nav-label">
-                {isServicesPage ? (
-                  <span style={{ color: "var(--color-accent)", fontWeight: 500 }}>Services</span>
-                ) : (
-                  <Link href="/services" className="nav-link">
-                    <span className="nav-link-inner">
-                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Services</span>
-                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
-                        Services
-                      </span>
-                    </span>
-                  </Link>
-                )}
-              </span>
-              {/* Separate disclosure control: the link navigates to /services,
-                  this opens the submenu. Previously the submenu was reachable
-                  by hover only, so it did not exist for keyboard users. */}
+              <Link
+                href="/services"
+                className={`site-link${isServicesPage ? " is-current" : ""}`}
+                aria-current={isServicesPage ? "page" : undefined}
+              >
+                Services
+              </Link>
               <button
                 type="button"
-                className="nav-disclosure"
+                className="site-disclosure"
                 aria-label="Services submenu"
                 aria-haspopup="true"
                 aria-expanded={activeMenu === "services"}
-                aria-controls={NAV_MENU_ID}
+                aria-controls="nav-panel-services"
                 onClick={() => toggleMenu("services")}
                 onKeyDown={(e) => onTriggerKeyDown(e, "services")}
               >
@@ -309,260 +336,222 @@ export default function Header() {
 
             <span
               ref={resourcesTriggerRef}
-              className={`nav-pill${activeMenu === "resources" ? " is-open" : ""}`}
+              className="site-item"
               onMouseEnter={() => openMenu("resources")}
               onMouseLeave={scheduleClose}
             >
-              {/* Resources has no page of its own, so the trigger carries the
-                  label. It was previously a plain <span>, which left Case
-                  Studies, Blog and Careers unreachable from the desktop header
-                  by keyboard entirely.
-
-                  The button must NOT carry .nav-link: that rule is
-                  `height: 19px; overflow: hidden`, which clipped the button's own
-                  chevron and squashed the trigger. .nav-link now sits on an inner
-                  wrapper around the sliding text only. */}
+              {/* Resources has no page of its own, so the trigger carries the label. */}
               <button
                 type="button"
-                className={`nav-disclosure-labelled${isResourcesPage ? " is-current" : ""}`}
+                className={`site-link site-link--button${isResourcesPage ? " is-current" : ""}`}
                 aria-haspopup="true"
                 aria-expanded={activeMenu === "resources"}
-                aria-controls={NAV_MENU_ID}
+                aria-controls="nav-panel-resources"
                 onClick={() => toggleMenu("resources")}
                 onKeyDown={(e) => onTriggerKeyDown(e, "resources")}
               >
-                <span className="nav-label">
-                  <span className="nav-link">
-                    <span className="nav-link-inner">
-                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>Resources</span>
-                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
-                        Resources
-                      </span>
-                    </span>
-                  </span>
-                </span>
+                Resources
                 <Chevron open={activeMenu === "resources"} />
               </button>
             </span>
 
-            <span className="nav-pill">
-              <span className="nav-label">
-                {isHowWeWorkPage ? (
-                  <span style={{ color: "var(--color-accent)", fontWeight: 500, whiteSpace: "nowrap" }}>
-                    How We Work
-                  </span>
-                ) : (
-                  <Link href="/how-we-work" className="nav-link" style={{ whiteSpace: "nowrap" }}>
-                    <span className="nav-link-inner">
-                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>How We Work</span>
-                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
-                        How We Work
-                      </span>
-                    </span>
-                  </Link>
-                )}
-              </span>
-            </span>
-
-            <span className="nav-pill">
-              <span className="nav-label">
-                {isAboutPage ? (
-                  <span style={{ color: "var(--color-accent)", fontWeight: 500 }}>About</span>
-                ) : (
-                  <Link href="/about" className="nav-link">
-                    <span className="nav-link-inner">
-                      <span style={{ display: "block", height: 19, lineHeight: "19px" }}>About</span>
-                      <span style={{ display: "block", height: 19, lineHeight: "19px", color: "var(--color-accent)" }}>
-                        About
-                      </span>
-                    </span>
-                  </Link>
-                )}
-              </span>
-            </span>
-
-            <div
-              id={NAV_MENU_ID}
-              ref={dropRef}
-              className={`nav-drop${activeMenu ? " is-open" : ""}`}
-              style={{
-                top: menuPos.top,
-                left: menuPos.left,
-                // Was hardcoded to MENU_WIDTH.services, so the Resources menu
-                // rendered at the Services width and looked misaligned.
-                width: activeMenu ? MENU_WIDTH[activeMenu] : MENU_WIDTH.services,
-                zIndex: 50,
-              }}
-              onMouseEnter={keepOpen}
-              onMouseLeave={scheduleClose}
-              onKeyDown={onMenuKeyDown}
+            <Link
+              href="/how-we-work"
+              className={`site-link${isHowWeWorkPage ? " is-current" : ""}`}
+              aria-current={isHowWeWorkPage ? "page" : undefined}
             >
-              {activeMenu === "services" && (
-                <div key="services" className="nav-drop-content">
-                  {services.map((sv) => (
-                    <Link key={sv.id} href={`/services#${sv.id}`} className="nav-drop-item">
-                      {sv.navLabel}
-                      <ArrowIcon />
-                    </Link>
-                  ))}
-                </div>
-              )}
-              {activeMenu === "resources" && (
-                <div key="resources" className="nav-drop-content">
-                  <Link href="/case-studies" className="nav-drop-item">
-                    Case Studies
-                    <ArrowIcon />
-                  </Link>
-                  <Link href="/blog" className="nav-drop-item">
-                    Blogs
-                    <ArrowIcon />
-                  </Link>
-                  <Link href="/careers" className="nav-drop-item">
-                    Careers
-                    <ArrowIcon />
-                  </Link>
-                </div>
-              )}
-            </div>
+              How We Work
+            </Link>
+            <Link
+              href="/about"
+              className={`site-link${isAboutPage ? " is-current" : ""}`}
+              aria-current={isAboutPage ? "page" : undefined}
+            >
+              About
+            </Link>
           </nav>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <div className="nav-socials">
-            <a
-              href={socialLinks.linkedin}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Signiance on LinkedIn"
-              className="social-icon-link"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3.6a1.97 1.97 0 1 0 0 3.94 1.97 1.97 0 0 0 0-3.94ZM20.44 20h-3.37v-5.6c0-1.34-.02-3.06-1.87-3.06-1.87 0-2.16 1.46-2.16 2.96V20H9.67V8.5h3.24v1.57h.05c.45-.86 1.56-1.76 3.2-1.76 3.42 0 4.05 2.25 4.05 5.18V20Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </a>
-            <a
-              href={socialLinks.x}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Signiance on X"
-              className="social-icon-link"
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117Z"
-                  fill="currentColor"
-                />
-              </svg>
-            </a>
-          </div>
-
-          <Link href="/#contact" className="btn-primary header-cta-desktop">
-            <span className="btn-primary-arrow-in">
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-            <span className="btn-primary-label">Book a scoping call</span>
-            <span className="btn-primary-arrow-out">
-              <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </span>
-          </Link>
-        </div>
+        {cta("site-cta")}
 
         <button
           type="button"
           ref={toggleRef}
-          className={`nav-toggle${mobileOpen ? " is-open" : ""}`}
-          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          className="site-toggle"
+          aria-label="Open menu"
           aria-expanded={mobileOpen}
-          aria-controls="mobile-nav"
-          onClick={() => setMobileOpen((v) => !v)}
+          aria-controls="site-sheet"
+          onClick={() => setMobileOpen(true)}
         >
-          <span className="nav-toggle-bar" />
-          <span className="nav-toggle-bar" />
-          <span className="nav-toggle-bar" />
+          <span className="site-toggle-bar" />
+          <span className="site-toggle-bar" />
         </button>
       </div>
 
-      <div ref={drawerRef} id="mobile-nav" className={`nav-mobile${mobileOpen ? " is-open" : ""}`}>
-        <div className="nav-mobile-row">
-          <Link href="/services" className="nav-mobile-link nav-mobile-row-link">
-            Services
+      {/* Services: the five practices as large type, and beside them what the one you are on is
+          for and a real result from it. */}
+      <div
+        id="nav-panel-services"
+        ref={(el) => {
+          panelRefs.current.services = el;
+        }}
+        className={`site-panel site-panel--services${activeMenu === "services" ? " is-open" : ""}`}
+        onMouseEnter={keepOpen}
+        onMouseLeave={scheduleClose}
+        onKeyDown={(e) => onPanelKeyDown(e, "services")}
+      >
+        {rendered === "services" && (
+        <div className="site-panel-grid">
+          <ul className="site-panel-list">
+            {services.map((sv, i) => (
+              <li key={sv.id} style={{ "--i": i } as React.CSSProperties}>
+                <Link
+                  href={`/services/${sv.slug}`}
+                  className="site-panel-item"
+                  data-active={i === activeService}
+                  onMouseEnter={() => setActiveService(i)}
+                  onFocus={() => setActiveService(i)}
+                >
+                  {sv.navLabel}
+                  <ArrowIcon />
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="site-panel-detail" key={current.id}>
+            <p className="site-panel-desc">{current.long}</p>
+            {result && (
+              <Link href={result.href} className="site-panel-result">
+                <span className="site-panel-figure">{result.value}</span>
+                <span className="site-panel-figure-label">{result.label}</span>
+                <span className="site-panel-case">{result.title}</span>
+              </Link>
+            )}
+          </div>
+        </div>
+        )}
+      </div>
+
+      <div
+        id="nav-panel-resources"
+        ref={(el) => {
+          panelRefs.current.resources = el;
+        }}
+        className={`site-panel site-panel--small${activeMenu === "resources" ? " is-open" : ""}`}
+        style={{ "--panel-left": `${resourcesLeft}px` } as React.CSSProperties}
+        onMouseEnter={keepOpen}
+        onMouseLeave={scheduleClose}
+        onKeyDown={(e) => onPanelKeyDown(e, "resources")}
+      >
+        {rendered === "resources" && (
+        <ul className="site-panel-small-list">
+          {RESOURCES.map((r) => (
+            <li key={r.href}>
+              <Link href={r.href} className="site-panel-small-item">
+                {r.label}
+                <ArrowIcon />
+              </Link>
+            </li>
+          ))}
+        </ul>
+        )}
+      </div>
+
+      {/* Phones and tablets: the menu is a full-screen sheet. Links are large, the one action is
+          pinned to the foot. */}
+      <div
+        ref={sheetRef}
+        id="site-sheet"
+        className={`site-sheet${mobileOpen ? " is-open" : ""}`}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Menu"
+        aria-hidden={!mobileOpen}
+      >
+        <div className="site-sheet-top">
+          <Link href="/" className="site-logo is-light" aria-label={brand}>
+            <span className="site-logo-clip">
+              <Image src="/media/logo_2_blue.svg" alt="" width={538} height={125} className="site-logo-img" />
+            </span>
           </Link>
           <button
             type="button"
-            className="nav-mobile-caret"
-            aria-label={mobileServicesOpen ? "Hide services" : "Show services"}
-            aria-expanded={mobileServicesOpen}
-            onClick={() => setMobileServicesOpen((v) => !v)}
+            className="site-sheet-close"
+            aria-label="Close menu"
+            onClick={() => {
+              setMobileOpen(false);
+              toggleRef.current?.focus();
+            }}
           >
-            <Chevron open={mobileServicesOpen} />
+            <span className="site-toggle-bar" />
+            <span className="site-toggle-bar" />
           </button>
         </div>
-        <div className={`nav-mobile-subs${mobileServicesOpen ? " is-open" : ""}`}>
-          <div className="nav-mobile-subs-inner">
-            {services.map((sv) => (
-              <Link key={sv.id} href={`/services#${sv.id}`} className="nav-mobile-sub">
-                {sv.navLabel}
-              </Link>
-            ))}
+
+        <nav className="site-sheet-nav" aria-label="Menu">
+          <div className="site-sheet-row" style={{ "--i": 0 } as React.CSSProperties}>
+            <Link href="/services" className="site-sheet-link">
+              Services
+            </Link>
+            <button
+              type="button"
+              className="site-sheet-caret"
+              aria-label={mobileServicesOpen ? "Hide services" : "Show services"}
+              aria-expanded={mobileServicesOpen}
+              onClick={() => setMobileServicesOpen((v) => !v)}
+            >
+              <Chevron open={mobileServicesOpen} />
+            </button>
           </div>
-        </div>
+          <div className={`site-sheet-subs${mobileServicesOpen ? " is-open" : ""}`}>
+            <div className="site-sheet-subs-inner">
+              {services.map((sv) => (
+                <Link key={sv.id} href={`/services/${sv.slug}`} className="site-sheet-sub">
+                  {sv.navLabel}
+                </Link>
+              ))}
+            </div>
+          </div>
 
-        <div className="nav-mobile-row">
-          <span className="nav-mobile-link nav-mobile-row-link">Resources</span>
-          <button
-            type="button"
-            className="nav-mobile-caret"
-            aria-label={mobileResourcesOpen ? "Hide resources" : "Show resources"}
-            aria-expanded={mobileResourcesOpen}
-            onClick={() => setMobileResourcesOpen((v) => !v)}
-          >
-            <Chevron open={mobileResourcesOpen} />
-          </button>
-        </div>
-        <div className={`nav-mobile-subs${mobileResourcesOpen ? " is-open" : ""}`}>
-          <div className="nav-mobile-subs-inner">
-            <Link href="/case-studies" className="nav-mobile-sub">
-              Case Studies
-            </Link>
-            <Link href="/blog" className="nav-mobile-sub">
-              Blogs
-            </Link>
-            <Link href="/careers" className="nav-mobile-sub">
-              Careers
+          <div className="site-sheet-row" style={{ "--i": 1 } as React.CSSProperties}>
+            <button
+              type="button"
+              className="site-sheet-link site-sheet-link--button"
+              aria-expanded={mobileResourcesOpen}
+              onClick={() => setMobileResourcesOpen((v) => !v)}
+            >
+              Resources
+            </button>
+            <span className="site-sheet-caret-mark" aria-hidden="true">
+              <Chevron open={mobileResourcesOpen} />
+            </span>
+          </div>
+          <div className={`site-sheet-subs${mobileResourcesOpen ? " is-open" : ""}`}>
+            <div className="site-sheet-subs-inner">
+              {RESOURCES.map((r) => (
+                <Link key={r.href} href={r.href} className="site-sheet-sub">
+                  {r.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          <div className="site-sheet-row" style={{ "--i": 2 } as React.CSSProperties}>
+            <Link href="/how-we-work" className="site-sheet-link">
+              How We Work
             </Link>
           </div>
-        </div>
+          <div className="site-sheet-row" style={{ "--i": 3 } as React.CSSProperties}>
+            <Link href="/about" className="site-sheet-link">
+              About
+            </Link>
+          </div>
+        </nav>
 
-        <Link href="/how-we-work" className="nav-mobile-link">
-          How We Work
-        </Link>
-        <Link href="/about" className="nav-mobile-link">
-          About
-        </Link>
-
-        <Link href="/#contact" className="btn-primary nav-mobile-cta">
-          <span className="btn-primary-arrow-in">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-          <span className="btn-primary-label">Book a scoping call</span>
-          <span className="btn-primary-arrow-out">
-            <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-              <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-tint)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </span>
-        </Link>
+        {cta("site-sheet-cta")}
       </div>
 
-      <CornerDots />
+      {!plain && <CornerDots />}
     </header>
   );
 }

@@ -1,0 +1,566 @@
+/* ---------------------------------------------------------------------------
+   Header (components/Header.tsx)
+
+   One bar: wordmark, four plain links, one action. It takes its ink from four custom properties
+   set by tone, so a navy section behind it turns the whole bar navy without any element
+   knowing. Solid fields only: no blur, no glass.
+   --------------------------------------------------------------------------- */
+
+:root {
+  --header-h: 70px;
+}
+
+.site-header {
+  --hdr-fg: var(--color-ink);
+  --hdr-soft: var(--color-text-soft);
+  --hdr-hi: var(--color-accent);
+  --hdr-bg: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.site-header[data-scrolled="true"] {
+  --hdr-bg: var(--color-white);
+}
+
+.site-header[data-tone="navy"] {
+  --hdr-fg: var(--color-white);
+  --hdr-soft: var(--color-accent-faint);
+  --hdr-hi: var(--color-white);
+  --hdr-bg: var(--color-navy);
+}
+
+.site-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: var(--header-h);
+  padding: 0 var(--pad-x);
+  background: var(--hdr-bg);
+  transition: background-color 0.3s ease;
+}
+
+/* The bar floats once the page moves under it, so it may carry a shadow; over navy it needs none. */
+.site-header[data-scrolled="true"][data-tone="light"] .site-bar {
+  box-shadow: 0 6px 24px rgba(19, 20, 23, 0.06);
+}
+
+/* Open at the top of an inner page: the pattern's first line. */
+.site-header[data-plain="false"]:not([data-scrolled="true"]) .site-bar {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.site-bar-left {
+  display: flex;
+  align-items: center;
+  gap: clamp(20px, 3vw, 44px);
+  min-width: 0;
+}
+
+/* Wordmark ------------------------------------------------------------------- */
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  color: inherit;
+}
+
+/* The mark is the first 18% of the file, so folding the clip to that width leaves the mark alone. */
+.site-logo-clip {
+  display: block;
+  width: calc(40px * 4.304);
+  overflow: hidden;
+  transition: width 0.4s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+.site-logo.is-compact .site-logo-clip {
+  width: calc(40px * 0.79);
+}
+
+.site-logo-img {
+  display: block;
+  height: 40px;
+  width: auto;
+  max-width: none;
+  transition: filter 0.3s ease;
+}
+
+.site-header[data-tone="navy"] .site-logo-img,
+.site-logo.is-light .site-logo-img {
+  filter: brightness(0) invert(1);
+}
+
+/* Links ---------------------------------------------------------------------- */
+
+.site-links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.site-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.site-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 44px;
+  padding: 0 10px;
+  border: 0;
+  background: none;
+  font-family: var(--font-sans);
+  font-size: var(--fs-base);
+  font-weight: 500;
+  line-height: 1;
+  color: var(--hdr-soft);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.site-link:hover,
+.site-link.is-current,
+.site-item:hover > .site-link,
+.site-link--button[aria-expanded="true"] {
+  color: var(--hdr-hi);
+}
+
+.site-disclosure {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  min-height: 44px;
+  margin-left: -8px;
+  border: 0;
+  background: none;
+  color: var(--hdr-soft);
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.site-disclosure:hover,
+.site-disclosure[aria-expanded="true"] {
+  color: var(--hdr-hi);
+}
+
+.site-chevron {
+  transition: transform 0.35s ease;
+}
+
+.site-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+/* The one action. Over navy it inverts. */
+.site-cta {
+  flex: 0 0 auto;
+  padding: 11px 22px;
+}
+
+.site-header[data-tone="navy"] .site-cta {
+  background: var(--color-white);
+  color: var(--color-navy);
+}
+
+.site-header[data-tone="navy"] .site-cta:hover {
+  background: var(--color-accent-faint);
+}
+
+/* Panels --------------------------------------------------------------------- */
+
+.site-panel {
+  position: absolute;
+  top: 100%;
+  z-index: 2;
+  background: var(--color-white);
+  box-shadow: 0 24px 48px rgba(19, 20, 23, 0.12);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition:
+    opacity 0.25s ease,
+    transform 0.35s cubic-bezier(0.22, 0.9, 0.24, 1),
+    visibility 0s linear 0.25s;
+}
+
+.site-panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition-delay: 0s;
+}
+
+.site-panel--services {
+  left: 0;
+  right: 0;
+}
+
+.site-panel-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+}
+
+.site-panel-list {
+  display: grid;
+  align-content: start;
+  gap: 2px;
+  margin: 0;
+  padding: clamp(20px, 3vw, 40px) var(--pad-x);
+  list-style: none;
+}
+
+.site-panel-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 10px 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: 600;
+  letter-spacing: var(--tracking-snug);
+  line-height: 1.15;
+  color: var(--color-ink-soft);
+  transition: color 0.2s ease;
+}
+
+.site-panel-item[data-active="true"],
+.site-panel-item:hover,
+.site-panel-item:focus-visible {
+  color: var(--color-accent);
+}
+
+.site-panel-arrow {
+  flex: 0 0 auto;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 0.2s ease, transform 0.3s ease;
+}
+
+.site-panel-item[data-active="true"] .site-panel-arrow,
+.site-panel-item:focus-visible .site-panel-arrow,
+.site-panel-small-item:hover .site-panel-arrow,
+.site-panel-small-item:focus-visible .site-panel-arrow {
+  opacity: 1;
+  transform: none;
+}
+
+.site-panel-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: clamp(20px, 3vw, 40px) var(--pad-x);
+  background: var(--color-tint);
+  animation: sitePanelIn 0.35s ease both;
+}
+
+.site-panel-desc {
+  max-width: 46ch;
+  margin: 0;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--color-ink);
+}
+
+.site-panel-result {
+  display: grid;
+  gap: 4px;
+  color: var(--color-ink);
+}
+
+.site-panel-figure {
+  font-family: var(--font-display);
+  font-size: var(--fs-stat);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-accent);
+}
+
+.site-panel-figure-label {
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+}
+
+.site-panel-case {
+  margin-top: 6px;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.site-panel--small {
+  left: var(--panel-left, 0);
+  width: 232px;
+  padding: 8px 0;
+}
+
+.site-panel-small-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-panel-small-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 20px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-ink-soft);
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.site-panel-small-item:hover,
+.site-panel-small-item:focus-visible {
+  color: var(--color-accent);
+  background: var(--color-tint);
+}
+
+@keyframes sitePanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes sitePanelItem {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.site-panel.is-open .site-panel-list li {
+  animation: sitePanelItem 0.4s cubic-bezier(0.22, 0.9, 0.24, 1) both;
+  animation-delay: calc(var(--i, 0) * 40ms + 60ms);
+}
+
+/* Phone and tablet: toggle and full-screen sheet ------------------------------- */
+
+/* The bars sit flush to the right edge of the button, so they end on the page margin like the
+   action does; the button itself stays 44px for the thumb. */
+.site-toggle {
+  display: none;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 6px;
+  width: 44px;
+  height: 44px;
+  margin-right: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.site-toggle-bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--hdr-fg);
+  transition: background-color 0.3s ease;
+}
+
+.site-sheet {
+  display: none;
+}
+
+@media (max-width: 1080px) {
+  .site-links,
+  .site-cta {
+    display: none;
+  }
+
+  .site-toggle {
+    display: flex;
+  }
+
+  .site-sheet {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    padding: 0 var(--pad-x) max(24px, env(safe-area-inset-bottom));
+    background: var(--color-navy);
+    color: var(--color-white);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.22s ease, visibility 0s linear 0.22s;
+    overflow-y: auto;
+  }
+
+  .site-sheet.is-open {
+    opacity: 1;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .site-sheet-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: var(--header-h);
+    flex: 0 0 auto;
+  }
+
+  .site-sheet-close {
+    position: relative;
+    width: 44px;
+    height: 44px;
+    margin-right: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+  }
+
+  .site-sheet-close .site-toggle-bar {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    margin: -1px 0 0 0;
+    background: var(--color-white);
+  }
+
+  .site-sheet-close .site-toggle-bar:first-child {
+    transform: rotate(45deg);
+  }
+
+  .site-sheet-close .site-toggle-bar:last-child {
+    transform: rotate(-45deg);
+  }
+
+  .site-sheet-nav {
+    display: flex;
+    flex-direction: column;
+    padding-top: clamp(12px, 4vh, 32px);
+    margin-bottom: 32px;
+  }
+
+  .site-sheet-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 0.22s ease, transform 0.3s cubic-bezier(0.22, 0.9, 0.24, 1);
+  }
+
+  .site-sheet.is-open .site-sheet-row {
+    opacity: 1;
+    transform: none;
+    transition-delay: calc(var(--i, 0) * 45ms + 60ms);
+  }
+
+  .site-sheet-link {
+    flex: 1;
+    padding: 10px 0;
+    border: 0;
+    background: none;
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: 600;
+    letter-spacing: var(--tracking-tight);
+    line-height: 1.1;
+    text-align: left;
+    color: var(--color-white);
+    cursor: pointer;
+  }
+
+  .site-sheet-caret,
+  .site-sheet-caret-mark {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: none;
+    color: var(--color-accent-faint);
+  }
+
+  .site-sheet-caret {
+    cursor: pointer;
+  }
+
+  .site-sheet-subs {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.3s ease;
+  }
+
+  .site-sheet-subs.is-open {
+    grid-template-rows: 1fr;
+  }
+
+  .site-sheet-subs-inner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .site-sheet-sub {
+    padding: 10px 0 10px 4px;
+    font-size: var(--fs-lead);
+    font-weight: 500;
+    color: var(--color-accent-faint);
+  }
+
+  .site-sheet-cta {
+    margin-top: auto;
+    justify-content: center;
+    width: 100%;
+    padding: 16px 24px;
+    background: var(--color-white);
+    color: var(--color-navy);
+    font-size: var(--fs-lead);
+    font-weight: 600;
+  }
+
+  .site-sheet-cta:hover {
+    background: var(--color-accent-faint);
+    color: var(--color-navy);
+  }
+}
+
+/* On a navy field the focus ring is white, or it would vanish. */
+.site-header[data-tone="navy"] :focus-visible,
+.site-sheet :focus-visible {
+  outline: 2px solid var(--color-white);
+  outline-offset: 3px;
+}
+
+/* The cookie card sits above everything; while the sheet is open it steps aside. */
+body[data-sheet-open="true"] .cookie-consent {
+  display: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-logo-clip,
+  .site-panel,
+  .site-sheet,
+  .site-sheet-row {
+    transition: none;
+  }
+
+  .site-panel-detail,
+  .site-panel.is-open .site-panel-list li {
+    animation: none;
+  }
+}

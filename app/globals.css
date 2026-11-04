@@ -48,8 +48,8 @@
   --color-muted: #6a6d71;
 
   /* Lines, borders, markers */
-  --color-line: #e2e0da;
-  --color-line-strong: #d6d3cb;
+  --color-line: #eceae5;
+  --color-line-strong: #e3e0d9;
   --color-border-ui: #8b8e86;
   --color-dot: #a29e96;
   /* Lighter end of the neutral badge gradient on the "Start here" engagement. */
@@ -85,24 +85,39 @@
   --section-pb: clamp(40px, 5.6vw, 60px);
   --bleed: calc(var(--pad-x) * -1);
 
-  /* Upper bound raised from 56px: the hero now has a 760px column to fill, and
-     at 56px the headline read small against the width of the frame. */
-  --fs-h1: clamp(31px, 5.6vw, 64px);
-  --fs-h2: clamp(26px, 4vw, 42px);
-  --fs-lead: clamp(15px, 1.5vw, 18px);
-  --fs-quote: clamp(19px, 2.2vw, 27px);
+  /* Type scale. The one scale every page draws from, set by role, not by element.
+     Fluid between a phone and a wide screen, so there are no breakpoint steps to drift out
+     of agreement. Body is 16px (the reading floor on the web); nothing meant to be read is
+     below 13px; each step up is about a fifth larger, so rank is visible at a glance.
 
-  /* Body/UI scale. Replaces 37 distinct literal sizes — including half-pixel
-     values like 13.5 and 16.5 — with eight steps. 11px is the floor: the site
-     previously went down to 9px, below comfortable legibility. */
-  --fs-2xs: 11px;
-  --fs-xs: 12.5px;
-  --fs-sm: 13.5px;
-  --fs-base: 14.5px;
-  --fs-md: 16px;
-  --fs-lg: 18px;
-  --fs-xl: 21px;
-  --fs-2xl: 26px;
+       xs      13px      captions, meta, legal text, form hints
+       sm      14px      secondary text, controls, navigation, table text
+       base    16px      body copy
+       lead    17-20px   the introduction under a title; small titles
+       h3      20-24px   card, row and step titles
+       quote   20-26px   a pulled quotation or closing statement
+       h2      26-40px   section headings
+       stat    32-48px   figures and result numbers
+       h1      32-56px   the title of a page
+       display 38-76px   the home page headline only
+       ghost   96-176px  oversized decorative numerals and words, never read as text */
+  --fs-xs: 13px;
+  --fs-sm: 14px;
+  --fs-base: 16px;
+  --fs-lead: clamp(17px, 1.3vw, 20px);
+  --fs-h3: clamp(20px, 1.8vw, 24px);
+  --fs-quote: clamp(20px, 2vw, 26px);
+  --fs-h2: clamp(26px, 3.2vw, 40px);
+  --fs-stat: clamp(32px, 3.6vw, 48px);
+  --fs-figure-sm: clamp(44px, 5.2vw, 76px);
+  --fs-figure: clamp(48px, 6.4vw, 96px);
+  --fs-h1: clamp(32px, 4.4vw, 56px);
+  --fs-display: clamp(38px, 6vw, 76px);
+  --fs-ghost: clamp(96px, 12vw, 176px);
+
+  /* The width of the page frame: the rails, the section lines and the corner marks all sit on
+     it, on every page. It widens only on very large screens. */
+  --frame-w: 1280px;
 
   /* Letter-spacing. Replaces 18 values with three roles: tight for display
      headings, snug for sub-headings and card titles, wide for uppercase meta
@@ -157,10 +172,30 @@ svg {
   border-right: 1px solid var(--color-line);
 }
 
+/* The home page opens without the pattern; the rails come back on whatever the page wraps in
+   .frame-rails, drawn exactly as the frame draws them, so the inner width is the same. */
+.page-frame--open {
+  border-left-color: transparent;
+  border-right-color: transparent;
+}
+
+/* The rails take the place of the frame's own (now transparent) borders, so what sits above
+   them and what sits inside them share the same edges. */
+.frame-rails {
+  margin: 0 -1px;
+  border-left: 1px solid var(--color-line);
+  border-right: 1px solid var(--color-line);
+}
+
 @media (max-width: 640px) {
-  .page-frame {
+  .page-frame,
+  .frame-rails {
     border-left: none;
     border-right: none;
+  }
+
+  .frame-rails {
+    margin: 0;
   }
 }
 
@@ -189,82 +224,6 @@ a {
   }
 }
 
-/* Nav pill — the hoverable hit-area around each top-level nav entry,
-   shared by dropdown triggers and plain links so both get the same
-   "slight theme coloured background" on hover. */
-.nav-pill {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 2px;
-  /* Padding moved to .nav-label so the hover tint wraps the text rather than the
-     whole trigger including its chevron. */
-  padding: 0;
-  border-radius: 7px;
-  background: transparent;
-}
-
-.nav-pill:hover {
-  background: transparent;
-}
-
-.nav-pill.is-open {
-  background: transparent;
-}
-
-/* The hover tint lives here, not on .nav-pill, so it covers the label text only
-   and stops short of the dropdown chevron. Padding is what gives the tint its
-   shape; it cannot go on .nav-link because that element is height-clipped to
-   drive the two-line slide effect. */
-.nav-label {
-  display: inline-flex;
-  align-items: center;
-  padding: 5px 9px;
-  border-radius: 7px;
-  background: transparent;
-  transition: background 0.18s ease;
-}
-
-.nav-pill:hover .nav-label,
-.nav-pill.is-open .nav-label {
-  background: var(--color-tint);
-}
-
-/* Single shared dropdown panel — its position/width are set inline by JS
-   per active menu, so switching directly from one nav item to another
-   slides the panel across instead of closing and reopening. */
-.nav-drop {
-  position: absolute;
-  background: var(--color-white);
-  border: 1px solid var(--color-line);
-  border-radius: 4px;
-  padding: 0;
-  box-shadow: none;
-  overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transform-origin: top;
-  transform: scaleY(0.7);
-  transition:
-    left 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
-    width 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
-    opacity 0.45s ease,
-    transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
-    visibility 0s linear 0.45s;
-}
-
-.nav-drop.is-open {
-  opacity: 1;
-  visibility: visible;
-  transform: scaleY(1);
-  transition:
-    left 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
-    width 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
-    opacity 0.45s ease,
-    transform 0.55s cubic-bezier(0.22, 0.9, 0.24, 1),
-    visibility 0s;
-}
-
 @keyframes navDropContentIn {
   from {
     opacity: 0;
@@ -272,81 +231,6 @@ a {
   to {
     opacity: 1;
   }
-}
-
-.nav-drop-content {
-  animation: navDropContentIn 0.4s ease;
-}
-
-.nav-chevron {
-  transition: transform 0.4s ease;
-}
-
-.nav-chevron.is-open {
-  transform: rotate(180deg);
-}
-
-.nav-chevron.is-open path {
-  stroke: var(--color-accent);
-}
-
-.nav-drop-item {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 0;
-  padding: 5px 14px;
-  font-size: var(--fs-md);
-  color: var(--color-ink-soft);
-  text-decoration: none;
-  white-space: nowrap;
-  border-radius: 0;
-  transition: background 0.25s ease, color 0.25s ease;
-}
-
-.nav-drop-item:hover {
-  background: linear-gradient(90deg, var(--color-accent-strong) 0%, var(--color-accent) 45%, var(--color-accent-light) 78%, var(--color-white) 100%);
-  color: var(--color-white);
-  text-shadow: 0 0 5px rgba(10, 24, 80, 0.55), 0 1px 2px rgba(10, 24, 80, 0.45);
-}
-
-.drop-item-arrow {
-  order: 2;
-  flex: 0 0 auto;
-  width: 0;
-  margin-left: 0;
-  opacity: 0;
-  overflow: hidden;
-  transition: width 0.25s ease, margin-left 0.25s ease, opacity 0.2s ease;
-}
-
-.nav-drop-item:hover .drop-item-arrow {
-  order: -1;
-  width: 10px;
-  margin-left: 0;
-  margin-right: 8px;
-  opacity: 1;
-}
-
-.nav-drop-item:hover .drop-item-arrow path {
-  stroke: var(--color-white);
-}
-
-/* Nav link slide-up hover effect */
-.nav-link {
-  color: inherit;
-  display: block;
-  height: 19px;
-  overflow: hidden;
-}
-
-.nav-link-inner {
-  display: block;
-  transition: transform 0.65s cubic-bezier(0.22, 0.9, 0.24, 1);
-}
-
-.nav-pill:hover .nav-link-inner {
-  transform: translateY(-19px);
 }
 
 /* Buttons */
@@ -661,7 +545,7 @@ a {
 .grid-services-num {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(26px, 2.4vw, 34px);
+  font-size: var(--fs-h3);
   letter-spacing: var(--tracking-snug);
   line-height: 1;
   /* Was var(--color-accent-faint), which measured 1.57:1 on white — below even the 3:1 floor for
@@ -672,14 +556,14 @@ a {
 .grid-services-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(19px, 1.9vw, 23px);
+  font-size: var(--fs-h3);
   letter-spacing: var(--tracking-snug);
   margin: 14px 0 0;
   text-wrap: balance;
 }
 
 .grid-services-cell--wide .grid-services-title {
-  font-size: clamp(23px, 2.6vw, 29px);
+  font-size: var(--fs-h3);
 }
 
 .grid-services-body {
@@ -825,9 +709,9 @@ a {
    old "dot" wording; the marker used to be a grey dot.) */
 .corner-dot {
   position: absolute;
-  bottom: -7.5px;
-  width: 15px;
-  height: 15px;
+  bottom: -9px;
+  width: 16px;
+  height: 16px;
   background: var(--color-white);
   display: grid;
   place-items: center;
@@ -846,17 +730,30 @@ a {
   background: var(--color-accent);
 }
 
-.corner-dot::before,
-.plus-mark::before {
-  width: 11px;
-  height: 1.5px;
-  transform: translate(-50%, -50%);
+.corner-dot::before {
+  width: 13px;
+  height: 2px;
 }
 
-.corner-dot::after,
+.corner-dot::after {
+  width: 2px;
+  height: 13px;
+}
+
+.plus-mark::before {
+  width: 11px;
+  height: 1px;
+}
+
 .plus-mark::after {
-  width: 1.5px;
+  width: 1px;
   height: 11px;
+}
+
+.corner-dot::before,
+.corner-dot::after,
+.plus-mark::before,
+.plus-mark::after {
   transform: translate(-50%, -50%);
 }
 
@@ -869,11 +766,11 @@ a {
 }
 
 .corner-dot-left {
-  left: -7.5px;
+  left: -9px;
 }
 
 .corner-dot-right {
-  right: -7.5px;
+  right: -9px;
 }
 
 /* Services page — branded gradient panel per practice. A faint dot texture
@@ -1229,7 +1126,7 @@ a {
   border-right: 1px solid var(--color-line-strong);
   border-bottom: 1px solid var(--color-line-strong);
   background: var(--color-white);
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.6;
   color: var(--color-ink-soft);
 }
@@ -1331,7 +1228,7 @@ a {
 .vtimeline-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(24px, 2.6vw, 30px);
+  font-size: var(--fs-h3);
   letter-spacing: var(--tracking-snug);
   margin: 10px 0 0;
   transition: color 0.25s ease;
@@ -1343,7 +1240,7 @@ a {
 
 .vtimeline-body {
   margin: 10px 0 0;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.65;
   color: var(--color-text);
   max-width: 560px;
@@ -1441,7 +1338,7 @@ a {
 .section-head-note {
   max-width: 340px;
   margin: 0;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.5;
   color: var(--color-text);
   text-align: right;
@@ -1458,15 +1355,8 @@ a {
   }
 }
 
-/* On a phone the eyebrow tag and the note both compete with the title for
-   attention despite being secondary — the note is dropped entirely and the
-   title itself is given a bigger, unambiguous floor size instead of letting
-   it shrink toward the eyebrow tag's size. */
+/* On a phone the secondary note is dropped so the title stands alone. */
 @media (max-width: 640px) {
-  :root {
-    --fs-h2: clamp(30px, 9vw, 40px);
-  }
-
   .section-head-note {
     display: none;
   }
@@ -1608,10 +1498,11 @@ a {
 /* Footer — three clear sections: a brand/newsletter band, the link columns,
    then a bottom bar with copyright, legal links and every social icon. */
 .footer-top {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 40px;
-  padding-bottom: 34px;
+  padding: 44px var(--pad-x) 34px;
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -1640,10 +1531,11 @@ a {
 }
 
 .footer-links-grid {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 32px;
-  padding: 34px 0;
+  padding: 34px var(--pad-x);
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -1652,7 +1544,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 20px;
+  padding: 20px var(--pad-x);
   font-size: var(--fs-xs);
   line-height: 1.6;
   color: var(--color-muted);
@@ -1820,7 +1712,7 @@ a {
   border-radius: 50%;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-lg);
+  font-size: var(--fs-lead);
   color: var(--color-white);
   flex: 0 0 auto;
 }
@@ -1887,7 +1779,7 @@ a {
   display: block;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 72px;
+  font-size: var(--fs-display);
   line-height: 1;
   color: var(--color-accent);
   opacity: 0.22;
@@ -1897,7 +1789,7 @@ a {
 .founders-note-text {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: clamp(20px, 2.4vw, 27px);
+  font-size: var(--fs-quote);
   line-height: 1.5;
   letter-spacing: var(--tracking-snug);
   color: var(--color-ink);
@@ -1915,7 +1807,7 @@ a {
 .founders-note-name {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   color: var(--color-ink);
 }
 
@@ -2108,7 +2000,7 @@ a {
   text-align: left;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(18px, 1.9vw, 21px);
+  font-size: var(--fs-lead);
   letter-spacing: var(--tracking-snug);
   color: var(--color-ink);
 }
@@ -2150,7 +2042,7 @@ a {
   margin: 0 0 26px;
   padding: 0 var(--faq-pad-x);
   max-width: 82ch;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.65;
   color: var(--color-text);
 }
@@ -2261,13 +2153,14 @@ a {
 }
 
 .case-cell-tag {
-  font-size: var(--fs-2xs);
+  font-size: var(--fs-xs);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
   color: rgba(255, 255, 255, 0.75);
 }
 
 .case-cell-title {
+  font-size: var(--fs-h3);
   font-family: var(--font-display);
   font-weight: 600;
   letter-spacing: var(--tracking-snug);
@@ -2294,7 +2187,7 @@ a {
 .case-cell-stat-value {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--fs-xl);
+  font-size: var(--fs-h3);
   color: var(--color-white);
 }
 
@@ -2454,170 +2347,12 @@ a {
   }
 }
 
-
-/* Header ----------------------------------------------------------------- */
-.nav-desktop {
-  display: flex;
-  align-items: center;
-  gap: 30px;
-}
-
-.nav-socials {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.nav-socials .social-icon-link {
-  width: 30px;
-  height: 30px;
-}
-
-.nav-desktop-links {
-  display: flex;
-}
-
-.nav-toggle {
-  display: none;
-  width: 40px;
-  height: 40px;
-  align-items: center;
-  justify-content: center;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-}
-
-.nav-toggle-bar {
-  display: block;
-  width: 16px;
-  height: 1.5px;
-  background: var(--color-ink);
-  border-radius: 2px;
-  transition: transform 0.28s ease, opacity 0.2s ease;
-}
-
-.nav-toggle-bar + .nav-toggle-bar {
-  margin-top: 4px;
-}
-
-.nav-toggle.is-open .nav-toggle-bar:nth-child(1) {
-  transform: translateY(5.5px) rotate(45deg);
-}
-
-.nav-toggle.is-open .nav-toggle-bar:nth-child(2) {
-  opacity: 0;
-}
-
-.nav-toggle.is-open .nav-toggle-bar:nth-child(3) {
-  transform: translateY(-5.5px) rotate(-45deg);
-}
-
-.nav-mobile {
-  display: none;
-  flex-direction: column;
-  gap: 2px;
-  padding: 8px var(--pad-x) 18px;
-  border-top: 1px solid var(--color-line);
-  background: rgba(255, 255, 255, 0.97);
-  backdrop-filter: blur(16px);
-}
-
-.nav-mobile.is-open {
-  display: flex;
-}
-
-.nav-mobile-link {
-  padding: 13px 2px;
-  font-size: var(--fs-md);
-  color: var(--color-ink);
-  border-bottom: 1px solid var(--color-warm-alt);
-}
-
 /* Services row pairs its link with a separate caret button that toggles the
    sub-list — the row itself keeps the shared divider, so the link inside it
    doesn't need its own. */
-.nav-mobile-row {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid var(--color-warm-alt);
-}
-
-.nav-mobile-row-link {
-  flex: 1;
-  border-bottom: none;
-}
-
-.nav-mobile-caret {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  flex: 0 0 auto;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-}
 
 /* Collapsed via grid-template-rows (0fr -> 1fr) instead of height/max-height,
    so it animates smoothly without knowing the sub-list's rendered height. */
-.nav-mobile-subs {
-  display: grid;
-  grid-template-rows: 0fr;
-  transition: grid-template-rows 0.3s ease;
-}
-
-.nav-mobile-subs.is-open {
-  grid-template-rows: 1fr;
-}
-
-.nav-mobile-subs-inner {
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-}
-
-.nav-mobile-sub {
-  padding: 10px 2px 10px 14px;
-  font-size: var(--fs-base);
-  color: var(--color-text);
-}
-
-.nav-mobile-cta {
-  margin-top: 16px;
-  align-self: flex-start;
-}
-
-/* A bit larger than the shared .btn-primary base, since the nav CTA is the
-   page's primary conversion point and should read as slightly more
-   prominent than the other pill buttons that share that class. */
-.header-cta-desktop,
-.nav-mobile-cta {
-  font-size: var(--fs-base);
-  padding: 11px 22px;
-}
-
-@media (max-width: 1080px) {
-  .nav-desktop-links {
-    display: none;
-  }
-
-  .nav-toggle {
-    display: flex;
-    flex-direction: column;
-  }
-
-  .header-cta-desktop {
-    display: none;
-  }
-
-  .nav-socials {
-    display: none;
-  }
-}
 
 /* Hero ------------------------------------------------------------------- */
 @media (max-width: 820px) {
@@ -2632,16 +2367,6 @@ a {
 @media (max-width: 520px) {
   .hero-badge-aside {
     display: none !important;
-  }
-}
-
-/* The enforced min-height (roughly full viewport) is what desktop needs to land
-   the clients strip's bottom border on the fold, but anywhere narrower than a
-   laptop it just pads the section with dead space above and below short
-   content, so it is dropped and the section sizes to its own content. */
-@media (max-width: 1080px) {
-  .hero-section {
-    min-height: auto !important;
   }
 }
 
@@ -2730,7 +2455,7 @@ a {
   text-align: center;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(64px, 11vw, 180px);
+  font-size: var(--fs-ghost);
   letter-spacing: var(--tracking-snug);
   text-shadow: 0 2px 24px rgba(0, 0, 0, 0.3);
   pointer-events: none;
@@ -2754,16 +2479,10 @@ a {
   margin: 0 auto;
 }
 
-.legal-section + .legal-section {
-  margin-top: clamp(28px, 4vw, 40px);
-  padding-top: clamp(28px, 4vw, 40px);
-  border-top: 1px solid var(--color-line);
-}
-
 .legal-body h2 {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(19px, 2.2vw, 23px);
+  font-size: var(--fs-h3);
   letter-spacing: var(--tracking-snug);
   color: var(--color-ink);
   margin: 0 0 14px;
@@ -2771,7 +2490,7 @@ a {
 
 .legal-body p {
   margin: 0 0 14px;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.7;
   color: var(--color-text);
 }
@@ -2787,7 +2506,7 @@ a {
 }
 
 .legal-body li {
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.7;
   margin-bottom: 6px;
 }
@@ -2824,8 +2543,10 @@ a {
   display: inline-block;
   overflow: hidden;
   vertical-align: bottom;
-  padding: 0.06em 0 0.16em;
-  margin: -0.06em 0 -0.16em;
+  /* Room on every side for glyphs that overhang their box: the tight tracking pulls the
+     advance in, so a final full stop or apostrophe would otherwise be clipped. */
+  padding: 0.08em 0.12em 0.18em 0.04em;
+  margin: -0.08em -0.12em -0.18em -0.04em;
 }
 
 .rw-word {
@@ -2913,7 +2634,7 @@ a {
 
 .work-rail-num {
   font-family: var(--font-mono);
-  font-size: var(--fs-2xs);
+  font-size: var(--fs-xs);
   letter-spacing: var(--tracking-wide);
 }
 
@@ -2925,7 +2646,7 @@ a {
 }
 
 .work-rail-week {
-  font-size: var(--fs-2xs);
+  font-size: var(--fs-xs);
   font-weight: 600;
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;

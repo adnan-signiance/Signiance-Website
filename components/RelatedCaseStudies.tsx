@@ -22,7 +22,7 @@ export default function RelatedCaseStudies({ cases }: { cases: CaseStudyEntry[] 
               <div className="case-cell-bottom-row">
                 <div>
                   <div className="case-cell-tag">{r.tag}</div>
-                  <h4 className="case-cell-title" style={{ fontSize: "var(--fs-lg)" }}>
+                  <h4 className="case-cell-title" style={{ fontSize: "var(--fs-lead)" }}>
                     {r.title}
                   </h4>
                 </div>

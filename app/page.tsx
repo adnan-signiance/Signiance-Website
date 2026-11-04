@@ -1,6 +1,5 @@
 import PageShell from "@/components/PageShell";
 import Hero from "@/components/Hero";
-import ClientsStrip from "@/components/ClientsStrip";
 import PilotGap from "@/components/PilotGap";
 import Services from "@/components/Services";
 import WhySigniance from "@/components/WhySigniance";
@@ -17,9 +16,10 @@ import JsonLd from "@/components/JsonLd";
 import { faqSchema, jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/schema";
 
 /**
- * Homepage order is a persuasion sequence: hook, proof of who we've done it for,
- * the problem they will recognise (why pilots stall), what we do, how we do it, measured outcomes, the work itself, what clients say,
- * objections, the founder's word, then the ask.
+ * Homepage order is a persuasion sequence: hook (the hero, with its credentials strip), the
+ * problem they will recognise (why pilots stall), what we do, why us, how we do it, measured
+ * outcomes, the work itself, what clients say, the guarantee, objections, the founder's word,
+ * the softer offer, then the ask.
  *
  * FoundersNote sits before Contact deliberately — it used to follow it, which put
  * the strongest trust copy on the page below the booking widget where converters
@@ -31,22 +31,23 @@ import { faqSchema, jsonLdGraph, organizationSchema, websiteSchema } from "@/lib
  */
 export default function Home() {
   return (
-    <PageShell>
+    <PageShell openTop>
       <JsonLd json={jsonLdGraph(organizationSchema(), websiteSchema(), faqSchema())} />
       <Hero />
-      <ClientsStrip />
-      <PilotGap />
-      <Services />
-      <WhySigniance />
-      <HowWeWork />
-      <MetricsSection />
-      <CaseStudiesSection />
-      <TestimonialsSection />
-      <GuaranteeBand />
-      <FAQ />
-      <FoundersNote />
-      <ReadinessCheck />
-      <Contact />
+      <div className="frame-rails">
+        <PilotGap />
+        <Services />
+        <WhySigniance />
+        <HowWeWork />
+        <MetricsSection />
+        <CaseStudiesSection />
+        <TestimonialsSection />
+        <GuaranteeBand />
+        <FAQ />
+        <FoundersNote />
+        <ReadinessCheck />
+        <Contact />
+      </div>
     </PageShell>
   );
 }

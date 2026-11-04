@@ -66,7 +66,7 @@ export default function Error({
           style={{
             maxWidth: 460,
             margin: "16px auto 0",
-            fontSize: "var(--fs-md)",
+            fontSize: "var(--fs-lead)",
             lineHeight: 1.6,
             color: "var(--color-text)",
           }}

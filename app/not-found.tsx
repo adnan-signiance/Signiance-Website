@@ -25,7 +25,7 @@ export default function NotFound() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            fontSize: "clamp(96px, 17vw, 200px)",
+            fontSize: "var(--fs-ghost)",
             lineHeight: 0.9,
             letterSpacing: "var(--tracking-tight)",
             color: "var(--color-accent)",
@@ -46,7 +46,7 @@ export default function NotFound() {
         >
           This page shipped somewhere else.
         </h1>
-        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
           The page you&apos;re looking for doesn&apos;t exist or has moved. Let&apos;s get you back on track.
         </p>
         <div

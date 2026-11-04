@@ -28,7 +28,7 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(29px, 4.4vw, 46px)",
+            fontSize: "var(--fs-h1)",
             lineHeight: 1.05,
             letterSpacing: "var(--tracking-tight)",
             margin: "16px 0 0",
@@ -38,16 +38,16 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
         >
           {entry.title}
         </HeroHeading>
-        <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>{entry.teaser}</p>
+        <p className="hero-rise hero-d1" style={{ maxWidth: 560, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>{entry.teaser}</p>
 
-        <div className="grid-3col hero-rise hero-d2" style={{ marginTop: 36, borderTop: "1px solid var(--color-line-strong)", gap: 0 }}>
+        <div className="grid-3col hero-rise hero-d2" style={{ margin: "36px var(--bleed) 0", padding: "0 var(--pad-x)", borderTop: "1px solid var(--color-line-strong)", gap: 0 }}>
           <div style={{ padding: "18px 22px 22px 0", borderRight: "1px solid var(--color-line)" }}>
             <div style={{ fontSize: "var(--fs-base)", color: "var(--color-ink-soft)" }}>{entry.client}</div>
-            <div style={{ marginTop: 8, fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>Client</div>
+            <div style={{ marginTop: 8, fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>Client</div>
           </div>
           <div style={{ padding: "18px 22px 22px 0", borderRight: "1px solid var(--color-line)" }}>
             <div style={{ fontSize: "var(--fs-base)", color: "var(--color-ink-soft)" }}>{entry.engagementLength}</div>
-            <div style={{ marginTop: 8, fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
+            <div style={{ marginTop: 8, fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
               Engagement
             </div>
           </div>
@@ -57,21 +57,21 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 600,
-                  fontSize: "clamp(24px, 2.6vw, 30px)",
+                  fontSize: "var(--fs-h3)",
                   letterSpacing: "var(--tracking-snug)",
                   color: "var(--color-accent)",
                 }}
               >
                 {entry.statValue}
               </div>
-              <div style={{ marginTop: 6, fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
+              <div style={{ marginTop: 6, fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
                 {entry.statLabel}
               </div>
             </div>
           ) : (
             <div style={{ padding: "18px 0 22px" }}>
               <div style={{ fontSize: "var(--fs-base)", color: "var(--color-ink-soft)" }}>{entry.category}</div>
-              <div style={{ marginTop: 8, fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
+              <div style={{ marginTop: 8, fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
                 Service
               </div>
             </div>
@@ -125,20 +125,20 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
             </ul>
           </Reveal>
           <Reveal delay={0.15} className="cs-detail-facts" style={{ borderLeft: `3px solid ${accent}` }}>
-            <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 16 }}>
+            <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 16 }}>
               Quick facts
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
               <div>
-                <div style={{ fontSize: "var(--fs-2xs)", color: "var(--color-muted)" }}>Client</div>
+                <div style={{ fontSize: "var(--fs-xs)", color: "var(--color-muted)" }}>Client</div>
                 <div style={{ fontSize: "var(--fs-base)", color: "var(--color-ink)", marginTop: 3 }}>{entry.client}</div>
               </div>
               <div>
-                <div style={{ fontSize: "var(--fs-2xs)", color: "var(--color-muted)" }}>Engagement</div>
+                <div style={{ fontSize: "var(--fs-xs)", color: "var(--color-muted)" }}>Engagement</div>
                 <div style={{ fontSize: "var(--fs-base)", color: "var(--color-ink)", marginTop: 3 }}>{entry.engagementLength}</div>
               </div>
               <div>
-                <div style={{ fontSize: "var(--fs-2xs)", color: "var(--color-muted)" }}>Service</div>
+                <div style={{ fontSize: "var(--fs-xs)", color: "var(--color-muted)" }}>Service</div>
                 <div style={{ fontSize: "var(--fs-base)", color: "var(--color-ink)", marginTop: 3 }}>{entry.category}</div>
               </div>
             </div>
@@ -161,7 +161,7 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
         </Reveal>
 
         <Reveal style={{ marginTop: 40 }}>
-          <div style={{ fontSize: "var(--fs-2xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 16 }}>
+          <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)", marginBottom: 16 }}>
             Tech stack
           </div>
           <RevealGroup className="grid-cs-spec" stagger={0.04} spotlight>
@@ -189,7 +189,7 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 700,
-                  fontSize: "clamp(38px, 4.2vw, 50px)",
+                  fontSize: "var(--fs-stat)",
                   letterSpacing: "var(--tracking-tight)",
                   color: accent,
                   lineHeight: 1,
@@ -207,7 +207,7 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
         <RevealGroup className="grid-cs-spec" style={{ marginTop: 32 }} stagger={0.1} spotlight>
           {entry.benefits.map((b) => (
             <RevealItem key={b.title} className="cs-spec-cell cs-spec-cell-tall" spotlight>
-              <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-md)", color: "var(--color-ink)" }}>
+              <div style={{ fontFamily: "var(--font-display)", fontWeight: 600, fontSize: "var(--fs-lead)", color: "var(--color-ink)" }}>
                 {b.title}
               </div>
               <div style={{ marginTop: 8, fontSize: "var(--fs-base)", lineHeight: 1.55, color: "var(--color-text)" }}>{b.body}</div>
@@ -235,7 +235,7 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(24px, 3vw, 32px)",
+            fontSize: "var(--fs-h2)",
             lineHeight: 1.1,
             letterSpacing: "var(--tracking-tight)",
             margin: 0,
@@ -244,7 +244,7 @@ export default function CaseStudyDetail({ entry, related }: { entry: CaseStudyEn
         >
           Want outcomes like this for your workflow?
         </RevealHeading>
-        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <Reveal as="p" delay={0.1} style={{ maxWidth: 440, margin: "14px auto 0", fontSize: "var(--fs-base)", lineHeight: 1.6, color: "var(--color-text)" }}>
           {bookingPromise} You leave with a scoped plan either way.
         </Reveal>
         <Reveal delay={0.18} className="cal-frame" style={{ marginTop: 24 }}>

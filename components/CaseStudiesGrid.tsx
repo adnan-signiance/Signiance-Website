@@ -96,7 +96,7 @@ export default function CaseStudiesGrid({ entries }: { entries: CaseStudyEntry[]
                 <div className="case-cell-bottom-row">
                   <div>
                     <div className="case-cell-tag">{cs.tag}</div>
-                    <h3 className="case-cell-title" style={{ fontSize: "var(--fs-xl)" }}>
+                    <h3 className="case-cell-title" style={{ fontSize: "var(--fs-h3)" }}>
                       {cs.title}
                     </h3>
                     <p className="case-cell-body">{cs.teaser}</p>

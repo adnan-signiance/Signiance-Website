@@ -5,6 +5,8 @@ import "./a11y.css";
 import "./metrics-band.css";
 import "./how-we-work-slides.css";
 import "./responsive.css";
+import "./scroll-motion.css";
+import "./header.css";
 import "./fallbacks.css";
 import "./consent.css";
 import "./contact-form.css";

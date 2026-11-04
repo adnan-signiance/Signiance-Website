@@ -38,7 +38,7 @@ export default function BlogIndex({ posts, page, pages }: { posts: BlogPost[]; p
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: "clamp(29px, 4.4vw, 46px)",
+            fontSize: "var(--fs-h1)",
             lineHeight: 1.05,
             letterSpacing: "var(--tracking-tight)",
             margin: "16px 0 0",
@@ -50,7 +50,7 @@ export default function BlogIndex({ posts, page, pages }: { posts: BlogPost[]; p
         </HeroHeading>
         <p
           className="hero-rise hero-d1"
-          style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}
+          style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}
         >
           Writing from the engagements we run, not theory: AWS, DevOps and getting AI into production.
         </p>

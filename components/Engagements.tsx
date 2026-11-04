@@ -87,7 +87,7 @@ export default function Engagements() {
                   style={{
                     fontFamily: "var(--font-display)",
                     fontWeight: 600,
-                    fontSize: "var(--fs-xl)",
+                    fontSize: "var(--fs-h3)",
                     letterSpacing: "var(--tracking-snug)",
                     margin: 0,
                   }}
@@ -99,7 +99,7 @@ export default function Engagements() {
                     display: "inline-flex",
                     alignItems: "center",
                     fontFamily: "var(--font-sans)",
-                    fontSize: "var(--fs-2xs)",
+                    fontSize: "var(--fs-xs)",
                     fontWeight: 500,
                     letterSpacing: "normal",
                     textTransform: "uppercase",

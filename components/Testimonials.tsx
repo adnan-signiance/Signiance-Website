@@ -72,7 +72,7 @@ function Avatar({
             placeItems: "center",
             fontFamily: "var(--font-display)",
             fontWeight: 600,
-            fontSize: focused ? 16 : 12,
+            fontSize: focused ? "var(--fs-base)" : "var(--fs-xs)",
             color: focused ? "var(--color-white)" : "var(--color-text-soft)",
             transition: `width ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), height ${ROLL_MS}ms cubic-bezier(0.22, 0.9, 0.24, 1), background-color ${ROLL_MS}ms ease, font-size ${ROLL_MS}ms ease, color ${ROLL_MS}ms ease`,
           }}
@@ -84,7 +84,7 @@ function Avatar({
         <div
           style={{
             fontFamily: "var(--font-sans)",
-            fontSize: focused ? 14 : 12,
+            fontSize: focused ? "var(--fs-sm)" : "var(--fs-xs)",
             fontWeight: focused ? 600 : 500,
             color: focused ? "var(--color-ink)" : "var(--color-ink-soft)",
             whiteSpace: "nowrap",
@@ -96,7 +96,7 @@ function Avatar({
         <div
           style={{
             fontFamily: "var(--font-sans)",
-            fontSize: focused ? 12 : 11,
+            fontSize: "var(--fs-xs)",
             color: "var(--color-muted)",
             marginTop: 2,
             whiteSpace: "nowrap",
@@ -242,7 +242,7 @@ export default function Testimonials() {
               <div
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "var(--fs-lg)",
+                  fontSize: "var(--fs-lead)",
                   fontWeight: 600,
                   letterSpacing: "normal",
                   color: "var(--color-ink-soft)",

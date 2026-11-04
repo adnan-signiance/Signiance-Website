@@ -35,7 +35,7 @@
 .guarantee-band-body {
   margin: 16px 0 0;
   max-width: 52ch;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.55;
   color: var(--color-text);
 }

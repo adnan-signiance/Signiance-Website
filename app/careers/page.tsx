@@ -28,7 +28,7 @@ export default function CareersPage() {
           style={{
             fontFamily: "var(--font-display)",
             fontWeight: 700,
-            fontSize: "clamp(48px, 9vw, 108px)",
+            fontSize: "var(--fs-ghost)",
             lineHeight: 0.9,
             letterSpacing: "var(--tracking-tight)",
             color: "var(--color-accent)",
@@ -50,7 +50,7 @@ export default function CareersPage() {
         >
           Open roles, when we have them
         </h1>
-        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
           We&apos;re not hiring publicly yet, but we&apos;re always open to hearing from senior cloud and AI
           engineers. Check back soon, or see the outcomes the current team has already delivered.
         </p>

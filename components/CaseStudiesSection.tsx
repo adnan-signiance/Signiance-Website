@@ -1,9 +1,8 @@
 import Link from "next/link";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
 import CaseStudies from "./CaseStudies";
 import { getCaseStudies, pickHome } from "@/lib/content/caseStudies";
-import { Reveal, RevealHeading } from "./Reveal";
+import { RevealHeading } from "./Reveal";
 
 export default async function CaseStudiesSection() {
   const entries = pickHome(await getCaseStudies());
@@ -18,9 +17,6 @@ export default async function CaseStudiesSection() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Case Studies</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
@@ -50,9 +46,7 @@ export default async function CaseStudiesSection() {
         </Link>
       </div>
 
-      <div className="section-rule" />
-
-      <div style={{ marginTop: 24 }}>
+      <div style={{ marginTop: "clamp(24px, 3.4vw, 40px)" }}>
         <CaseStudies entries={entries} />
       </div>
 

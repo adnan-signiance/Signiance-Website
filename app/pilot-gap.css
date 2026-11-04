@@ -1,128 +1,91 @@
 /* "The gap" section on the home page (components/PilotGap.tsx).
 
-   Same hairline grid as the services below it: a frame drawn by the container's ::before so
-   its outer edges reach the page rails, and each cell dropping its own right border where the
-   frame already draws one. Five cards and a closing cell make six, which fills a 3 x 2, a
-   2 x 3 and a single column without a gap. */
+   Five failures as large lines of type with the consequence beside each, then one field of
+   brand blue with the answer, flush to the foot of the section and reaching both rails. */
 
 .pilot-gap-head {
   max-width: 680px;
 }
 
 .pilot-gap-intro {
-  margin: 18px 0 22px;
+  margin: 18px 0 0;
   max-width: 58ch;
-  font-size: var(--fs-md);
+  font-size: var(--fs-base);
   line-height: 1.55;
   color: var(--color-text);
 }
 
-.grid-pilot-gap {
-  position: relative;
+.gap-rows {
+  margin-top: clamp(28px, 4vw, 48px);
+}
+
+.gap-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  margin: 0 var(--bleed);
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+  gap: 8px clamp(24px, 5vw, 72px);
+  align-items: baseline;
+  padding: clamp(20px, 2.6vw, 30px) 0;
+  border-top: 1px solid var(--color-line);
 }
 
-.grid-pilot-gap::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  border: 1px solid var(--color-line-strong);
-  pointer-events: none;
-}
-
-.pilot-gap-cell {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  min-height: 210px;
-  padding: 28px var(--pad-x);
-  border-right: 1px solid var(--color-line-strong);
-  border-bottom: 1px solid var(--color-line-strong);
-  background: var(--color-white);
-}
-
-.pilot-gap-cell:nth-child(3n) {
-  border-right: none;
-}
-
-.pilot-gap-num {
-  font-family: var(--font-mono);
-  font-size: var(--fs-xs);
-  letter-spacing: var(--tracking-wide);
-  color: var(--color-accent);
-}
-
-.pilot-gap-title {
-  margin: 14px 0 0;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: clamp(19px, 1.8vw, 22px);
-  line-height: 1.2;
-  letter-spacing: var(--tracking-snug);
-  text-wrap: balance;
-  color: var(--color-ink);
-}
-
-.pilot-gap-body {
-  margin: 10px 0 0;
-  max-width: 40ch;
-  font-size: var(--fs-base);
-  line-height: 1.55;
-  color: var(--color-text-soft);
-}
-
-/* The closing cell: no card, just the line, set at the foot of the cell on a tint. */
-.pilot-gap-cell--close {
-  justify-content: flex-end;
-  background: var(--color-tint);
-}
-
-.pilot-gap-close {
+.gap-row-title {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(24px, 2.6vw, 32px);
-  line-height: 1.1;
-  letter-spacing: var(--tracking-snug);
+  font-size: var(--fs-h2);
+  line-height: 1.08;
+  letter-spacing: var(--tracking-tight);
   text-wrap: balance;
   color: var(--color-ink);
+  transition: color 0.3s ease;
 }
 
-.pilot-gap-close span {
-  color: var(--color-accent);
+.gap-row-body {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--fs-lead);
+  line-height: 1.55;
+  color: var(--color-text);
 }
 
-@media (max-width: 900px) {
-  .grid-pilot-gap {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .pilot-gap-cell:nth-child(3n) {
-    border-right: 1px solid var(--color-line-strong);
-  }
-
-  .pilot-gap-cell:nth-child(2n) {
-    border-right: none;
+@media (hover: hover) {
+  .gap-row:hover .gap-row-title {
+    color: var(--color-accent);
   }
 }
 
-@media (max-width: 600px) {
-  .grid-pilot-gap {
-    grid-template-columns: 1fr;
+/* The answer: a flat field of the brand blue, bleeding to the page rails. */
+.gap-close {
+  margin: clamp(8px, 1.6vw, 20px) var(--bleed) 0;
+  padding: clamp(40px, 6.5vw, 92px) var(--pad-x);
+  background: var(--color-accent);
+}
+
+.gap-close-line {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: var(--fs-h1);
+  line-height: 1.04;
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+  color: var(--color-white);
+}
+
+.gap-close-line span {
+  color: var(--color-accent-pale);
+}
+
+@media (max-width: 800px) {
+  .gap-row {
+    grid-template-columns: minmax(0, 1fr);
   }
 
-  .pilot-gap-cell,
-  .pilot-gap-cell:nth-child(2n),
-  .pilot-gap-cell:nth-child(3n) {
-    min-height: 0;
-    border-right: none;
+  .gap-row-title {
+    font-size: var(--fs-h3);
   }
 
-  .pilot-gap-cell--close {
-    min-height: 120px;
+  .gap-row-body {
+    font-size: var(--fs-base);
   }
 }

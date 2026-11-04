@@ -21,7 +21,7 @@ export default function ServicesHero() {
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 600,
-              fontSize: "clamp(29px, 4.4vw, 46px)",
+              fontSize: "var(--fs-h1)",
               lineHeight: 1.05,
               letterSpacing: "var(--tracking-tight)",
               margin: "16px 0 0",
@@ -31,7 +31,7 @@ export default function ServicesHero() {
           >
             Five practices, one goal: AI that runs in production
           </HeroHeading>
-          <p className="hero-rise hero-d1" style={{ maxWidth: 600, margin: "16px 0 0", fontSize: "var(--fs-md)", lineHeight: 1.6, color: "var(--color-text)" }}>
+          <p className="hero-rise hero-d1" style={{ maxWidth: 600, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
             Agents, RAG, MVPs, copilots and the cloud foundation underneath them. Every engagement is scoped in a
             week, built by the people you meet on the first call, and shipped with everything it needs to survive
             real users.
