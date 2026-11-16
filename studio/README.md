@@ -134,12 +134,21 @@ Other options: `--slugs=a,b`, `--since=2025-01-01`, `--site=https://signiance.co
 
 It writes `wordpress-posts.ndjson` and `wordpress-redirects.json`, and prints a report:
 posts, authors, images, tables, skipped content, and the links to other pages on the old
-site. Then load the posts (Sanity downloads and uploads every image itself; `--missing`
-skips anything already there):
+site. Before writing the file it tests every image, and leaves out any that no longer loads
+(pictures pasted in from Google Docs years ago are the usual ones), listing each post affected;
+the post keeps its text. Pass `--skip-image-check` to skip that when offline.
+
+Then load the posts (Sanity downloads and uploads every image itself):
 
 ```bash
-npx sanity dataset import wordpress-posts.ndjson production --missing
+npx sanity datasets import wordpress-posts.ndjson --dataset production --missing
 ```
+
+`--missing` leaves a post that is already in the dataset alone, so it never undoes an editor's
+work, **and it does not upload images for such a post**. If a first import stops partway, the
+posts it had already created have no images, and running it again with `--missing` will not fix
+that. Until anyone has edited the posts, re-run with `--replace` instead; it overwrites them and
+reuses the images already uploaded. Never use `--replace` once editors are working in the Studio.
 
 What to check afterwards, in the Studio:
 
@@ -158,12 +167,26 @@ What to check afterwards, in the Studio:
 
 ### Redirects from the old addresses
 
-Old posts lived at `signiance.com/<slug>/`; the new ones are at `/blog/<slug>`.
-`wordpress-redirects.json` lists every old-to-new pair in the form Next.js accepts
-(`source`, `destination`, `permanent`). Those redirects, together with redirects for the
-old service and contact pages, must be in place at launch or the old addresses (and
-their search rankings) will return "not found". How they are applied depends on where
-the site is hosted.
+Old posts lived at `signiance.com/<slug>/`; the new ones are at `/blog/<slug>`. The importer
+writes every old-to-new pair as `wordpress-redirects.json`, and the site applies them from
+`redirects/wordpress-posts.json` (see `redirects/legacy.js` and `redirects()` in
+`next.config.js`). So that the two always agree, write the importer's redirects straight to that
+file:
+
+```bash
+cd studio
+node scripts/import-wordpress.mjs --redirects=../redirects/wordpress-posts.json
+```
+
+- The post redirects apply only when `SANITY_PROJECT_ID` is set, because their destinations
+  exist only once the posts are in the CMS.
+- The old site's own pages (contact, the cloud service pages, customer stories, the startup
+  landing pages) are listed by hand in `redirects/legacy.js`, each sent to its closest page
+  here. Check that list before launch; it is a judgement call, not a lookup.
+- `tests/redirects.test.ts` fails if a redirect would take over a live route, end on a page that
+  does not exist, or repeat a source.
+- A post whose old address had a non-breaking hyphen in it (WordPress shows it as `%e2%80%91`) is
+  imported under a plain-hyphen address; its old address redirects to the new one.
 
 ---
 

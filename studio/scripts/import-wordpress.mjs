@@ -14,11 +14,12 @@
  *
  * Options: --site=https://signiance.com  --out=wordpress-posts.ndjson
  *          --redirects=wordpress-redirects.json
+ *          --skip-image-check   do not test that each image still loads (offline use)
  *
  * Needs `npm install` first (the converter uses jsdom).
  */
 import { writeFileSync } from "node:fs";
-import { buildPostDocuments } from "./wpToPortable.mjs";
+import { buildPostDocuments, cleanSlug } from "./wpToPortable.mjs";
 
 const args = process.argv.slice(2);
 const option = (name, fallback) => args.find((a) => a.startsWith(`--${name}=`))?.slice(name.length + 3) ?? fallback;
@@ -29,6 +30,7 @@ const since = option("since", "");
 const only = new Set(option("slugs", "").split(",").map((s) => s.trim()).filter(Boolean));
 const outFile = option("out", "wordpress-posts.ndjson");
 const redirectsFile = option("redirects", "wordpress-redirects.json");
+const checkImages = !args.includes("--skip-image-check");
 
 async function fetchAllPosts() {
   const posts = [];
@@ -47,7 +49,11 @@ async function fetchAllPosts() {
   return posts;
 }
 
-const all = await fetchAllPosts();
+// WordPress posts that are copies of another post. They are not imported (the CMS holds the original),
+// and their old addresses are sent to it by `postAliases` in redirects/legacy.js.
+const duplicates = new Set(["streamlining-infrastructure-management-with-terraform-remote-backends-2"]);
+
+const all = (await fetchAllPosts()).filter((p) => !duplicates.has(p.slug));
 const selected = all
   .filter((p) => (only.size ? only.has(p.slug) : true))
   .filter((p) => (since ? (p.date_gmt ?? p.date) >= since : true))
@@ -56,7 +62,7 @@ const selected = all
 // A link to another imported post is rewritten to its new address. Links to any
 // other page on the old site become relative paths and are listed at the end:
 // each needs an old-page redirect (or a decision on where it should now point).
-const importedSlugs = new Set(selected.map((p) => p.slug));
+const importedSlugs = new Set(selected.map((p) => cleanSlug(p.slug)));
 const hostnames = new Set([new URL(site).hostname, `www.${new URL(site).hostname}`]);
 const unresolved = new Map();
 
@@ -70,7 +76,7 @@ function rewriteHref(href) {
     return value;
   }
   if (!hostnames.has(url.hostname)) return value;
-  const slug = url.pathname.replace(/^\/+|\/+$/g, "");
+  const slug = cleanSlug(url.pathname.replace(/^\/+|\/+$/g, ""));
   if (importedSlugs.has(slug)) return `/blog/${slug}${url.hash}`;
   if (slug !== "") unresolved.set(url.pathname, (unresolved.get(url.pathname) ?? 0) + 1);
   // Made relative, so it works on any domain (staging included) and is resolved by
@@ -94,9 +100,76 @@ for (const wp of selected) {
   tables += post.body.filter((b) => b._type === "table").length;
 
   const oldPath = new URL(wp.link).pathname.replace(/\/+$/, "");
-  if (oldPath && oldPath !== `/blog/${wp.slug}`) {
-    redirects.push({ source: oldPath, destination: `/blog/${wp.slug}`, permanent: true });
+  if (oldPath && oldPath !== `/blog/${post.slug.current}`) {
+    redirects.push({ source: oldPath, destination: `/blog/${post.slug.current}`, permanent: true });
   }
+}
+
+// An image that no longer loads (a picture pasted in from Google Docs whose link has since died, a file
+// deleted from the old site) would stop `sanity datasets import` partway through the uploads. Each one is
+// tested here instead, and one that fails is left out of the post, which keeps its text. The cover goes
+// the same way; a post without one shows no cover.
+const assetUrl = (img) => (img?._sanityAsset ?? "").replace(/^image@/, "");
+
+async function imageLoads(url) {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    try {
+      // A one-byte range request: enough to learn the status without downloading the picture.
+      const res = await fetch(url, { headers: { Range: "bytes=0-0" }, signal: AbortSignal.timeout(20000) });
+      await res.body?.cancel();
+      if (res.status === 429) {
+        await new Promise((resolve) => setTimeout(resolve, 1500 * (attempt + 1)));
+        continue;
+      }
+      if (res.ok) return !/^text\//i.test(res.headers.get("content-type") ?? "");
+      if (res.status >= 400 && res.status < 500) return false;
+    } catch {
+      // A network error or a timeout: try again.
+    }
+  }
+  return false;
+}
+
+async function checkInParallel(items, size, fn) {
+  const results = new Array(items.length);
+  let next = 0;
+  await Promise.all(
+    Array.from({ length: size }, async () => {
+      while (next < items.length) {
+        const i = next++;
+        results[i] = await fn(items[i]);
+        if ((i + 1) % 50 === 0) process.stdout.write(`\rchecked ${i + 1}/${items.length} images`);
+      }
+    })
+  );
+  return results;
+}
+
+const droppedImages = [];
+if (checkImages) {
+  const postDocs = [...docs.values()].filter((d) => d._type === "post");
+  const urls = [
+    ...new Set(
+      postDocs.flatMap((p) => [assetUrl(p.coverImage), ...p.body.filter((b) => b._type === "image").map(assetUrl)]).filter(Boolean)
+    ),
+  ];
+  const loads = new Map();
+  const results = await checkInParallel(urls, 12, imageLoads);
+  urls.forEach((u, i) => loads.set(u, results[i]));
+  process.stdout.write(`\rchecked ${urls.length}/${urls.length} images\n`);
+
+  for (const p of postDocs) {
+    if (p.coverImage && !loads.get(assetUrl(p.coverImage))) {
+      droppedImages.push({ slug: p.slug.current, where: "cover", url: assetUrl(p.coverImage) });
+      delete p.coverImage;
+    }
+    p.body = p.body.filter((b) => {
+      if (b._type !== "image" || loads.get(assetUrl(b))) return true;
+      droppedImages.push({ slug: p.slug.current, where: "body", url: assetUrl(b) });
+      return false;
+    });
+  }
+  images -= droppedImages.length;
 }
 
 writeFileSync(outFile, [...docs.values()].map((d) => JSON.stringify(d)).join("\n") + "\n");
@@ -105,6 +178,11 @@ writeFileSync(redirectsFile, JSON.stringify(redirects, null, 2) + "\n");
 const posts = [...docs.values()].filter((d) => d._type === "post");
 console.log(`\nWrote ${posts.length} posts, ${docs.size - posts.length} authors, ${images} images, ${tables} tables to ${outFile}`);
 console.log(`Wrote ${redirects.length} redirects to ${redirectsFile}`);
+
+if (droppedImages.length) {
+  console.log(`\n${droppedImages.length} image(s) no longer load and were left out (the posts keep their text):`);
+  for (const d of droppedImages) console.log(`  ${d.slug} (${d.where}): ${d.url}`);
+}
 
 const noExcerpt = posts.filter((p) => !p.excerpt).map((p) => p.slug);
 const noBody = posts.filter((p) => p.body.length === 0).map((p) => p.slug);

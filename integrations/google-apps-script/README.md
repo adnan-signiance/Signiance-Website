@@ -1,6 +1,6 @@
 # Enquiry delivery via Google Apps Script
 
-The contact form and the footer newsletter signup post straight from the browser
+The contact form and the readiness check (when someone sends their result) post straight from the browser
 to a Google Apps Script web app. The script emails `hello@signiance.com` and,
 optionally, appends the submission to a Google Sheet. There is no server of our
 own in the path, so the site can be hosted anywhere.

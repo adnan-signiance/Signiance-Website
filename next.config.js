@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
 
+const { legacyRedirects } = require("./redirects/legacy");
+
 // Only non-essential third party on the site. Kept in one place so the policy
 // below and the embed in components/CalBooking.tsx cannot drift apart. The
 // Calendly page is a plain iframe, so only frame-src needs to allow it; its own
@@ -89,6 +91,12 @@ const nextConfig = {
 
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
+  },
+
+  // The old WordPress addresses, sent to their new homes (see redirects/legacy.js). The post
+  // redirects point at /blog/<slug>, which exists only when the CMS is configured.
+  async redirects() {
+    return legacyRedirects({ posts: Boolean(SANITY_PROJECT) });
   },
 };
 
