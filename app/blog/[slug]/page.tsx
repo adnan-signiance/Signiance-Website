@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import BlogPostView from "@/components/BlogPostView";
 import { getPost, getPosts, relatedPosts } from "@/lib/content/posts";
 import { socialImage } from "@/lib/content/images";
+import { metaDescription, metaTitle } from "@/lib/seo";
 
 // A slug that is not a published post is a 404, not an on-demand render.
 export const dynamicParams = false;
@@ -18,11 +19,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
   const url = `/blog/${post.slug}`;
   const title = post.seoTitle ?? post.title;
-  const description = post.seoDescription ?? post.excerpt;
+  // The `<title>` and the description meta are cut to what a result shows (lib/seo.ts); the share card
+  // and the page's own heading keep the full wording.
+  const description = metaDescription(post.seoDescription ?? post.excerpt);
   const card = post.cover ? socialImage(post.cover.src) : undefined;
 
   return {
-    title,
+    title: metaTitle(title),
     description,
     alternates: { canonical: url },
     openGraph: {

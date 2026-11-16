@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   buildPostDocuments,
+  cleanSlug,
   decodeText,
   htmlToPortable,
   plainExcerpt,
@@ -225,5 +226,38 @@ describe("buildPostDocuments", () => {
   it("omits the author reference when WordPress names none", () => {
     const p = post(wp({ _embedded: {} }));
     expect(p.author).toBeUndefined();
+  });
+});
+
+describe("cleanSlug", () => {
+  it("leaves an ordinary slug alone", () => {
+    expect(cleanSlug("terraform-vs-cloudformation")).toBe("terraform-vs-cloudformation");
+  });
+
+  it("turns a percent-encoded non-breaking hyphen into a plain one", () => {
+    expect(cleanSlug("a-30%e2%80%91day-sprint-to-tangible-savings")).toBe("a-30-day-sprint-to-tangible-savings");
+  });
+
+  it("takes a slug with an invalid escape as written, url-safe", () => {
+    expect(cleanSlug("100%-sure")).toBe("100-sure");
+  });
+
+  it("builds the post from the clean slug and leaves nothing percent-encoded in the address", () => {
+    const built = buildPostDocuments(
+      {
+        id: 9,
+        slug: "cloud-cost%e2%80%91cutting-tips",
+        link: "https://signiance.com/cloud-cost%e2%80%91cutting-tips/",
+        date_gmt: "2025-03-01T10:00:00",
+        title: { rendered: "Cloud Cost‑Cutting Tips" },
+        excerpt: { rendered: "<p>Short.</p>" },
+        content: { rendered: "<p>Body.</p>" },
+        _embedded: {},
+      },
+      {}
+    );
+    const doc = built.docs.find((d: Node) => d._type === "post") as Node;
+    expect(doc.slug.current).toBe("cloud-cost-cutting-tips");
+    expect(doc._id).toBe("post-cloud-cost-cutting-tips");
   });
 });

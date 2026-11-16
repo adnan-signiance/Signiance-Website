@@ -24,6 +24,11 @@ const config = [
       "public/**",
       // The Sanity Studio is its own project with its own dependencies.
       "studio/**",
+      // Design tooling and its output, and files kept out of the deployed site: not application source.
+      ".agents/**",
+      ".claude/**",
+      ".taste-skill/**",
+      "design-source/**",
       "*.dc.html",
     ],
   },

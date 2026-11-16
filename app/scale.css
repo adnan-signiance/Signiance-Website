@@ -1,0 +1,323 @@
+/* THE SITE SCALE
+   Layout numbers (frame, gutters, navigation) come from elevenlabs.io, measured on the live site.
+   Type and space are set on ratios, so every size is in proportion to its neighbours instead of
+   being a list of unrelated numbers. It applies inside .page-frame, which wraps every page, so the
+   navigation, the footer and all the routes share it. Rules specific to one page live in that
+   page's stylesheet.
+
+   TYPE: one modular scale on a 16px body.   size = 16px x ratio^step
+     ratio 1.25 (major third) from 640px up, 1.175 on a phone, so the steps close up on a small
+     screen instead of the headline outgrowing it.
+       step  role                    desktop    phone
+        -1   caption                   13        13.6
+       -1/2  small (card, row text)    14.3      14.8
+         0   body                      16        16
+         1   lead                      20        18.8
+         2   h4  (card titles)         25        22.1
+         3   h3  (row titles)          31.3      26
+         4   h2  (section titles)      39.1      30.5
+         5   display (h1)              48.8      35.8
+         6   figure (numerals)         61        42.1
+   Line height eases with size: 1.55 for body down to 1.1 for display. Tracking tightens the same
+   way, -0.02em at display, none on text.
+
+   WEIGHT: titles and numerals 500, so large type has body; text 400; strong 600; buttons 500.
+
+   SPACE: one step scale (8, 12, 16, 24, 32, 48, 64, 96) and every padding is a step, sized from the
+   type it holds: a section's padding is about twice its title, a card's about one line of its text.
+     open section       96 above, 32 below  /  64 above, 24 below     (a section with no field of colour)
+     field section      80 above and below  /  56                      (a field of colour, or a bounded section)
+     statement band     64 above and below  /  48                      (one headline on a field)
+     hero               72 above, 32 below  /  48 above, 24 below
+     title to content   32  /  24
+     between cards      12  /  8
+     inside a card      20  /  16
+     between columns    64  /  24
+   Buttons are 36px tall (44px on a touch screen), pill shaped. Cards are 16px radius, panels in
+   them 12px.
+
+   WIDTH: the frame is 100% up to 1306px (81.625rem), with 20 / 28 / 32px between the rails and the
+   content at phone, tablet and 1280px up (the reference uses 20 / 40 / 64; that left a wide empty band
+   inside the border), so the content is the frame less two gutters (about 1240px on a wide screen). */
+
+/* THE FRAME. The outer border and content width. Set on the frame itself so the navigation, the page
+   and the footer all take the same width and gutter. */
+.page-frame {
+  --frame-w: 81.625rem;
+  --pad-x: 20px;
+  --bleed: calc(var(--pad-x) * -1);
+  --header-h: 64px;
+}
+
+@media (min-width: 640px) {
+  .page-frame {
+    --pad-x: 28px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page-frame {
+    --pad-x: 32px;
+  }
+}
+
+.page-frame {
+  /* Type, phone first (ratio 1.175). */
+  --t-caption: 13.6px;
+  --t-small: 14.8px;
+  --t-body: 16px;
+  --t-lead: 18.8px;
+  --t-h4: 22.1px;
+  --t-h3: 26px;
+  --t-h2: 30.5px;
+  --t-display: 35.8px;
+  --t-figure: 42.1px;
+
+  --lh-display: 1.12;
+  --lh-figure: 1.1;
+  --lh-h2: 1.18;
+  --lh-h3: 1.22;
+  --lh-h4: 1.3;
+  --lh-lead: 1.45;
+  --lh-body: 1.55;
+  --lh-small: 1.5;
+
+  /* Space, phone first. */
+  --sp-open-top: 64px;
+  --sp-open-bottom: 24px;
+  --sp-field: 56px;
+  --sp-band: 48px;
+  --sp-hero-top: 48px;
+  --sp-hero-bottom: 24px;
+  --sp-section: var(--sp-field);
+  --section-pt: var(--sp-open-top);
+  --section-pb: var(--sp-open-bottom);
+  --sp-block: 24px;
+  --sp-gap: 8px;
+  --sp-card: 16px;
+  --sp-column: 24px;
+  --sp-title: 16px;
+  --btn-h: 36px;
+  --radius-card: 16px;
+  --radius-panel: 12px;
+
+  /* Tracking tightens as type grows: display is tight, text is open. */
+  --tracking-display: -0.02em;
+  --tracking-tight: -0.015em;
+  --tracking-snug: -0.01em;
+  --tracking-text: 0.01em;
+
+  /* Weights. Titles have body; text and controls are regular to medium. */
+  --w-display: 500;
+  --w-title: 500;
+  --w-text: 400;
+  --w-control: 500;
+  --w-strong: 600;
+
+  /* Large type is drawn for its size by the face's optical-size axis, and text is kept regular
+     and kerned. */
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  letter-spacing: var(--tracking-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* The site-wide role tokens, mapped onto this scale, so every inline var(--fs-h2) and the like in
+     the components follows it without a per-element override. */
+  --fs-h1: var(--t-display);
+  --fs-display: var(--t-display);
+  --fs-xs: var(--t-caption);
+  --fs-sm: var(--t-small);
+  --fs-h2: var(--t-h2);
+  --fs-h3: var(--t-h4);
+  --fs-lead: var(--t-lead);
+  --fs-quote: var(--t-h4);
+  --fs-stat: var(--t-h2);
+  --fs-figure: var(--t-figure);
+  --fs-figure-sm: var(--t-h2);
+}
+
+@media (min-width: 640px) {
+  .page-frame {
+    /* Type (ratio 1.25). */
+    --t-caption: 13px;
+    --t-small: 14.3px;
+    --t-lead: 20px;
+    --t-h4: 25px;
+    --t-h3: 31.3px;
+    --t-h2: 39.1px;
+    --t-display: 48.8px;
+    --t-figure: 61px;
+
+    --lh-display: 1.1;
+    --lh-figure: 1.08;
+    --lh-h2: 1.15;
+    --lh-h3: 1.2;
+    --lh-h4: 1.3;
+    --lh-lead: 1.45;
+
+    /* Space. */
+    --sp-open-top: 96px;
+    --sp-open-bottom: 32px;
+    --sp-field: 80px;
+    --sp-band: 64px;
+    --sp-hero-top: 72px;
+    --sp-hero-bottom: 32px;
+    --sp-block: 32px;
+    --sp-gap: 12px;
+    --sp-card: 20px;
+    --sp-column: 64px;
+  }
+}
+
+/* A finger needs a bigger target than a pointer. */
+@media (pointer: coarse) {
+  .page-frame {
+    --btn-h: 44px;
+  }
+}
+
+/* ------------------------------------------------------------------ weight, all pages */
+
+/* Titles and numerals carry the display weight; running text is regular, with the heavier weight kept
+   for emphasis. Titles are set inline by their components, hence !important on h1 and h2. */
+.page-frame main :is(h1, h2) {
+  font-weight: var(--w-display) !important;
+  letter-spacing: var(--tracking-tight);
+}
+
+.page-frame main h1 {
+  letter-spacing: var(--tracking-display);
+}
+
+.page-frame main h3 {
+  font-weight: var(--w-title);
+}
+
+.page-frame strong {
+  font-weight: var(--w-strong);
+}
+
+/* Figures and numerals carry the display weight, like the titles. */
+.page-frame main :is(.metric-value, .cs-card-figure, .cs-facts dd, .cs-facts dd *) {
+  font-weight: var(--w-display) !important;
+}
+
+/* Small headings (a card or list title, a label above a list) share the title weight, so a card
+   title and a section title read as one family at two sizes. The animated ones carry their weight
+   inline, hence !important. */
+.page-frame main :is(h4, .case-cell-title, .cal-fallback-lead, .svc-sub, .hero-sheet h2, h3[style*="font-weight"]) {
+  font-weight: var(--w-title) !important;
+}
+
+.page-frame main .legal-section h2 {
+  font-weight: var(--w-title) !important;
+}
+
+.page-frame main h3[style*="--fs-h3"] {
+  font-weight: var(--w-title) !important;
+}
+
+/* A quotation is running text, so it is regular, with its highlighted phrase one step up. */
+.page-frame .grid-testimonial p,
+.page-frame .founders-note-text {
+  font-weight: var(--w-text) !important;
+}
+
+.page-frame .grid-testimonial p span {
+  font-weight: var(--w-strong) !important;
+}
+
+.page-frame .founders-note-text {
+  max-width: 52ch;
+  font-size: var(--t-lead);
+  line-height: var(--lh-lead);
+  text-wrap: pretty;
+}
+
+.page-frame .founders-note-name {
+  font-weight: var(--w-strong);
+}
+
+/* The footer's column heads follow the same weights as the page's titles. */
+.page-frame footer .footer-col-head {
+  font-weight: var(--w-title) !important;
+}
+
+/* ------------------------------------------------------------------ buttons, all pages */
+
+.page-frame .btn-primary,
+.page-frame .btn-hero-primary,
+.page-frame .btn-hero-outline {
+  justify-content: center;
+  min-height: var(--btn-h);
+  padding: 0 16px;
+  font-size: var(--t-small);
+  font-weight: var(--w-control);
+  letter-spacing: var(--tracking-text);
+}
+
+@media (max-width: 640px) {
+  /* responsive.css gives every phone button its own padding with !important; the scale keeps its own. */
+  .page-frame .btn-primary,
+  .page-frame .btn-hero-primary,
+  .page-frame .btn-hero-outline {
+    min-height: var(--btn-h);
+    padding: 0 16px !important;
+  }
+}
+
+/* ------------------------------------------------------------------ navigation */
+
+/* A 64px bar holding 36px items: 14px type with 14px of side padding, no gap between items, a
+   36px pill for the action, and a wordmark scaled to match. */
+.page-frame .site-bar {
+  gap: 24px;
+}
+
+.page-frame .site-bar-left {
+  gap: 24px;
+}
+
+.page-frame .site-logo-clip {
+  width: calc(32px * 4.304);
+}
+
+.page-frame .site-logo.is-compact .site-logo-clip {
+  width: calc(32px * 0.79);
+}
+
+.page-frame .site-logo-img {
+  height: 32px;
+}
+
+.page-frame .site-links {
+  gap: 0;
+}
+
+.page-frame .site-link {
+  min-height: 36px;
+  padding: 0 14px;
+  font-size: var(--t-small);
+  font-weight: var(--w-text);
+  line-height: 20px;
+  letter-spacing: normal;
+}
+
+.page-frame .site-disclosure {
+  width: 24px;
+  min-height: 36px;
+  margin-left: -10px;
+}
+
+.page-frame .site-cta {
+  min-height: 36px;
+  padding: 0 16px;
+  font-size: var(--t-small);
+  font-weight: var(--w-control);
+}
+
+.page-frame .site-panel-small-item {
+  padding: 10px 16px;
+  font-size: var(--t-small);
+}

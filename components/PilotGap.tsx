@@ -1,14 +1,20 @@
+"use client";
+
 import "../app/pilot-gap.css";
+import { useState } from "react";
 import CornerDots from "./CornerDots";
-import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
+import { GAP_ARTEFACTS } from "./GapArtefacts";
+import { Reveal, RevealHeading } from "./Reveal";
 
 /**
  * "The gap": why AI pilots stall, between the hero and the services.
  *
- * It names the problem in the buyer's own words before the page starts selling the fix, so
- * the services below read as the answer to a list the visitor has just recognised. Five
- * failure modes set as large lines of type, each with its consequence beside it, and the
- * closing line as a field of brand blue that runs to the foot of the section.
+ * It names the problem in the buyer's own words before the page starts selling the fix, so the
+ * services below read as the answer to a list the visitor has just recognised. Five failure
+ * modes, each with the screen where it shows up: pick one (hover, focus or tap) and that screen
+ * opens beside the list. That is also why the heading has no sentence beside it: the right-hand
+ * side is the example. The closing line is a field of brand blue that runs to the foot of the
+ * section.
  */
 const FAILURES: { title: string; body: string }[] = [
   {
@@ -34,9 +40,12 @@ const FAILURES: { title: string; body: string }[] = [
 ];
 
 export default function PilotGap() {
+  const [active, setActive] = useState(0);
+
   return (
     <section
       id="gap"
+      className="home-section home-gap"
       style={{
         position: "relative",
         borderBottom: "1px solid var(--color-line)",
@@ -58,20 +67,55 @@ export default function PilotGap() {
         >
           Most AI never makes it past the demo.
         </RevealHeading>
-        <Reveal as="p" className="pilot-gap-intro" delay={0.15}>
-          Building something that works once is easy. Building something that works every day, on real data, at a cost
-          you can defend, is where most teams get stuck.
-        </Reveal>
       </div>
 
-      <RevealGroup className="gap-rows" stagger={0.07}>
-        {FAILURES.map((f) => (
-          <RevealItem key={f.title} className="gap-row">
-            <h3 className="gap-row-title">{f.title}</h3>
-            <p className="gap-row-body">{f.body}</p>
-          </RevealItem>
-        ))}
-      </RevealGroup>
+      <Reveal className="gap-ex">
+        <div className="gap-ex-list" role="tablist" aria-label="Why AI stalls" aria-orientation="vertical">
+          {FAILURES.map((f, i) => {
+            const Art = GAP_ARTEFACTS[i];
+            const on = i === active;
+            return (
+              <div key={f.title} className={`gap-ex-item${on ? " is-active" : ""}`}>
+                <button
+                  type="button"
+                  role="tab"
+                  id={`gap-tab-${i}`}
+                  aria-selected={on}
+                  aria-controls={`gap-panel-${i}`}
+                  className="gap-ex-tab"
+                  onClick={() => setActive(i)}
+                  onMouseEnter={() => setActive(i)}
+                  onFocus={() => setActive(i)}
+                >
+                  <h3 className="gap-ex-title">{f.title}</h3>
+                  <p className="gap-ex-body">{f.body}</p>
+                </button>
+                {/* On a phone the example opens inside its own row, so it is next to the words that
+                    name it instead of far below the list. */}
+                <div className="gap-ex-inline" aria-hidden="true">
+                  <Art />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="gap-ex-panel">
+          {GAP_ARTEFACTS.map((Art, i) => (
+            <div
+              key={i}
+              id={`gap-panel-${i}`}
+              role="tabpanel"
+              aria-labelledby={`gap-tab-${i}`}
+              className={`gap-ex-art${i === active ? " is-active" : ""}`}
+              hidden={false}
+              aria-hidden={i !== active}
+            >
+              <Art />
+            </div>
+          ))}
+        </div>
+      </Reveal>
 
       <Reveal className="gap-close">
         <p className="gap-close-line">

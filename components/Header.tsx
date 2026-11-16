@@ -13,6 +13,7 @@ type MenuName = "services" | "resources";
 
 const RESOURCES = [
   { label: "Case Studies", href: "/case-studies" },
+  { label: "AI readiness check", href: "/readiness" },
   { label: "Blogs", href: "/blog" },
   { label: "Careers", href: "/careers" },
 ];
@@ -61,11 +62,14 @@ function Logo({ compact }: { compact: boolean }) {
   );
 }
 
-export default function Header({ plain = false }: { plain?: boolean }) {
+export default function Header() {
   const pathname = usePathname();
   const isServicesPage = pathname.startsWith("/services");
   const isResourcesPage =
-    pathname.startsWith("/case-studies") || pathname.startsWith("/blog") || pathname.startsWith("/careers");
+    pathname.startsWith("/case-studies") ||
+    pathname.startsWith("/blog") ||
+    pathname.startsWith("/readiness") ||
+    pathname.startsWith("/careers");
   const isHowWeWorkPage = pathname.startsWith("/how-we-work");
   const isAboutPage = pathname.startsWith("/about");
 
@@ -249,6 +253,8 @@ export default function Header({ plain = false }: { plain?: boolean }) {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setMobileOpen(false);
+        setMobileServicesOpen(false);
+        setMobileResourcesOpen(false);
         toggleRef.current?.focus();
         return;
       }
@@ -299,7 +305,6 @@ export default function Header({ plain = false }: { plain?: boolean }) {
       className="site-header"
       data-scrolled={scrolled}
       data-tone={tone}
-      data-plain={plain}
       onBlur={onHeaderBlur}
     >
       <div className="site-bar">
@@ -479,7 +484,10 @@ export default function Header({ plain = false }: { plain?: boolean }) {
             className="site-sheet-close"
             aria-label="Close menu"
             onClick={() => {
+              // Every close path collapses both groups, so the sheet reopens tidy.
               setMobileOpen(false);
+              setMobileServicesOpen(false);
+              setMobileResourcesOpen(false);
               toggleRef.current?.focus();
             }}
           >
@@ -498,12 +506,15 @@ export default function Header({ plain = false }: { plain?: boolean }) {
               className="site-sheet-caret"
               aria-label={mobileServicesOpen ? "Hide services" : "Show services"}
               aria-expanded={mobileServicesOpen}
+              aria-controls="site-sheet-services"
               onClick={() => setMobileServicesOpen((v) => !v)}
             >
               <Chevron open={mobileServicesOpen} />
             </button>
           </div>
-          <div className={`site-sheet-subs${mobileServicesOpen ? " is-open" : ""}`}>
+          {/* Collapsed groups are visibility:hidden in header.css, so their links leave the tab order
+              rather than taking focus while zero pixels tall. */}
+          <div id="site-sheet-services" className={`site-sheet-subs${mobileServicesOpen ? " is-open" : ""}`}>
             <div className="site-sheet-subs-inner">
               {services.map((sv) => (
                 <Link key={sv.id} href={`/services/${sv.slug}`} className="site-sheet-sub">
@@ -518,6 +529,7 @@ export default function Header({ plain = false }: { plain?: boolean }) {
               type="button"
               className="site-sheet-link site-sheet-link--button"
               aria-expanded={mobileResourcesOpen}
+              aria-controls="site-sheet-resources"
               onClick={() => setMobileResourcesOpen((v) => !v)}
             >
               Resources
@@ -526,7 +538,7 @@ export default function Header({ plain = false }: { plain?: boolean }) {
               <Chevron open={mobileResourcesOpen} />
             </span>
           </div>
-          <div className={`site-sheet-subs${mobileResourcesOpen ? " is-open" : ""}`}>
+          <div id="site-sheet-resources" className={`site-sheet-subs${mobileResourcesOpen ? " is-open" : ""}`}>
             <div className="site-sheet-subs-inner">
               {RESOURCES.map((r) => (
                 <Link key={r.href} href={r.href} className="site-sheet-sub">
@@ -551,7 +563,7 @@ export default function Header({ plain = false }: { plain?: boolean }) {
         {cta("site-sheet-cta")}
       </div>
 
-      {!plain && <CornerDots />}
+      <CornerDots />
     </header>
   );
 }

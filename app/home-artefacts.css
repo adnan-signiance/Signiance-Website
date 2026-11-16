@@ -1,0 +1,687 @@
+/* The example screens and diagrams on the home page: the gap section's five failures, the method's
+   four weeks, the service tiles' diagrams. Flat, on the brand blue ramp, with fixed ink so they read
+   the same on any field. The screens are real interface fragments (data-ui), so they keep their own
+   borders and controls. */
+
+/* ---------------------------------------------------------------------------- the window */
+
+.art {
+  width: 100%;
+  overflow: hidden;
+  border: 1px solid var(--blue-100);
+  border-radius: var(--radius-card, 16px);
+  background: #fff;
+  color: var(--blue-900);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  line-height: 1.4;
+  letter-spacing: 0;
+  text-align: left;
+}
+
+.art-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--blue-100);
+  background: var(--blue-50);
+}
+
+.art-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.art-dots {
+  display: inline-flex;
+  flex: none;
+  gap: 5px;
+}
+
+.art-dots i {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--blue-200);
+}
+
+.art-tag {
+  flex: none;
+  padding: 2px 8px;
+  border: 1px solid var(--blue-100);
+  border-radius: 999px;
+  background: #fff;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.art-body {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.ga-chip {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  padding: 2px 9px;
+  border: 1px solid var(--blue-100);
+  border-radius: 999px;
+  background: var(--blue-50);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--blue-700);
+  white-space: nowrap;
+}
+
+.ga-chip.is-ok {
+  border-color: var(--blue-100);
+  background: var(--blue-100);
+  color: var(--blue-700);
+}
+
+.ga-chip.is-bad {
+  border-color: var(--blue-900);
+  background: var(--blue-900);
+  color: #fff;
+}
+
+.ga-cap {
+  margin: 0;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.ga-rows,
+.ga-log,
+.mm-gaps,
+.mm-cases,
+.mm-alerts,
+.mm-checks,
+.mm-kpis {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ga-rows li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 0;
+  border-top: 1px solid var(--blue-100);
+  font-size: 13px;
+}
+
+.ga-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--blue-100);
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.ga-btn {
+  flex: none;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: var(--blue-500);
+  font-size: 13px;
+  font-weight: 500;
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------------- the gap */
+
+.ga-bars {
+  display: grid;
+  gap: 10px;
+}
+
+.ga-bar-row {
+  display: grid;
+  grid-template-columns: 78px minmax(0, 1fr) 36px;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.ga-bar-row b {
+  font-weight: 600;
+  text-align: right;
+}
+
+.ga-track {
+  height: 10px;
+  overflow: hidden;
+  border-radius: 5px;
+  background: var(--blue-100);
+}
+
+.ga-track i {
+  display: block;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.ga-track .is-hi {
+  background: var(--blue-500);
+}
+
+.ga-track .is-lo {
+  background: var(--blue-800);
+}
+
+.ga-diff {
+  margin: 0;
+  padding: 12px 14px;
+  overflow-x: auto;
+  border-radius: 10px;
+  background: var(--blue-900);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--blue-100);
+}
+
+.ga-diff code {
+  display: block;
+  font-family: var(--font-mono);
+}
+
+.ga-diff span {
+  display: block;
+  margin: 0 -14px;
+  padding: 0 14px;
+  white-space: pre;
+}
+
+.ga-del {
+  color: var(--blue-300);
+  text-decoration: line-through;
+  text-decoration-color: var(--blue-400);
+}
+
+.ga-add {
+  background: rgba(124, 147, 213, 0.22);
+  color: #fff;
+}
+
+.ga-eval {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ga-eval div {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--blue-50);
+}
+
+.ga-eval span {
+  display: block;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.ga-eval b {
+  font-family: var(--font-display);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--blue-300);
+}
+
+.ga-log li {
+  display: grid;
+  grid-template-columns: 58px 62px 36px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-top: 1px solid var(--blue-100);
+  font-size: 13px;
+}
+
+.ga-log time {
+  color: var(--blue-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.ga-log li.is-flag {
+  margin: 0 -16px;
+  padding: 8px 16px 8px 13px;
+  border-left: 3px solid var(--blue-500);
+  background: var(--blue-50);
+}
+
+.ga-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.ga-gridline {
+  stroke: var(--blue-100);
+  stroke-width: 1;
+}
+
+.ga-line {
+  fill: none;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ga-line.is-soft {
+  stroke: var(--blue-300);
+}
+
+.ga-line.is-hi {
+  stroke: var(--blue-500);
+}
+
+.ga-dot {
+  fill: var(--blue-500);
+}
+
+.ga-axis {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.ga-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.ga-legend i {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
+.ga-legend i.is-soft {
+  background: var(--blue-300);
+}
+
+.ga-legend i.is-hi {
+  background: var(--blue-500);
+}
+
+.ga-legend b {
+  color: var(--blue-900);
+  font-weight: 600;
+}
+
+/* ---------------------------------------------------------------------------- the method */
+
+.mm-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 14px;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.mm-meta b {
+  font-weight: 500;
+  color: var(--blue-900);
+}
+
+.mm-gaps {
+  display: grid;
+  gap: 14px;
+}
+
+.mm-gap-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 13px;
+}
+
+.mm-gap-head i {
+  font-style: normal;
+  color: var(--blue-600);
+}
+
+.mm-gap-head b {
+  font-weight: 600;
+  color: var(--blue-500);
+}
+
+.mm-gap-track {
+  position: relative;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--blue-100);
+}
+
+.mm-gap-track .is-now {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  border-radius: 4px;
+  background: var(--blue-300);
+}
+
+.mm-gap-track .is-goal {
+  position: absolute;
+  top: -4px;
+  bottom: -4px;
+  width: 3px;
+  margin-left: -1px;
+  border-radius: 2px;
+  background: var(--blue-500);
+}
+
+.mm-run {
+  display: grid;
+  grid-template-columns: 76px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+}
+
+.mm-ring {
+  display: block;
+  width: 76px;
+  height: 76px;
+}
+
+.mm-ring-bg,
+.mm-ring-fg {
+  fill: none;
+  stroke-width: 7;
+}
+
+.mm-ring-bg {
+  stroke: var(--blue-100);
+}
+
+.mm-ring-fg {
+  stroke: var(--blue-500);
+  stroke-linecap: round;
+}
+
+.mm-ring-text {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  fill: var(--blue-900);
+}
+
+.mm-cases li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 5px 0;
+  border-top: 1px solid var(--blue-100);
+  font-size: 13px;
+}
+
+.mm-cases li:first-child {
+  border-top: 0;
+}
+
+.mm-flag label {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.mm-flag label b {
+  font-weight: 600;
+}
+
+.mm-flag input {
+  width: 100%;
+  margin: 0;
+  accent-color: var(--blue-500);
+  cursor: pointer;
+}
+
+.mm-kpis {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.mm-kpis li {
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--blue-50);
+}
+
+.mm-kpis span {
+  display: block;
+  font-size: 13px;
+  color: var(--blue-600);
+}
+
+.mm-kpis b {
+  font-family: var(--font-display);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--blue-900);
+  font-variant-numeric: tabular-nums;
+}
+
+.mm-spark {
+  display: block;
+  width: 100%;
+  height: 72px;
+}
+
+.mm-area {
+  fill: var(--blue-100);
+  stroke: none;
+}
+
+.mm-line {
+  fill: none;
+  stroke: var(--blue-500);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.mm-alerts li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 7px 0;
+  border-top: 1px solid var(--blue-100);
+  font-size: 13px;
+}
+
+.mm-checks {
+  display: grid;
+  gap: 10px;
+}
+
+.mm-checks li {
+  position: relative;
+  padding-left: 26px;
+  font-size: 13px;
+}
+
+.mm-checks li::before {
+  content: "";
+  position: absolute;
+  top: 0.1em;
+  left: 0;
+  width: 17px;
+  height: 17px;
+  border-radius: 50%;
+  background: var(--blue-500) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='m4.5 8.3 2.3 2.3 4.7-5' stroke='%23fff' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 13px no-repeat;
+}
+
+.mm-oncall {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.mm-seg {
+  display: inline-flex;
+  padding: 3px;
+  border: 1px solid var(--blue-100);
+  border-radius: 999px;
+  background: var(--blue-50);
+}
+
+.mm-seg button {
+  padding: 6px 18px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--blue-700);
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.mm-seg button[aria-pressed="true"] {
+  background: var(--blue-500);
+  color: #fff;
+}
+
+/* ---------------------------------------------------------------------------- the service tiles */
+
+.sv-art {
+  pointer-events: none;
+}
+
+.sv-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.sv-flow {
+  stroke: var(--blue-400);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  animation: haDash 1.2s linear infinite;
+}
+
+.sv-flow.is-light {
+  stroke: var(--blue-300);
+  stroke-width: 1.5;
+}
+
+.sv-node rect {
+  fill: var(--blue-800);
+  stroke: var(--blue-600);
+  stroke-width: 1.5;
+}
+
+.sv-node.is-hot rect {
+  fill: var(--blue-500);
+  stroke: var(--blue-400);
+}
+
+.sv-node-dot {
+  fill: var(--blue-400);
+}
+
+.sv-node.is-hot .sv-node-dot {
+  fill: var(--blue-100);
+}
+
+.sv-node-name,
+.sv-ask-text {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  fill: #fff;
+}
+
+.sv-ask-text {
+  font-size: 13px;
+}
+
+.sv-node-sub {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  fill: var(--blue-200);
+}
+
+.sv-ask {
+  animation: svBob 3.2s ease-in-out infinite;
+}
+
+.sv-typing {
+  animation: svBlink 1.2s ease-in-out infinite;
+}
+
+.sv-typing:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+
+.sv-typing:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes svBlink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes svBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-flow,
+  .sv-ask,
+  .sv-typing {
+    animation: none;
+  }
+}

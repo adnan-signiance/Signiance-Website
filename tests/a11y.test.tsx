@@ -1,11 +1,22 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import FAQ from "@/components/FAQ";
+import Footer from "@/components/Footer";
+import Header from "@/components/Header";
 import Testimonials from "@/components/Testimonials";
 import CaseStudiesGrid from "@/components/CaseStudiesGrid";
-import { caseStudyEntries, testimonials } from "@/lib/data";
+import { caseStudyEntries, footerColumns, services, testimonials } from "@/lib/data";
+
+// The header reads the current route; outside the App Router there is no router context.
+vi.mock("next/navigation", () => ({ usePathname: () => "/" }));
+
+function css(file: string): string {
+  return readFileSync(join(process.cwd(), "app", file), "utf8").replace(/\/\*[\s\S]*?\*\//g, "");
+}
 
 async function axeViolations(container: HTMLElement): Promise<string[]> {
   const results = await axe.run(container, {
@@ -121,6 +132,138 @@ describe("Testimonial carousel controls (WCAG 2.2.2)", () => {
   it("has no axe violations", async () => {
     const { container } = render(<Testimonials />);
     expect(await axeViolations(container)).toEqual([]);
+  });
+
+  // The name is printed under each portrait, so a named image made it read twice.
+  it("treats portraits as decorative and gives them intrinsic dimensions", () => {
+    const { container } = render(<Testimonials />);
+    const photos = new Set(testimonials.map((t) => t.photo).filter(Boolean));
+    const portraits = Array.from(container.querySelectorAll("img")).filter((img) =>
+      photos.has(img.getAttribute("src") ?? "")
+    );
+    expect(portraits.length).toBeGreaterThan(0);
+    for (const img of portraits) {
+      expect(img).toHaveAttribute("alt", "");
+      expect(img.getAttribute("width")).toMatch(/^\d+$/);
+      expect(img.getAttribute("height")).toMatch(/^\d+$/);
+    }
+  });
+});
+
+describe("Mobile menu sheet (WCAG 2.4.3)", () => {
+  it("links each expander to the group of links it reveals", async () => {
+    const user = userEvent.setup();
+    render(<Header />);
+    await user.click(screen.getByRole("button", { name: /open menu/i }));
+    const sheet = screen.getByRole("dialog", { name: /menu/i });
+
+    const servicesCaret = within(sheet).getByRole("button", { name: /show services/i });
+    const servicesId = servicesCaret.getAttribute("aria-controls");
+    expect(servicesId).toBeTruthy();
+    const servicesGroup = document.getElementById(servicesId!);
+    expect(servicesGroup).toBeTruthy();
+    const serviceHrefs = Array.from(servicesGroup!.querySelectorAll("a")).map((a) => a.getAttribute("href"));
+    expect(serviceHrefs).toEqual(services.map((sv) => `/services/${sv.slug}`));
+
+    const resources = within(sheet).getByRole("button", { name: /^resources$/i });
+    const resourcesId = resources.getAttribute("aria-controls");
+    expect(resourcesId).toBeTruthy();
+    const resourcesGroup = document.getElementById(resourcesId!);
+    expect(resourcesGroup).toBeTruthy();
+    expect(Array.from(resourcesGroup!.querySelectorAll("a")).map((a) => a.getAttribute("href"))).toEqual([
+      "/case-studies",
+      "/readiness",
+      "/blog",
+      "/careers",
+    ]);
+  });
+
+  // Zero height alone leaves the links in the tab order; visibility removes them.
+  it("hides collapsed groups with visibility so their links cannot take focus", () => {
+    const header = css("header.css");
+    expect(header).toMatch(/\.site-sheet-subs\s*\{[^}]*visibility:\s*hidden/);
+    // An explicit `visible` would override the closed sheet's `hidden` and leave the links
+    // focusable and clickable inside an invisible, aria-hidden overlay.
+    expect(header).toMatch(/\.site-sheet-subs\.is-open\s*\{[^}]*visibility:\s*inherit/);
+    expect(header).not.toMatch(/\.site-sheet-subs[^{]*\{[^}]*visibility:\s*visible/);
+  });
+
+  type User = ReturnType<typeof userEvent.setup>;
+
+  // Opens the sheet, expands both groups, closes the sheet the given way, and returns the sheet.
+  async function expandThenClose(close: (user: User, sheet: HTMLElement) => Promise<void>) {
+    const user = userEvent.setup();
+    render(<Header />);
+    await user.click(screen.getByRole("button", { name: /open menu/i }));
+    const sheet = screen.getByRole("dialog", { name: /menu/i });
+
+    await user.click(within(sheet).getByRole("button", { name: /show services/i }));
+    await user.click(within(sheet).getByRole("button", { name: /^resources$/i }));
+    expect(document.getElementById("site-sheet-services")).toHaveClass("is-open");
+    expect(document.getElementById("site-sheet-resources")).toHaveClass("is-open");
+
+    await close(user, sheet);
+    return sheet;
+  }
+
+  function expectBothCollapsed(sheet: HTMLElement) {
+    expect(sheet).not.toHaveClass("is-open");
+    expect(document.getElementById("site-sheet-services")).not.toHaveClass("is-open");
+    expect(document.getElementById("site-sheet-resources")).not.toHaveClass("is-open");
+    expect(within(sheet).getByRole("button", { name: /show services/i, hidden: true })).toHaveAttribute(
+      "aria-expanded",
+      "false"
+    );
+  }
+
+  // An expanded group left open inside the closed sheet is the case the CSS above guards; resetting
+  // the state as well means the sheet also reopens tidy.
+  it("collapses both groups when the sheet is closed with the close button", async () => {
+    const sheet = await expandThenClose((user, el) =>
+      user.click(within(el).getByRole("button", { name: /close menu/i }))
+    );
+    expectBothCollapsed(sheet);
+  });
+
+  it("collapses both groups when the sheet is closed with Escape", async () => {
+    const sheet = await expandThenClose((user) => user.keyboard("{Escape}"));
+    expectBothCollapsed(sheet);
+  });
+});
+
+describe("Focus ring on the homepage's coloured fields (WCAG 1.4.11)", () => {
+  it("turns the ring white on the accent and navy bands", () => {
+    const rules = [...css("a11y.css").matchAll(/([^{}]+)\{([^}]*)\}/g)];
+    const white = rules.find(([, , body]) => /outline-color:\s*var\(--color-white\)/.test(body));
+    expect(white).toBeTruthy();
+    const selectors = white![1].split(",").map((s) => s.trim().replace(/\s+/g, " "));
+    expect(selectors).toEqual(
+      expect.arrayContaining([
+        ".hp-home .guarantee-band :focus-visible",
+        ".hp-home .home-why :focus-visible",
+        ".metrics-band :focus-visible",
+      ])
+    );
+  });
+});
+
+describe("Footer navigation", () => {
+  it("puts the link columns in a labelled navigation landmark", () => {
+    render(<Footer />);
+    expect(screen.getByRole("navigation", { name: /footer/i })).toBeInTheDocument();
+  });
+
+  it("gives every link column a level-2 heading", () => {
+    render(<Footer />);
+    const nav = screen.getByRole("navigation", { name: /footer/i });
+    for (const col of footerColumns) {
+      expect(within(nav).getByRole("heading", { level: 2, name: col.head })).toBeInTheDocument();
+    }
+  });
+
+  it("no longer sets small uppercase labels inline", () => {
+    const source = readFileSync(join(process.cwd(), "components", "Footer.tsx"), "utf8");
+    expect(source).not.toMatch(/textTransform:\s*"uppercase"/);
   });
 });
 

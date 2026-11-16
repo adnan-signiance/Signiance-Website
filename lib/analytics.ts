@@ -37,8 +37,11 @@ export type AnalyticsEvent =
   /** Enquiry form lifecycle. */
   | "enquiry_submitted"
   | "enquiry_failed"
-  /** Newsletter signup. */
-  | "newsletter_submitted"
+  /** The readiness check: the first answer, the score, and a result sent to the team. */
+  | "readiness_started"
+  | "readiness_completed"
+  | "readiness_lead_sent"
+  | "readiness_lead_failed"
   /** Cookie consent decision. */
   | "consent_choice";
 

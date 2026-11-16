@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { flushSync } from "react-dom";
 import CtaArrow from "./CtaArrow";
 import { contactEmail } from "@/lib/data";
 import { track } from "@/lib/analytics";
@@ -10,6 +11,9 @@ import type { ContactIntent } from "@/lib/contactSchema";
 type Status = "idle" | "submitting" | "success" | "error";
 
 const TIMELINES = ["Not sure yet", "Within a month", "This quarter", "Next quarter"];
+
+/** Fields that can carry a validation error, in the order they appear in the form. */
+const VALIDATED_FIELDS = ["name", "email", "message"] as const;
 
 /**
  * Replaces the old budget-range dropdown. Asking what the thing needs to *do*
@@ -76,11 +80,21 @@ export default function ContactForm({
     }
 
     switch (result.error) {
-      case "validation_failed":
-        setErrors(result.errors);
-        setFormError("Please check the highlighted fields.");
+      case "validation_failed": {
+        // Committed synchronously so the field already carries aria-invalid, aria-describedby and
+        // its error text when it takes focus; a screen reader then announces the error with it.
+        flushSync(() => {
+          setErrors(result.errors);
+          setFormError("Please check the highlighted fields.");
+        });
         track("enquiry_failed", { intent, reason: "validation" });
+        // Focus would otherwise stay on the submit button, leaving a keyboard user to hunt for
+        // the problem. The first invalid field in form order takes it instead.
+        const firstInvalid = VALIDATED_FIELDS.find((field) => result.errors[field]);
+        const target = firstInvalid ? form.elements.namedItem(firstInvalid) : null;
+        if (target instanceof HTMLElement) target.focus();
         break;
+      }
       case "rate_limited":
         setFormError("That is a few submissions in a short time. Please try again shortly.");
         track("enquiry_failed", { intent, reason: "rate_limited" });
@@ -172,7 +186,11 @@ export default function ContactForm({
 
       <div className="contact-form-row">
         <div className="contact-field">
-          <label htmlFor="company">Company</label>
+          {/* Company is the only free-text field that is not required, so it is the one marked;
+              the two selects always carry a value. */}
+          <label htmlFor="company">
+            Company <span className="contact-field-optional">(optional)</span>
+          </label>
           <input id="company" name="company" type="text" autoComplete="organization" />
         </div>
 

@@ -1,3 +1,4 @@
+import "./home.css";
 import PageShell from "@/components/PageShell";
 import Hero from "@/components/Hero";
 import PilotGap from "@/components/PilotGap";
@@ -10,7 +11,6 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import GuaranteeBand from "@/components/GuaranteeBand";
 import FAQ from "@/components/FAQ";
 import FoundersNote from "@/components/FoundersNote";
-import ReadinessCheck from "@/components/ReadinessCheck";
 import Contact from "@/components/Contact";
 import JsonLd from "@/components/JsonLd";
 import { faqSchema, jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/schema";
@@ -19,7 +19,7 @@ import { faqSchema, jsonLdGraph, organizationSchema, websiteSchema } from "@/lib
  * Homepage order is a persuasion sequence: hook (the hero, with its credentials strip), the
  * problem they will recognise (why pilots stall), what we do, why us, how we do it, measured
  * outcomes, the work itself, what clients say, the guarantee, objections, the founder's word,
- * the softer offer, then the ask.
+ * then the ask, with the softer offer (the readiness check) inside it.
  *
  * FoundersNote sits before Contact deliberately — it used to follow it, which put
  * the strongest trust copy on the page below the booking widget where converters
@@ -31,10 +31,10 @@ import { faqSchema, jsonLdGraph, organizationSchema, websiteSchema } from "@/lib
  */
 export default function Home() {
   return (
-    <PageShell openTop>
+    <PageShell home>
       <JsonLd json={jsonLdGraph(organizationSchema(), websiteSchema(), faqSchema())} />
-      <Hero />
-      <div className="frame-rails">
+      <div className="hp-home">
+        <Hero />
         <PilotGap />
         <Services />
         <WhySigniance />
@@ -45,7 +45,6 @@ export default function Home() {
         <GuaranteeBand />
         <FAQ />
         <FoundersNote />
-        <ReadinessCheck />
         <Contact />
       </div>
     </PageShell>

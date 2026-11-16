@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { services, caseStudyEntries } from "@/lib/data";
+import { services, caseStudyEntries, subhead } from "@/lib/data";
 
 const OUT = join(process.cwd(), ".next", "server", "app");
 
@@ -136,6 +136,20 @@ describe.skipIf(!buildExists)("content integrity", () => {
     expect(text).toContain("It's still a pilot.");
     // Neither line is struck through.
     expect(h1).not.toContain("line-through");
+  });
+
+  it("renders the type-led hero with both first-viewport conversion paths", () => {
+    const markup = html("index.html");
+    const heroEnd = markup.indexOf('id="gap"');
+    const hero = markup.slice(0, heroEnd);
+
+    expect(markup).toContain('class="hp-home"');
+    expect(hero).toContain('href="/#contact"');
+    expect(hero).toContain("Book a scoping call");
+    expect(hero).toContain("Check your AI production readiness");
+    // The one sentence under the headline; the three figures that used to sit under the buttons
+    // are gone, so the line that says what the work is stands in for them.
+    expect(hero).toContain(subhead);
   });
 
   it("keeps the founder's note above the booking form", () => {

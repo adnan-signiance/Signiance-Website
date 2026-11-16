@@ -22,16 +22,20 @@
    outside them reads as doubled, so they opt out of the global treatment. */
 .contact-field input:focus-visible,
 .contact-field select:focus-visible,
-.contact-field textarea:focus-visible,
-.footer-newsletter-input:focus-visible {
+.contact-field textarea:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 1px;
 }
 
-/* On dark surfaces a near-black ring disappears, so invert it. */
+/* On dark surfaces a near-black ring disappears, so invert it. The homepage's
+   accent fields (guarantee band, "Why Signiance") and the navy metrics band
+   carry ink at about 2:1 and 1.1:1; white clears 3:1 (WCAG 1.4.11) on both. */
 .case-cell-dark :focus-visible,
 .cs-card-dark :focus-visible,
-.curtain-panel :focus-visible {
+.curtain-panel :focus-visible,
+.hp-home .guarantee-band :focus-visible,
+.hp-home .home-why :focus-visible,
+.metrics-band :focus-visible {
   outline-color: var(--color-white);
 }
 

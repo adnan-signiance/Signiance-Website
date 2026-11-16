@@ -47,8 +47,8 @@
   box-shadow: 0 6px 24px rgba(19, 20, 23, 0.06);
 }
 
-/* Open at the top of an inner page: the pattern's first line. */
-.site-header[data-plain="false"]:not([data-scrolled="true"]) .site-bar {
+/* At the top of a page: the pattern's first line. */
+.site-header:not([data-scrolled="true"]) .site-bar {
   border-bottom: 1px solid var(--color-line);
 }
 
@@ -499,14 +499,21 @@
     cursor: pointer;
   }
 
+  /* Collapsing to 0fr hides the links from sight but not from Tab, so a closed group is also
+     visibility:hidden. Visibility flips only after the 0.3s collapse, so the links stay painted
+     while they fold away, and turns on at once when the group opens. An open group inherits
+     rather than declaring visible, so it still hides along with a closed sheet. */
   .site-sheet-subs {
     display: grid;
     grid-template-rows: 0fr;
-    transition: grid-template-rows 0.3s ease;
+    visibility: hidden;
+    transition: grid-template-rows 0.3s ease, visibility 0s linear 0.3s;
   }
 
   .site-sheet-subs.is-open {
     grid-template-rows: 1fr;
+    visibility: inherit;
+    transition-delay: 0s;
   }
 
   .site-sheet-subs-inner {
@@ -555,7 +562,8 @@ body[data-sheet-open="true"] .cookie-consent {
   .site-logo-clip,
   .site-panel,
   .site-sheet,
-  .site-sheet-row {
+  .site-sheet-row,
+  .site-sheet-subs {
     transition: none;
   }
 

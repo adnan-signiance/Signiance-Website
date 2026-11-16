@@ -1,0 +1,1372 @@
+[
+  {
+    "source": "/kiro-spec-driven-development-from-prompt-to-production-repo",
+    "destination": "/blog/kiro-spec-driven-development-from-prompt-to-production-repo",
+    "permanent": true
+  },
+  {
+    "source": "/rag-vs-fine-tuning-vs-prompting-a-decision-map-for-startup-founders",
+    "destination": "/blog/rag-vs-fine-tuning-vs-prompting-a-decision-map-for-startup-founders",
+    "permanent": true
+  },
+  {
+    "source": "/build-your-first-agent-on-bedrock-agentcore-with-no-orchestration-code",
+    "destination": "/blog/build-your-first-agent-on-bedrock-agentcore-with-no-orchestration-code",
+    "permanent": true
+  },
+  {
+    "source": "/ai-native-startup-team-guide",
+    "destination": "/blog/ai-native-startup-team-guide",
+    "permanent": true
+  },
+  {
+    "source": "/why-ai-agent-pilots-stall-before-production",
+    "destination": "/blog/why-ai-agent-pilots-stall-before-production",
+    "permanent": true
+  },
+  {
+    "source": "/in-app-ai-assistants-buy-a-platform-or-build-on-bedrock",
+    "destination": "/blog/in-app-ai-assistants-buy-a-platform-or-build-on-bedrock",
+    "permanent": true
+  },
+  {
+    "source": "/how-ai-pair-programming-changes-developer-onboarding",
+    "destination": "/blog/how-ai-pair-programming-changes-developer-onboarding",
+    "permanent": true
+  },
+  {
+    "source": "/responsible-ai-a-practical-framework-for-startups-and-smbs",
+    "destination": "/blog/responsible-ai-a-practical-framework-for-startups-and-smbs",
+    "permanent": true
+  },
+  {
+    "source": "/anatomy-of-an-ai-native-support-platform-from-ticket-to-resolution",
+    "destination": "/blog/anatomy-of-an-ai-native-support-platform-from-ticket-to-resolution",
+    "permanent": true
+  },
+  {
+    "source": "/why-startups-are-replacing-three-point-solution-vendors-with-one-ai-native-build",
+    "destination": "/blog/why-startups-are-replacing-three-point-solution-vendors-with-one-ai-native-build",
+    "permanent": true
+  },
+  {
+    "source": "/how-much-data-do-you-actually-need-to-train-a-useful-model",
+    "destination": "/blog/how-much-data-do-you-actually-need-to-train-a-useful-model",
+    "permanent": true
+  },
+  {
+    "source": "/openai-dots-what-always-on-ai-agents-bring-to-the-table",
+    "destination": "/blog/openai-dots-what-always-on-ai-agents-bring-to-the-table",
+    "permanent": true
+  },
+  {
+    "source": "/aws-inferentia-and-trainium-explained-are-they-worth-it-for-ai-workloads",
+    "destination": "/blog/aws-inferentia-and-trainium-explained-are-they-worth-it-for-ai-workloads",
+    "permanent": true
+  },
+  {
+    "source": "/ai-native-cicd-testing-non-deterministic-model-outputs",
+    "destination": "/blog/ai-native-cicd-testing-non-deterministic-model-outputs",
+    "permanent": true
+  },
+  {
+    "source": "/kiro-iam-and-aws-environment-setup-for-enterprise-teams",
+    "destination": "/blog/kiro-iam-and-aws-environment-setup-for-enterprise-teams",
+    "permanent": true
+  },
+  {
+    "source": "/connecting-mcp-servers-to-kiro-extending-it-beyond-code-generation",
+    "destination": "/blog/connecting-mcp-servers-to-kiro-extending-it-beyond-code-generation",
+    "permanent": true
+  },
+  {
+    "source": "/terraform-vs-cloudformation-vs-pulumi",
+    "destination": "/blog/terraform-vs-cloudformation-vs-pulumi",
+    "permanent": true
+  },
+  {
+    "source": "/vpc-design-best-practices-for-multi-account-aws-environments",
+    "destination": "/blog/vpc-design-best-practices-for-multi-account-aws-environments",
+    "permanent": true
+  },
+  {
+    "source": "/testing-strategy-for-ai-native-products",
+    "destination": "/blog/testing-strategy-for-ai-native-products",
+    "permanent": true
+  },
+  {
+    "source": "/sagemaker-jumpstart-explained",
+    "destination": "/blog/sagemaker-jumpstart-explained",
+    "permanent": true
+  },
+  {
+    "source": "/autoscaling-ml-inference-endpoints-without-overspending",
+    "destination": "/blog/autoscaling-ml-inference-endpoints-without-overspending",
+    "permanent": true
+  },
+  {
+    "source": "/soc-2-compliance-in-the-cloud-what-aws-handles-vs-what-you-own",
+    "destination": "/blog/soc-2-compliance-in-the-cloud-what-aws-handles-vs-what-you-own",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-reduce-ai-scope-drift-with-kiros-spec-driven-workflow",
+    "destination": "/blog/how-to-reduce-ai-scope-drift-with-kiros-spec-driven-workflow",
+    "permanent": true
+  },
+  {
+    "source": "/fixing-kiro-agent-hooks-that-wont-trigger-on-file-save-create-or-delete",
+    "destination": "/blog/fixing-kiro-agent-hooks-that-wont-trigger-on-file-save-create-or-delete",
+    "permanent": true
+  },
+  {
+    "source": "/writing-effective-requirements-md-in-kiro-using-ears-notation",
+    "destination": "/blog/writing-effective-requirements-md-in-kiro-using-ears-notation",
+    "permanent": true
+  },
+  {
+    "source": "/migrating-from-amazon-q-developer-to-kiro-a-step-by-step-guide",
+    "destination": "/blog/migrating-from-amazon-q-developer-to-kiro-a-step-by-step-guide",
+    "permanent": true
+  },
+  {
+    "source": "/understanding-kiros-credit-system-vibe-requests-vs-spec-requests-explained",
+    "destination": "/blog/understanding-kiros-credit-system-vibe-requests-vs-spec-requests-explained",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-stop-kiro-from-burning-through-vibe-and-spec-credits-too-fast",
+    "destination": "/blog/how-to-stop-kiro-from-burning-through-vibe-and-spec-credits-too-fast",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-build-an-evaluation-layer-that-catches-ai-degradation-in-real-time",
+    "destination": "/blog/how-to-build-an-evaluation-layer-that-catches-ai-degradation-in-real-time",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-design-a-cost-architecture-for-ai-features",
+    "destination": "/blog/how-to-design-a-cost-architecture-for-ai-features",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-choose-a-perfect-ai-model",
+    "destination": "/blog/how-to-choose-a-perfect-ai-model",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-structure-your-team-for-ai-native-products",
+    "destination": "/blog/how-to-structure-your-team-for-ai-native-products",
+    "permanent": true
+  },
+  {
+    "source": "/a-founders-guide-to-migrating-from-an-ai-wrapper-to-an-ai-native-system",
+    "destination": "/blog/a-founders-guide-to-migrating-from-an-ai-wrapper-to-an-ai-native-system",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-avoid-vendor-lock-in-when-building-on-top-of-llm-apis",
+    "destination": "/blog/how-to-avoid-vendor-lock-in-when-building-on-top-of-llm-apis",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-retrieval-augmented-generation-rag-and-when-do-you-actually-need-it",
+    "destination": "/blog/what-is-retrieval-augmented-generation-rag-and-when-do-you-actually-need-it",
+    "permanent": true
+  },
+  {
+    "source": "/why-is-vendor-lock-in-a-bigger-risk-than-most-founders-realize",
+    "destination": "/blog/why-is-vendor-lock-in-a-bigger-risk-than-most-founders-realize",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-model-orchestration-and-why-do-startups-need-it",
+    "destination": "/blog/what-is-model-orchestration-and-why-do-startups-need-it",
+    "permanent": true
+  },
+  {
+    "source": "/why-does-ai-cost-per-request-scale-faster-than-revenue",
+    "destination": "/blog/why-does-ai-cost-per-request-scale-faster-than-revenue",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-an-ai-evaluation-layer-and-why-does-every-ai-product-need-one",
+    "destination": "/blog/what-is-an-ai-evaluation-layer-and-why-does-every-ai-product-need-one",
+    "permanent": true
+  },
+  {
+    "source": "/why-do-ai-features-that-work-in-demos-break-in-production",
+    "destination": "/blog/why-do-ai-features-that-work-in-demos-break-in-production",
+    "permanent": true
+  },
+  {
+    "source": "/whats-the-real-difference-between-ai-native-and-ai-enabled",
+    "destination": "/blog/whats-the-real-difference-between-ai-native-and-ai-enabled",
+    "permanent": true
+  },
+  {
+    "source": "/what-are-ai-native-services",
+    "destination": "/blog/what-are-ai-native-services",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-apply-for-aws-credits-as-an-early-stage-startup",
+    "destination": "/blog/how-to-apply-for-aws-credits-as-an-early-stage-startup",
+    "permanent": true
+  },
+  {
+    "source": "/aws-activate-credits-explained-for-startups",
+    "destination": "/blog/aws-activate-credits-explained-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-penetration-testing",
+    "destination": "/blog/what-is-penetration-testing",
+    "permanent": true
+  },
+  {
+    "source": "/why-pentesting-is-important",
+    "destination": "/blog/why-pentesting-is-important",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-design-scalable-cloud-infrastructure-for-start-ups",
+    "destination": "/blog/how-to-design-scalable-cloud-infrastructure-for-start-ups",
+    "permanent": true
+  },
+  {
+    "source": "/hybrid-cloud-architecture-when-and-how-to-design-one",
+    "destination": "/blog/hybrid-cloud-architecture-when-and-how-to-design-one",
+    "permanent": true
+  },
+  {
+    "source": "/is-a-multi-cloud-strategy-right-for-your-business",
+    "destination": "/blog/is-a-multi-cloud-strategy-right-for-your-business",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-cloud-native-architecture-and-why-it-matters-in-2026",
+    "destination": "/blog/what-is-cloud-native-architecture-and-why-it-matters-in-2026",
+    "permanent": true
+  },
+  {
+    "source": "/10-aws-cloud-architecture-best-practices-every-business-should-follow-in-2026",
+    "destination": "/blog/10-aws-cloud-architecture-best-practices-every-business-should-follow-in-2026",
+    "permanent": true
+  },
+  {
+    "source": "/what-does-a-cloud-architecture-design-service-actually-deliver",
+    "destination": "/blog/what-does-a-cloud-architecture-design-service-actually-deliver",
+    "permanent": true
+  },
+  {
+    "source": "/why-most-startup-ai-initiatives-fail-at-stage-zero",
+    "destination": "/blog/why-most-startup-ai-initiatives-fail-at-stage-zero",
+    "permanent": true
+  },
+  {
+    "source": "/from-500-to-50000-tickets-a-startups-journey-using-ai-for-customer-support",
+    "destination": "/blog/from-500-to-50000-tickets-a-startups-journey-using-ai-for-customer-support",
+    "permanent": true
+  },
+  {
+    "source": "/how-ai-automation-helps-early-stage-startups-reduce-burn-rate-without-sacrificing-growth",
+    "destination": "/blog/how-ai-automation-helps-early-stage-startups-reduce-burn-rate-without-sacrificing-growth",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-use-ai-to-run-a-startup-with-a-small-team",
+    "destination": "/blog/how-to-use-ai-to-run-a-startup-with-a-small-team",
+    "permanent": true
+  },
+  {
+    "source": "/how-claude-helps-founders-build-and-scale-startups-faster",
+    "destination": "/blog/how-claude-helps-founders-build-and-scale-startups-faster",
+    "permanent": true
+  },
+  {
+    "source": "/why-startups-are-choosing-claude-over-building-their-own-ai-infrastructure",
+    "destination": "/blog/why-startups-are-choosing-claude-over-building-their-own-ai-infrastructure",
+    "permanent": true
+  },
+  {
+    "source": "/aws-and-openai-expand-partnership",
+    "destination": "/blog/aws-and-openai-expand-partnership",
+    "permanent": true
+  },
+  {
+    "source": "/ai-powered-cloud-services-are-you-actually-getting-value-from-them",
+    "destination": "/blog/ai-powered-cloud-services-are-you-actually-getting-value-from-them",
+    "permanent": true
+  },
+  {
+    "source": "/why-enterprise-workflows-break-as-you-scale",
+    "destination": "/blog/why-enterprise-workflows-break-as-you-scale",
+    "permanent": true
+  },
+  {
+    "source": "/how-openclaw-automates-devops-workflows-with-ai-agents-use-cases-benefits",
+    "destination": "/blog/how-openclaw-automates-devops-workflows-with-ai-agents-use-cases-benefits",
+    "permanent": true
+  },
+  {
+    "source": "/do-agentic-ai-agents-really-help-devops-engineers",
+    "destination": "/blog/do-agentic-ai-agents-really-help-devops-engineers",
+    "permanent": true
+  },
+  {
+    "source": "/why-hybrid-cloud-is-the-standard-for-2026",
+    "destination": "/blog/why-hybrid-cloud-is-the-standard-for-2026",
+    "permanent": true
+  },
+  {
+    "source": "/the-2026-enterprise-ai-adoption-blueprint",
+    "destination": "/blog/the-2026-enterprise-ai-adoption-blueprint",
+    "permanent": true
+  },
+  {
+    "source": "/how-ai-is-transforming-public-services",
+    "destination": "/blog/how-ai-is-transforming-public-services",
+    "permanent": true
+  },
+  {
+    "source": "/how-aws-ai-is-transforming-golf-analytics-in-the-pga-tour",
+    "destination": "/blog/how-aws-ai-is-transforming-golf-analytics-in-the-pga-tour",
+    "permanent": true
+  },
+  {
+    "source": "/cybersecurity-for-startups-2026",
+    "destination": "/blog/cybersecurity-for-startups-2026",
+    "permanent": true
+  },
+  {
+    "source": "/how-aws-gen-ai-helps-the-nfl-with-player-stats",
+    "destination": "/blog/how-aws-gen-ai-helps-the-nfl-with-player-stats",
+    "permanent": true
+  },
+  {
+    "source": "/what-the-aws-and-openai-development-reveals",
+    "destination": "/blog/what-the-aws-and-openai-development-reveals",
+    "permanent": true
+  },
+  {
+    "source": "/why-zero-trust-architecture-is-essential-for-cloud-first-businesses",
+    "destination": "/blog/why-zero-trust-architecture-is-essential-for-cloud-first-businesses",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-implement-devsecops-on-aws-a-step-by-step-guide",
+    "destination": "/blog/how-to-implement-devsecops-on-aws-a-step-by-step-guide",
+    "permanent": true
+  },
+  {
+    "source": "/ai-agents-agentic-workflows",
+    "destination": "/blog/ai-agents-agentic-workflows",
+    "permanent": true
+  },
+  {
+    "source": "/why-cloud-security-is-important",
+    "destination": "/blog/why-cloud-security-is-important",
+    "permanent": true
+  },
+  {
+    "source": "/business-process-automation-with-agentic-ai",
+    "destination": "/blog/business-process-automation-with-agentic-ai",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-amazon-nova-models",
+    "destination": "/blog/what-is-amazon-nova-models",
+    "permanent": true
+  },
+  {
+    "source": "/how-workflow-automation-helps-startups-grow",
+    "destination": "/blog/how-workflow-automation-helps-startups-grow",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-bedrock-vs-sagemaker-ai",
+    "destination": "/blog/amazon-bedrock-vs-sagemaker-ai",
+    "permanent": true
+  },
+  {
+    "source": "/startup-technology-solutions",
+    "destination": "/blog/startup-technology-solutions",
+    "permanent": true
+  },
+  {
+    "source": "/public-sector-cloud-adoption",
+    "destination": "/blog/public-sector-cloud-adoption",
+    "permanent": true
+  },
+  {
+    "source": "/workflow-automation-with-gen-ai",
+    "destination": "/blog/workflow-automation-with-gen-ai",
+    "permanent": true
+  },
+  {
+    "source": "/ai-for-startups-in-2026",
+    "destination": "/blog/ai-for-startups-in-2026",
+    "permanent": true
+  },
+  {
+    "source": "/how-aws-gen-ai-helps-the-nba-with-player-stats",
+    "destination": "/blog/how-aws-gen-ai-helps-the-nba-with-player-stats",
+    "permanent": true
+  },
+  {
+    "source": "/aws-infrastructure-setup-best-practices",
+    "destination": "/blog/aws-infrastructure-setup-best-practices",
+    "permanent": true
+  },
+  {
+    "source": "/how-workflow-automation-drives-revenue",
+    "destination": "/blog/how-workflow-automation-drives-revenue",
+    "permanent": true
+  },
+  {
+    "source": "/gen-ai-adoption-mistakes-startups-make",
+    "destination": "/blog/gen-ai-adoption-mistakes-startups-make",
+    "permanent": true
+  },
+  {
+    "source": "/aws-infrastructure-setup",
+    "destination": "/blog/aws-infrastructure-setup",
+    "permanent": true
+  },
+  {
+    "source": "/ai-as-a-decision-enabler-in-product-development",
+    "destination": "/blog/ai-as-a-decision-enabler-in-product-development",
+    "permanent": true
+  },
+  {
+    "source": "/sovereign-ai-data-localization-why-it-matters-more-than-ever-in-india",
+    "destination": "/blog/sovereign-ai-data-localization-why-it-matters-more-than-ever-in-india",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-architecture-best-practices-on-aws",
+    "destination": "/blog/cloud-architecture-best-practices-on-aws",
+    "permanent": true
+  },
+  {
+    "source": "/why-gen-ai-is-the-future-for-startups-smbs",
+    "destination": "/blog/why-gen-ai-is-the-future-for-startups-smbs",
+    "permanent": true
+  },
+  {
+    "source": "/why-generative-ai-matters-for-startups-how-it-shapes-scalable-growth",
+    "destination": "/blog/why-generative-ai-matters-for-startups-how-it-shapes-scalable-growth",
+    "permanent": true
+  },
+  {
+    "source": "/ai-for-startups-how-to-build-scalable-ai-solutions-using-aws",
+    "destination": "/blog/ai-for-startups-how-to-build-scalable-ai-solutions-using-aws",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-build-a-successful-multi-cloud-strategy-for-modern-enterprises",
+    "destination": "/blog/how-to-build-a-successful-multi-cloud-strategy-for-modern-enterprises",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-monitoring-logging-observability",
+    "destination": "/blog/what-is-monitoring-logging-observability",
+    "permanent": true
+  },
+  {
+    "source": "/applied-machine-learning",
+    "destination": "/blog/applied-machine-learning",
+    "permanent": true
+  },
+  {
+    "source": "/how-aws-is-building-the-future-of-ai",
+    "destination": "/blog/how-aws-is-building-the-future-of-ai",
+    "permanent": true
+  },
+  {
+    "source": "/cyber-risk-is-business-risk-and-why-this-mindset-matters-now",
+    "destination": "/blog/cyber-risk-is-business-risk-and-why-this-mindset-matters-now",
+    "permanent": true
+  },
+  {
+    "source": "/model-customization-in-amazon-sagemaker-ai",
+    "destination": "/blog/model-customization-in-amazon-sagemaker-ai",
+    "permanent": true
+  },
+  {
+    "source": "/stop-using-aws-configure-switch-to-aws-login-instead",
+    "destination": "/blog/stop-using-aws-configure-switch-to-aws-login-instead",
+    "permanent": true
+  },
+  {
+    "source": "/ai-in-cloud-environments",
+    "destination": "/blog/ai-in-cloud-environments",
+    "permanent": true
+  },
+  {
+    "source": "/lambdaedge-deep-dive",
+    "destination": "/blog/lambdaedge-deep-dive",
+    "permanent": true
+  },
+  {
+    "source": "/llm-tools-and-platforms",
+    "destination": "/blog/llm-tools-and-platforms",
+    "permanent": true
+  },
+  {
+    "source": "/why-using-gen-ai-is-important-for-modern-businesses",
+    "destination": "/blog/why-using-gen-ai-is-important-for-modern-businesses",
+    "permanent": true
+  },
+  {
+    "source": "/how-agentic-ai-is-changing-the-fintech-industry",
+    "destination": "/blog/how-agentic-ai-is-changing-the-fintech-industry",
+    "permanent": true
+  },
+  {
+    "source": "/grow-your-revenue-with-gen-ai",
+    "destination": "/blog/grow-your-revenue-with-gen-ai",
+    "permanent": true
+  },
+  {
+    "source": "/how-ai-chat-agents-transform-startups-with-amazon-quicksuite",
+    "destination": "/blog/how-ai-chat-agents-transform-startups-with-amazon-quicksuite",
+    "permanent": true
+  },
+  {
+    "source": "/why-early-stage-startups-must-use-gen-ai-tools",
+    "destination": "/blog/why-early-stage-startups-must-use-gen-ai-tools",
+    "permanent": true
+  },
+  {
+    "source": "/aws-just-killed-traditional-bi",
+    "destination": "/blog/aws-just-killed-traditional-bi",
+    "permanent": true
+  },
+  {
+    "source": "/why-amazon-q-is-a-strong-choice-for-startups",
+    "destination": "/blog/why-amazon-q-is-a-strong-choice-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/mastering-kubernetes-multi-tenancy",
+    "destination": "/blog/mastering-kubernetes-multi-tenancy",
+    "permanent": true
+  },
+  {
+    "source": "/how-enterprises-can-adopt-gitops-for-better-control",
+    "destination": "/blog/how-enterprises-can-adopt-gitops-for-better-control",
+    "permanent": true
+  },
+  {
+    "source": "/amazon-quicksight-evolves",
+    "destination": "/blog/amazon-quicksight-evolves",
+    "permanent": true
+  },
+  {
+    "source": "/solution-architecture-for-global-scale-applications",
+    "destination": "/blog/solution-architecture-for-global-scale-applications",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-kiro-review",
+    "destination": "/blog/what-is-kiro-review",
+    "permanent": true
+  },
+  {
+    "source": "/why-amazon-bedrock-agentcore-matters-for-ai-development",
+    "destination": "/blog/why-amazon-bedrock-agentcore-matters-for-ai-development",
+    "permanent": true
+  },
+  {
+    "source": "/checklist-of-devops-for-startups",
+    "destination": "/blog/checklist-of-devops-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/what-aws-services-are-good-for-startups",
+    "destination": "/blog/what-aws-services-are-good-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/edge-computing-vs-cloud-computing-whats-the-future",
+    "destination": "/blog/edge-computing-vs-cloud-computing-whats-the-future",
+    "permanent": true
+  },
+  {
+    "source": "/containerization-with-kubernetes-docker-in-the-cloud",
+    "destination": "/blog/containerization-with-kubernetes-docker-in-the-cloud",
+    "permanent": true
+  },
+  {
+    "source": "/devops-metrics-that-actually-matter-for-startups",
+    "destination": "/blog/devops-metrics-that-actually-matter-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/aws-for-fintech-startups",
+    "destination": "/blog/aws-for-fintech-startups",
+    "permanent": true
+  },
+  {
+    "source": "/automating-android-app-deployment-with-github-actions-and-fastlane",
+    "destination": "/blog/automating-android-app-deployment-with-github-actions-and-fastlane",
+    "permanent": true
+  },
+  {
+    "source": "/best-ai-tools-for-fintech-startups",
+    "destination": "/blog/best-ai-tools-for-fintech-startups",
+    "permanent": true
+  },
+  {
+    "source": "/speeding-up-your-startup-with-gen-ai",
+    "destination": "/blog/speeding-up-your-startup-with-gen-ai",
+    "permanent": true
+  },
+  {
+    "source": "/why-aws-is-better-for-startups",
+    "destination": "/blog/why-aws-is-better-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/why-devops-is-important-for-startups",
+    "destination": "/blog/why-devops-is-important-for-startups",
+    "permanent": true
+  },
+  {
+    "source": "/what-startups-must-avoid-in-devops-lessons-for-sustainable-growth",
+    "destination": "/blog/what-startups-must-avoid-in-devops-lessons-for-sustainable-growth",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-cost%e2%80%91cutting-tips-for-startups-aws",
+    "destination": "/blog/cloud-cost-cutting-tips-for-startups-aws",
+    "permanent": true
+  },
+  {
+    "source": "/right-ai-tools-for-startups-in-india-a-practical-playbook",
+    "destination": "/blog/right-ai-tools-for-startups-in-india-a-practical-playbook",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-ai-a-practical-guide-to-ai-generative-ai-agentic-ai",
+    "destination": "/blog/what-is-ai-a-practical-guide-to-ai-generative-ai-agentic-ai",
+    "permanent": true
+  },
+  {
+    "source": "/which-indian-sectors-are-seeing-real-roi-from-gen-ai-in-2025",
+    "destination": "/blog/which-indian-sectors-are-seeing-real-roi-from-gen-ai-in-2025",
+    "permanent": true
+  },
+  {
+    "source": "/cost-optimization-after-your-first-war-a-30%e2%80%91day-sprint-to-tangible-savings",
+    "destination": "/blog/cost-optimization-after-your-first-war-a-30-day-sprint-to-tangible-savings",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-conduct-your-first-aws-well-architected-review",
+    "destination": "/blog/how-to-conduct-your-first-aws-well-architected-review",
+    "permanent": true
+  },
+  {
+    "source": "/unlocking-cloud-success-with-aws-well-architected-reviews-pillars",
+    "destination": "/blog/unlocking-cloud-success-with-aws-well-architected-reviews-pillars",
+    "permanent": true
+  },
+  {
+    "source": "/agentic-ai-and-workflow-automation",
+    "destination": "/blog/agentic-ai-and-workflow-automation",
+    "permanent": true
+  },
+  {
+    "source": "/aws-startup-architecture-blueprint-10-service-stack",
+    "destination": "/blog/aws-startup-architecture-blueprint-10-service-stack",
+    "permanent": true
+  },
+  {
+    "source": "/the-rise-of-ai-agents-for-business-operations",
+    "destination": "/blog/the-rise-of-ai-agents-for-business-operations",
+    "permanent": true
+  },
+  {
+    "source": "/ml-model-optimization-in-2025",
+    "destination": "/blog/ml-model-optimization-in-2025",
+    "permanent": true
+  },
+  {
+    "source": "/generative-ai-applications-how-ai-is-transforming-text-image-and-music-creation-in-2025",
+    "destination": "/blog/generative-ai-applications-how-ai-is-transforming-text-image-and-music-creation-in-2025",
+    "permanent": true
+  },
+  {
+    "source": "/ai-in-cybersecurity-how-ai-is-transforming-digital-defence-in-2025",
+    "destination": "/blog/ai-in-cybersecurity-how-ai-is-transforming-digital-defence-in-2025",
+    "permanent": true
+  },
+  {
+    "source": "/advanced-ci-cd-pipelines-with-github-actions",
+    "destination": "/blog/advanced-ci-cd-pipelines-with-github-actions",
+    "permanent": true
+  },
+  {
+    "source": "/from-chatbots-to-agents-why-your-startup-needs-a-team-of-autonomous-ai-workers",
+    "destination": "/blog/from-chatbots-to-agents-why-your-startup-needs-a-team-of-autonomous-ai-workers",
+    "permanent": true
+  },
+  {
+    "source": "/unlocking-enterprise-genai-with-amazon-q-business-on-aws",
+    "destination": "/blog/unlocking-enterprise-genai-with-amazon-q-business-on-aws",
+    "permanent": true
+  },
+  {
+    "source": "/ai-in-healthcare-2025",
+    "destination": "/blog/ai-in-healthcare-2025",
+    "permanent": true
+  },
+  {
+    "source": "/natural-language-processing-nlp-transforming-human-machine-communication-in-2025",
+    "destination": "/blog/natural-language-processing-nlp-transforming-human-machine-communication-in-2025",
+    "permanent": true
+  },
+  {
+    "source": "/ai-tools-for-my-business-your-essential-guide-to-smart-growth-efficiency",
+    "destination": "/blog/ai-tools-for-my-business-your-essential-guide-to-smart-growth-efficiency",
+    "permanent": true
+  },
+  {
+    "source": "/aws-s3-security-best-practices-a-complete-guide-for-2025",
+    "destination": "/blog/aws-s3-security-best-practices-a-complete-guide-for-2025",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-application-migration-services",
+    "destination": "/blog/cloud-application-migration-services",
+    "permanent": true
+  },
+  {
+    "source": "/devops-consulting-services",
+    "destination": "/blog/devops-consulting-services",
+    "permanent": true
+  },
+  {
+    "source": "/aws-well-architected-framework",
+    "destination": "/blog/aws-well-architected-framework",
+    "permanent": true
+  },
+  {
+    "source": "/canary-deployment-strategy",
+    "destination": "/blog/canary-deployment-strategy",
+    "permanent": true
+  },
+  {
+    "source": "/docker-best-practices",
+    "destination": "/blog/docker-best-practices",
+    "permanent": true
+  },
+  {
+    "source": "/infrastructure-monitoring-tools",
+    "destination": "/blog/infrastructure-monitoring-tools",
+    "permanent": true
+  },
+  {
+    "source": "/microservices-design-principles",
+    "destination": "/blog/microservices-design-principles",
+    "permanent": true
+  },
+  {
+    "source": "/test-automation-planning",
+    "destination": "/blog/test-automation-planning",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-high-availability",
+    "destination": "/blog/cloud-high-availability",
+    "permanent": true
+  },
+  {
+    "source": "/service-level-agreement-template",
+    "destination": "/blog/service-level-agreement-template",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-monitoring",
+    "destination": "/blog/cloud-security-monitoring",
+    "permanent": true
+  },
+  {
+    "source": "/zero-downtime-deployment",
+    "destination": "/blog/zero-downtime-deployment",
+    "permanent": true
+  },
+  {
+    "source": "/incident-response-process",
+    "destination": "/blog/incident-response-process",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-risk-assessment",
+    "destination": "/blog/cloud-risk-assessment",
+    "permanent": true
+  },
+  {
+    "source": "/digital-transformation-roadmap",
+    "destination": "/blog/digital-transformation-roadmap",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration-benefits",
+    "destination": "/blog/cloud-migration-benefits",
+    "permanent": true
+  },
+  {
+    "source": "/it-cost-reduction-strategies",
+    "destination": "/blog/it-cost-reduction-strategies",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-posture-management",
+    "destination": "/blog/cloud-security-posture-management",
+    "permanent": true
+  },
+  {
+    "source": "/automated-software-deployment",
+    "destination": "/blog/automated-software-deployment",
+    "permanent": true
+  },
+  {
+    "source": "/managed-cloud-services",
+    "destination": "/blog/managed-cloud-services",
+    "permanent": true
+  },
+  {
+    "source": "/developing-cloud-applications",
+    "destination": "/blog/developing-cloud-applications",
+    "permanent": true
+  },
+  {
+    "source": "/application-modernization-strategies",
+    "destination": "/blog/application-modernization-strategies",
+    "permanent": true
+  },
+  {
+    "source": "/eks-vs-ecs",
+    "destination": "/blog/eks-vs-ecs",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration-best-practices",
+    "destination": "/blog/cloud-migration-best-practices",
+    "permanent": true
+  },
+  {
+    "source": "/devops-configuration-management",
+    "destination": "/blog/devops-configuration-management",
+    "permanent": true
+  },
+  {
+    "source": "/system-design-principles",
+    "destination": "/blog/system-design-principles",
+    "permanent": true
+  },
+  {
+    "source": "/generative-ai-2",
+    "destination": "/blog/generative-ai-2",
+    "permanent": true
+  },
+  {
+    "source": "/generative-ai",
+    "destination": "/blog/generative-ai",
+    "permanent": true
+  },
+  {
+    "source": "/how-can-i-reduce-my-aws-monthly-bill-without-affecting-performance",
+    "destination": "/blog/how-can-i-reduce-my-aws-monthly-bill-without-affecting-performance",
+    "permanent": true
+  },
+  {
+    "source": "/load-balancing-methods",
+    "destination": "/blog/load-balancing-methods",
+    "permanent": true
+  },
+  {
+    "source": "/difference-between-cloud-and-virtualization",
+    "destination": "/blog/difference-between-cloud-and-virtualization",
+    "permanent": true
+  },
+  {
+    "source": "/fault-tolerance-in-cloud-computing",
+    "destination": "/blog/fault-tolerance-in-cloud-computing",
+    "permanent": true
+  },
+  {
+    "source": "/container-orchestration-tools",
+    "destination": "/blog/container-orchestration-tools",
+    "permanent": true
+  },
+  {
+    "source": "/devops-automation-tools",
+    "destination": "/blog/devops-automation-tools",
+    "permanent": true
+  },
+  {
+    "source": "/database-performance-tuning",
+    "destination": "/blog/database-performance-tuning",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-provider-comparison",
+    "destination": "/blog/cloud-provider-comparison",
+    "permanent": true
+  },
+  {
+    "source": "/application-performance-monitoring",
+    "destination": "/blog/application-performance-monitoring",
+    "permanent": true
+  },
+  {
+    "source": "/kubernetes-best-practices",
+    "destination": "/blog/kubernetes-best-practices",
+    "permanent": true
+  },
+  {
+    "source": "/multi-cloud-strategy",
+    "destination": "/blog/multi-cloud-strategy",
+    "permanent": true
+  },
+  {
+    "source": "/devops-automation",
+    "destination": "/blog/devops-automation",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-assessment",
+    "destination": "/blog/cloud-security-assessment",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration-challenges",
+    "destination": "/blog/cloud-migration-challenges",
+    "permanent": true
+  },
+  {
+    "source": "/building-aws-architecture-diagrams-using-amazon-q-cli-mcp",
+    "destination": "/blog/building-aws-architecture-diagrams-using-amazon-q-cli-mcp",
+    "permanent": true
+  },
+  {
+    "source": "/ci-cd-pipeline-tools",
+    "destination": "/blog/ci-cd-pipeline-tools",
+    "permanent": true
+  },
+  {
+    "source": "/infrastructure-automation",
+    "destination": "/blog/infrastructure-automation",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-architecture-design-principles",
+    "destination": "/blog/cloud-architecture-design-principles",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-compliance",
+    "destination": "/blog/cloud-security-compliance",
+    "permanent": true
+  },
+  {
+    "source": "/legacy-system-modernization",
+    "destination": "/blog/legacy-system-modernization",
+    "permanent": true
+  },
+  {
+    "source": "/devops-implementation-roadmap",
+    "destination": "/blog/devops-implementation-roadmap",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-standards",
+    "destination": "/blog/cloud-security-standards",
+    "permanent": true
+  },
+  {
+    "source": "/disaster-recovery-plan-steps",
+    "destination": "/blog/disaster-recovery-plan-steps",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-risks",
+    "destination": "/blog/cloud-security-risks",
+    "permanent": true
+  },
+  {
+    "source": "/hybrid-cloud-architectures",
+    "destination": "/blog/hybrid-cloud-architectures",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-architecture-diagram",
+    "destination": "/blog/cloud-security-architecture-diagram",
+    "permanent": true
+  },
+  {
+    "source": "/resilience-testing",
+    "destination": "/blog/resilience-testing",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-adoption-framework",
+    "destination": "/blog/cloud-adoption-framework",
+    "permanent": true
+  },
+  {
+    "source": "/business-continuity-plan-template",
+    "destination": "/blog/business-continuity-plan-template",
+    "permanent": true
+  },
+  {
+    "source": "/kubernetes-alternatives",
+    "destination": "/blog/kubernetes-alternatives",
+    "permanent": true
+  },
+  {
+    "source": "/compliance-automation-tools",
+    "destination": "/blog/compliance-automation-tools",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-adoption-strategy",
+    "destination": "/blog/cloud-adoption-strategy",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-security-assessment-checklist",
+    "destination": "/blog/cloud-security-assessment-checklist",
+    "permanent": true
+  },
+  {
+    "source": "/data-migration-best-practices",
+    "destination": "/blog/data-migration-best-practices",
+    "permanent": true
+  },
+  {
+    "source": "/application-modernization-strategy",
+    "destination": "/blog/application-modernization-strategy",
+    "permanent": true
+  },
+  {
+    "source": "/hybrid-cloud-architecture",
+    "destination": "/blog/hybrid-cloud-architecture",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-resource-management",
+    "destination": "/blog/cloud-resource-management",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-amazon-eks",
+    "destination": "/blog/what-is-amazon-eks",
+    "permanent": true
+  },
+  {
+    "source": "/install-jenkins-on-aws",
+    "destination": "/blog/install-jenkins-on-aws",
+    "permanent": true
+  },
+  {
+    "source": "/private-cloud-deployment-models",
+    "destination": "/blog/private-cloud-deployment-models",
+    "permanent": true
+  },
+  {
+    "source": "/steps-to-implement-devops",
+    "destination": "/blog/steps-to-implement-devops",
+    "permanent": true
+  },
+  {
+    "source": "/continuous-integration-best-practices",
+    "destination": "/blog/continuous-integration-best-practices",
+    "permanent": true
+  },
+  {
+    "source": "/microservice-deployment-patterns",
+    "destination": "/blog/microservice-deployment-patterns",
+    "permanent": true
+  },
+  {
+    "source": "/benefits-of-infrastructure-as-code",
+    "destination": "/blog/benefits-of-infrastructure-as-code",
+    "permanent": true
+  },
+  {
+    "source": "/serverless-architecture-benefits",
+    "destination": "/blog/serverless-architecture-benefits",
+    "permanent": true
+  },
+  {
+    "source": "/hybrid-cloud-management-platform",
+    "destination": "/blog/hybrid-cloud-management-platform",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-migration-checklist",
+    "destination": "/blog/cloud-migration-checklist",
+    "permanent": true
+  },
+  {
+    "source": "/cloud-performance-testing",
+    "destination": "/blog/cloud-performance-testing",
+    "permanent": true
+  },
+  {
+    "source": "/comparing-cloud-providers",
+    "destination": "/blog/comparing-cloud-providers",
+    "permanent": true
+  },
+  {
+    "source": "/modernizing-legacy-systems-a-guide-for-indian-enterprises",
+    "destination": "/blog/modernizing-legacy-systems-a-guide-for-indian-enterprises",
+    "permanent": true
+  },
+  {
+    "source": "/top-cloud-security-best-practices-to-protect-your-data",
+    "destination": "/blog/top-cloud-security-best-practices-to-protect-your-data",
+    "permanent": true
+  },
+  {
+    "source": "/top-devops-kpis-to-boost-your-performance-in-2025",
+    "destination": "/blog/top-devops-kpis-to-boost-your-performance-in-2025",
+    "permanent": true
+  },
+  {
+    "source": "/what-is-serverless-computing-benefits-impact-for-business-leaders",
+    "destination": "/blog/what-is-serverless-computing-benefits-impact-for-business-leaders",
+    "permanent": true
+  },
+  {
+    "source": "/enhancing-cloud-security-with-amazon-cloudfront-and-signed-urls-2",
+    "destination": "/blog/enhancing-cloud-security-with-amazon-cloudfront-and-signed-urls-2",
+    "permanent": true
+  },
+  {
+    "source": "/enhancing-cloud-security-with-amazon-cloudfront-and-signed-urls",
+    "destination": "/blog/enhancing-cloud-security-with-amazon-cloudfront-and-signed-urls",
+    "permanent": true
+  },
+  {
+    "source": "/implementing-robust-deployment-solutions-with-aws-ecs-to-resolve-rollback-issues",
+    "destination": "/blog/implementing-robust-deployment-solutions-with-aws-ecs-to-resolve-rollback-issues",
+    "permanent": true
+  },
+  {
+    "source": "/automating-docker-image-deployment-to-aws-ecs-using-bitbucket-pipelines",
+    "destination": "/blog/automating-docker-image-deployment-to-aws-ecs-using-bitbucket-pipelines",
+    "permanent": true
+  },
+  {
+    "source": "/streamlining-infrastructure-management-with-terraform-remote-backends",
+    "destination": "/blog/streamlining-infrastructure-management-with-terraform-remote-backends",
+    "permanent": true
+  },
+  {
+    "source": "/unleash-the-power-of-your-codepipeline-steps-to-optimise",
+    "destination": "/blog/unleash-the-power-of-your-codepipeline-steps-to-optimise",
+    "permanent": true
+  },
+  {
+    "source": "/unveiling-the-world-of-web-servers-a-deep-dive-into-their-role-and-functionality",
+    "destination": "/blog/unveiling-the-world-of-web-servers-a-deep-dive-into-their-role-and-functionality",
+    "permanent": true
+  },
+  {
+    "source": "/trinity-of-linux-virtualization-and-containerization-a-dive-into-modern-computing-paradigms",
+    "destination": "/blog/trinity-of-linux-virtualization-and-containerization-a-dive-into-modern-computing-paradigms",
+    "permanent": true
+  },
+  {
+    "source": "/demystifying-makefiles-understanding-their-purpose-and-functionality",
+    "destination": "/blog/demystifying-makefiles-understanding-their-purpose-and-functionality",
+    "permanent": true
+  },
+  {
+    "source": "/a-comprehensive-guide-to-linting-dockerfiles-for-better-containerization",
+    "destination": "/blog/a-comprehensive-guide-to-linting-dockerfiles-for-better-containerization",
+    "permanent": true
+  },
+  {
+    "source": "/unlock-gitops-success-with-kubernetes-using-argo-cd",
+    "destination": "/blog/unlock-gitops-success-with-kubernetes-using-argo-cd",
+    "permanent": true
+  },
+  {
+    "source": "/unlocking-effortless-server-access-a-guide-to-sshing-into-ec2-instances-with-hashicorp-vault",
+    "destination": "/blog/unlocking-effortless-server-access-a-guide-to-sshing-into-ec2-instances-with-hashicorp-vault",
+    "permanent": true
+  },
+  {
+    "source": "/mastering-autoscaling-with-custom-metrics-using-aws-cloudwatch-agent",
+    "destination": "/blog/mastering-autoscaling-with-custom-metrics-using-aws-cloudwatch-agent",
+    "permanent": true
+  },
+  {
+    "source": "/journey-to-devops",
+    "destination": "/blog/journey-to-devops",
+    "permanent": true
+  },
+  {
+    "source": "/demystifying-reverse-proxy-proxy-and-forward-proxy-use-cases-explained",
+    "destination": "/blog/demystifying-reverse-proxy-proxy-and-forward-proxy-use-cases-explained",
+    "permanent": true
+  },
+  {
+    "source": "/mastering-yaml-streamlining-cloud-file-configuration",
+    "destination": "/blog/mastering-yaml-streamlining-cloud-file-configuration",
+    "permanent": true
+  },
+  {
+    "source": "/navigating-the-boot-process-a-deep-dive-into-operating-system-initialization",
+    "destination": "/blog/navigating-the-boot-process-a-deep-dive-into-operating-system-initialization",
+    "permanent": true
+  },
+  {
+    "source": "/unlocking-the-power-of-caching-servers-how-they-work-and-why-theyre-essential",
+    "destination": "/blog/unlocking-the-power-of-caching-servers-how-they-work-and-why-theyre-essential",
+    "permanent": true
+  },
+  {
+    "source": "/streamlining-server-management-the-power-of-shell-scripting",
+    "destination": "/blog/streamlining-server-management-the-power-of-shell-scripting",
+    "permanent": true
+  },
+  {
+    "source": "/demystifying-ssl-certificates-a-deep-dive-into-secure-connections",
+    "destination": "/blog/demystifying-ssl-certificates-a-deep-dive-into-secure-connections",
+    "permanent": true
+  },
+  {
+    "source": "/devops-in-2024-trends-and-technologies-shaping-the-future",
+    "destination": "/blog/devops-in-2024-trends-and-technologies-shaping-the-future",
+    "permanent": true
+  },
+  {
+    "source": "/devops-smooth-sailing-or-rough-waters",
+    "destination": "/blog/devops-smooth-sailing-or-rough-waters",
+    "permanent": true
+  },
+  {
+    "source": "/unveiling-the-mysteries-a-deep-dive-into-complex-devops-concepts",
+    "destination": "/blog/unveiling-the-mysteries-a-deep-dive-into-complex-devops-concepts",
+    "permanent": true
+  },
+  {
+    "source": "/devops-beyond-the-buzzword-unleashing-business-transformation",
+    "destination": "/blog/devops-beyond-the-buzzword-unleashing-business-transformation",
+    "permanent": true
+  },
+  {
+    "source": "/openvpn-integration-with-github-actions-streamlining-secure-workflows",
+    "destination": "/blog/openvpn-integration-with-github-actions-streamlining-secure-workflows",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-install-lets-encrypt-certificates-on-openvpn-access-server-web-interface",
+    "destination": "/blog/how-to-install-lets-encrypt-certificates-on-openvpn-access-server-web-interface",
+    "permanent": true
+  },
+  {
+    "source": "/how-to-set-up-phpmyadmin-for-aws-rds-step-by-step-guide",
+    "destination": "/blog/how-to-set-up-phpmyadmin-for-aws-rds-step-by-step-guide",
+    "permanent": true
+  },
+  {
+    "source": "/keeping-your-linux-house-safe-a-beginners-guide-to-file-permissions-and-security",
+    "destination": "/blog/keeping-your-linux-house-safe-a-beginners-guide-to-file-permissions-and-security",
+    "permanent": true
+  },
+  {
+    "source": "/the-ultimate-guide-to-setting-up-a-bastion-host-on-aws",
+    "destination": "/blog/the-ultimate-guide-to-setting-up-a-bastion-host-on-aws",
+    "permanent": true
+  },
+  {
+    "source": "/how-dns-works",
+    "destination": "/blog/how-dns-works",
+    "permanent": true
+  },
+  {
+    "source": "/bridging-the-gap-best-practices-for-integrating-serverless-into-traditional-server-based-computing",
+    "destination": "/blog/bridging-the-gap-best-practices-for-integrating-serverless-into-traditional-server-based-computing",
+    "permanent": true
+  },
+  {
+    "source": "/optimizing-aws-codepipeline-best-practices-for-cost-performance-and-security",
+    "destination": "/blog/optimizing-aws-codepipeline-best-practices-for-cost-performance-and-security",
+    "permanent": true
+  },
+  {
+    "source": "/secure-and-methodical-s3-data-migration-in-depth-guide-on-migrating-s3-data-across-aws-accounts-with-s3-cross-region-replication",
+    "destination": "/blog/secure-and-methodical-s3-data-migration-in-depth-guide-on-migrating-s3-data-across-aws-accounts-with-s3-cross-region-replication",
+    "permanent": true
+  },
+  {
+    "source": "/streamlining-infrastructure-management-with-terraform-a-comprehensive-guide",
+    "destination": "/blog/streamlining-infrastructure-management-with-terraform-a-comprehensive-guide",
+    "permanent": true
+  },
+  {
+    "source": "/configuring-cloudfront-for-optimal-performance-a-comprehensive-guide-for-static-and-dynamic-content",
+    "destination": "/blog/configuring-cloudfront-for-optimal-performance-a-comprehensive-guide-for-static-and-dynamic-content",
+    "permanent": true
+  },
+  {
+    "source": "/unlocking-the-potential-of-microservices-architecture",
+    "destination": "/blog/unlocking-the-potential-of-microservices-architecture",
+    "permanent": true
+  },
+  {
+    "source": "/crafting-the-perfect-pricing-strategy-for-your-tech-product-a-client-centric-approach",
+    "destination": "/blog/crafting-the-perfect-pricing-strategy-for-your-tech-product-a-client-centric-approach",
+    "permanent": true
+  },
+  {
+    "source": "/the-significance-of-monitoring-aws-elastic-load-balancing",
+    "destination": "/blog/the-significance-of-monitoring-aws-elastic-load-balancing",
+    "permanent": true
+  },
+  {
+    "source": "/aws-iac-generator-unveiled-revolutionising-infrastructure-as-code-with-terraform",
+    "destination": "/blog/aws-iac-generator-unveiled-revolutionising-infrastructure-as-code-with-terraform",
+    "permanent": true
+  },
+  {
+    "source": "/securing-cloud-native-devops-signiance-technologies-approach",
+    "destination": "/blog/securing-cloud-native-devops-signiance-technologies-approach",
+    "permanent": true
+  },
+  {
+    "source": "/accelerating-devops-delivery-a-deep-dive-into-aws-codepipeline",
+    "destination": "/blog/accelerating-devops-delivery-a-deep-dive-into-aws-codepipeline",
+    "permanent": true
+  },
+  {
+    "source": "/maximizing-performance-and-resilience-with-aws-well-architected-review",
+    "destination": "/blog/maximizing-performance-and-resilience-with-aws-well-architected-review",
+    "permanent": true
+  },
+  {
+    "source": "/best-practices-for-creating-container-image",
+    "destination": "/blog/best-practices-for-creating-container-image",
+    "permanent": true
+  },
+  {
+    "source": "/secure-and-scalable-wordpress-hosting-on-aws-a-comprehensive-guide",
+    "destination": "/blog/secure-and-scalable-wordpress-hosting-on-aws-a-comprehensive-guide",
+    "permanent": true
+  },
+  {
+    "source": "/simplifying-monitoring-using-ansible-to-install-cloudwatch-agent",
+    "destination": "/blog/simplifying-monitoring-using-ansible-to-install-cloudwatch-agent",
+    "permanent": true
+  }
+]

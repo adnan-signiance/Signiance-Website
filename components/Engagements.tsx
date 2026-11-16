@@ -1,6 +1,5 @@
 import Link from "next/link";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
 import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import { models } from "@/lib/data";
 
@@ -16,9 +15,6 @@ export default function Engagements() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Engagements</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
@@ -39,8 +35,6 @@ export default function Engagements() {
           No annual lock-in, no bench time on your invoice.
         </Reveal>
       </div>
-
-      <div className="section-rule" />
 
       <div style={{ position: "relative", margin: "24px var(--bleed) 0", padding: "0 var(--pad-x)" }}>
         <RevealGroup className="grid-engagements" stagger={0.12}>
@@ -94,27 +88,9 @@ export default function Engagements() {
                 >
                   {m.name}
                 </h3>
-                <span
-                  style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "var(--fs-xs)",
-                    fontWeight: 500,
-                    letterSpacing: "normal",
-                    textTransform: "uppercase",
-                    color: m.badgeFg,
-                    background: m.badgeBg,
-                    textShadow: "0 0 5px rgba(10,24,80,0.55), 0 1px 2px rgba(10,24,80,0.45)",
-                    borderRadius: 3,
-                    padding: "5px 10px",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {m.badge}
-                </span>
+                <span style={{ fontSize: "var(--fs-sm)", fontWeight: 600, color: "var(--color-accent)", whiteSpace: "nowrap" }}>{m.badge}</span>
               </div>
-              <div style={{ flex: "0 0 auto", display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-xs)", color: "var(--color-text-soft)" }}>
+              <div style={{ flex: "0 0 auto", display: "flex", alignItems: "center", gap: 8, fontSize: "var(--fs-base)", fontWeight: 500, color: "var(--color-ink)" }}>
                 <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
                   <circle cx="7" cy="7" r="5.4" stroke="var(--color-accent)" strokeWidth="1.2" />
                   <path d="M7 4.2V7l2 1.4" stroke="var(--color-accent)" strokeWidth="1.2" strokeLinecap="round" />
@@ -133,7 +109,7 @@ export default function Engagements() {
                 }}
               >
                 {m.includes.map((i) => (
-                  <div key={i} style={{ flex: "0 0 auto", display: "flex", gap: 9, alignItems: "flex-start", fontSize: "var(--fs-sm)", lineHeight: 1.5, color: "var(--color-ink-soft)" }}>
+                  <div key={i} style={{ flex: "0 0 auto", display: "flex", gap: 9, alignItems: "flex-start", fontSize: "var(--fs-base)", lineHeight: 1.5, color: "var(--color-ink-soft)" }}>
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true" style={{ flex: "0 0 auto", marginTop: 4 }}>
                       <path d="M2 6.4 4.4 8.8 10 3.2" stroke="var(--color-accent)" strokeWidth="1.4" strokeLinecap="round" />
                     </svg>

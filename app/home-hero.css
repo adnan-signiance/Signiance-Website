@@ -1,69 +1,76 @@
-/* Home hero (components/Hero.tsx). */
-
-/* The hero is exactly as tall as the browser's first screen under the header, so the page
-   opens on one composed frame. It grows only if its content needs more room than that. Its
-   bottom edge is where the line pattern begins. */
+/* Homepage hero: the statement and the conversion path on the left, a picture of the product on the
+   right. Sizes come from the site scale in scale.css. The headline is the display step and the
+   sentence under it is body size (16px), the way elevenlabs.io sets its own: three times smaller, so
+   the headline leads and the sentence supports it instead of competing with it. */
 .hero-stage {
   position: relative;
   display: flex;
   flex-direction: column;
-  min-height: calc(100vh - var(--header-h, 62px));
-  min-height: calc(100svh - var(--header-h, 62px));
-  padding-top: clamp(20px, 3vw, 36px);
   box-sizing: border-box;
+  /* The first screen: the navigation, the hero and the credentials strip fill it, so the strip is in
+     view on load without a scroll. The 16px leaves the strip's closing line and its dots whole; the cap
+     keeps a very tall window from stretching the hero. The hero's content stays centred in what is
+     left above the strip. */
+  min-height: calc(100vh - var(--header-h) - 16px);
+  min-height: min(calc(100svh - var(--header-h) - 16px), 1000px);
 }
 
-/* Copy on the left, the live panel on the right, centred on each other in the space the hero has. */
 .hero-main {
+  display: flex;
   flex: 1;
-  padding: 0 var(--pad-x) clamp(20px, 2.4vw, 28px);
+  align-items: center;
+  padding: var(--sp-hero-top) var(--pad-x) var(--sp-hero-bottom);
+}
+
+.hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: clamp(32px, 5vw, 72px);
+  width: 100%;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--sp-block) var(--sp-column);
   align-items: center;
 }
 
+@media (min-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+  }
+}
+
 .hero-copy {
-  position: relative;
-  z-index: 2;
-  max-width: 700px;
-  text-align: left;
+  width: 100%;
+  min-width: 0;
 }
 
 .hero-sentence {
-  margin: clamp(18px, 3vw, 28px) 0 0;
+  margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  line-height: 1.04;
+  font-size: var(--t-display);
+  line-height: var(--lh-display);
   letter-spacing: var(--tracking-display);
   text-wrap: balance;
 }
 
 .hero-line {
   display: block;
-  letter-spacing: var(--tracking-display);
-}
-
-/* One size for the whole sentence, the largest type on the page. The lead line is muted so the
-   punchline still lands. */
-.hero-line-struck,
-.hero-line-promise {
-  font-size: var(--fs-display);
 }
 
 .hero-line-struck {
-  color: var(--color-muted);
+  color: var(--color-text-soft);
 }
 
-/* "still a pilot." and "in production." share one cell. At rest the first is shown; scrolling
-   away from the hero slides it up and the second in beneath it. The cell is as wide as the
-   wider of the two, so nothing moves around it. */
+.hero-line-promise {
+  margin-top: 0.04em;
+  text-align: left;
+  color: var(--color-ink);
+}
+
 .hero-swap {
   display: inline-grid;
   overflow: hidden;
   vertical-align: bottom;
-  padding: 0.08em 0.14em 0.2em 0.04em;
-  margin: -0.08em -0.14em -0.2em -0.04em;
+  padding: 0.08em 0.12em 0.14em 0.03em;
+  margin: -0.08em -0.12em -0.14em -0.03em;
 }
 
 .hero-swap-a,
@@ -77,73 +84,198 @@
   transform: translateY(115%);
 }
 
-
+/* The sentence under the headline: body size, soft ink, a short measure. */
+.hp-home .hero-subline,
 .hero-subline {
-  max-width: 520px;
-  margin: clamp(16px, 2.4vw, 28px) 0 0;
-  font-size: var(--fs-base);
-  line-height: 1.65;
-  color: var(--color-ink-soft);
-  text-wrap: balance;
+  max-width: 44ch !important;
+  margin: var(--sp-block) 0 0 !important;
+  font-size: var(--t-body);
+  line-height: var(--lh-body) !important;
+  color: var(--color-text);
+  text-wrap: pretty;
 }
 
+.hp-home .hero-ctas,
 .hero-ctas {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 12px 28px;
-  margin-top: clamp(16px, 3vw, 26px);
+  justify-content: flex-start !important;
+  gap: 12px 24px !important;
+  margin: var(--sp-block) 0 0 !important;
 }
 
-/* The second action is a plain link: one filled button, one way in for the undecided. */
 .hero-link {
   display: inline-flex;
   align-items: center;
-  font-size: var(--fs-base);
+  padding: 10px 0;
+  font-size: var(--t-small);
   font-weight: 500;
   color: var(--color-ink);
   text-decoration: underline;
   text-decoration-color: var(--color-accent-pale);
   text-underline-offset: 6px;
-  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease, text-underline-offset 0.2s ease;
 }
 
 .hero-link:hover {
   color: var(--color-accent);
   text-decoration-color: var(--color-accent);
+  text-underline-offset: 9px;
 }
 
-/* Three figures: what the offer comes to. */
-.hero-figures {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px clamp(16px, 2.4vw, 32px);
-  margin: clamp(20px, 3.2vw, 32px) 0 0;
-  padding: 0;
-  list-style: none;
+/* The picture ------------------------------------------------------------------------------- */
+
+.hero-visual {
+  min-width: 0;
 }
 
-.hero-figure-value {
+.hero-iso {
+  margin: 0;
+}
+
+.hero-iso svg {
   display: block;
-  font-family: var(--font-display);
-  font-size: var(--fs-h2);
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: var(--tracking-snug);
-  color: var(--color-ink);
+  width: 100%;
+  height: auto;
+  overflow: visible;
 }
 
-.hero-figure-label {
-  display: block;
-  margin-top: 8px;
-  max-width: 22ch;
-  font-size: var(--fs-sm);
-  line-height: 1.4;
-  color: var(--color-text);
+.ha-grid {
+  stroke: var(--blue-100);
+  stroke-width: 1;
 }
 
-/* Credentials along the foot of the first screen, in a band with the page's line pattern:
-   .frame-rails draws the side rails, the band's own lines sit above and below. */
+.ha-rod {
+  stroke: var(--blue-300);
+  stroke-width: 1.5;
+  stroke-dasharray: 3 4;
+}
+
+.ha-packet {
+  fill: var(--blue-500);
+  animation: haRise 2.6s ease-in infinite;
+}
+
+.ha-flow {
+  stroke: var(--blue-700);
+  stroke-width: 2;
+  stroke-dasharray: 4 5;
+  animation: haDash 1.2s linear infinite;
+}
+
+.ha-layer {
+  transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.24, 1);
+  animation: haIn 0.9s cubic-bezier(0.22, 0.9, 0.24, 1) backwards;
+}
+
+.ha-layer[data-i="0"] { animation-delay: 0.05s; }
+.ha-layer[data-i="1"] { animation-delay: 0.2s; }
+.ha-layer[data-i="2"] { animation-delay: 0.35s; }
+.ha-layer[data-i="3"] { animation-delay: 0.5s; }
+
+@media (hover: hover) {
+  .ha-layer:hover {
+    transform: translateY(-12px);
+  }
+}
+
+.ha-float {
+  animation: haFloat 6s ease-in-out infinite;
+}
+
+.ha-leader {
+  stroke: var(--blue-200);
+  stroke-width: 1;
+}
+
+.ha-tag {
+  fill: var(--color-white);
+  stroke: var(--blue-100);
+  transition: fill 0.25s ease, stroke 0.25s ease;
+}
+
+.ha-text {
+  font-family: var(--font-sans);
+  font-size: 20px;
+  font-weight: 500;
+  fill: var(--blue-900);
+  transition: fill 0.25s ease;
+}
+
+/* A layer lit by the pointer lights its name. */
+.hero-iso:has(.ha-layer[data-i="0"]:hover) .ha-label[data-i="0"] .ha-tag,
+.hero-iso:has(.ha-layer[data-i="1"]:hover) .ha-label[data-i="1"] .ha-tag,
+.hero-iso:has(.ha-layer[data-i="2"]:hover) .ha-label[data-i="2"] .ha-tag,
+.hero-iso:has(.ha-layer[data-i="3"]:hover) .ha-label[data-i="3"] .ha-tag {
+  fill: var(--blue-500);
+  stroke: var(--blue-500);
+}
+
+.hero-iso:has(.ha-layer[data-i="0"]:hover) .ha-label[data-i="0"] .ha-text,
+.hero-iso:has(.ha-layer[data-i="1"]:hover) .ha-label[data-i="1"] .ha-text,
+.hero-iso:has(.ha-layer[data-i="2"]:hover) .ha-label[data-i="2"] .ha-text,
+.hero-iso:has(.ha-layer[data-i="3"]:hover) .ha-label[data-i="3"] .ha-text {
+  fill: var(--color-white);
+}
+
+@keyframes haIn {
+  from {
+    opacity: 0;
+    transform: translateY(-28px);
+  }
+}
+
+@keyframes haRise {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(calc(var(--rise) * -1));
+  }
+}
+
+@keyframes haDash {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+
+@keyframes haFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-9px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ha-layer,
+  .ha-float,
+  .ha-flow,
+  .ha-packet {
+    animation: none;
+  }
+
+  .ha-packet {
+    opacity: 0;
+  }
+
+  .ha-layer {
+    transition: none;
+  }
+}
+
+/* The credentials strip ---------------------------------------------------------------------- */
+
 .hero-band {
   position: relative;
   border-top: 1px solid var(--color-line);
@@ -153,8 +285,8 @@
 .hero-credentials {
   display: flex;
   align-items: center;
-  gap: clamp(20px, 3vw, 48px);
-  padding: clamp(16px, 2vw, 24px) var(--pad-x);
+  gap: clamp(24px, 4vw, 56px);
+  padding: var(--sp-card) var(--pad-x);
 }
 
 .client-logos {
@@ -164,16 +296,51 @@
 
 .client-logos-label {
   margin: 0 0 14px;
-  font-size: var(--fs-sm);
+  font-size: var(--t-small);
+  font-weight: 500;
   color: var(--color-text);
 }
 
-/* The artwork beside the copy. It is decoration and is dropped below 880px (globals.css). */
-.hero-main .hero-home-art {
-  width: clamp(300px, 33vw, 460px);
+/* Every mark is drawn at the height set for its own file (stripHeight in lib/data.ts), so they read
+   at one optical size; here they only lose the fade the roll once gave them. */
+.hero-credentials .client-logo {
+  filter: none;
+  opacity: 1;
 }
 
-@media (max-width: 1000px) {
+.hero-credentials > :first-child img {
+  height: 52px !important;
+  width: auto !important;
+}
+
+@media (max-width: 1023px) {
+  .hero-visual {
+    max-width: 560px;
+  }
+}
+
+/* On a phone the names would be too small to read, so the stack is shown alone and cropped to
+   itself instead of to the whole canvas. */
+@media (max-width: 640px) {
+  .hero-iso {
+    overflow: hidden;
+  }
+
+  .hero-iso svg {
+    width: 150%;
+    margin-left: -2%;
+  }
+
+  .ha-label {
+    display: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .hp-home .hero-section {
+    padding: 0 !important;
+  }
+
   .hero-credentials {
     flex-direction: column;
     align-items: flex-start;
@@ -184,41 +351,30 @@
   }
 }
 
-@media (max-width: 880px) {
-  .hero-main {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (max-width: 520px) {
-  /* One figure per row, the number beside what it means, so the hero stays on one screen. */
-  .hero-figures {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 10px;
-  }
-
-  .hero-figures li {
-    display: grid;
-    grid-template-columns: 5.5rem minmax(0, 1fr);
-    align-items: baseline;
-    gap: 12px;
-  }
-
-  .hero-figure-label {
-    max-width: none;
-    margin-top: 0;
-  }
-}
-
-/* On a phone the badge comes down so the hero keeps to one screen. */
 @media (max-width: 640px) {
-  .hero-credentials img:first-child {
-    height: 64px !important;
+  .hero-sentence {
+    margin: 0 !important;
   }
-}
 
-/* The client strip shows every logo in its own colours at full strength. */
-.clients-marquee .client-logo {
-  filter: none;
-  opacity: 1;
+  .hero-line-promise {
+    margin-top: 0.1em !important;
+  }
+
+  .hp-home .hero-subline,
+  .hero-subline {
+    max-width: 40ch !important;
+  }
+
+  .hero-ctas > *,
+  .hero-ctas a {
+    width: 100%;
+  }
+
+  .hero-ctas a {
+    justify-content: center;
+  }
+
+  .hero-link {
+    padding: 10px 4px;
+  }
 }

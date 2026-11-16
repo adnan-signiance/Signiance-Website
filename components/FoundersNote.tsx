@@ -6,6 +6,7 @@ import { Reveal } from "./Reveal";
 export default function FoundersNote() {
   return (
     <section
+      className="home-section home-founder"
       style={{
         position: "relative",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
@@ -34,15 +35,9 @@ export default function FoundersNote() {
           </div>
         </Reveal>
       </div>
-      {/* Framed the way the page's own blocks are: a hairline border with the
-          signature dot at each corner. The clip layer keeps the portrait inside the
-          frame while the corner dots sit half outside it. */}
+      {/* The picture alone: no frame and no marks round it. */}
       <Reveal className="founders-note-photo" delay={0.15}>
-        <div className="founders-note-photo-clip">
-          <Image src="/media/founder-brijesh.webp" alt="Brijesh, Founder & CEO of Signiance" width={840} height={916} sizes="(max-width: 900px) 260px, 380px" />
-        </div>
-        <CornerDots position="top" />
-        <CornerDots />
+        <Image src="/media/founder-brijesh.webp" alt="Brijesh, Founder & CEO of Signiance" width={840} height={916} sizes="(max-width: 900px) 260px, 380px" />
       </Reveal>
       </div>
       <CornerDots />

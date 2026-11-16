@@ -24,6 +24,14 @@ const dryRun = flag("dry-run");
 const force = flag("force");
 const drafts = new Set((option("draft") ?? "").split(",").map((s) => s.trim()).filter(Boolean));
 
+// The project ID and dataset come from studio/.env, the same file the Studio reads, so they need not
+// be typed again. A value already set in the shell wins; the write token is never read from a file.
+try {
+  process.loadEnvFile(fileURLToPath(new URL("../.env", import.meta.url)));
+} catch {
+  // No .env: the values must come from the shell.
+}
+
 const projectId = process.env.SANITY_STUDIO_PROJECT_ID || process.env.SANITY_PROJECT_ID;
 const dataset = process.env.SANITY_STUDIO_DATASET || process.env.SANITY_DATASET || "production";
 const token = process.env.SANITY_WRITE_TOKEN;

@@ -1,0 +1,244 @@
+/* The first screen of every inner page (components/PageHero.tsx). */
+
+.page-hero {
+  position: relative;
+  padding: var(--sp-hero-top) var(--pad-x) var(--sp-hero-bottom);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.page-hero--flush {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+/* The title is the largest type on the page and never more than two lines. */
+.page-hero-title {
+  margin: 0;
+  max-width: 22ch;
+  font-family: var(--font-display);
+  font-weight: var(--w-display);
+  font-size: var(--fs-display);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+  text-wrap: balance;
+}
+
+.page-hero-title--compact {
+  max-width: 28ch;
+  font-size: var(--fs-h1);
+  line-height: var(--lh-display);
+  letter-spacing: var(--tracking-display);
+}
+
+.page-hero-row {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--sp-gap);
+  row-gap: 32px;
+  align-items: start;
+  margin-top: var(--sp-block);
+}
+
+.page-hero-intro {
+  grid-column: 1 / 7;
+}
+
+.page-hero-intro--right {
+  grid-column: 7 / 13;
+}
+
+/* With no aside the introduction sits close under the title, on the right-hand column. */
+.page-hero-row:has(.page-hero-intro--right) {
+  margin-top: var(--sp-title);
+}
+
+.page-hero-aside {
+  grid-column: 7 / 13;
+}
+
+.page-hero-meta {
+  margin: 0 0 12px;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.page-hero-lead {
+  max-width: 56ch;
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+  color: var(--color-ink-soft);
+}
+
+.page-hero-lead p {
+  margin: 0;
+}
+
+.page-hero-lead p + p {
+  margin-top: 12px;
+}
+
+.page-hero-more {
+  margin-top: clamp(20px, 2.4vw, 28px);
+}
+
+/* Aside pieces shared by several pages ----------------------------------------- */
+
+/* A plain list of links, one per line, with the arrow at the far side. */
+.hero-index {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.hero-index a {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 0;
+  border-top: 1px solid var(--color-line);
+  font-family: var(--font-display);
+  font-size: var(--fs-h3);
+  font-weight: var(--w-title);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+  transition: color 0.2s ease;
+}
+
+.hero-index li:last-child a {
+  border-bottom: 1px solid var(--color-line);
+}
+
+.hero-index a span:last-child {
+  transition: transform 0.3s cubic-bezier(0.22, 0.9, 0.24, 1);
+}
+
+@media (hover: hover) {
+  .hero-index a:hover {
+    color: var(--color-accent);
+  }
+
+  .hero-index a:hover span:last-child {
+    transform: translateX(6px);
+  }
+}
+
+/* A fact sheet on a flat tint: a heading, a sentence, a short list. */
+.hero-sheet {
+  padding: var(--sp-card);
+  border-radius: var(--radius-card);
+  background: var(--color-tint);
+}
+
+.hero-sheet h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  font-weight: var(--w-strong) !important;
+  letter-spacing: var(--tracking-snug);
+}
+
+.hero-sheet p {
+  margin: 8px 0 0;
+  font-size: var(--fs-base);
+  line-height: 1.55;
+  color: var(--color-ink-soft);
+}
+
+.hero-sheet h2 + ul,
+.hero-sheet p + h2 {
+  margin-top: 22px;
+}
+
+.hero-sheet ul,
+.hero-checks {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-base);
+  font-weight: 500;
+  color: var(--color-ink);
+}
+
+.hero-sheet li,
+.hero-checks li {
+  position: relative;
+  padding-left: 26px;
+}
+
+.hero-sheet li::before,
+.hero-checks li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 0.38em;
+  width: 11px;
+  height: 6px;
+  border: solid var(--color-accent);
+  border-width: 0 0 2px 2px;
+  transform: rotate(-45deg);
+}
+
+.hero-checks {
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .page-hero-row {
+    display: block;
+  }
+
+  .page-hero-aside {
+    margin-top: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-hero-title {
+    font-size: var(--fs-h1);
+    line-height: var(--lh-display);
+  }
+}
+
+.hero-sheet a {
+  color: var(--color-ink);
+  font-weight: 500;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+/* Services list rows (components/ServicesList.tsx) ------------------------------- */
+
+/* The practice artwork is a transparent illustration: it sits straight on the page, with no panel. */
+.svc-art {
+  position: relative;
+  width: min(100%, 420px);
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.svc-sub {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: var(--fs-lead);
+  font-weight: var(--w-strong);
+  letter-spacing: var(--tracking-snug);
+  color: var(--color-ink);
+}
+
+.svc-best {
+  margin-top: 22px;
+  padding: var(--sp-card);
+  border-radius: var(--radius-panel);
+  background: var(--color-tint);
+}
+
+.svc-best p {
+  margin: 6px 0 0;
+  font-size: var(--fs-base);
+  line-height: 1.6;
+  color: var(--color-ink-soft);
+}

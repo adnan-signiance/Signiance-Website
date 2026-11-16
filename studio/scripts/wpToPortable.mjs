@@ -291,6 +291,29 @@ const slugify = (s) =>
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
 
+/**
+ * The new address for a WordPress slug. WordPress can hand a slug over percent-encoded, with a
+ * non-breaking hyphen (U+2011) where the editor typed "-" ("30%e2%80%91day"). The new address is plain
+ * ASCII: decoded, every hyphen-like character made "-", anything else that is not url-safe dropped.
+ * An ordinary slug comes back unchanged. The old address is kept as it was, for the redirect.
+ */
+export function cleanSlug(raw) {
+  let s = String(raw);
+  try {
+    s = decodeURIComponent(s);
+  } catch {
+    // Not valid percent-encoding: take it as written.
+  }
+  return s
+    .toLowerCase()
+    .replace(/[‐-―−]/g, "-")
+    .normalize("NFKD")
+    .replace(/[̀-ͯ]/g, "")
+    .replace(/[^a-z0-9-]+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
 export const postId = (slug) => `post-${slug}`.slice(0, 120);
 export const authorId = (name) => `author-${slugify(name) || "unknown"}`.slice(0, 120);
 
@@ -338,11 +361,12 @@ export function buildPostDocuments(wp, { rewriteHref } = {}) {
   const docs = [];
   if (authorName) docs.push({ _id: authorId(authorName), _type: "author", name: authorName });
 
+  const slug = cleanSlug(wp.slug);
   docs.push({
-    _id: postId(wp.slug),
+    _id: postId(slug),
     _type: "post",
     title: decodeText(wp.title?.rendered ?? ""),
-    slug: { _type: "slug", current: wp.slug },
+    slug: { _type: "slug", current: slug },
     publishedAt: wp.date_gmt ? `${wp.date_gmt}Z` : new Date(wp.date).toISOString(),
     excerpt,
     categories,

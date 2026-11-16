@@ -141,10 +141,16 @@ describe.skipIf(!buildExists)("social cards", () => {
 
 describe.skipIf(!buildExists)("indexing directives", () => {
   it("keeps the placeholder pages out of the index", () => {
-    for (const page of ["blog", "careers"]) {
-      expect(html(`${page}.html`), `${page} should be noindex`).toMatch(
-        /name="robots" content="[^"]*noindex/
-      );
+    const noindex = /name="robots" content="[^"]*noindex/;
+    expect(html("careers.html"), "careers should be noindex").toMatch(noindex);
+
+    // /blog is a placeholder only until the CMS has posts. With posts it is a real page: indexable,
+    // and it advertises its feed. Without them it must stay out of the index.
+    const blog = html("blog.html");
+    if (/application\/rss\+xml/.test(blog)) {
+      expect(blog, "blog has posts, so it must be indexable").not.toMatch(noindex);
+    } else {
+      expect(blog, "blog has no posts, so it should be noindex").toMatch(noindex);
     }
   });
 

@@ -23,9 +23,18 @@
   transition: opacity 0.3s ease;
 }
 
-/* The lines you are not on stay readable but step back. */
-.case-index-item:not(.is-active) .case-index-row {
-  opacity: 0.72;
+/* The lines you are not on step back in tone, not in opacity: fading the whole row took its grey text
+   below the 4.5:1 contrast a reader needs (2.8:1 for the industry line), and the page fails its
+   accessibility check on it. Each step here is a full-strength colour that passes on the tinted field. */
+.case-index-item:not(.is-active) .case-index-title,
+.case-index-item:not(.is-active) .case-index-value {
+  color: var(--color-text);
+}
+
+.case-index-item:not(.is-active) .case-index-industry,
+.case-index-item:not(.is-active) .case-index-text,
+.case-index-item:not(.is-active) .case-index-label {
+  color: var(--color-muted);
 }
 
 .case-index-industry {
@@ -158,14 +167,18 @@
     padding-bottom: 12px;
   }
 
-  .case-index-item:not(.is-active) .case-index-row {
-    opacity: 1;
-  }
-
+  /* With no preview beside the list there is no line you are on, so every row is at full strength. */
+  .case-index-item:not(.is-active) .case-index-title,
   .case-index-item.is-active .case-index-title {
     color: var(--color-ink);
   }
 
+  .case-index-item:not(.is-active) .case-index-text,
+  .case-index-item:not(.is-active) .case-index-label {
+    color: var(--color-text);
+  }
+
+  .case-index-item:not(.is-active) .case-index-value,
   .case-index-item .case-index-value,
   .case-index-item.is-active .case-index-value {
     color: var(--color-accent);
