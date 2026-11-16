@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
+import CtaArrow from "./CtaArrow";
 import { Reveal, RevealHeading } from "./Reveal";
 import CalBooking from "./CalBooking";
 import ContactForm from "./ContactForm";
-import { bookingPromise, contactEmail } from "@/lib/data";
+import { contactEmail, READINESS_HREF } from "@/lib/data";
 import { useConsent } from "@/lib/consent";
 
 export default function Contact() {
@@ -27,6 +28,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
+      className="home-section home-contact"
       style={{
         position: "relative",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
@@ -35,9 +37,6 @@ export default function Contact() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Scoping call</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
@@ -52,17 +51,25 @@ export default function Contact() {
             Tell us the workflow that keeps breaking
           </RevealHeading>
         </div>
-        <Reveal as="p" className="section-head-note" delay={0.15}>
-          {bookingPromise}
-          <br />
-          You leave with a scoped plan either way.
-        </Reveal>
       </div>
-
-      <div className="section-rule" />
 
       <Reveal className="cal-frame" style={{ marginTop: 24 }}>
         <CalBooking />
+      </Reveal>
+
+      {/* The softer offer, for the visitor who is not ready to book. It used to be a band of its own
+          just above this section; two asks back to back read as one too many. */}
+      <Reveal className="contact-ready" delay={0.1}>
+        <div>
+          <h3 className="contact-ready-title">Not ready for a call?</h3>
+          <p className="contact-ready-text">
+            Score your system across reliability, evals, observability, cost and security in 5 minutes. Free, no call or
+            email needed.
+          </p>
+        </div>
+        <Link href={READINESS_HREF} className="btn-hero-outline">
+          <CtaArrow>Take the readiness check</CtaArrow>
+        </Link>
       </Reveal>
 
       {embedShown ? (

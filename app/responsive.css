@@ -383,8 +383,8 @@
   }
 
   /* Buttons: one size everywhere ------------------------------------------------------
-     The hero CTAs, the "See all case studies" button, the form's submit and the
-     newsletter button were each a slightly different height and type size. */
+     The hero CTAs, the "See all case studies" button and the form's submit were each a
+     slightly different height and type size. */
   .btn-hero-primary,
   .btn-hero-outline,
   .btn-primary {

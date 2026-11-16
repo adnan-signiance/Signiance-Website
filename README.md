@@ -121,6 +121,9 @@ editor ──publish──▶ Sanity ──webhook──▶ host rebuilds the si
   keeps serving the previous deployment. It never quietly publishes less.
 - **Images** come from Sanity's CDN. `next.config.js` allows only this project's
   path on `cdn.sanity.io`, and only when `SANITY_PROJECT_ID` is set.
+- **Old addresses:** `redirects/` sends the old WordPress pages and posts to their new homes
+  (`next.config.js` `redirects()`); the post redirects apply only when the CMS is configured.
+  Details in `studio/README.md`.
 - **Blog:** `/blog` (paginated at `/blog/page/N`), `/blog/<slug>`, an RSS feed at
   `/blog/feed.xml`. `/blog` and the posts join the sitemap, and `/blog` stops being
   `noindex`, as soon as the first post is published.
@@ -131,8 +134,8 @@ There are three, deliberately, so no single dependency can block an enquiry:
 
 1. **Calendly embed** — inline scheduling in an iframe, rendered only after
    cookie consent and lazy-loaded by the browser.
-2. **First-party form** — `components/ContactForm.tsx` (and the footer
-   `NewsletterForm.tsx`) posting through `lib/contactDelivery.ts` to a Google
+2. **First-party form** — `components/ContactForm.tsx` posting through
+   `lib/contactDelivery.ts` to a Google
    Apps Script web app, which emails `hello@signiance.com`. Works with cookies
    declined and embeds blocked. Validation lives in `lib/contactSchema.ts` so it
    is unit tested directly, and runs in the browser and again in the script.
@@ -148,6 +151,13 @@ form that silently discards submissions is worse than no form.
 
 > There is no server code. Every page is prerendered and the forms talk to
 > Google directly, so the site does not depend on a Node runtime for delivery.
+
+The AI production readiness check (`/readiness`: `lib/readiness.ts` for the questions and scoring,
+`components/ReadinessQuiz.tsx` for the flow) feeds the same enquiry path. The score is computed in the
+browser and shown with no email; a visitor who chooses "Send my results" posts their name, email, score and
+answers through `lib/contactDelivery.ts` as an ordinary `general` enquiry from source `/readiness`, so the
+deployed Apps Script needs no change. It is offered from the hero, the booking section, the Resources menu,
+the footer and the end of every blog post.
 
 ## Design system
 

@@ -1,64 +1,28 @@
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
 import { clients, aboutClients } from "@/lib/data";
 
-const GRID_COLS = 3;
-const ROW_H = 108;
-
-function logoImg(c: (typeof clients)[number]) {
+// The width/height attributes carry the file's aspect ratio at its rendered height, so the
+// browser reserves each logo's box before the file arrives and the row does not reflow.
+// The inline style still sets the size, with width auto so CSS stays in control.
+function logoImg(c: (typeof clients)[number], height = c.height) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={c.src}
       alt={c.alt}
       className={c.invert ? "client-logo client-logo-invert" : "client-logo"}
-      style={{ height: c.height }}
+      width={Math.round((height * c.intrinsicWidth) / c.intrinsicHeight)}
+      height={height}
+      decoding="async"
+      style={{ height, width: "auto" }}
     />
   );
 }
 
-// Every point where an internal divider meets another line — including
-// where it runs into the outer edge — gets the site's dot marker, the same
-// treatment CornerDots gives a section's top/bottom border. The four true
-// corners of the grid are already covered by the CornerDots above and below
-// it, so only the interior crossings and edge-interior points are listed
-// here to avoid painting the same corner twice.
-//
-// Each dot is centered on its line the exact same way CornerDots centers
-// its own — a literal -8px offset (half the 16px box) — rather than a
-// transform, so every dot on the page rasterizes identically instead of
-// interior ones landing on a different sub-pixel offset and looking smaller.
-function GridDots({ rows }: { rows: number }) {
-  const xs = Array.from({ length: GRID_COLS - 1 }, (_, i) => ((i + 1) / GRID_COLS) * 100);
-  const ys = Array.from({ length: rows - 1 }, (_, i) => (i + 1) * ROW_H);
-  const points: { style: React.CSSProperties }[] = [];
-  const at = (horiz: React.CSSProperties, y: number) => ({ style: { ...horiz, top: `${y - 8}px` } });
-
-  ys.forEach((y) => {
-    points.push(at({ left: -9 }, y));
-    points.push(at({ right: -9 }, y));
-    xs.forEach((x) => points.push(at({ left: `calc(${x}% - 8px)` }, y)));
-  });
-  xs.forEach((x) => {
-    points.push(at({ left: `calc(${x}% - 8px)` }, 0));
-    points.push(at({ left: `calc(${x}% - 8px)` }, rows * ROW_H));
-  });
-
-  return (
-    <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
-      {points.map((p, i) => (
-        <span key={i} className="corner-dot" style={p.style} />
-      ))}
-    </div>
-  );
-}
-
 function ClientsGrid() {
-  const rows = Math.ceil(aboutClients.length / GRID_COLS);
   return (
     <section style={{ position: "relative" }}>
-      <div style={{ padding: "clamp(36px, 5vw, 48px) var(--pad-x) 0" }}>
-        <SectionEyebrow>Clients</SectionEyebrow>
+      <div style={{ padding: "var(--sp-open-top) var(--pad-x) 0" }}>
         <h2
           style={{
             fontFamily: "var(--font-display)",
@@ -73,7 +37,7 @@ function ClientsGrid() {
           Our teams have delivered inside
         </h2>
       </div>
-      <div style={{ position: "relative", marginTop: "clamp(28px, 4vw, 40px)" }}>
+      <div style={{ position: "relative", marginTop: "var(--sp-block)" }}>
         <div className="grid-logos">
           {aboutClients.map((c) => (
             <div key={c.alt} className="grid-logos-cell">
@@ -81,10 +45,8 @@ function ClientsGrid() {
             </div>
           ))}
         </div>
-        <GridDots rows={rows} />
         <CornerDots position="top" />
       </div>
-      <CornerDots position="top" />
       <CornerDots />
     </section>
   );
@@ -106,7 +68,7 @@ export function ClientLogos() {
         <div className="clients-marquee-track">
           {[...clients, ...clients].map((c, i) => (
             <div key={`${c.alt}-${i}`} className="clients-marquee-item">
-              {logoImg(c)}
+              {logoImg(c, c.stripHeight)}
             </div>
           ))}
         </div>

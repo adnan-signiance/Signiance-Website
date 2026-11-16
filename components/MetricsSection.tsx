@@ -1,5 +1,5 @@
 import MetricsGrid from "./MetricsGrid";
-import { Reveal, RevealHeading } from "./Reveal";
+import { RevealHeading } from "./Reveal";
 
 /**
  * The one dark section on the homepage.
@@ -20,9 +20,6 @@ export default function MetricsSection() {
           <div className="section-head-main">
             <RevealHeading className="metrics-band-title">Outcomes, not case-study theatre.</RevealHeading>
           </div>
-          <Reveal as="p" className="metrics-band-note" delay={0.15}>
-            Every engagement shipped to production and measured against a number that mattered.
-          </Reveal>
         </div>
 
         <MetricsGrid display style={{ marginTop: "clamp(32px, 5vw, 64px)" }} />

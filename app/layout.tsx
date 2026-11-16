@@ -7,6 +7,8 @@ import "./how-we-work-slides.css";
 import "./responsive.css";
 import "./scroll-motion.css";
 import "./header.css";
+import "./scale.css";
+import "./palette-home.css";
 import "./fallbacks.css";
 import "./consent.css";
 import "./contact-form.css";
@@ -26,9 +28,12 @@ import { siteDescription } from "@/lib/data";
  * Each exposes a CSS variable, which is what components reference — the actual
  * family name next/font generates is hashed and not stable.
  */
+// The variable file, not four static weights: it carries 200-800 (titles are set in 300) and the
+// optical-size axis. Optical sizing is on inside the page frame (scale.css), where large type gets
+// the display cut with its own letter spacing, and off outside it (globals.css).
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  axes: ["opsz"],
   variable: "--font-display",
   display: "swap",
 });

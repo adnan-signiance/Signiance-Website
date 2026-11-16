@@ -115,6 +115,54 @@ describe("ContactForm", () => {
     expect(screen.getByLabelText(/work email/i)).toHaveAttribute("aria-invalid", "true");
   });
 
+  // Focus left on the submit button sends a keyboard user hunting for the error.
+  it("moves focus to the first invalid field, in form order, after a validation failure", async () => {
+    mockFetch({
+      ok: false,
+      error: "validation_failed",
+      // Listed message-first on purpose: focus must follow the form, not the reply.
+      errors: { message: "Say a little more.", email: "That domain looks wrong." },
+    });
+    const user = userEvent.setup();
+    render(<ContactForm />);
+
+    await fillValid(user);
+    // Record the field's state at the moment it takes focus: that is what a screen reader announces.
+    const email = screen.getByLabelText(/work email/i);
+    let atFocus: { invalid: string | null; describedBy: string | null; errorShown: boolean } | null = null;
+    email.addEventListener("focus", () => {
+      atFocus = {
+        invalid: email.getAttribute("aria-invalid"),
+        describedBy: email.getAttribute("aria-describedby"),
+        errorShown: Boolean(document.getElementById("email-error")),
+      };
+    });
+    await user.click(screen.getByRole("button", { name: /send it over/i }));
+
+    expect(await screen.findByText(/that domain looks wrong/i)).toBeInTheDocument();
+    expect(document.activeElement).toBe(email);
+    expect(atFocus).toEqual({ invalid: "true", describedBy: "email-error", errorShown: true });
+  });
+
+  it("leaves focus alone for failures that are not about a field", async () => {
+    mockFetch({ ok: false, error: "rate_limited" });
+    const user = userEvent.setup();
+    render(<ContactForm />);
+
+    await fillValid(user);
+    await user.click(screen.getByRole("button", { name: /send it over/i }));
+
+    expect(await screen.findByText(/try again shortly/i)).toBeInTheDocument();
+    for (const label of [/^name$/i, /work email/i, /workflow keeps breaking/i]) {
+      expect(document.activeElement).not.toBe(screen.getByLabelText(label));
+    }
+  });
+
+  it("marks the optional company field as optional", () => {
+    render(<ContactForm />);
+    expect(screen.getByLabelText("Company (optional)")).toHaveAttribute("id", "company");
+  });
+
   // The important failure mode: if delivery is not configured the visitor must
   // still be given a way to reach us, rather than a dead end.
   it("offers the email address, without sending, when no endpoint is configured", async () => {

@@ -5,7 +5,8 @@ import axe from "axe-core";
 import FAQ from "@/components/FAQ";
 import FeatureCard from "@/components/FeatureCard";
 import SectionEyebrow from "@/components/SectionEyebrow";
-import { faqs } from "@/lib/data";
+import ClientsStrip, { ClientLogos } from "@/components/ClientsStrip";
+import { clients, faqs } from "@/lib/data";
 
 /**
  * Runs axe against a container and returns violation ids.
@@ -29,6 +30,39 @@ describe("SectionEyebrow", () => {
   it("renders its text", () => {
     render(<SectionEyebrow>Services</SectionEyebrow>);
     expect(screen.getByText("Services")).toBeInTheDocument();
+  });
+});
+
+// Without width/height attributes the browser cannot reserve a logo's box until the
+// file loads, so the logo row reflows (Lighthouse unsized-images). The attributes must
+// carry the file's aspect ratio at the rendered height.
+describe("client logos", () => {
+  // The grid draws each file at `height`; the marquee in the hero draws it at `stripHeight`, which
+  // is set per file so the marks read at one optical size.
+  function expectSized(imgs: HTMLImageElement[], heightOf: (c: (typeof clients)[number]) => number) {
+    expect(imgs.length).toBeGreaterThan(0);
+    for (const img of imgs) {
+      const c = clients.find((x) => x.src === img.getAttribute("src"))!;
+      expect(c, `no clients entry for ${img.getAttribute("src")}`).toBeDefined();
+      const want = heightOf(c);
+      const w = Number(img.getAttribute("width"));
+      const h = Number(img.getAttribute("height"));
+      expect(h, c.alt).toBe(want);
+      expect(w, c.alt).toBe(Math.round((want * c.intrinsicWidth) / c.intrinsicHeight));
+      expect(w, c.alt).toBeGreaterThan(0);
+    }
+  }
+
+  it("renders every marquee logo with width and height attributes", () => {
+    const { container } = render(<ClientLogos />);
+    const imgs = Array.from(container.querySelectorAll("img"));
+    expect(imgs).toHaveLength(clients.length * 2);
+    expectSized(imgs, (c) => c.stripHeight);
+  });
+
+  it("renders every grid logo with width and height attributes", () => {
+    const { container } = render(<ClientsStrip variant="grid" />);
+    expectSized(Array.from(container.querySelectorAll("img")), (c) => c.height);
   });
 });
 

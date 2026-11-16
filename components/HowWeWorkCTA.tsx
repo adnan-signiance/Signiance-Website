@@ -8,7 +8,7 @@ export default function HowWeWorkCTA() {
     <section
       style={{
         position: "relative",
-        padding: "clamp(52px, 7vw, 74px) var(--pad-x)",
+        padding: "var(--sp-field) var(--pad-x)",
         textAlign: "center",
         borderBottom: "1px solid var(--color-line)",
       }}

@@ -9,6 +9,7 @@ export default async function CaseStudiesSection() {
 
   return (
     <section
+      className="home-section home-cases"
       style={{
         position: "relative",
         borderBottom: "1px solid var(--color-line)",

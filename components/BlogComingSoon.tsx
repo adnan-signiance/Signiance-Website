@@ -1,63 +1,48 @@
 import Link from "next/link";
 import PageShell from "@/components/PageShell";
-import CornerDots from "@/components/CornerDots";
+import PageHero from "@/components/PageHero";
 import CtaArrow from "@/components/CtaArrow";
 
 /**
  * Shown at /blog until the first post is published in the CMS. The page that
  * renders this marks itself noindex while it does, so thin content stays out of
- * the index.
+ * the index. It says what is coming and sends the visitor to what already exists.
  */
 export default function BlogComingSoon() {
   return (
     <PageShell>
-      <section
-        style={{
-          position: "relative",
-          padding: "clamp(64px, 12vw, 130px) var(--pad-x)",
-          textAlign: "center",
-          borderBottom: "1px solid var(--color-line)",
-        }}
+      <PageHero
+        title="Field notes, coming soon"
+        lead={
+          <p>
+            We&apos;re putting together writing on shipping cloud infrastructure and production AI, from the engagements
+            we run, not theory. Check back soon, or see the outcomes we&apos;ve already delivered.
+          </p>
+        }
+        aside={
+          <ul className="hero-index">
+            <li>
+              <Link href="/case-studies">
+                <span>Case studies</span>
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/how-we-work">
+                <span>How we work</span>
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </li>
+            <li>
+              <Link href="/services">
+                <span>Services</span>
+                <span aria-hidden="true">&rarr;</span>
+              </Link>
+            </li>
+          </ul>
+        }
       >
-        <div
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 700,
-            fontSize: "var(--fs-ghost)",
-            lineHeight: 0.9,
-            letterSpacing: "var(--tracking-tight)",
-            color: "var(--color-accent)",
-            textWrap: "balance",
-          }}
-        >
-          Coming Soon
-        </div>
-        <h1
-          style={{
-            fontFamily: "var(--font-display)",
-            fontWeight: 600,
-            fontSize: "var(--fs-h1)",
-            lineHeight: 1.05,
-            letterSpacing: "var(--tracking-tight)",
-            margin: "12px 0 0",
-            textWrap: "balance",
-          }}
-        >
-          Field notes on shipping cloud infrastructure and production AI
-        </h1>
-        <p style={{ maxWidth: 460, margin: "16px auto 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
-          We&apos;re putting together writing from the engagements we run, not theory. Check back soon, or see
-          the outcomes we&apos;ve already delivered.
-        </p>
-        <div
-          style={{
-            display: "flex",
-            gap: 12,
-            justifyContent: "center",
-            marginTop: "clamp(24px, 4vw, 32px)",
-            flexWrap: "wrap",
-          }}
-        >
+        <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Link href="/case-studies" className="btn-hero-primary">
             <CtaArrow>Browse Case Studies</CtaArrow>
           </Link>
@@ -65,8 +50,7 @@ export default function BlogComingSoon() {
             <CtaArrow>Back to homepage</CtaArrow>
           </Link>
         </div>
-        <CornerDots />
-      </section>
+      </PageHero>
     </PageShell>
   );
 }

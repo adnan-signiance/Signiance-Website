@@ -1,5 +1,4 @@
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
 import { Reveal, RevealHeading } from "./Reveal";
 import Testimonials from "./Testimonials";
 
@@ -8,15 +7,12 @@ export default function CaseStudiesTestimonials() {
     <section
       style={{
         position: "relative",
-        padding: "clamp(38px, 5vw, 54px) var(--pad-x) var(--section-pb)",
+        padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
         borderBottom: "1px solid var(--color-line)",
       }}
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Testimonials</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",

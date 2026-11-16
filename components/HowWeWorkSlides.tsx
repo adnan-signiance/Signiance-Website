@@ -2,8 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from "react";
 import CornerDots from "./CornerDots";
-import HowWeWorkDoc from "./HowWeWorkDocs";
-import { Reveal, RevealHeading } from "./Reveal";
+import MethodMock from "./MethodMocks";
+import { RevealHeading } from "./Reveal";
 import { usePrefersReducedMotion } from "@/lib/usePrefersReducedMotion";
 import { steps } from "@/lib/data";
 
@@ -99,6 +99,7 @@ export default function HowWeWorkSlides() {
   return (
     <section
       id="work"
+      className="home-section home-work"
       style={{
         position: "relative",
         borderBottom: "1px solid var(--color-line)",
@@ -125,9 +126,6 @@ export default function HowWeWorkSlides() {
                 The Thin Slice Method
               </RevealHeading>
             </div>
-            <Reveal as="p" className="section-head-note" delay={0.15}>
-              No pyramid staffing. The people who scope it also build it, and can run it after.
-            </Reveal>
           </div>
 
           <div className="hw-slide">
@@ -194,10 +192,11 @@ export default function HowWeWorkSlides() {
                         </span>
                       )}
                     </div>
-                    {/* What lands that week, drawn as the document itself. Decorative: the copy
-                        beside it says the same in words. */}
-                    <div className="hw-panel-art" aria-hidden="true">
-                      <HowWeWorkDoc index={i} />
+                    {/* What lands that week, drawn as the screen it lands in. The copy beside it says
+                        the same in words; the controls in it work, so a step that is not showing
+                        is inert. */}
+                    <div className="hw-panel-art" inert={i !== active}>
+                      <MethodMock index={i} />
                     </div>
                   </article>
                 );

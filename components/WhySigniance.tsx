@@ -1,37 +1,50 @@
-import "../app/why-signiance.css";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
-import { Reveal, RevealHeading } from "./Reveal";
+import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 
 /**
- * "Why Signiance": the positioning statement, set after the services so the visitor has seen
- * what we do before being told why we are the ones to do it. Words only, on purpose: it is
- * the one place on the page that makes the argument in sentences.
+ * "Why Signiance": the positioning claim, set after the services so the visitor has seen what we
+ * do before being told why we are the ones to do it. The claim is the heading on the left. On the
+ * right, the argument is laid out as the comparison it is: the two other places a buyer would
+ * look, and us, with what we do about it. Nothing here is a new claim; it is the same paragraph,
+ * taken apart.
  */
+const OTHERS = [
+  { name: "AI prototype shops", line: "Build impressive demos and move on." },
+  { name: "Large consultancies", line: "Arrive in six months with a staffing pyramid." },
+];
+
+const POINTS = ["Evals instead of vibes", "Dashboards instead of guesswork", "An owner when something breaks"];
+
 export default function WhySigniance() {
   return (
-    <section
-      id="why"
-      style={{
-        position: "relative",
-        borderBottom: "1px solid var(--color-line)",
-        padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
-      }}
-    >
-      <Reveal style={{ marginBottom: 18 }}>
-        <SectionEyebrow>Why Signiance</SectionEyebrow>
-      </Reveal>
-      <RevealHeading className="why-title">
-        Most AI shops have never run production. We&apos;ve been running it for twelve years.
-      </RevealHeading>
+    <section id="why" className="home-section home-why sec-split">
+      <div className="sec-split-head">
+        <RevealHeading className="section-label why-claim">We&apos;ve been running production for twelve years.</RevealHeading>
+      </div>
 
-      <div className="section-rule" />
+      <div className="sec-split-body why-body">
+        <Reveal as="p" className="why-lead" delay={0.1}>
+          Most AI shops have never run production.
+        </Reveal>
 
-      <Reveal as="p" className="why-body" delay={0.1}>
-        AI prototype shops build impressive demos and move on. Large consultancies arrive in six months with a staffing
-        pyramid. We&apos;re a senior team that has spent over a decade keeping cloud systems up, now applying that same
-        discipline to AI: evals instead of vibes, dashboards instead of guesswork, and an owner when something breaks.
-      </Reveal>
+        <RevealGroup className="why-compare" stagger={0.1}>
+          {OTHERS.map((o) => (
+            <RevealItem key={o.name} className="why-col">
+              <h3 className="why-col-name">{o.name}</h3>
+              <p className="why-col-line">{o.line}</p>
+            </RevealItem>
+          ))}
+          <RevealItem className="why-col why-col--us">
+            <h3 className="why-col-name">Signiance</h3>
+            <p className="why-col-line">A senior team that has spent over a decade keeping cloud systems up, now applying that same discipline to AI.</p>
+            <ul className="why-points">
+              {POINTS.map((p) => (
+                <li key={p}>{p}</li>
+              ))}
+            </ul>
+          </RevealItem>
+        </RevealGroup>
+      </div>
 
       <CornerDots />
     </section>

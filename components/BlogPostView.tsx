@@ -2,10 +2,10 @@ import Image from "next/image";
 import "../app/blog.css";
 import PageShell from "./PageShell";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
-import HeroHeading from "./HeroHeading";
+import PageHero from "./PageHero";
 import BlogCard from "./BlogCard";
 import CaseStudiesCTA from "./CaseStudiesCTA";
+import ReadinessBand from "./ReadinessBand";
 import PortableText from "./PortableText";
 import JsonLd from "./JsonLd";
 import { RevealHeading } from "./Reveal";
@@ -28,35 +28,13 @@ export default function BlogPostView({ post, related }: { post: BlogPost; relate
       />
 
       <article>
-        <section
-          style={{
-            position: "relative",
-            padding: "clamp(32px, 5vw, 48px) var(--pad-x) clamp(28px, 4vw, 40px)",
-            borderBottom: "1px solid var(--color-line)",
-          }}
-        >
-          <SectionEyebrow rise={0}>{post.categories[0] ?? "Blog"}</SectionEyebrow>
-          <HeroHeading
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              fontSize: "var(--fs-h1)",
-              lineHeight: 1.08,
-              letterSpacing: "var(--tracking-tight)",
-              margin: "16px 0 0",
-              maxWidth: "26ch",
-              textWrap: "balance",
-            }}
-          >
-            {post.title}
-          </HeroHeading>
-          <div className="post-meta hero-rise hero-d1">
+        <PageHero compact title={post.title} meta={post.categories[0] ?? "Blog"}>
+          <div className="post-meta">
             {post.author && <strong>{post.author.name}</strong>}
             <time dateTime={post.publishedAt}>{formatPostDate(post.publishedAt)}</time>
             <span>{post.readingMinutes} min read</span>
           </div>
-          <CornerDots />
-        </section>
+        </PageHero>
 
         <section className="post-body">
           {post.cover && (
@@ -102,7 +80,6 @@ export default function BlogPostView({ post, related }: { post: BlogPost; relate
         <section style={{ position: "relative", padding: "var(--section-pt) var(--pad-x) var(--section-pb)", borderBottom: "1px solid var(--color-line)" }}>
           <div className="section-head">
             <div className="section-head-main">
-              <SectionEyebrow>Keep reading</SectionEyebrow>
               <RevealHeading
                 style={{
                   fontFamily: "var(--font-display)",
@@ -118,7 +95,6 @@ export default function BlogPostView({ post, related }: { post: BlogPost; relate
               </RevealHeading>
             </div>
           </div>
-          <div className="section-rule" />
           <div className="blog-grid" data-count={Math.min(related.length, 3)} style={{ marginTop: 24 }}>
             {related.map((p) => (
               <BlogCard key={p.id} post={p} heading="h3" />
@@ -128,6 +104,7 @@ export default function BlogPostView({ post, related }: { post: BlogPost; relate
         </section>
       )}
 
+      <ReadinessBand />
       <CaseStudiesCTA />
     </PageShell>
   );

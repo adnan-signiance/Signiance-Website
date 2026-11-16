@@ -1,12 +1,7 @@
-"use client";
-
 import Image from "next/image";
-
 import Link from "next/link";
 import CookieSettingsButton from "./CookieSettingsButton";
 import CornerDots from "./CornerDots";
-import NewsletterForm from "./NewsletterForm";
-import PartnerMarks from "./PartnerMarks";
 import { brand, footerColumns, socialLinks } from "@/lib/data";
 
 const socials = [
@@ -40,99 +35,70 @@ const socials = [
 export default function Footer() {
   return (
     <footer>
-      <div className="footer-top">
-        <div>
-          <Link href="/" style={{ display: "flex", alignItems: "center", color: "inherit" }}>
-            <Image
-              src="/media/logo_2_blue.svg"
-              alt={brand}
-              width={538}
-              height={125}
-              style={{ display: "block", height: 34, width: "auto" }}
-            />
+      <div className="footer-main">
+        <div className="footer-brand">
+          <Link href="/" className="footer-logo">
+            <Image src="/media/logo_2_blue.svg" alt={brand} width={538} height={125} />
           </Link>
-          <p style={{ margin: "14px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)", maxWidth: 280 }}>
-            An AI-native engineering company. From AI potential to production impact.
-          </p>
-          <div style={{ marginTop: 20 }}>
-            <PartnerMarks height={46} />
-          </div>
-        </div>
-
-        <div className="footer-newsletter">
-          <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
-            Newsletter
-          </div>
-          {/* h2 within the contentinfo landmark, rather than h4 following a
-              page h2, which skipped a level. */}
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              fontSize: "var(--fs-lead)",
-              letterSpacing: "var(--tracking-snug)",
-              margin: "10px 0 0",
-            }}
-          >
-            Occasional notes on shipping cloud infra and production AI
-          </h2>
-          <p style={{ margin: "8px 0 0", fontSize: "var(--fs-sm)", lineHeight: 1.6, color: "var(--color-muted)" }}>
-            No spam, unsubscribe anytime.
-          </p>
-          <NewsletterForm />
-        </div>
-        <CornerDots />
-      </div>
-
-      <div className="footer-links-grid">
-        {footerColumns.map((col) => (
-          <div key={col.head} style={{ display: "flex", flexDirection: "column", gap: 9 }}>
-            <div style={{ fontSize: "var(--fs-xs)", letterSpacing: "var(--tracking-wide)", textTransform: "uppercase", color: "var(--color-muted)" }}>
-              {col.head}
-            </div>
-            {col.items.map((it) => (
-              <Link key={it.label} href={it.href} className="footer-link">
-                {it.label}
-              </Link>
+          <p className="footer-tagline">An AI-native engineering company. From AI potential to production impact.</p>
+          <div className="footer-socials">
+            {socials.map((s) => (
+              <a
+                key={s.label}
+                href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`Signiance on ${s.label}`}
+                className="social-icon-link"
+              >
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d={s.path} fill="currentColor" />
+                </svg>
+              </a>
             ))}
           </div>
-        ))}
+        </div>
+
+        {/* A labelled landmark with a heading per column, so assistive technology users can jump
+            to the footer links and between its groups. */}
+        <nav className="footer-links-grid" aria-label="Footer">
+          {footerColumns.map((col) => (
+            <div key={col.head} className="footer-col">
+              <h2 className="footer-col-head">{col.head}</h2>
+              {col.items.map((it) => (
+                <Link key={it.label} href={it.href} className="footer-link">
+                  {it.label}
+                </Link>
+              ))}
+            </div>
+          ))}
+        </nav>
         <CornerDots />
       </div>
 
       <div className="footer-bottom">
         <span>© 2026 {brand}</span>
-        <div className="footer-socials">
-          {socials.map((s) => (
-            <a
-              key={s.label}
-              href={s.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={`Signiance on ${s.label}`}
-              className="social-icon-link"
-            >
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d={s.path} fill="currentColor" />
-              </svg>
-            </a>
-          ))}
-        </div>
-        <span style={{ display: "flex", gap: 6, alignItems: "center" }}>
+        <span className="footer-legal">
           <Link href="/privacy" className="footer-link">
             Privacy
           </Link>
-          ·
           <Link href="/terms" className="footer-link">
             Terms
           </Link>
-          ·
           <Link href="/security" className="footer-link">
             Security
           </Link>
-          ·
           <CookieSettingsButton />
         </span>
+      </div>
+
+      {/* The name, set large in the display face and cut off by the foot of the page: the closing line
+          of the page. It is decorative (the logo above already names the company), and it has no rule
+          or marks under it, so the page just ends. */}
+      <div className="footer-wordmark" aria-hidden="true">
+        <div className="fw-clip">
+          <span className="fw-text">{brand}</span>
+        </div>
       </div>
     </footer>
   );

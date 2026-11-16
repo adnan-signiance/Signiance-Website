@@ -5,8 +5,8 @@ import Image from "next/image";
 import { useState } from "react";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
-import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
+import { RevealGroup, RevealHeading, RevealItem } from "./Reveal";
+import { hasCasePhoto } from "@/lib/caseMedia";
 import { caseStudyFilters, type CaseStudyEntry } from "@/lib/data";
 
 export default function CaseStudiesGrid({ entries }: { entries: CaseStudyEntry[] }) {
@@ -25,9 +25,6 @@ export default function CaseStudiesGrid({ entries }: { entries: CaseStudyEntry[]
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Engagements</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
@@ -43,8 +40,6 @@ export default function CaseStudiesGrid({ entries }: { entries: CaseStudyEntry[]
           </RevealHeading>
         </div>
       </div>
-
-      <div className="section-rule" />
 
       {/* Labelled group so the chips are announced as a related set rather than
           a run of unrelated buttons. */}
@@ -86,45 +81,37 @@ export default function CaseStudiesGrid({ entries }: { entries: CaseStudyEntry[]
         </p>
       )}
 
-      <RevealGroup className="grid-cs-listing" stagger={0.09}>
-        {visibleCases.map((cs) => (
-          <RevealItem key={cs.id} className="cs-listing-cell">
-            <div className="case-cell-frame">
-              <Image src={cs.image} alt="" fill className="case-cell-bg" sizes="(max-width: 900px) 100vw, 33vw" />
-              <div className="case-cell-scrim" />
-              <Link href={`/case-studies/${cs.slug}`} className="case-cell-overlay">
-                <div className="case-cell-bottom-row">
-                  <div>
-                    <div className="case-cell-tag">{cs.tag}</div>
-                    <h3 className="case-cell-title" style={{ fontSize: "var(--fs-h3)" }}>
-                      {cs.title}
-                    </h3>
-                    <p className="case-cell-body">{cs.teaser}</p>
-                    {cs.statValue && (
-                      <div className="case-cell-stat">
-                        <span className="case-cell-stat-value">{cs.statValue}</span>
-                        <span className="case-cell-stat-label">{cs.statLabel}</span>
-                      </div>
-                    )}
-                  </div>
-                  <span className="case-cell-cta">
-                    <span className="case-cell-cta-arrow-in">
-                      <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                        <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-ink)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                    <span>View case study</span>
-                    <span className="case-cell-cta-arrow-out">
-                      <svg width="10" height="12" viewBox="0 0 10 12" fill="none" aria-hidden="true">
-                        <path d="M3 2.5 7 6 3 9.5" stroke="var(--color-ink)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                      </svg>
-                    </span>
-                  </span>
-                </div>
+      <RevealGroup className="cs-cards" stagger={0.07}>
+        {visibleCases.map((cs) => {
+          const photo = hasCasePhoto(cs.image);
+          return (
+            <RevealItem key={cs.id}>
+              <Link href={`/case-studies/${cs.slug}`} className="cs-card">
+                {/* A study with a photograph shows it; one without shows its result on a flat field. */}
+                <span className={photo ? "cs-card-media" : "cs-card-media cs-card-media--plain"}>
+                  {photo ? (
+                    <Image src={cs.image} alt="" fill sizes="(max-width: 700px) 100vw, (max-width: 1100px) 50vw, 33vw" />
+                  ) : (
+                    <span className="cs-card-figure">{cs.statValue ?? cs.industry}</span>
+                  )}
+                </span>
+                <span className="cs-card-meta">
+                  {cs.industry} · {cs.category}
+                </span>
+                <h3 className="cs-card-title">{cs.title}</h3>
+                <p className="cs-card-body">{cs.teaser}</p>
+                {cs.statValue && (
+                  <p className="cs-card-stat">
+                    <strong>{cs.statValue}</strong> {cs.statLabel}
+                  </p>
+                )}
+                <span className="cs-card-more">
+                  View case study <span aria-hidden="true">&rarr;</span>
+                </span>
               </Link>
-            </div>
-          </RevealItem>
-        ))}
+            </RevealItem>
+          );
+        })}
       </RevealGroup>
 
       <CornerDots />

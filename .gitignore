@@ -28,3 +28,17 @@ studio/.sanity
 *.tsbuildinfo
 
 .claude/scheduled_tasks.lock
+
+# Output of studio/scripts/import-wordpress.mjs (regenerable; the redirects live in redirects/)
+studio/wordpress-posts.ndjson
+studio/wordpress-redirects.json
+
+# Design source files (clip-art sets, photo originals, retired images). Kept on disk, out of the deployed repo;
+# nothing under public/ is deployed unless the site refers to it.
+design-source/
+
+# Local tooling that is not part of the site: design-skill output (screenshots, drafts), the project-local
+# copy of the skill, and agent task notes. The skill under .agents/skills is tracked; these are not.
+.taste-skill/
+.claude/skills/
+.agents/tasks/

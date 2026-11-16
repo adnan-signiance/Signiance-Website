@@ -3,8 +3,8 @@
 import Link from "next/link";
 import { m } from "motion/react";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
-import { Reveal, RevealGroup, RevealHeading } from "./Reveal";
+import { RevealGroup, RevealHeading } from "./Reveal";
+import ServiceArt from "./ServiceArt";
 import { staggerItem } from "@/lib/motion";
 import { services } from "@/lib/data";
 
@@ -34,6 +34,7 @@ export default function Services() {
   return (
     <section
       id="services"
+      className="home-section home-services"
       style={{
         position: "relative",
         borderBottom: "1px solid var(--color-line)",
@@ -42,9 +43,6 @@ export default function Services() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>Services</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
@@ -59,12 +57,7 @@ export default function Services() {
             AI-native engineering, built on a production foundation.
           </RevealHeading>
         </div>
-        <Reveal as="p" className="section-head-note" delay={0.15}>
-          Four AI practices and the cloud layer underneath them. One senior team, scoped in a week, delivered against outcomes.
-        </Reveal>
       </div>
-
-      <div className="section-rule" />
 
       <RevealGroup className="grid-services" style={{ marginTop: 24 }} stagger={0.07} spotlight>
         {ordered.map((sv, i) => {
@@ -84,8 +77,8 @@ export default function Services() {
               className={`grid-services-cell${wide ? " grid-services-cell--wide" : ""}${edge ? " grid-services-cell--edge" : ""}`}
               style={{ gridArea: AREAS[i] }}
             >
+              <ServiceArt slug={sv.slug} />
               <div className="grid-services-text">
-                <span className="grid-services-num">{String(i + 1).padStart(2, "0")}</span>
                 <h3 className="grid-services-title">{sv.homeTitle ?? sv.title}</h3>
                 <p className="grid-services-body">{sv.body}</p>
               </div>

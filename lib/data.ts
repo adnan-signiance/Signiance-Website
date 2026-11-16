@@ -44,10 +44,9 @@ export const subhead =
 export const siteDescription =
   "Your AI pilot works but won't ship. We take AI from demo to production in weeks with evals, monitoring, cost controls and guardrails, then hand it over or run it for you.";
 
-// Where the AI production readiness check lives. There is no check page yet, so it points at the
-// booking form; change it here and both places that offer the check (the hero's second button and
-// the readiness section) follow.
-export const READINESS_HREF = "/#contact";
+// Where the AI production readiness check lives (app/readiness). The places that offer it (the hero's
+// second button, the card in the booking section, the end of every blog post) all link here.
+export const READINESS_HREF = "/readiness";
 
 // Whether the 30%-in-30-days guarantee has been approved for use. While false, the home page's
 // guarantee band shows the fixed-fee scoping fallback instead, /guarantee returns a 404 and
@@ -376,6 +375,7 @@ export const footerColumns = [
       { label: "Services", href: "/services" },
       { label: "How We Work", href: "/how-we-work" },
       { label: "Case Studies", href: "/case-studies" },
+      { label: "AI readiness check", href: "/readiness" },
       { label: "Blog", href: "/blog" },
     ],
   },
@@ -407,7 +407,7 @@ export const testimonials: Testimonial[] = [
     role: "CEO",
     company: "THEMAGIC5 INC.",
     photo: "/media/testimonial-bo-haaber.webp",
-    logo: "/media/logo-themagic5.webp",
+    logo: "/media/client-themagic5.webp",
     quoteBefore:
       "We have been working with Signiance Technologies LLP, and they have always been",
     quoteHighlight: "responsive and very good at solving issues",
@@ -462,7 +462,7 @@ export const testimonials: Testimonial[] = [
     role: "CTO",
     company: "Seagage Inc.",
     photo: "/media/testimonial-moises.webp",
-    logo: "/media/logo-seagage.webp",
+    logo: "/media/client-seagage.webp",
     quoteBefore: "Signiance has been providing us with support and is very flexible and",
     quoteHighlight: "easy to work with",
     quoteAfter: ". They are willing to work at odd hours in the morning or at night when needed.",
@@ -860,16 +860,23 @@ export const caseStudyEntries: CaseStudyEntry[] = [
 
 export const caseStudyFilters = ["All", "Cloud & DevOps", "Agentic AI", "Gen AI & RAG", "AI POC / MVP", "Copilots"];
 
+// `stripHeight` is the height the hero's roll of logos draws each file at. Every file has its own
+// empty margin round the mark, so one height for all would show some marks twice the size of others.
+// These were set from each file's measured ink (the visible mark), to give every logo about the same
+// optical size: a mark of 28px for a wide wordmark, up to 38px for a square one.
+// `height` is the rendered CSS height. `intrinsicWidth`/`intrinsicHeight` are the
+// file's own pixel size (the viewBox for the SVG), used to give each <img> a
+// width/height attribute pair so the browser reserves the logo's box before it loads.
 export const clients = [
-  { src: "/media/client-abbi.webp", alt: "Abbi.ai", height: 48, invert: false },
-  { src: "/media/client-dfw.webp", alt: "DFW Logics", height: 56, invert: false },
-  { src: "/media/client-english3.webp", alt: "English3", height: 52, invert: false },
-  { src: "/media/client-seagage.webp", alt: "Seagage", height: 48, invert: false },
-  { src: "/media/client-themagic5.webp", alt: "TheMagic5", height: 42, invert: false },
-  { src: "/media/client-v5.webp", alt: "V5", height: 56, invert: true },
-  { src: "/media/logo-revdau.webp", alt: "RevDau", height: 46, invert: false },
-  { src: "/media/logo-1300.webp", alt: "1300 Group", height: 48, invert: false },
-  { src: "/media/logo-jac.svg", alt: "JAC", height: 44, invert: false },
+  { src: "/media/client-abbi.webp", alt: "Abbi.ai", height: 48, stripHeight: 55, invert: false, intrinsicWidth: 186, intrinsicHeight: 88 },
+  { src: "/media/client-dfw.webp", alt: "DFW Logics", height: 56, stripHeight: 48, invert: false, intrinsicWidth: 186, intrinsicHeight: 88 },
+  { src: "/media/client-english3.webp", alt: "English3", height: 52, stripHeight: 52, invert: false, intrinsicWidth: 186, intrinsicHeight: 88 },
+  { src: "/media/client-seagage.webp", alt: "Seagage", height: 48, stripHeight: 51, invert: false, intrinsicWidth: 186, intrinsicHeight: 88 },
+  { src: "/media/client-themagic5.webp", alt: "TheMagic5", height: 42, stripHeight: 59, invert: false, intrinsicWidth: 186, intrinsicHeight: 88 },
+  { src: "/media/client-v5.webp", alt: "V5", height: 56, stripHeight: 50, invert: true, intrinsicWidth: 133, intrinsicHeight: 66 },
+  { src: "/media/logo-revdau.webp", alt: "RevDau", height: 46, stripHeight: 41, invert: false, intrinsicWidth: 837, intrinsicHeight: 212 },
+  { src: "/media/logo-1300.webp", alt: "1300 Group", height: 48, stripHeight: 33, invert: false, intrinsicWidth: 256, intrinsicHeight: 94 },
+  { src: "/media/logo-jac.svg", alt: "JAC", height: 44, stripHeight: 38, invert: false, intrinsicWidth: 254, intrinsicHeight: 172 },
 ];
 
 // The About page shows the same set as a grid. Nine divides evenly into three

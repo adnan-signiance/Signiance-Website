@@ -1,0 +1,45 @@
+/* The home palette: the brand blue ramp, applied to any page that asks for it (`home` on PageShell: the
+   home page and the readiness check). Loaded for every route, so a page does not have to import the
+   home page's own stylesheet to take the palette. */
+
+/* ------------------------------------------------------------------ the palette */
+
+/* The home page runs on the brand blue ramp (--blue-50 to --blue-900, in globals.css) and nothing else.
+   Every semantic colour is one step of it, so a surface, a line and a piece of text are always the same
+   hue at different depths:
+     50   tint field, selected rows          500  brand, the action, links
+     100  hairlines, chips, soft fills       600  the action on hover
+     200  muted text on a dark field         700  pressed, deep chart marks
+     300  numerals, secondary chart marks    800  the dark field (proof, the last method step)
+     400  interactive accents on dark        900  ink, and the deepest field
+   Neutrals are the same blue mixed toward white, so no warm grey sits beside it. */
+.page-frame--home {
+  --color-accent-faint: var(--blue-100);
+  --color-accent-pale: var(--blue-200);
+  --color-numeral: var(--blue-300);
+  --color-accent-lighter: var(--blue-400);
+  --color-accent-light: var(--blue-400);
+  --color-accent-mid: var(--blue-400);
+  --color-accent: var(--blue-500);
+  --color-accent-strong: var(--blue-600);
+  --color-accent-deep: var(--blue-700);
+  --color-navy: var(--blue-800);
+  --color-tint: var(--blue-50);
+  --color-warm: var(--blue-50);
+  --color-warm-alt: var(--blue-100);
+  --color-on-dark-muted: var(--blue-200);
+  --color-spot: rgba(25, 61, 170, 0.07);
+
+  --color-ink: var(--blue-900);
+  --color-ink-soft: color-mix(in srgb, var(--blue-900) 90%, white);
+  --color-text: color-mix(in srgb, var(--blue-900) 80%, white);
+  --color-text-soft: color-mix(in srgb, var(--blue-900) 74%, white);
+  --color-muted: color-mix(in srgb, var(--blue-900) 62%, white);
+  --color-link: var(--color-ink);
+
+  --color-line: color-mix(in srgb, var(--blue-100) 72%, white);
+  --color-line-strong: var(--color-line);
+  --color-line-ui: color-mix(in srgb, var(--blue-100) 90%, white);
+  --color-border-ui: var(--blue-300);
+  --color-dot: var(--blue-300);
+}

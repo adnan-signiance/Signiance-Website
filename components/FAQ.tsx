@@ -3,8 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import CornerDots from "./CornerDots";
-import SectionEyebrow from "./SectionEyebrow";
-import { Reveal, RevealGroup, RevealHeading, RevealItem } from "./Reveal";
+import { RevealGroup, RevealHeading, RevealItem } from "./Reveal";
 import { faqs } from "@/lib/data";
 
 export default function FAQ() {
@@ -12,6 +11,7 @@ export default function FAQ() {
 
   return (
     <section
+      className="home-section home-faq"
       style={{
         position: "relative",
         padding: "var(--section-pt) var(--pad-x) var(--section-pb)",
@@ -20,9 +20,6 @@ export default function FAQ() {
     >
       <div className="section-head">
         <div className="section-head-main">
-          <Reveal style={{ marginBottom: 18 }}>
-            <SectionEyebrow>FAQ</SectionEyebrow>
-          </Reveal>
           <RevealHeading
             style={{
               fontFamily: "var(--font-display)",
@@ -37,14 +34,7 @@ export default function FAQ() {
             Questions we get on the first call
           </RevealHeading>
         </div>
-        <Reveal as="p" className="section-head-note" delay={0.15}>
-          What most prospects ask
-          <br />
-          before they book a scoping call.
-        </Reveal>
       </div>
-
-      <div className="section-rule" />
 
       <RevealGroup className="faq-list" style={{ marginTop: 18 }} stagger={0.07}>
         {faqs.map((f, i) => {

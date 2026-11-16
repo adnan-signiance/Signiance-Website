@@ -1,49 +1,25 @@
-import Image from "next/image";
 import Link from "next/link";
-import SectionEyebrow from "./SectionEyebrow";
-import HeroHeading from "./HeroHeading";
+import PageHero from "./PageHero";
 import { Reveal } from "./Reveal";
 import CtaArrow from "./CtaArrow";
 import MetricsGrid from "./MetricsGrid";
+import CornerDots from "./CornerDots";
 import type { CaseStudyEntry } from "@/lib/data";
 
 export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntry }) {
   return (
-    <section
-      style={{
-        position: "relative",
-        padding: "clamp(44px, 6vw, 64px) var(--pad-x) 0",
-        borderBottom: "1px solid var(--color-line)",
-      }}
-    >
-      <div className="hero-split">
-        <div>
-          <SectionEyebrow rise={0}>Case Studies</SectionEyebrow>
-          <HeroHeading
-            style={{
-              fontFamily: "var(--font-display)",
-              fontWeight: 600,
-              fontSize: "var(--fs-h1)",
-              lineHeight: 1.05,
-              letterSpacing: "var(--tracking-tight)",
-              margin: "16px 0 0",
-              maxWidth: "20ch",
-              textWrap: "balance",
-            }}
-          >
-            The work behind the numbers
-          </HeroHeading>
-          <p className="hero-rise hero-d1" style={{ maxWidth: 540, margin: "16px 0 0", fontSize: "var(--fs-lead)", lineHeight: 1.6, color: "var(--color-text)" }}>
-            Every engagement below shipped to production and was measured against a number the client cared
-            about, not a vanity metric.
+    <>
+      <PageHero
+        title="The work behind the numbers"
+        lead={
+          <p>
+            Every engagement below shipped to production and was measured against a number the client cared about, not
+            a vanity metric.
           </p>
-        </div>
-        <div className="hero-art hero-rise hero-d2">
-          <Image src="/media/case-studies-hero.webp" alt="" fill priority sizes="320px" style={{ objectFit: "cover" }} />
-        </div>
-      </div>
-
-      <MetricsGrid bordered style={{ marginTop: 40, marginBottom: 48 }} />
+        }
+      />
+      <section style={{ position: "relative", padding: `0 var(--pad-x) ${featured ? 48 : 0}px`, borderBottom: "1px solid var(--color-line)" }}>
+      <MetricsGrid bordered style={{ marginBottom: featured ? 48 : 0 }} />
 
       {featured && (
         <Reveal style={{ position: "relative", margin: "0 var(--bleed)" }}>
@@ -81,19 +57,9 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
                 maxWidth: 620,
               }}
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <SectionEyebrow>Featured</SectionEyebrow>
-                <span
-                  style={{
-                    fontSize: "var(--fs-xs)",
-                    letterSpacing: "var(--tracking-wide)",
-                    textTransform: "uppercase",
-                    color: "var(--color-on-dark-muted)",
-                  }}
-                >
-                  {featured.industry}
-                </span>
-              </div>
+              <p style={{ margin: 0, fontSize: "var(--fs-base)", fontWeight: 500, color: "var(--color-on-dark-muted)" }}>
+                Featured · {featured.industry}
+              </p>
               <h2
                 className="cs-featured-title"
                 style={{
@@ -118,7 +84,7 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
                     <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "var(--fs-h3)", color: "var(--color-white)" }}>
                       {featured.statValue}
                     </span>
-                    <span style={{ fontSize: "var(--fs-xs)", color: "var(--color-on-dark-muted)" }}>{featured.statLabel}</span>
+                    <span style={{ fontSize: "var(--fs-base)", color: "var(--color-on-dark-muted)" }}>{featured.statLabel}</span>
                   </div>
                 )}
                 <span className="btn-hero-primary">
@@ -129,6 +95,8 @@ export default function CaseStudiesHero({ featured }: { featured?: CaseStudyEntr
           </Link>
         </Reveal>
       )}
+      <CornerDots />
     </section>
+    </>
   );
 }

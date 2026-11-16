@@ -50,7 +50,12 @@ function Avatar({
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={photo}
-          alt={name}
+          // Decorative: the name is printed directly beneath, so alt={name} made screen
+          // readers announce every name twice.
+          alt=""
+          // The rendered size is set inline below; these reserve the box before the file loads.
+          width={size}
+          height={size}
           style={{
             width: size,
             height: size,
@@ -271,7 +276,7 @@ export default function Testimonials() {
             }}
           >
             {avMid.quoteBefore}{" "}
-            <span style={{ background: "var(--color-accent)", color: "var(--color-white)", fontWeight: 600, padding: "2px 8px", borderRadius: 4 }}>
+            <span style={{ fontWeight: 600, color: "var(--color-accent)" }}>
               {avMid.quoteHighlight}
             </span>
             {avMid.quoteAfter}
